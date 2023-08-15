@@ -15,8 +15,8 @@ const ContactReviewForm = () => {
     recipient,
     colors,
     details,
-    setContactFormSubmit,
   } = useGlobalStore().contactStore!
+  const { setContactFormSubmit } = useGlobalStore().contactStore!.setters!
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault
