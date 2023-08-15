@@ -40,7 +40,7 @@ const ContactForm = () => {
   }
 
   return (
-    <form id="review-form">
+    <form className="review-form" id="crf">
       <h4>Contact Form</h4>
       <span className="tracking-wide text-sm mb-3">
         Please fill out this <strong>Contact Form </strong> so we can give you{" "}
@@ -51,35 +51,35 @@ const ContactForm = () => {
         onChange={(e) => handleFirstName!(e)}
         id="contact-input"
         type="text"
-        placeholder="First Name (required)"
+        placeholder="First Name..."
       />
       <input
         value={lastName}
         onChange={(e) => handleLastName!(e)}
         id="contact-input"
         type="text"
-        placeholder="Last Name (required)"
+        placeholder="Last Name..."
       />
       <input
         value={email}
         onChange={(e) => handleEmail!(e)}
         id="contact-input"
         type="text"
-        placeholder="Email Address: John@doe.com (required)"
+        placeholder="Email Address..."
       />
       <input
         value={phone}
         onChange={(e) => handlePhone!(e)}
         id="contact-input"
         type="text"
-        placeholder="Phone Number: 321-111-1111 (required)"
+        placeholder="Phone Number..."
       />
       <input
         value={date}
         onChange={(e) => handleDate!(e)}
         id="contact-input"
         type="text"
-        placeholder="Delivery Date: 01/01/2023 (required)"
+        placeholder="Delivery Date..."
       />
       <Select
         value={deliveryOption?.value === "" ? "Select..." : deliveryOption}
@@ -94,7 +94,7 @@ const ContactForm = () => {
           onChange={(e) => handleDeliveryAddress!(e)}
           id="contact-input"
           type="text"
-          placeholder="Delivery Address/City/State/Zip (required)"
+          placeholder="Delivery Address..."
         />
       )}
       <input
@@ -102,27 +102,27 @@ const ContactForm = () => {
         onChange={(e) => handleOccasion!(e)}
         id="contact-input"
         type="text"
-        placeholder="Occasion Theme: Tropical Luau Party (optional)"
+        placeholder="Occasion Theme..."
       />
       <input
         value={recipient}
         onChange={handleRecipient}
         id="contact-input"
         type="text"
-        placeholder="Recipient Name (optional)"
+        placeholder="Recipient Name..."
       />
       <input
         value={colors}
         onChange={(e) => handleColors!(e)}
         id="contact-input"
         type="text"
-        placeholder="Preferred Colors (optional)"
+        placeholder="Preferred Colors..."
       />
       <textarea
         value={details}
         onChange={(e) => handleDetails!(e)}
         id="contact-textarea"
-        placeholder="Additional Details (optional)"
+        placeholder="Additional Details..."
       />
       <button
         className="items-center"

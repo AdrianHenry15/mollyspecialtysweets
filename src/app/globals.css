@@ -12,6 +12,7 @@
   --btn-modal-color: #4681f4;
   --btn-modal-hover-color: #33b249;
   --btn-modal-hover-edit-color: #b41414;
+  --input-width: 350px;
 }
 
 /* CONTAINER */
@@ -41,6 +42,10 @@ main {
   margin-bottom: 100px;
   animation: fadeIn 2s;
   letter-spacing: 2px;
+}
+
+.form-input {
+  width: 100%;
 }
 
 .order-form-submit {
@@ -143,7 +148,7 @@ button:hover {
   background-color: #2980b9 !important;
 }
 
-#review-form {
+.review-form {
   display: flex;
   border: black 1px solid;
   margin-top: 20px;
@@ -241,4 +246,69 @@ button:hover {
   background: none;
   border: none;
   cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 0;
+  }
+  .form-item {
+    letter-spacing: 0;
+  }
+  .form-input {
+    width: 350px;
+  }
+
+  h5 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-size: 20px;
+    letter-spacing: 7px;
+  }
+
+  .review-form {
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    border: 0;
+    border-top: 1px black solid;
+    border-bottom: 1px black solid;
+    padding: 25px;
+    /* align-items: center; */
+  }
+
+  #crf {
+    align-items: center !important;
+  }
+
+  .review-item {
+    padding: 0;
+  }
+
+  #contact-input,
+  #contact-textarea {
+    height: 35px;
+    width: var(--input-width);
+  }
+
+  #contact-textarea {
+    height: 200px;
+  }
+
+  .modal {
+    margin: 25px;
+  }
+
+  #modal-btn {
+    width: 125px;
+  }
+
+  #modal-btn-2 {
+    width: 125px;
+  }
 }

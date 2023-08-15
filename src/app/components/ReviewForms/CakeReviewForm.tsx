@@ -1,5 +1,6 @@
 import { useGlobalStore } from "../../stores/GlobalStore"
 import React from "react"
+import ReviewItem from "../ReviewItem"
 
 const CakeReviewForm = () => {
   const {
@@ -21,52 +22,31 @@ const CakeReviewForm = () => {
     setCakeFormSubmit!(false)
   }
   return (
-    <form id="review-form">
+    <form className="review-form">
       <h3>Cake Review Form</h3>
-      {/* SHAPE */}
-      <div className="review-item">
-        <h2>Cake Shape: </h2>
-        <i>{cakeShape!.label}</i>
-      </div>
-      {/* TIERS */}
-      <div className="review-item">
-        <h2>Cake Tiers: </h2>
-        <i>{cakeTier!.label}</i>
-      </div>
-      {/* SIZE */}
-      <div className="review-item">
-        <h2>Cake Size: </h2>
-        <i>{cakeSize!.label}</i>
-      </div>
-      {/* FLAVOR */}
-      <div className="review-item">
-        <h2>Cake Flavor: </h2>
-        <i>{cakeFlavorInput!}</i>
-      </div>
-      {/* FROSTING */}
-      <div className="review-item">
-        <h2>Cake Frosting: </h2>
-        <i>{cakeFrostingInput!}</i>
-      </div>
-      {/* FILLING */}
-      <div className="review-item">
-        <h2>Cake Filling: </h2>
-        <i>{cakeFillingInput!}</i>
-      </div>
-      {/* FRUIT FILLING */}
-      <div className="review-item">
-        <h2> Cake Fruit Filling: </h2>
-        <i>{`${
-          cakeFruitFilling?.value === "other" ? "" : cakeFruitFilling!.label
-        } ${cakeFruitFillingInput}`}</i>
-      </div>
-      {/* FRUIT TOPPING */}
-      <div className="review-item">
-        <h2> Cake Fruit Topping: </h2>
-        <i>{`${
-          cakeFruitTopping?.value === "other" ? "" : cakeFruitTopping!.label
-        } ${cakeFruitToppingInput}`}</i>
-      </div>
+
+      <ReviewItem label="Cake Shape" value={cakeShape!.label} />
+      <ReviewItem label="Cake Tiers" value={cakeTier!.label} />
+      <ReviewItem label="Cake Size" value={cakeSize!.label} />
+      <ReviewItem label="Cake Flavor" value={cakeFlavorInput!} />
+      <ReviewItem label="Cake Frosting" value={cakeFrostingInput!} />
+      <ReviewItem label="Cake Filling" value={cakeFillingInput!} />
+
+      <ReviewItem
+        label="Cake Fruit Filling"
+        value={cakeFruitFillingInput!}
+        isFruitField
+        fruitValue={cakeFruitFilling?.value}
+        fruitLabel={cakeFruitFilling?.label}
+      />
+
+      <ReviewItem
+        label="Cake Fruit Topping"
+        value={cakeFruitToppingInput!}
+        isFruitField
+        fruitValue={cakeFruitTopping?.value}
+        fruitLabel={cakeFruitTopping?.label}
+      />
       <button
         className="review-form-submit"
         type="submit"

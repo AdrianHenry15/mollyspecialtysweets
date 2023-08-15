@@ -31,7 +31,7 @@ const MainOrderForm = () => {
   }
 
   const renderContactForm = (): JSX.Element => {
-    if (orderType!.some((selected: any) => selected.value !== "none")) {
+    if (orderType!.some((selected) => selected.value !== "none")) {
       return !contactFormSubmit ? <ContactForm /> : <ContactReviewForm />
     } else {
       return <div></div>
@@ -39,7 +39,7 @@ const MainOrderForm = () => {
   }
 
   const renderCakeForm = (): JSX.Element => {
-    if (orderType!.some((selected: any) => selected.value === "cake")) {
+    if (orderType!.some((selected) => selected.value === "cake")) {
       return !cakeFormSubmit ? <CakeForm /> : <CakeReviewForm />
     } else {
       return <div></div>
@@ -47,7 +47,7 @@ const MainOrderForm = () => {
   }
 
   const renderCupcakeForm = (): JSX.Element => {
-    if (orderType!.some((selected: any) => selected.value === "cupcakes")) {
+    if (orderType!.some((selected) => selected.value === "cupcakes")) {
       return !cupcakeFormSubmit ? <CupcakeForm /> : <CupcakeReviewForm />
     } else {
       return <div></div>
@@ -55,7 +55,7 @@ const MainOrderForm = () => {
   }
 
   const renderCookieForm = (): JSX.Element => {
-    if (orderType!.some((selected: any) => selected.value === "cookies")) {
+    if (orderType!.some((selected) => selected.value === "cookies")) {
       return !cookieFormSubmit ? <CookieForm /> : <CookieReviewForm />
     } else {
       return <div></div>
@@ -63,12 +63,12 @@ const MainOrderForm = () => {
   }
   return (
     <section className="mt-20 flex-auto flex flex-col items-center">
-      <div>
+      <div className="flex flex-col items-center">
         {/* FORM ITEM 1 */}
         <div className="form-item">
           <span>What would you like to order?</span>
           <Select
-            className="w-full"
+            className="form-input"
             isMulti
             name="order-options"
             options={OrderOptions}
@@ -80,7 +80,7 @@ const MainOrderForm = () => {
         {renderCookieForm()}
       </div>
       {renderContactForm()}
-      {orderType!.some((selected: any) => selected.value !== "none") && (
+      {orderType!.some((selected) => selected.value !== "none") && (
         <button
           className="form-item"
           type="submit"
