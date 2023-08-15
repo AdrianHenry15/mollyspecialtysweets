@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import Select from "react-select"
 import { useGlobalStore } from "../../stores/GlobalStore"
 import {
@@ -36,7 +36,7 @@ const CookieOrderForm = () => {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col justify-center">
       <h5>Cookie Order Form</h5>
       {/* SIZE  */}
       <div className="form-item">

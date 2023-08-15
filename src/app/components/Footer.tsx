@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer>
       <span>{`Molly's Specialty Sweets`}</span>
-      <div>
+      <div className="pt-6">
         <span>Contact Molly: </span>
         <address>
           <span>Phone: </span>

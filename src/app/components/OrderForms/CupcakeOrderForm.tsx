@@ -36,7 +36,7 @@ const CupcakeOrderForm = () => {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col justify-center">
       <h5>Cupcake Order Form</h5>
       {/* SIZE  */}
       <div className="form-item">
@@ -47,7 +47,7 @@ const CupcakeOrderForm = () => {
         <Select
           value={cupcakeSize?.value === "" ? "Select..." : cupcakeSize}
           onChange={(selected: any) => setCupcakeSize!(selected)}
-          className="w-full"
+          className="form-input"
           name="order-options"
           options={SizeOptions}
         />
@@ -60,7 +60,7 @@ const CupcakeOrderForm = () => {
         <Select
           value={cupcakeAmount?.value === "" ? "Select..." : cupcakeAmount}
           onChange={(selected: any) => setCupcakeAmount!(selected)}
-          className="w-full"
+          className="form-input"
           name="order-options"
           options={AmountOptions}
         />
@@ -76,7 +76,7 @@ const CupcakeOrderForm = () => {
           onChange={(e) => handleCupcakeFlavorInput!(e)}
           type="text"
           placeholder="Vanilla, Chocolate, Strawberry etc..."
-          className="w-full"
+          className="form-input"
           style={{ minHeight: "38px" }}
         />
       </div>
@@ -91,7 +91,7 @@ const CupcakeOrderForm = () => {
           onChange={(e) => handleCupcakeFrostingInput!(e)}
           type="text"
           placeholder="Vanilla Buttercream..."
-          className="w-full"
+          className="form-input"
           style={{ minHeight: "38px" }}
         />
       </div>
@@ -106,7 +106,7 @@ const CupcakeOrderForm = () => {
           onChange={(e) => handleCupcakeFillingInput!(e)}
           type="text"
           placeholder="Vanilla Buttercream..."
-          className="w-full"
+          className="form-input"
           style={{ minHeight: "38px" }}
         />
       </div>
@@ -118,7 +118,7 @@ const CupcakeOrderForm = () => {
           <strong>Cupcakes</strong>?
         </span>
         <Select
-          className="w-full"
+          className="form-input"
           name="order-options"
           options={FruitOptions}
           value={
@@ -142,7 +142,7 @@ const CupcakeOrderForm = () => {
             onChange={(e) => handleCupcakeFruitFillingInput!(e)}
             type="text"
             placeholder="Dragonfruit, Pear, Starfruit etc..."
-            className="w-full"
+            className="form-input"
             style={{ minHeight: "38px" }}
           />
         </div>
@@ -154,7 +154,7 @@ const CupcakeOrderForm = () => {
           <strong>Cupcakes</strong>?
         </span>
         <Select
-          className="w-full"
+          className="form-input"
           name="order-options"
           options={FruitOptions}
           placeholder="Select..."
@@ -179,7 +179,7 @@ const CupcakeOrderForm = () => {
             onChange={(e) => handleCupcakeFruitToppingInput!(e)}
             type="text"
             placeholder="Dragonfruit, Pear, Starfruit etc..."
-            className="w-full"
+            className="form-input"
             style={{ minHeight: "38px" }}
           />
         </div>

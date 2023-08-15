@@ -1,8 +1,8 @@
 "use client"
-import { FruitOptions } from "@/app/costants/GlobalOptions"
-import { useGlobalStore } from "@/app/stores/GlobalStore"
 import React from "react"
 import Select from "react-select"
+import { useGlobalStore } from "../../stores/GlobalStore"
+import { FruitOptions } from "@/app/costants/GlobalOptions"
 
 const TierOptions = [
   { value: "single", label: "Single" },
@@ -65,7 +65,7 @@ const CakeOrderForm = () => {
         <Select
           value={cakeShape?.value === "" ? "Select..." : cakeShape}
           onChange={(selectedShape: any) => setCakeShape!(selectedShape)}
-          className="w-full"
+          className="form-input"
           name="order-options"
           options={CakeShapeOptions}
         />
@@ -80,7 +80,7 @@ const CakeOrderForm = () => {
         <Select
           value={cakeTier?.value === "" ? "Select..." : cakeTier}
           onChange={(selectedTier: any) => setCakeTier!(selectedTier)}
-          className="w-full"
+          className="form-input"
           name="order-options"
           options={TierOptions}
         />
@@ -95,7 +95,7 @@ const CakeOrderForm = () => {
         <Select
           value={cakeSize?.value === "" ? "Select..." : cakeSize}
           onChange={(selectedSize: any) => setCakeSize!(selectedSize)}
-          className="w-full"
+          className="form-input"
           name="order-options"
           options={CakeSizeOptions}
         />
@@ -112,7 +112,7 @@ const CakeOrderForm = () => {
           onChange={(e) => handleCakeFlavorInput!(e)}
           type="text"
           placeholder="Vanilla, Chocolate, Strawberry etc..."
-          className="w-full"
+          className="form-input"
           style={{ minHeight: "38px" }}
         />
       </div>
@@ -128,7 +128,7 @@ const CakeOrderForm = () => {
           onChange={(e) => handleCakeFrostingInput!(e)}
           type="text"
           placeholder="Vanilla Buttercream..."
-          className="w-full"
+          className="form-input"
           style={{ minHeight: "38px" }}
         />
       </div>
@@ -144,7 +144,7 @@ const CakeOrderForm = () => {
           onChange={(e) => handleCakeFillingInput!(e)}
           type="text"
           placeholder="Vanilla Buttercream..."
-          className="w-full"
+          className="form-input"
           style={{ minHeight: "38px" }}
         />
       </div>
@@ -160,7 +160,7 @@ const CakeOrderForm = () => {
             cakeFruitFilling?.value === "" ? "Select..." : cakeFruitFilling
           }
           onChange={(selected: any) => setCakeFruitFilling!(selected)}
-          className="w-full"
+          className="form-input"
           name="order-options"
           options={FruitOptions}
         />
@@ -177,7 +177,7 @@ const CakeOrderForm = () => {
             onChange={(e) => handleCakeFruitFillingInput!(e)}
             type="text"
             placeholder="Dragonfruit..."
-            className="w-full"
+            className="form-input"
             style={{ minHeight: "38px" }}
           />
         </div>
@@ -193,7 +193,7 @@ const CakeOrderForm = () => {
             cakeFruitTopping?.value === "" ? "Select..." : cakeFruitTopping
           }
           onChange={(selected: any) => setCakeFruitTopping!(selected)}
-          className="w-full"
+          className="form-input"
           name="order-options"
           options={FruitOptions}
         />
@@ -210,7 +210,7 @@ const CakeOrderForm = () => {
             onChange={(e) => handleCakeFruitToppingInput!(e)}
             type="text"
             placeholder="Dragonfruit..."
-            className="w-full"
+            className="form-input"
             style={{ minHeight: "38px" }}
           />
         </div>
