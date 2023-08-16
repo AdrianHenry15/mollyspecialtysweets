@@ -8,10 +8,8 @@ export interface CakeStore {
   cakeFlavorInput: string;
   cakeFrostingInput: string;
   cakeFillingInput: string;
-  cakeFruitFilling: OrderOption;
-  cakeFruitTopping: OrderOption;
-  cakeFruitFillingInput: string;
-  cakeFruitToppingInput: string;
+  cakeFruitFilling: string;
+  cakeFruitTopping: string;
   cakeFormSubmit: boolean;
   // Error Handling
   cakeShapeError: string;
@@ -22,19 +20,17 @@ export interface CakeStore {
   cakeFillingInputError: string;
   cakeFruitFillingError: string;
   cakeFruitToppingError: string;
-  cakeFruitFillingInputError: string;
-  cakeFruitToppingInputError: string;
 
-  // ACTIONS
+  // Setters
   setCakeShape: (selected: OrderOption | null) => void;
   setCakeTier: (selected: OrderOption | null) => void;
   setCakeSize: (selected: OrderOption | null) => void;
+  setCakeFormSubmit: (formSubmit: boolean) => void;
+
+  // Handlers
   handleCakeFlavorInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCakeFrostingInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCakeFillingInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  setCakeFruitFilling: (selected: OrderOption | null) => void;
-  setCakeFruitTopping: (selected: OrderOption | null) => void;
-  handleCakeFruitFillingInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleCakeFruitToppingInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  setCakeFormSubmit: (formSubmit: boolean) => void;
+  handleCakeFruitFilling: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCakeFruitTopping: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
