@@ -1,6 +1,6 @@
 import React from "react"
 import Select from "react-select"
-import { GlobalStore } from "../../stores/GlobalStore"
+import { useGlobalStore } from "../../stores/GlobalStore"
 import {
   AmountOptions,
   FruitOptions,
@@ -27,12 +27,12 @@ const CupcakeOrderForm = () => {
     setCupcakeFruitTopping,
     handleCupcakeFruitFillingInput,
     handleCupcakeFruitToppingInput,
-    submitCupcakeForm,
-  } = GlobalStore().cupcakeStore!
+    setCupcakeFormSubmit,
+  } = useGlobalStore().cupcakeStore!
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault
-    submitCupcakeForm!(true)
+    setCupcakeFormSubmit!(true)
   }
 
   return (

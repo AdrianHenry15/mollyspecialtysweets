@@ -1,5 +1,5 @@
 import React from "react"
-import { GlobalStore } from "../../stores/GlobalStore"
+import { useGlobalStore } from "../../stores/GlobalStore"
 import ReviewItem from "../ReviewItem"
 
 const CupcakeReviewForm = () => {
@@ -13,12 +13,12 @@ const CupcakeReviewForm = () => {
     cupcakeFruitTopping,
     cupcakeFruitFillingInput,
     cupcakeFruitToppingInput,
-  } = GlobalStore().cupcakeStore!
-  const { submitCupcakeForm } = GlobalStore().cupcakeStore
+    setCupcakeFormSubmit,
+  } = useGlobalStore().cupcakeStore!
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault
-    submitCupcakeForm!(false)
+    setCupcakeFormSubmit!(false)
   }
   return (
     <form className="review-form">

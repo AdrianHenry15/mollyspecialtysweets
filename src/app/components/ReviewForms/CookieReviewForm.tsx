@@ -1,4 +1,4 @@
-import { GlobalStore } from "../../stores/GlobalStore"
+import { useGlobalStore } from "../../stores/GlobalStore"
 import React from "react"
 import ReviewItem from "../ReviewItem"
 
@@ -13,12 +13,12 @@ const CookieReviewForm = () => {
     cookieFruitTopping,
     cookieFruitFillingInput,
     cookieFruitToppingInput,
-    submitCookieForm,
-  } = GlobalStore().cookieStore!
+    setCookieFormSubmit,
+  } = useGlobalStore().cookieStore!
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault
-    submitCookieForm!(false)
+    setCookieFormSubmit!(false)
   }
   return (
     <form className="review-form">

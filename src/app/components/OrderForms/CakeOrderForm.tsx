@@ -1,9 +1,8 @@
 "use client"
-import React, { useState } from "react"
+import React from "react"
 import Select from "react-select"
-
+import { useGlobalStore } from "../../stores/GlobalStore"
 import { FruitOptions } from "@/app/costants/GlobalOptions"
-import { GlobalStore } from "@/app/stores/GlobalStore"
 
 const TierOptions = [
   { value: "single", label: "Single" },
@@ -36,48 +35,23 @@ const CakeOrderForm = () => {
     cakeFruitTopping,
     cakeFruitFillingInput,
     cakeFruitToppingInput,
-    cakeShapeError,
-  } = GlobalStore().cakeStore!
-  // Handlers
-  const {
-    handleCakeFlavorInput,
-    handleCakeFrostingInput,
-    handleCakeFillingInput,
-    handleCakeFruitFillingInput,
-    handleCakeFruitToppingInput,
-  } = GlobalStore().cakeStore.handlers
-  // Setters
-  const {
     setCakeShape,
     setCakeTier,
     setCakeSize,
+    handleCakeFlavorInput,
+    handleCakeFrostingInput,
+    handleCakeFillingInput,
     setCakeFruitFilling,
     setCakeFruitTopping,
-    submitCakeForm,
-  } = GlobalStore().cakeStore.setters
-
-  //Order Type
-  const { orderType } = GlobalStore().orderTypeStore
-
-  const [isCakeFormValid, setIsCakeFormValid] = useState(false)
+    setCakeFormSubmit,
+    handleCakeFruitFillingInput,
+    handleCakeFruitToppingInput,
+  } = useGlobalStore().cakeStore!
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault
-    // validateCakeShape()
-
-    submitCakeForm!(true)
+    setCakeFormSubmit!(true)
   }
-
-  // TODO: validate cake form
-  // const validateCakeShape = () => {
-  //   if (cakeShape!.value === "") {
-  //     setIsCakeFormValid(false)
-  //     GlobalStore().cakeStore.cakeShapeError =
-  //       "This section is required."
-  //   } else {
-  //     setIsCakeFormValid(true)
-  //   }
-  // }
 
   return (
     <div className="flex flex-col justify-center">
@@ -90,15 +64,12 @@ const CakeOrderForm = () => {
         </span>
         <Select
           value={cakeShape?.value === "" ? "Select..." : cakeShape}
-          onChange={(selectedShape: any) => {
-            setCakeShape(selectedShape)
-          }}
+          onChange={(selectedShape: any) => setCakeShape!(selectedShape)}
           className="form-input"
           name="order-options"
           options={CakeShapeOptions}
         />
       </div>
-      {cakeShapeError && <div className="text-red-600">{cakeShapeError}</div>}
 
       {/* TIER  */}
       <div className="form-item">
