@@ -13,6 +13,17 @@ export interface CakeStore {
   cakeFruitFillingInput: string
   cakeFruitToppingInput: string
   cakeFormSubmit: boolean
+  // Error Handling
+  cakeShapeError: string
+  // cakeTierError: string;
+  // cakeSizeError: string;
+  // cakeFlavorInputError: string;
+  // cakeFrostingInputError: string;
+  // cakeFillingInputError: string;
+  // cakeFruitFillingError: string;
+  // cakeFruitToppingError: string;
+  // cakeFruitFillingInputError: string;
+  // cakeFruitToppingInputError: string;
 
   // ACTIONS
   setCakeShape: (selected: OrderOption | null) => void

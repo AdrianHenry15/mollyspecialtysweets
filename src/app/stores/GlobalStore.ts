@@ -16,7 +16,7 @@ interface GlobalStore {
   modalStore: ModalStore
 }
 
-export const useGlobalStore = create<GlobalStore>()((set) => ({
+export const useGlobalStore = create<GlobalStore>()((set, get) => ({
   // CONTACT STORE
   contactStore: {
     firstName: "",
@@ -111,10 +111,22 @@ export const useGlobalStore = create<GlobalStore>()((set) => ({
     cakeFruitTopping: { value: "", label: "" },
     cakeFruitFillingInput: "",
     cakeFruitToppingInput: "",
-
     cakeFormSubmit: false,
+    // Error Handling
+    cakeShapeError: "",
 
     // ACTIONS
+    setCakeFormSubmit: (formSubmit: boolean) => {
+      const isShapeValid = get().cakeStore.cakeShape.value !== ""
+      set((state) => ({
+        ...state,
+        cakeStore: {
+          ...state.cakeStore,
+          cakeFormSubmit: isShapeValid ? formSubmit : !formSubmit,
+          cakeShapeError: isShapeValid ? "" : "Cake Shape is required.",
+        },
+      }))
+    },
     setCakeShape: (selected: OrderOption | null) =>
       set((state) => ({
         ...state,
@@ -170,11 +182,6 @@ export const useGlobalStore = create<GlobalStore>()((set) => ({
           ...state.cakeStore,
           cakeFruitToppingInput: e.target.value,
         },
-      })),
-    setCakeFormSubmit: (formSubmit: boolean) =>
-      set((state) => ({
-        ...state,
-        cakeStore: { ...state.cakeStore, cakeFormSubmit: formSubmit },
       })),
   },
   cupcakeStore: {
