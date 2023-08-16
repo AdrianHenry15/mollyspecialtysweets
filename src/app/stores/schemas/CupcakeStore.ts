@@ -11,7 +11,8 @@ export interface CupcakeStore {
   cupcakeFruitTopping?: OrderOption
   cupcakeFruitFillingInput?: string
   cupcakeFruitToppingInput?: string
-  isCupcakeFormSubmitted?: boolean
+
+  cupcakeFormSubmit?: boolean
 
   // ACTIONS
   setCupcakeSize?: (selectedSize: OrderOption | null) => void
@@ -27,5 +28,6 @@ export interface CupcakeStore {
   handleCupcakeFruitToppingInput?: (
     e: React.ChangeEvent<HTMLInputElement>
   ) => void
-  submitCupcakeForm?: (formSubmit: boolean) => void
+
+  setCupcakeFormSubmit?: (formSubmit: boolean) => void
 }

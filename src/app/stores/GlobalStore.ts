@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { CakeStore } from "./schemas/CakeStore"
 import { ContactStore } from "./schemas/ContactStore"
 import { create } from "zustand"
@@ -8,20 +7,18 @@ import { OrderTypeStore } from "./schemas/OrderTypeStore"
 import { ModalStore } from "./schemas/ModalStore"
 import { OrderOption } from "../costants/GlobalOptions"
 
-// This interface represents an object of various other stores corresponding to a specific aspect of the app's state
-interface GlobalStoreProps {
-  contactStore: ContactStore
-  cakeStore: CakeStore
-  cupcakeStore: CupcakeStore
-  cookieStore: CookieStore
-  orderTypeStore: OrderTypeStore
-  modalStore: ModalStore
+interface GlobalStore {
+  contactStore?: ContactStore
+  cakeStore?: CakeStore
+  cupcakeStore?: CupcakeStore
+  cookieStore?: CookieStore
+  orderTypeStore?: OrderTypeStore
+  modalStore?: ModalStore
 }
 
-export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
-  // Contact Store
+export const useGlobalStore = create<GlobalStore>()((set) => ({
+  // CONTACT STORE
   contactStore: {
-    // State Props
     firstName: "",
     lastName: "",
     email: "",
@@ -32,118 +29,76 @@ export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
     recipient: "",
     colors: "",
     details: "",
-    isContactFormSubmitted: false,
-
-    // Validation
-    validation: {
-      firstNameError: "",
-      lastNameError: "",
-      emailError: "",
-      phoneError: "",
-      dateError: "",
-      deliveryOptionError: "",
-      deliveryAddressError: "",
-    },
-
-    // Handlers
-    handlers: {
-      handleFirstName: (e: React.ChangeEvent<HTMLInputElement>) =>
-        set((state) => {
-          const updatedContactStore = {
-            ...state.contactStore,
-            firstName: e.target.value,
-          }
-
-          // Validation logic: Check if firstName is not empty
-          const isValid = updatedContactStore.firstName.trim() !== ""
-
-          return {
-            ...state,
-            contactStore: { ...updatedContactStore, isValid },
-          }
-        }),
-
-      handleLastName: (e: React.ChangeEvent<HTMLInputElement>) =>
-        set((state) => ({
-          ...state,
-          contactStore: { ...state.contactStore, lastName: e.target.value },
-        })),
-
-      handleEmail: (e: React.ChangeEvent<HTMLInputElement>) =>
-        set((state) => ({
-          ...state,
-          contactStore: { ...state.contactStore, email: e.target.value },
-        })),
-
-      handlePhone: (e: React.ChangeEvent<HTMLInputElement>) =>
-        set((state) => ({
-          ...state,
-          contactStore: { ...state.contactStore, phone: e.target.value },
-        })),
-
-      handleDate: (e: React.ChangeEvent<HTMLInputElement>) =>
-        set((state) => ({
-          ...state,
-          contactStore: { ...state.contactStore, date: e.target.value },
-        })),
-
-      handleDeliveryAddress: (e: React.ChangeEvent<HTMLInputElement>) =>
-        set((state) => ({
-          ...state,
-          contactStore: {
-            ...state.contactStore,
-            deliveryAddress: e.target.value,
-          },
-        })),
-
-      handleOccasion: (e: React.ChangeEvent<HTMLInputElement>) =>
-        set((state) => ({
-          ...state,
-          contactStore: { ...state.contactStore, occasion: e.target.value },
-        })),
-
-      handleRecipient: (e: React.ChangeEvent<HTMLInputElement>) =>
-        set((state) => ({
-          ...state,
-          contactStore: { ...state.contactStore, recipient: e.target.value },
-        })),
-
-      handleColors: (e: React.ChangeEvent<HTMLInputElement>) =>
-        set((state) => ({
-          ...state,
-          contactStore: { ...state.contactStore, colors: e.target.value },
-        })),
-
-      handleDetails: (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-        set((state) => ({
-          ...state,
-          contactStore: { ...state.contactStore, details: e.target.value },
-        })),
-    },
-    setters: {
-      // Setters
-      setDeliveryOption: (selected: any) =>
-        set((state) => ({
-          ...state,
-          contactStore: {
-            ...state.contactStore,
-            deliveryOption: selected,
-          },
-        })),
-      submitContactForm: (formSubmit: boolean) =>
-        set((state) => ({
-          ...state,
-          contactStore: {
-            ...state.contactStore,
-            contactFormSubmit: formSubmit,
-          },
-        })),
-    },
-    validators: {},
+    // ACTIONS
+    handleFirstName: (e: React.ChangeEvent<HTMLInputElement>) =>
+      set((state) => ({
+        ...state,
+        contactStore: { ...state.contactStore, firstName: e.target.value },
+      })),
+    handleLastName: (e: React.ChangeEvent<HTMLInputElement>) =>
+      set((state) => ({
+        ...state,
+        contactStore: { ...state.contactStore, lastName: e.target.value },
+      })),
+    handleEmail: (e: React.ChangeEvent<HTMLInputElement>) =>
+      set((state) => ({
+        ...state,
+        contactStore: { ...state.contactStore, email: e.target.value },
+      })),
+    handlePhone: (e: React.ChangeEvent<HTMLInputElement>) =>
+      set((state) => ({
+        ...state,
+        contactStore: { ...state.contactStore, phone: e.target.value },
+      })),
+    handleDate: (e: React.ChangeEvent<HTMLInputElement>) =>
+      set((state) => ({
+        ...state,
+        contactStore: { ...state.contactStore, date: e.target.value },
+      })),
+    setDeliveryOption: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        contactStore: {
+          ...state.contactStore,
+          deliveryOption: selected || undefined,
+        },
+      })),
+    handleDeliveryAddress: (e: React.ChangeEvent<HTMLInputElement>) =>
+      set((state) => ({
+        ...state,
+        contactStore: {
+          ...state.contactStore,
+          deliveryAddress: e.target.value,
+        },
+      })),
+    handleOccasion: (e: React.ChangeEvent<HTMLInputElement>) =>
+      set((state) => ({
+        ...state,
+        contactStore: { ...state.contactStore, occasion: e.target.value },
+      })),
+    handleRecipient: (e: React.ChangeEvent<HTMLInputElement>) =>
+      set((state) => ({
+        ...state,
+        contactStore: { ...state.contactStore, recipient: e.target.value },
+      })),
+    handleColors: (e: React.ChangeEvent<HTMLInputElement>) =>
+      set((state) => ({
+        ...state,
+        contactStore: { ...state.contactStore, colors: e.target.value },
+      })),
+    handleDetails: (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+      set((state) => ({
+        ...state,
+        contactStore: { ...state.contactStore, details: e.target.value },
+      })),
+    setContactFormSubmit: (formSubmit: boolean) =>
+      set((state) => ({
+        ...state,
+        contactStore: { ...state.contactStore, contactFormSubmit: formSubmit },
+      })),
   },
-  // Cake Store
   cakeStore: {
-    // State Props
+    // STATE
     cakeShape: { value: "", label: "" },
     cakeTier: { value: "", label: "" },
     cakeSize: { value: "", label: "" },
@@ -154,107 +109,74 @@ export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
     cakeFruitTopping: { value: "", label: "" },
     cakeFruitFillingInput: "",
     cakeFruitToppingInput: "",
-    isCakeFormSubmitted: false,
-    // Validation
 
-    cakeShapeError: "",
-    cakeTierError: "",
-    cakeSizeError: "",
-    cakeFlavorError: "",
-    cakeFrostingError: "",
-    cakeFillingError: "",
-    cakeFruitFillingError: "",
-    cakeFruitToppingError: "",
-    cakeFruitFillingInputError: "",
-    cakeFruitToppingInputError: "",
+    cakeFormSubmit: false,
 
-    // Handlers
-    handlers: {
-      handleCakeFlavorInput: (e: React.ChangeEvent<HTMLInputElement>) =>
-        set((state) => ({
-          ...state,
-          cakeStore: { ...state.cakeStore, cakeFlavorInput: e.target.value },
-        })),
-
-      handleCakeFrostingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
-        set((state) => ({
-          ...state,
-          cakeStore: { ...state.cakeStore, cakeFrostingInput: e.target.value },
-        })),
-
-      handleCakeFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
-        set((state) => ({
-          ...state,
-          cakeStore: { ...state.cakeStore, cakeFillingInput: e.target.value },
-        })),
-
-      handleCakeFruitFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
-        set((state) => ({
-          ...state,
-          cakeStore: {
-            ...state.cakeStore,
-            cakeFruitFillingInput: e.target.value,
-          },
-        })),
-
-      handleCakeFruitToppingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
-        set((state) => ({
-          ...state,
-          cakeStore: {
-            ...state.cakeStore,
-            cakeFruitToppingInput: e.target.value,
-          },
-        })),
-    },
-
-    setters: {
-      // Setters
-      setCakeFruitFilling: (selected: OrderOption | null) =>
-        set((state) => ({
-          ...state,
-          cakeStore: { ...state.cakeStore, cakeFruitFilling: selected! },
-        })),
-
-      setCakeFruitTopping: (selected: OrderOption | null) =>
-        set((state) => ({
-          ...state,
-          cakeStore: { ...state.cakeStore, cakeFruitTopping: selected! },
-        })),
-
-      submitCakeForm: (formSubmit: boolean) =>
-        set((state) => ({
-          ...state,
-          cakeStore: { ...state.cakeStore, cakeFormSubmit: formSubmit },
-        })),
-
-      setCakeShape: (selected: OrderOption | null) => {
-        const isValid = get().cakeStore.cakeShape.value !== null
-        set((state) => ({
-          ...state,
-          cakeStore: {
-            ...state.cakeStore,
-            cakeShape: selected!,
-            cakeShapeError: isValid ? "" : "Please choose a Cake Shape.",
-          },
-        }))
-      },
-
-      setCakeTier: (selected: OrderOption | null) =>
-        set((state) => ({
-          ...state,
-          cakeStore: { ...state.cakeStore, cakeTier: selected! },
-        })),
-
-      setCakeSize: (selected: OrderOption | null) =>
-        set((state) => ({
-          ...state,
-          cakeStore: { ...state.cakeStore, cakeSize: selected! },
-        })),
-    },
+    // ACTIONS
+    setCakeShape: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        cakeStore: { ...state.cakeStore, cakeShape: selected! },
+      })),
+    setCakeTier: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        cakeStore: { ...state.cakeStore, cakeTier: selected! },
+      })),
+    setCakeSize: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        cakeStore: { ...state.cakeStore, cakeSize: selected! },
+      })),
+    handleCakeFlavorInput: (e: React.ChangeEvent<HTMLInputElement>) =>
+      set((state) => ({
+        ...state,
+        cakeStore: { ...state.cakeStore, cakeFlavorInput: e.target.value },
+      })),
+    handleCakeFrostingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
+      set((state) => ({
+        ...state,
+        cakeStore: { ...state.cakeStore, cakeFrostingInput: e.target.value },
+      })),
+    handleCakeFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
+      set((state) => ({
+        ...state,
+        cakeStore: { ...state.cakeStore, cakeFillingInput: e.target.value },
+      })),
+    setCakeFruitFilling: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        cakeStore: { ...state.cakeStore, cakeFruitFilling: selected! },
+      })),
+    setCakeFruitTopping: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        cakeStore: { ...state.cakeStore, cakeFruitTopping: selected! },
+      })),
+    handleCakeFruitFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
+      set((state) => ({
+        ...state,
+        cakeStore: {
+          ...state.cakeStore,
+          cakeFruitFillingInput: e.target.value,
+        },
+      })),
+    handleCakeFruitToppingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
+      set((state) => ({
+        ...state,
+        cakeStore: {
+          ...state.cakeStore,
+          cakeFruitToppingInput: e.target.value,
+        },
+      })),
+    setCakeFormSubmit: (formSubmit: boolean) =>
+      set((state) => ({
+        ...state,
+        cakeStore: { ...state.cakeStore, cakeFormSubmit: formSubmit },
+      })),
   },
-  // Cupcake Store
   cupcakeStore: {
-    // State Props
+    // STATE
     cupcakeSize: { value: "", label: "" },
     cupcakeAmount: { value: "", label: "" },
     cupcakeFlavorInput: "",
@@ -264,10 +186,20 @@ export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
     cupcakeFruitTopping: { value: "", label: "" },
     cupcakeFruitFillingInput: "",
     cupcakeFruitToppingInput: "",
-    // Validation
+
     cupcakeFormSubmit: false,
 
-    // Handlers
+    // ACTIONS
+    setCupcakeSize: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        cupcakeStore: { ...state.cupcakeStore, cupcakeSize: selected! },
+      })),
+    setCupcakeAmount: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        cupcakeStore: { ...state.cupcakeStore, cupcakeAmount: selected! },
+      })),
     handleCupcakeFlavorInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
@@ -276,7 +208,6 @@ export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
           cupcakeFlavorInput: e.target.value,
         },
       })),
-
     handleCupcakeFrostingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
@@ -285,7 +216,6 @@ export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
           cupcakeFrostingInput: e.target.value,
         },
       })),
-
     handleCupcakeFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
@@ -294,7 +224,16 @@ export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
           cupcakeFillingInput: e.target.value,
         },
       })),
-
+    setCupcakeFruitFilling: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        cupcakeStore: { ...state.cupcakeStore, cupcakeFruitFilling: selected! },
+      })),
+    setCupcakeFruitTopping: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        cupcakeStore: { ...state.cupcakeStore, cupcakeFruitTopping: selected! },
+      })),
     handleCupcakeFruitFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
@@ -303,7 +242,6 @@ export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
           cupcakeFruitFillingInput: e.target.value,
         },
       })),
-
     handleCupcakeFruitToppingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
@@ -313,40 +251,14 @@ export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
         },
       })),
 
-    // Setters
-    setCupcakeSize: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cupcakeStore: { ...state.cupcakeStore, cupcakeSize: selected! },
-      })),
-
-    setCupcakeAmount: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cupcakeStore: { ...state.cupcakeStore, cupcakeAmount: selected! },
-      })),
-
-    setCupcakeFruitFilling: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cupcakeStore: { ...state.cupcakeStore, cupcakeFruitFilling: selected! },
-      })),
-
-    setCupcakeFruitTopping: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cupcakeStore: { ...state.cupcakeStore, cupcakeFruitTopping: selected! },
-      })),
-
-    submitCupcakeForm: (formSubmit: boolean) =>
+    setCupcakeFormSubmit: (formSubmit: boolean) =>
       set((state) => ({
         ...state,
         cupcakeStore: { ...state.cupcakeStore, cupcakeFormSubmit: formSubmit },
       })),
   },
-  // Cookie Store
   cookieStore: {
-    // State Props
+    // STATE
     cookieSize: { value: "", label: "" },
     cookieAmount: { value: "", label: "" },
     cookieFlavorInput: "",
@@ -356,10 +268,20 @@ export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
     cookieFruitTopping: { value: "", label: "" },
     cookieFruitFillingInput: "",
     cookieFruitToppingInput: "",
-    // Validation
-    isCookieFormSubmitted: false,
 
-    // Handlers
+    cookieFormSubmit: false,
+
+    // ACTIONS
+    setCookieSize: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        cookieStore: { ...state.cookieStore, cookieSize: selected! },
+      })),
+    setCookieAmount: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        cookieStore: { ...state.cookieStore, cookieAmount: selected! },
+      })),
     handleCookieFlavorInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
@@ -368,7 +290,6 @@ export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
           cookieFlavorInput: e.target.value,
         },
       })),
-
     handleCookieFrostingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
@@ -377,7 +298,6 @@ export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
           cookieFrostingInput: e.target.value,
         },
       })),
-
     handleCookieFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
@@ -386,7 +306,16 @@ export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
           cookieFillingInput: e.target.value,
         },
       })),
-
+    setCookieFruitFilling: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        cookieStore: { ...state.cookieStore, cookieFruitFilling: selected! },
+      })),
+    setCookieFruitTopping: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        cookieStore: { ...state.cookieStore, cookieFruitTopping: selected! },
+      })),
     handleCookieFruitFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
@@ -395,7 +324,6 @@ export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
           cookieFruitFillingInput: e.target.value,
         },
       })),
-
     handleCookieFruitToppingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
@@ -405,44 +333,15 @@ export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
         },
       })),
 
-    // Setters
-    setCookieSize: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cookieStore: { ...state.cookieStore, cookieSize: selected! },
-      })),
-
-    setCookieAmount: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cookieStore: { ...state.cookieStore, cookieAmount: selected! },
-      })),
-
-    setCookieFruitFilling: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cookieStore: { ...state.cookieStore, cookieFruitFilling: selected! },
-      })),
-
-    setCookieFruitTopping: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cookieStore: { ...state.cookieStore, cookieFruitTopping: selected! },
-      })),
-
     setCookieFormSubmit: (formSubmit: boolean) =>
       set((state) => ({
         ...state,
         cookieStore: { ...state.cookieStore, cookieFormSubmit: formSubmit },
       })),
   },
-  // Order Type Store
   orderTypeStore: {
-    // State Props
     orderType: [],
     orderFormSubmit: false,
-
-    // Setters
     setOrderType: (selected: OrderOption[] | null) =>
       set((state) => ({
         ...state,
@@ -457,12 +356,8 @@ export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
         },
       })),
   },
-  // Modal Store
   modalStore: {
-    // State Props
     modal: false,
-
-    // Setters
     setModal: (isOpen: boolean) =>
       set((state) => ({
         ...state,

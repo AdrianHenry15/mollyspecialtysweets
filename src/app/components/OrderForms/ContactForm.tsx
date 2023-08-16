@@ -1,6 +1,6 @@
 import React from "react"
 import Select from "react-select"
-import { GlobalStore } from "../../stores/GlobalStore"
+import { useGlobalStore } from "../../stores/GlobalStore"
 
 const DeliveryOptions = [
   { value: "delivery", label: "Delivery" },
@@ -20,27 +20,23 @@ const ContactForm = () => {
     recipient,
     colors,
     details,
-  } = GlobalStore().contactStore
-  const {
     handleFirstName,
     handleLastName,
     handleEmail,
     handlePhone,
     handleDate,
-
+    setDeliveryOption,
     handleDeliveryAddress,
-
+    setContactFormSubmit,
     handleOccasion,
     handleRecipient,
     handleColors,
     handleDetails,
-  } = GlobalStore().contactStore.handlers!
-  const { submitContactForm, setDeliveryOption } =
-    GlobalStore().contactStore.setters
+  } = useGlobalStore().contactStore!
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    submitContactForm!(true)
+    setContactFormSubmit!(true)
   }
 
   return (
@@ -52,28 +48,28 @@ const ContactForm = () => {
       </span>
       <input
         value={firstName}
-        onChange={(e) => handleFirstName(e)}
+        onChange={(e) => handleFirstName!(e)}
         id="contact-input"
         type="text"
         placeholder="First Name..."
       />
       <input
         value={lastName}
-        onChange={(e) => handleLastName(e)}
+        onChange={(e) => handleLastName!(e)}
         id="contact-input"
         type="text"
         placeholder="Last Name..."
       />
       <input
         value={email}
-        onChange={(e) => handleEmail(e)}
+        onChange={(e) => handleEmail!(e)}
         id="contact-input"
         type="text"
         placeholder="Email Address..."
       />
       <input
         value={phone}
-        onChange={(e) => handlePhone(e)}
+        onChange={(e) => handlePhone!(e)}
         id="contact-input"
         type="text"
         placeholder="Phone Number..."
@@ -86,13 +82,13 @@ const ContactForm = () => {
         placeholder="Delivery Date..."
       />
       <Select
-        value={deliveryOption.value === "" ? "Select..." : deliveryOption}
+        value={deliveryOption?.value === "" ? "Select..." : deliveryOption}
         onChange={(selected: any) => setDeliveryOption!(selected)}
         id="contact-input"
         name="order-options"
         options={DeliveryOptions}
       />
-      {deliveryOption.value === "delivery" && (
+      {deliveryOption?.value === "delivery" && (
         <input
           value={deliveryAddress}
           onChange={(e) => handleDeliveryAddress!(e)}
