@@ -1,4 +1,4 @@
-import { useGlobalStore } from "../../stores/GlobalStore"
+import { GlobalStore } from "../../stores/GlobalStore"
 import React from "react"
 import ReviewItem from "../ReviewItem"
 
@@ -14,23 +14,24 @@ const CakeReviewForm = () => {
     cakeFruitFillingInput,
     cakeFruitTopping,
     cakeFruitToppingInput,
-    setCakeFormSubmit,
-  } = useGlobalStore().cakeStore!
+  } = GlobalStore().cakeStore
+  const { submitCakeForm } = GlobalStore().cakeStore.setters
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault
-    setCakeFormSubmit!(false)
+    // edit Cake Form
+    submitCakeForm!(false)
   }
   return (
     <form className="review-form">
       <h3>Cake Review Form</h3>
 
-      <ReviewItem label="Cake Shape" value={cakeShape!.label} />
-      <ReviewItem label="Cake Tiers" value={cakeTier!.label} />
-      <ReviewItem label="Cake Size" value={cakeSize!.label} />
-      <ReviewItem label="Cake Flavor" value={cakeFlavorInput!} />
-      <ReviewItem label="Cake Frosting" value={cakeFrostingInput!} />
-      <ReviewItem label="Cake Filling" value={cakeFillingInput!} />
+      <ReviewItem label="Cake Shape" value={cakeShape.label} />
+      <ReviewItem label="Cake Tiers" value={cakeTier.label} />
+      <ReviewItem label="Cake Size" value={cakeSize.label} />
+      <ReviewItem label="Cake Flavor" value={cakeFlavorInput} />
+      <ReviewItem label="Cake Frosting" value={cakeFrostingInput} />
+      <ReviewItem label="Cake Filling" value={cakeFillingInput} />
 
       <ReviewItem
         label="Cake Fruit Filling"

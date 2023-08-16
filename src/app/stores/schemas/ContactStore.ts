@@ -13,7 +13,7 @@ export interface ContactStore {
   recipient?: string
   colors?: string
   details?: string
-  contactFormSubmit: boolean
+  isContactFormSubmitted: boolean
   // Validation
   validation: {
     firstNameError: string
@@ -40,8 +40,6 @@ export interface ContactStore {
   // Setters
   setters: {
     setDeliveryOption: (selected: any) => void
-    setContactFormSubmit: (formSubmit: boolean) => void
+    submitContactForm: (formSubmit: boolean) => void
   }
-  // Validators
-  validators?: {}
 }

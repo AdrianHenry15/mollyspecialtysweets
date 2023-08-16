@@ -1,6 +1,6 @@
 import React from "react"
 import Select from "react-select"
-import { useGlobalStore } from "../../stores/GlobalStore"
+import { GlobalStore } from "../../stores/GlobalStore"
 
 const DeliveryOptions = [
   { value: "delivery", label: "Delivery" },
@@ -20,7 +20,7 @@ const ContactForm = () => {
     recipient,
     colors,
     details,
-  } = useGlobalStore().contactStore
+  } = GlobalStore().contactStore
   const {
     handleFirstName,
     handleLastName,
@@ -34,13 +34,13 @@ const ContactForm = () => {
     handleRecipient,
     handleColors,
     handleDetails,
-  } = useGlobalStore().contactStore.handlers!
-  const { setContactFormSubmit, setDeliveryOption } =
-    useGlobalStore().contactStore.setters
+  } = GlobalStore().contactStore.handlers!
+  const { submitContactForm, setDeliveryOption } =
+    GlobalStore().contactStore.setters
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setContactFormSubmit!(true)
+    submitContactForm!(true)
   }
 
   return (

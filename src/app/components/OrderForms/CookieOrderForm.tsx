@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import Select from "react-select"
-import { useGlobalStore } from "../../stores/GlobalStore"
+import { GlobalStore } from "../../stores/GlobalStore"
 import {
   AmountOptions,
   FruitOptions,
@@ -8,6 +8,7 @@ import {
 } from "@/app/costants/GlobalOptions"
 
 const CookieOrderForm = () => {
+  // State
   const {
     cookieSize,
     cookieAmount,
@@ -18,21 +19,23 @@ const CookieOrderForm = () => {
     cookieFruitTopping,
     cookieFruitFillingInput,
     cookieFruitToppingInput,
-    setCookieSize,
-    setCookieAmount,
+    // Handlers
     handleCookieFlavorInput,
     handleCookieFrostingInput,
     handleCookieFillingInput,
-    setCookieFruitFilling,
-    setCookieFruitTopping,
     handleCookieFruitFillingInput,
     handleCookieFruitToppingInput,
-    setCookieFormSubmit,
-  } = useGlobalStore().cookieStore!
+    // Setters
+    setCookieSize,
+    setCookieAmount,
+    setCookieFruitFilling,
+    setCookieFruitTopping,
+    submitCookieForm,
+  } = GlobalStore().cookieStore!
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault
-    setCookieFormSubmit!(true)
+    submitCookieForm!(true)
   }
 
   return (
