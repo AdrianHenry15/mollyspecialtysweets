@@ -1,12 +1,12 @@
 export interface OrderOption {
-  value: string
-  label: string
+  value: string;
+  label: string;
 }
 
 export const SizeOptions = [
   { value: "mini", label: "Mini" },
   { value: "regular", label: "Regular" },
-]
+];
 
 export const AmountOptions = [
   { value: "6", label: "6" },
@@ -28,7 +28,7 @@ export const AmountOptions = [
   { value: "108", label: "108" },
   { value: "114", label: "114" },
   { value: "120", label: "120" },
-]
+];
 
 export const FruitOptions = [
   { value: "banana", label: "Yes, Banana" },
@@ -38,4 +38,4 @@ export const FruitOptions = [
   { value: "blackberry", label: "Yes, Blackberry" },
   { value: "other", label: "Yes, Other" },
   { value: "none", label: "No, I Don't Want Fruit" },
-]
+];
