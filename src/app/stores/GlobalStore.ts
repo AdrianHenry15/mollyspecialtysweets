@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { CakeStore } from "./schemas/CakeStore"
 import { ContactStore } from "./schemas/ContactStore"
 import { create } from "zustand"
@@ -8,7 +9,7 @@ import { ModalStore } from "./schemas/ModalStore"
 import { OrderOption } from "../costants/GlobalOptions"
 
 // This interface represents an object of various other stores corresponding to a specific aspect of the app's state
-interface GlobalStore {
+interface GlobalStoreProps {
   contactStore: ContactStore
   cakeStore: CakeStore
   cupcakeStore: CupcakeStore
@@ -17,7 +18,7 @@ interface GlobalStore {
   modalStore: ModalStore
 }
 
-export const useGlobalStore = create<GlobalStore>()((set) => ({
+export const GlobalStore = create<GlobalStoreProps>()((set, get) => ({
   // Contact Store
   contactStore: {
     // State Props
@@ -31,7 +32,7 @@ export const useGlobalStore = create<GlobalStore>()((set) => ({
     recipient: "",
     colors: "",
     details: "",
-    contactFormSubmit: false,
+    isContactFormSubmitted: false,
 
     // Validation
     validation: {
@@ -126,10 +127,10 @@ export const useGlobalStore = create<GlobalStore>()((set) => ({
           ...state,
           contactStore: {
             ...state.contactStore,
-            deliveryOption: selected || undefined,
+            deliveryOption: selected,
           },
         })),
-      setContactFormSubmit: (formSubmit: boolean) =>
+      submitContactForm: (formSubmit: boolean) =>
         set((state) => ({
           ...state,
           contactStore: {
@@ -153,82 +154,103 @@ export const useGlobalStore = create<GlobalStore>()((set) => ({
     cakeFruitTopping: { value: "", label: "" },
     cakeFruitFillingInput: "",
     cakeFruitToppingInput: "",
+    isCakeFormSubmitted: false,
     // Validation
-    cakeFormSubmit: false,
+
+    cakeShapeError: "",
+    cakeTierError: "",
+    cakeSizeError: "",
+    cakeFlavorError: "",
+    cakeFrostingError: "",
+    cakeFillingError: "",
+    cakeFruitFillingError: "",
+    cakeFruitToppingError: "",
+    cakeFruitFillingInputError: "",
+    cakeFruitToppingInputError: "",
 
     // Handlers
-    handleCakeFlavorInput: (e: React.ChangeEvent<HTMLInputElement>) =>
-      set((state) => ({
-        ...state,
-        cakeStore: { ...state.cakeStore, cakeFlavorInput: e.target.value },
-      })),
+    handlers: {
+      handleCakeFlavorInput: (e: React.ChangeEvent<HTMLInputElement>) =>
+        set((state) => ({
+          ...state,
+          cakeStore: { ...state.cakeStore, cakeFlavorInput: e.target.value },
+        })),
 
-    handleCakeFrostingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
-      set((state) => ({
-        ...state,
-        cakeStore: { ...state.cakeStore, cakeFrostingInput: e.target.value },
-      })),
+      handleCakeFrostingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
+        set((state) => ({
+          ...state,
+          cakeStore: { ...state.cakeStore, cakeFrostingInput: e.target.value },
+        })),
 
-    handleCakeFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
-      set((state) => ({
-        ...state,
-        cakeStore: { ...state.cakeStore, cakeFillingInput: e.target.value },
-      })),
+      handleCakeFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
+        set((state) => ({
+          ...state,
+          cakeStore: { ...state.cakeStore, cakeFillingInput: e.target.value },
+        })),
 
-    handleCakeFruitFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
-      set((state) => ({
-        ...state,
-        cakeStore: {
-          ...state.cakeStore,
-          cakeFruitFillingInput: e.target.value,
-        },
-      })),
+      handleCakeFruitFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
+        set((state) => ({
+          ...state,
+          cakeStore: {
+            ...state.cakeStore,
+            cakeFruitFillingInput: e.target.value,
+          },
+        })),
 
-    handleCakeFruitToppingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
-      set((state) => ({
-        ...state,
-        cakeStore: {
-          ...state.cakeStore,
-          cakeFruitToppingInput: e.target.value,
-        },
-      })),
+      handleCakeFruitToppingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
+        set((state) => ({
+          ...state,
+          cakeStore: {
+            ...state.cakeStore,
+            cakeFruitToppingInput: e.target.value,
+          },
+        })),
+    },
 
-    // Setters
-    setCakeFruitFilling: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cakeStore: { ...state.cakeStore, cakeFruitFilling: selected! },
-      })),
+    setters: {
+      // Setters
+      setCakeFruitFilling: (selected: OrderOption | null) =>
+        set((state) => ({
+          ...state,
+          cakeStore: { ...state.cakeStore, cakeFruitFilling: selected! },
+        })),
 
-    setCakeFruitTopping: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cakeStore: { ...state.cakeStore, cakeFruitTopping: selected! },
-      })),
+      setCakeFruitTopping: (selected: OrderOption | null) =>
+        set((state) => ({
+          ...state,
+          cakeStore: { ...state.cakeStore, cakeFruitTopping: selected! },
+        })),
 
-    setCakeFormSubmit: (formSubmit: boolean) =>
-      set((state) => ({
-        ...state,
-        cakeStore: { ...state.cakeStore, cakeFormSubmit: formSubmit },
-      })),
+      submitCakeForm: (formSubmit: boolean) =>
+        set((state) => ({
+          ...state,
+          cakeStore: { ...state.cakeStore, cakeFormSubmit: formSubmit },
+        })),
 
-    setCakeShape: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cakeStore: { ...state.cakeStore, cakeShape: selected! },
-      })),
+      setCakeShape: (selected: OrderOption | null) => {
+        const isValid = get().cakeStore.cakeShape.value !== null
+        set((state) => ({
+          ...state,
+          cakeStore: {
+            ...state.cakeStore,
+            cakeShape: selected!,
+            cakeShapeError: isValid ? "" : "Please choose a Cake Shape.",
+          },
+        }))
+      },
 
-    setCakeTier: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cakeStore: { ...state.cakeStore, cakeTier: selected! },
-      })),
+      setCakeTier: (selected: OrderOption | null) =>
+        set((state) => ({
+          ...state,
+          cakeStore: { ...state.cakeStore, cakeTier: selected! },
+        })),
 
-    setCakeSize: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cakeStore: { ...state.cakeStore, cakeSize: selected! },
-      })),
+      setCakeSize: (selected: OrderOption | null) =>
+        set((state) => ({
+          ...state,
+          cakeStore: { ...state.cakeStore, cakeSize: selected! },
+        })),
+    },
   },
   // Cupcake Store
   cupcakeStore: {
@@ -316,7 +338,7 @@ export const useGlobalStore = create<GlobalStore>()((set) => ({
         cupcakeStore: { ...state.cupcakeStore, cupcakeFruitTopping: selected! },
       })),
 
-    setCupcakeFormSubmit: (formSubmit: boolean) =>
+    submitCupcakeForm: (formSubmit: boolean) =>
       set((state) => ({
         ...state,
         cupcakeStore: { ...state.cupcakeStore, cupcakeFormSubmit: formSubmit },
@@ -335,7 +357,7 @@ export const useGlobalStore = create<GlobalStore>()((set) => ({
     cookieFruitFillingInput: "",
     cookieFruitToppingInput: "",
     // Validation
-    cookieFormSubmit: false,
+    isCookieFormSubmitted: false,
 
     // Handlers
     handleCookieFlavorInput: (e: React.ChangeEvent<HTMLInputElement>) =>

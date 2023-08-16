@@ -9,7 +9,7 @@ import ContactReviewForm from "../ReviewForms/ContactReviewForm"
 import CakeReviewForm from "../ReviewForms/CakeReviewForm"
 import CupcakeReviewForm from "../ReviewForms/CupcakeReviewForm"
 import CookieReviewForm from "../ReviewForms/CookieReviewForm"
-import { useGlobalStore } from "../../stores/GlobalStore"
+import { GlobalStore } from "@/app/stores/GlobalStore"
 
 const OrderOptions = [
   { value: "cake", label: "Cake" },
@@ -18,12 +18,12 @@ const OrderOptions = [
 ]
 
 const MainOrderForm = () => {
-  const { orderType, setOrderType } = useGlobalStore().orderTypeStore!
-  const { contactFormSubmit } = useGlobalStore().contactStore!
-  const { cakeFormSubmit } = useGlobalStore().cakeStore!
-  const { cupcakeFormSubmit } = useGlobalStore().cupcakeStore!
-  const { cookieFormSubmit } = useGlobalStore().cookieStore!
-  const { setModal } = useGlobalStore().modalStore!
+  const { orderType, setOrderType } = GlobalStore().orderTypeStore!
+  const { isContactFormSubmitted } = GlobalStore().contactStore!
+  const { isCakeFormSubmitted } = GlobalStore().cakeStore!
+  const { isCupcakeFormSubmitted } = GlobalStore().cupcakeStore!
+  const { isCookieFormSubmitted } = GlobalStore().cookieStore!
+  const { setModal } = GlobalStore().modalStore!
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -31,32 +31,32 @@ const MainOrderForm = () => {
   }
 
   const renderContactForm = (): JSX.Element => {
-    if (orderType!.some((selected) => selected.value !== "none")) {
-      return !contactFormSubmit ? <ContactForm /> : <ContactReviewForm />
+    if (orderType!.some((selected: any) => selected.value !== "none")) {
+      return !isContactFormSubmitted ? <ContactForm /> : <ContactReviewForm />
     } else {
       return <div></div>
     }
   }
 
   const renderCakeForm = (): JSX.Element => {
-    if (orderType!.some((selected) => selected.value === "cake")) {
-      return !cakeFormSubmit ? <CakeForm /> : <CakeReviewForm />
+    if (orderType!.some((selected: any) => selected.value === "cake")) {
+      return !isCakeFormSubmitted ? <CakeForm /> : <CakeReviewForm />
     } else {
       return <div></div>
     }
   }
 
   const renderCupcakeForm = (): JSX.Element => {
-    if (orderType!.some((selected) => selected.value === "cupcakes")) {
-      return !cupcakeFormSubmit ? <CupcakeForm /> : <CupcakeReviewForm />
+    if (orderType!.some((selected: any) => selected.value === "cupcakes")) {
+      return !isCupcakeFormSubmitted ? <CupcakeForm /> : <CupcakeReviewForm />
     } else {
       return <div></div>
     }
   }
 
   const renderCookieForm = (): JSX.Element => {
-    if (orderType!.some((selected) => selected.value === "cookies")) {
-      return !cookieFormSubmit ? <CookieForm /> : <CookieReviewForm />
+    if (orderType!.some((selected: any) => selected.value === "cookies")) {
+      return !isCookieFormSubmitted ? <CookieForm /> : <CookieReviewForm />
     } else {
       return <div></div>
     }
@@ -80,7 +80,7 @@ const MainOrderForm = () => {
         {renderCookieForm()}
       </div>
       {renderContactForm()}
-      {orderType!.some((selected) => selected.value !== "none") && (
+      {orderType!.some((selected: any) => selected.value !== "none") && (
         <button
           className="form-item"
           type="submit"

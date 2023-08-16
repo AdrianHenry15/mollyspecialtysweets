@@ -1,10 +1,10 @@
 "use client"
 import React from "react"
 import emailjs from "@emailjs/browser"
-import { useGlobalStore } from "../stores/GlobalStore"
+import { GlobalStore } from "../stores/GlobalStore"
 
 const Modal = () => {
-  const { modal, setModal } = useGlobalStore().modalStore!
+  const { modal, setModal } = GlobalStore().modalStore!
   // CONTACT STORE
   const {
     firstName,
@@ -18,7 +18,7 @@ const Modal = () => {
     recipient,
     colors,
     details,
-  } = useGlobalStore().contactStore!
+  } = GlobalStore().contactStore!
   // CAKE STORE
   const {
     cakeShape,
@@ -31,7 +31,7 @@ const Modal = () => {
     cakeFruitTopping,
     cakeFruitFillingInput,
     cakeFruitToppingInput,
-  } = useGlobalStore().cakeStore!
+  } = GlobalStore().cakeStore!
   //CUPCAKE STORE
   const {
     cupcakeSize,
@@ -43,7 +43,7 @@ const Modal = () => {
     cupcakeFruitTopping,
     cupcakeFruitFillingInput,
     cupcakeFruitToppingInput,
-  } = useGlobalStore().cupcakeStore!
+  } = GlobalStore().cupcakeStore!
   // COOKIE STORE
   const {
     cookieSize,
@@ -55,7 +55,7 @@ const Modal = () => {
     cookieFruitTopping,
     cookieFruitFillingInput,
     cookieFruitToppingInput,
-  } = useGlobalStore().cookieStore!
+  } = GlobalStore().cookieStore!
 
   const sendOrder = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()

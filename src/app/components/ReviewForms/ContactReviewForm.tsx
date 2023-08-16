@@ -1,4 +1,4 @@
-import { useGlobalStore } from "../../stores/GlobalStore"
+import { GlobalStore } from "../../stores/GlobalStore"
 import React from "react"
 import ReviewItem from "../ReviewItem"
 
@@ -15,12 +15,12 @@ const ContactReviewForm = () => {
     recipient,
     colors,
     details,
-  } = useGlobalStore().contactStore!
-  const { setContactFormSubmit } = useGlobalStore().contactStore!.setters!
+  } = GlobalStore().contactStore!
+  const { submitContactForm } = GlobalStore().contactStore!.setters!
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault
-    setContactFormSubmit!(false)
+    submitContactForm!(false)
   }
 
   return (
