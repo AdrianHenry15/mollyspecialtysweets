@@ -11,8 +11,18 @@ export interface CupcakeStore {
   cupcakeFruitTopping: OrderOption
   cupcakeFruitFillingInput: string
   cupcakeFruitToppingInput: string
-
   cupcakeFormSubmit: boolean
+  // Error Handling
+  // cupcakeShapeError: string;
+  // cupcakeTierError: string;
+  // cupcakeSizeError: string;
+  // cupcakeFlavorInputError: string;
+  // cupcakeFrostingInputError: string;
+  // cupcakeFillingInputError: string;
+  // cupcakeFruitFillingError: string;
+  // cupcakeFruitToppingError: string;
+  // cupcakeFruitFillingInputError: string;
+  // cupcakeFruitToppingInputError: string;
 
   // ACTIONS
   setCupcakeSize: (selectedSize: OrderOption | null) => void

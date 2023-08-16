@@ -13,8 +13,18 @@ export interface ContactStore {
   recipient: string
   colors: string
   details: string
-
   contactFormSubmit: boolean
+  // Error Handling
+  // firstNameError: string;
+  // lastNameError: string;
+  // emailError: string;
+  // phoneError: string;
+  // dateError: string;
+  // deliveryOptionError: string;
+  // deliveryAddressError: string;
+  // occasionError: string;
+  // recipientError: string;
+  // colorsError: string;
   // ACTIONS
   handleFirstName: (e: React.ChangeEvent<HTMLInputElement>) => void
   handleLastName: (e: React.ChangeEvent<HTMLInputElement>) => void

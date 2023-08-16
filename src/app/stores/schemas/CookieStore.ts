@@ -11,8 +11,18 @@ export interface CookieStore {
   cookieFruitTopping: OrderOption
   cookieFruitFillingInput: string
   cookieFruitToppingInput: string
-
   cookieFormSubmit: boolean
+  // Error Handling
+  // cookieShapeError: string
+  // cookieTierError: string
+  // cookieSizeError: string
+  // cookieFlavorInputError: string
+  // cookieFrostingInputError: string
+  // cookieFillingInputError: string
+  // cookieFruitFillingError: string
+  // cookieFruitToppingError: string
+  // cookieFruitFillingInputError: string
+  // cookieFruitToppingInputError: string
 
   // ACTIONS
   setCookieSize: (selectedSize: OrderOption | null) => void

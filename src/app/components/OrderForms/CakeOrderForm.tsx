@@ -25,6 +25,7 @@ const CakeSizeOptions = [
 
 const CakeOrderForm = () => {
   const {
+    // State
     cakeShape,
     cakeTier,
     cakeSize,
@@ -35,6 +36,9 @@ const CakeOrderForm = () => {
     cakeFruitTopping,
     cakeFruitFillingInput,
     cakeFruitToppingInput,
+    // Error Handling
+    cakeShapeError,
+    // Functions
     setCakeShape,
     setCakeTier,
     setCakeSize,
@@ -69,6 +73,7 @@ const CakeOrderForm = () => {
           name="order-options"
           options={CakeShapeOptions}
         />
+        {cakeShapeError && <div className="text-red-600">{cakeShapeError}</div>}
       </div>
 
       {/* TIER  */}
