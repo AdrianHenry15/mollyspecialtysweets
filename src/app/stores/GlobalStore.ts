@@ -1,19 +1,19 @@
-import { CakeStore } from "./schemas/CakeStore"
-import { ContactStore } from "./schemas/ContactStore"
-import { create } from "zustand"
-import { CupcakeStore } from "./schemas/CupcakeStore"
-import { CookieStore } from "./schemas/CookieStore"
-import { OrderTypeStore } from "./schemas/OrderTypeStore"
-import { ModalStore } from "./schemas/ModalStore"
-import { OrderOption } from "../costants/GlobalOptions"
+import { CakeStore } from "./schemas/CakeStore";
+import { ContactStore } from "./schemas/ContactStore";
+import { create } from "zustand";
+import { CupcakeStore } from "./schemas/CupcakeStore";
+import { CookieStore } from "./schemas/CookieStore";
+import { OrderTypeStore } from "./schemas/OrderTypeStore";
+import { ModalStore } from "./schemas/ModalStore";
+import { OrderOption } from "../costants/GlobalOptions";
 
 interface GlobalStore {
-  contactStore: ContactStore
-  cakeStore: CakeStore
-  cupcakeStore: CupcakeStore
-  cookieStore: CookieStore
-  orderTypeStore: OrderTypeStore
-  modalStore: ModalStore
+  contactStore: ContactStore;
+  cakeStore: CakeStore;
+  cupcakeStore: CupcakeStore;
+  cookieStore: CookieStore;
+  orderTypeStore: OrderTypeStore;
+  modalStore: ModalStore;
 }
 
 export const useGlobalStore = create<GlobalStore>()((set, get) => ({
@@ -114,18 +114,51 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
     cakeFormSubmit: false,
     // Error Handling
     cakeShapeError: "",
+    cakeTierError: "",
+    cakeSizeError: "",
+    cakeFlavorInputError: "",
+    cakeFrostingInputError: "",
+    cakeFillingInputError: "",
+    cakeFruitFillingError: "",
+    cakeFruitToppingError: "",
+    cakeFruitFillingInputError: "",
+    cakeFruitToppingInputError: "",
 
     // ACTIONS
     setCakeFormSubmit: (formSubmit: boolean) => {
-      const isShapeValid = get().cakeStore.cakeShape.value !== ""
+      const isShapeValid = get().cakeStore.cakeShape.value !== "";
+      const isTierValid = get().cakeStore.cakeTier.value !== "";
+      // const isSizeValid = get().cakeStore.cakeSize.value !== "";
+      // const isFlavorValid = get().cakeStore.cakeFlavorInput !== "";
+      // const isFrostingValid = get().cakeStore.cakeFrostingInput !== "";
+      // const isFillingValid = get().cakeStore.cakeFillingInput !== "";
+      // const isFruitFillingValid = get().cakeStore.cakeFruitFilling.value !== "";
+      // const isFruitToppingValid = get().cakeStore.cakeFruitTopping.value !== "";
+      // const isFruitFillingInputValid =
+      //   get().cakeStore.cakeFruitFilling.value === "other" && get().cakeStore.cakeFruitFillingInput !== "";
+      // const isFruitToppingInputValid =
+      //   get().cakeStore.cakeFruitTopping.value === "other" && get().cakeStore.cakeFruitToppingInput !== "";
+
+      const isCakeFormValid = isShapeValid && isTierValid;
       set((state) => ({
         ...state,
         cakeStore: {
+          // Cake Form Submission State
           ...state.cakeStore,
-          cakeFormSubmit: isShapeValid ? formSubmit : !formSubmit,
+          // Cake Validation
+          cakeFormSubmit: isCakeFormValid ? formSubmit : !formSubmit,
           cakeShapeError: isShapeValid ? "" : "Cake Shape is required.",
+          cakeTierError: isTierValid ? "" : "Cake Tier is required.",
+          // cakeSizeError: isSizeValid ? "" : "Cake Size is required.",
+          // cakeFlavorInputError: isFlavorValid ? "" : "Cake Flavor is required.",
+          // cakeFrostingInputError: isFrostingValid ? "" : "Cake Frosting is required.",
+          // cakeFillingInputError: isFillingValid ? "" : "Cake Filling is required.",
+          // cakeFruitFillingError: isFruitFillingValid ? "" : "Cake Fruit Filling is required.",
+          // cakeFruitToppingError: isFruitToppingValid ? "" : "Cake Fruit Topping is required.",
+          // cakeFruitFillingInputError: isFruitFillingInputValid ? "" : "Cake Fruit Filling is required.",
+          // cakeFruitToppingInputError: isFruitToppingInputValid ? "" : "Cake Fruit Topping is required.",
         },
-      }))
+      }));
     },
     setCakeShape: (selected: OrderOption | null) =>
       set((state) => ({
@@ -373,4 +406,4 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         modalStore: { ...state.modalStore, modal: isOpen },
       })),
   },
-}))
+}));
