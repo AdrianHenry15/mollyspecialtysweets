@@ -24,37 +24,11 @@ const CakeSizeOptions = [
 ]
 
 const CakeOrderForm = () => {
-  const {
-    // State
-    cakeShape,
-    cakeTier,
-    cakeSize,
-    cakeFlavorInput,
-    cakeFrostingInput,
-    cakeFillingInput,
-    cakeFruitFilling,
-    cakeFruitTopping,
-    cakeFruitFillingInput,
-    cakeFruitToppingInput,
-    // Error Handling
-    cakeShapeError,
-    // Functions
-    setCakeShape,
-    setCakeTier,
-    setCakeSize,
-    handleCakeFlavorInput,
-    handleCakeFrostingInput,
-    handleCakeFillingInput,
-    setCakeFruitFilling,
-    setCakeFruitTopping,
-    setCakeFormSubmit,
-    handleCakeFruitFillingInput,
-    handleCakeFruitToppingInput,
-  } = useGlobalStore().cakeStore
+  const { ...state } = useGlobalStore().cakeStore
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault
-    setCakeFormSubmit(true)
+    state.setCakeFormSubmit(true)
   }
 
   return (
@@ -67,13 +41,15 @@ const CakeOrderForm = () => {
           What would you like your <strong>Cake Shape</strong> to be?
         </span>
         <Select
-          value={cakeShape.value === "" ? "Select..." : cakeShape}
-          onChange={(selectedShape: any) => setCakeShape!(selectedShape)}
+          value={state.cakeShape.value === "" ? "Select..." : state.cakeShape}
+          onChange={(selectedShape: any) => state.setCakeShape!(selectedShape)}
           className="form-input"
           name="order-options"
           options={CakeShapeOptions}
         />
-        {cakeShapeError && <div className="text-red-600">{cakeShapeError}</div>}
+        {state.cakeShapeError && (
+          <div className="text-red-600">{state.cakeShapeError}</div>
+        )}
       </div>
 
       {/* TIER  */}
@@ -83,12 +59,15 @@ const CakeOrderForm = () => {
           <strong>Cake</strong>?
         </span>
         <Select
-          value={cakeTier.value === "" ? "Select..." : cakeTier}
-          onChange={(selectedTier: any) => setCakeTier!(selectedTier)}
+          value={state.cakeTier.value === "" ? "Select..." : state.cakeTier}
+          onChange={(selectedTier: any) => state.setCakeTier!(selectedTier)}
           className="form-input"
           name="order-options"
           options={TierOptions}
         />
+        {state.cakeTierError && (
+          <div className="text-red-600">{state.cakeTierError}</div>
+        )}
       </div>
 
       {/* SIZE  */}
@@ -98,12 +77,15 @@ const CakeOrderForm = () => {
           to be?
         </span>
         <Select
-          value={cakeSize.value === "" ? "Select..." : cakeSize}
-          onChange={(selectedSize: any) => setCakeSize!(selectedSize)}
+          value={state.cakeSize.value === "" ? "Select..." : state.cakeSize}
+          onChange={(selectedSize: any) => state.setCakeSize!(selectedSize)}
           className="form-input"
           name="order-options"
           options={CakeSizeOptions}
         />
+        {state.cakeSizeError && (
+          <div className="text-red-600">{state.cakeSizeError}</div>
+        )}
       </div>
 
       {/* FLAVOR INPUT */}
@@ -113,13 +95,16 @@ const CakeOrderForm = () => {
           to be?
         </span>
         <input
-          value={cakeFlavorInput}
-          onChange={(e) => handleCakeFlavorInput!(e)}
+          value={state.cakeFlavorInput}
+          onChange={(e) => state.handleCakeFlavorInput!(e)}
           type="text"
           placeholder="Vanilla, Chocolate, Strawberry etc..."
           className="form-input"
           style={{ minHeight: "38px" }}
         />
+        {state.cakeFlavorInputError && (
+          <div className="text-red-600">{state.cakeFlavorInputError}</div>
+        )}
       </div>
 
       {/* FROSTING INPUT */}
@@ -129,13 +114,16 @@ const CakeOrderForm = () => {
           <strong>Cake</strong>?
         </span>
         <input
-          value={cakeFrostingInput}
-          onChange={(e) => handleCakeFrostingInput!(e)}
+          value={state.cakeFrostingInput}
+          onChange={(e) => state.handleCakeFrostingInput!(e)}
           type="text"
           placeholder="Vanilla Buttercream..."
           className="form-input"
           style={{ minHeight: "38px" }}
         />
+        {state.cakeFrostingInputError && (
+          <div className="text-red-600">{state.cakeFlavorInputError}</div>
+        )}
       </div>
 
       {/* FILLING INPUT */}
@@ -145,13 +133,16 @@ const CakeOrderForm = () => {
           <strong>Cake</strong>?
         </span>
         <input
-          value={cakeFillingInput}
-          onChange={(e) => handleCakeFillingInput!(e)}
+          value={state.cakeFillingInput}
+          onChange={(e) => state.handleCakeFillingInput!(e)}
           type="text"
           placeholder="Vanilla Buttercream..."
           className="form-input"
           style={{ minHeight: "38px" }}
         />
+        {state.cakeFillingInputError && (
+          <div className="text-red-600">{state.cakeFillingInputError}</div>
+        )}
       </div>
 
       {/* FRUIT FILLING */}
@@ -161,28 +152,40 @@ const CakeOrderForm = () => {
           <strong>Cake</strong>?
         </span>
         <Select
-          value={cakeFruitFilling.value === "" ? "Select..." : cakeFruitFilling}
-          onChange={(selected: any) => setCakeFruitFilling!(selected)}
+          value={
+            state.cakeFruitFilling.value === ""
+              ? "Select..."
+              : state.cakeFruitFilling
+          }
+          onChange={(selected: any) => state.setCakeFruitFilling!(selected)}
           className="form-input"
           name="order-options"
           options={FruitOptions}
         />
+        {state.cakeFruitFillingError && (
+          <div className="text-red-600">{state.cakeFruitFillingError}</div>
+        )}
       </div>
       {/* FRUIT FILLING INPUT */}
-      {cakeFruitFilling.value === "other" && (
+      {state.cakeFruitFilling.value === "other" && (
         <div className="form-item">
           <span>
             What other <strong>Fruit</strong> filling woud you like in your{" "}
             <strong>Cake</strong>?
           </span>
           <input
-            value={cakeFruitFillingInput}
-            onChange={(e) => handleCakeFruitFillingInput!(e)}
+            value={state.cakeFruitFillingInput}
+            onChange={(e) => state.handleCakeFruitFillingInput!(e)}
             type="text"
             placeholder="Dragonfruit..."
             className="form-input"
             style={{ minHeight: "38px" }}
           />
+          {state.cakeFruitFillingInputError && (
+            <div className="text-red-600">
+              {state.cakeFruitFillingInputError}
+            </div>
+          )}
         </div>
       )}
       {/* FRUIT TOPPING */}
@@ -192,28 +195,40 @@ const CakeOrderForm = () => {
           <strong>Cake</strong>?
         </span>
         <Select
-          value={cakeFruitTopping.value === "" ? "Select..." : cakeFruitTopping}
-          onChange={(selected: any) => setCakeFruitTopping!(selected)}
+          value={
+            state.cakeFruitTopping.value === ""
+              ? "Select..."
+              : state.cakeFruitTopping
+          }
+          onChange={(selected: any) => state.setCakeFruitTopping!(selected)}
           className="form-input"
           name="order-options"
           options={FruitOptions}
         />
+        {state.cakeFruitToppingError && (
+          <div className="text-red-600">{state.cakeFruitToppingError}</div>
+        )}
       </div>
       {/* FRUIT TOPPING INPUT */}
-      {cakeFruitTopping.value === "other" && (
+      {state.cakeFruitTopping.value === "other" && (
         <div className="form-item">
           <span>
             What other <strong>Fruit</strong> topping woud you like on your{" "}
             <strong>Cake</strong>?
           </span>
           <input
-            value={cakeFruitToppingInput}
-            onChange={(e) => handleCakeFruitToppingInput!(e)}
+            value={state.cakeFruitToppingInput}
+            onChange={(e) => state.handleCakeFruitToppingInput!(e)}
             type="text"
             placeholder="Dragonfruit..."
             className="form-input"
             style={{ minHeight: "38px" }}
           />
+          {state.cakeFruitToppingInputError && (
+            <div className="text-red-600">
+              {state.cakeFruitToppingInputError}
+            </div>
+          )}
         </div>
       )}
       <button
