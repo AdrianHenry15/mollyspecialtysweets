@@ -46,11 +46,11 @@ const CakeOrderForm = () => {
     setCakeFormSubmit,
     handleCakeFruitFillingInput,
     handleCakeFruitToppingInput,
-  } = useGlobalStore().cakeStore!
+  } = useGlobalStore().cakeStore
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault
-    setCakeFormSubmit!(true)
+    setCakeFormSubmit(true)
   }
 
   return (
@@ -63,7 +63,7 @@ const CakeOrderForm = () => {
           What would you like your <strong>Cake Shape</strong> to be?
         </span>
         <Select
-          value={cakeShape?.value === "" ? "Select..." : cakeShape}
+          value={cakeShape.value === "" ? "Select..." : cakeShape}
           onChange={(selectedShape: any) => setCakeShape!(selectedShape)}
           className="form-input"
           name="order-options"
@@ -78,7 +78,7 @@ const CakeOrderForm = () => {
           <strong>Cake</strong>?
         </span>
         <Select
-          value={cakeTier?.value === "" ? "Select..." : cakeTier}
+          value={cakeTier.value === "" ? "Select..." : cakeTier}
           onChange={(selectedTier: any) => setCakeTier!(selectedTier)}
           className="form-input"
           name="order-options"
@@ -93,7 +93,7 @@ const CakeOrderForm = () => {
           to be?
         </span>
         <Select
-          value={cakeSize?.value === "" ? "Select..." : cakeSize}
+          value={cakeSize.value === "" ? "Select..." : cakeSize}
           onChange={(selectedSize: any) => setCakeSize!(selectedSize)}
           className="form-input"
           name="order-options"
@@ -156,9 +156,7 @@ const CakeOrderForm = () => {
           <strong>Cake</strong>?
         </span>
         <Select
-          value={
-            cakeFruitFilling?.value === "" ? "Select..." : cakeFruitFilling
-          }
+          value={cakeFruitFilling.value === "" ? "Select..." : cakeFruitFilling}
           onChange={(selected: any) => setCakeFruitFilling!(selected)}
           className="form-input"
           name="order-options"
@@ -166,7 +164,7 @@ const CakeOrderForm = () => {
         />
       </div>
       {/* FRUIT FILLING INPUT */}
-      {cakeFruitFilling?.value === "other" && (
+      {cakeFruitFilling.value === "other" && (
         <div className="form-item">
           <span>
             What other <strong>Fruit</strong> filling woud you like in your{" "}
@@ -189,9 +187,7 @@ const CakeOrderForm = () => {
           <strong>Cake</strong>?
         </span>
         <Select
-          value={
-            cakeFruitTopping?.value === "" ? "Select..." : cakeFruitTopping
-          }
+          value={cakeFruitTopping.value === "" ? "Select..." : cakeFruitTopping}
           onChange={(selected: any) => setCakeFruitTopping!(selected)}
           className="form-input"
           name="order-options"
@@ -199,7 +195,7 @@ const CakeOrderForm = () => {
         />
       </div>
       {/* FRUIT TOPPING INPUT */}
-      {cakeFruitTopping?.value === "other" && (
+      {cakeFruitTopping.value === "other" && (
         <div className="form-item">
           <span>
             What other <strong>Fruit</strong> topping woud you like on your{" "}

@@ -14,34 +14,34 @@ const CookieReviewForm = () => {
     cookieFruitFillingInput,
     cookieFruitToppingInput,
     setCookieFormSubmit,
-  } = useGlobalStore().cookieStore!
+  } = useGlobalStore().cookieStore
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault
-    setCookieFormSubmit!(false)
+    setCookieFormSubmit(false)
   }
   return (
     <form className="review-form">
       <h3>Cookie Review Form</h3>
-      <ReviewItem label="Cookie Size" value={cookieSize!.label} />
-      <ReviewItem label="Cookie Amount" value={cookieAmount!.label} />
-      <ReviewItem label="Cookie Flavor" value={cookieFlavorInput!} />
-      <ReviewItem label="Cookie Frosting" value={cookieFrostingInput!} />
-      <ReviewItem label="Cookie Filling" value={cookieFillingInput!} />
+      <ReviewItem label="Cookie Size" value={cookieSize.label} />
+      <ReviewItem label="Cookie Amount" value={cookieAmount.label} />
+      <ReviewItem label="Cookie Flavor" value={cookieFlavorInput} />
+      <ReviewItem label="Cookie Frosting" value={cookieFrostingInput} />
+      <ReviewItem label="Cookie Filling" value={cookieFillingInput} />
       <ReviewItem
         label="Cookie Fruit"
         value={
-          cookieFruitFilling?.value === "other"
+          cookieFruitFilling.value === "other"
             ? ""
-            : cookieFruitFilling!.label + " " + cookieFruitFillingInput
+            : cookieFruitFilling.label + " " + cookieFruitFillingInput
         }
       />
       <ReviewItem
         label="Cookie Fruit"
         value={
-          cookieFruitTopping?.value === "other"
+          cookieFruitTopping.value === "other"
             ? ""
-            : cookieFruitTopping!.label + " " + cookieFruitToppingInput
+            : cookieFruitTopping.label + " " + cookieFruitToppingInput
         }
       />
       <button

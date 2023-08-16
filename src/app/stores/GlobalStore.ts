@@ -8,12 +8,12 @@ import { ModalStore } from "./schemas/ModalStore"
 import { OrderOption } from "../costants/GlobalOptions"
 
 interface GlobalStore {
-  contactStore?: ContactStore
-  cakeStore?: CakeStore
-  cupcakeStore?: CupcakeStore
-  cookieStore?: CookieStore
-  orderTypeStore?: OrderTypeStore
-  modalStore?: ModalStore
+  contactStore: ContactStore
+  cakeStore: CakeStore
+  cupcakeStore: CupcakeStore
+  cookieStore: CookieStore
+  orderTypeStore: OrderTypeStore
+  modalStore: ModalStore
 }
 
 export const useGlobalStore = create<GlobalStore>()((set) => ({
@@ -29,6 +29,7 @@ export const useGlobalStore = create<GlobalStore>()((set) => ({
     recipient: "",
     colors: "",
     details: "",
+    deliveryAddress: "",
     // ACTIONS
     handleFirstName: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
@@ -60,7 +61,7 @@ export const useGlobalStore = create<GlobalStore>()((set) => ({
         ...state,
         contactStore: {
           ...state.contactStore,
-          deliveryOption: selected || undefined,
+          deliveryOption: selected!,
         },
       })),
     handleDeliveryAddress: (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -96,6 +97,7 @@ export const useGlobalStore = create<GlobalStore>()((set) => ({
         ...state,
         contactStore: { ...state.contactStore, contactFormSubmit: formSubmit },
       })),
+    contactFormSubmit: false,
   },
   cakeStore: {
     // STATE

@@ -18,16 +18,16 @@ const OrderOptions = [
 ]
 
 const MainOrderForm = () => {
-  const { orderType, setOrderType } = useGlobalStore().orderTypeStore!
-  const { contactFormSubmit } = useGlobalStore().contactStore!
-  const { cakeFormSubmit } = useGlobalStore().cakeStore!
-  const { cupcakeFormSubmit } = useGlobalStore().cupcakeStore!
-  const { cookieFormSubmit } = useGlobalStore().cookieStore!
-  const { setModal } = useGlobalStore().modalStore!
+  const { orderType, setOrderType } = useGlobalStore().orderTypeStore
+  const { contactFormSubmit } = useGlobalStore().contactStore
+  const { cakeFormSubmit } = useGlobalStore().cakeStore
+  const { cupcakeFormSubmit } = useGlobalStore().cupcakeStore
+  const { cookieFormSubmit } = useGlobalStore().cookieStore
+  const { setModal } = useGlobalStore().modalStore
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setModal!(true)
+    setModal(true)
   }
 
   const renderContactForm = (): JSX.Element => {
@@ -72,7 +72,7 @@ const MainOrderForm = () => {
             isMulti
             name="order-options"
             options={OrderOptions}
-            onChange={(selected: any) => setOrderType!(selected)}
+            onChange={(selected: any) => setOrderType(selected)}
           />
         </div>
         {renderCakeForm()}
