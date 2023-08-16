@@ -16,27 +16,27 @@ const ContactReviewForm = () => {
     colors,
     details,
     setContactFormSubmit,
-  } = useGlobalStore().contactStore!
+  } = useGlobalStore().contactStore
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault
-    setContactFormSubmit!(false)
+    setContactFormSubmit(false)
   }
 
   return (
     <form className="review-form">
       <h3>Contact Review Form</h3>
-      <ReviewItem label="First Name" value={firstName!} />
-      <ReviewItem label="Last Name" value={lastName!} />
-      <ReviewItem label="Email" value={email!} />
-      <ReviewItem label="Phone" value={phone!} />
-      <ReviewItem label="Date" value={date!} />
-      <ReviewItem label="Delivery Option" value={deliveryOption!.label} />
-      <ReviewItem label="Delivery Address" value={deliveryAddress!} />
-      <ReviewItem label="Occasion" value={occasion!} />
-      <ReviewItem label="Recipient" value={recipient!} />
-      <ReviewItem label="Colors" value={colors!} />
-      <ReviewItem label="Details" value={details!} />
+      <ReviewItem label="First Name" value={firstName} />
+      <ReviewItem label="Last Name" value={lastName} />
+      <ReviewItem label="Email" value={email} />
+      <ReviewItem label="Phone" value={phone} />
+      <ReviewItem label="Date" value={date} />
+      <ReviewItem label="Delivery Option" value={deliveryOption.label} />
+      <ReviewItem label="Delivery Address" value={deliveryAddress} />
+      <ReviewItem label="Occasion" value={occasion} />
+      <ReviewItem label="Recipient" value={recipient} />
+      <ReviewItem label="Colors" value={colors} />
+      <ReviewItem label="Details" value={details} />
       <button
         className="review-form-submit"
         type="submit"

@@ -1,4 +1,4 @@
 export interface ModalStore {
-  modal?: boolean
-  setModal?: (isOpen: boolean) => void
+  modal: boolean
+  setModal: (isOpen: boolean) => void
 }

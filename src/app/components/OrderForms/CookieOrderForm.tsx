@@ -28,11 +28,11 @@ const CookieOrderForm = () => {
     handleCookieFruitFillingInput,
     handleCookieFruitToppingInput,
     setCookieFormSubmit,
-  } = useGlobalStore().cookieStore!
+  } = useGlobalStore().cookieStore
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault
-    setCookieFormSubmit!(true)
+    setCookieFormSubmit(true)
   }
 
   return (
@@ -46,7 +46,7 @@ const CookieOrderForm = () => {
         </span>
         <Select
           value={cookieSize?.value === "" ? "Select..." : cookieSize}
-          onChange={(selectedSize: any) => setCookieSize!(selectedSize)}
+          onChange={(selectedSize: any) => setCookieSize(selectedSize)}
           className="w-full"
           name="order-options"
           options={SizeOptions}
@@ -59,7 +59,7 @@ const CookieOrderForm = () => {
         </span>
         <Select
           value={cookieAmount?.value === "" ? "Select..." : cookieAmount}
-          onChange={(selected: any) => setCookieAmount!(selected)}
+          onChange={(selected: any) => setCookieAmount(selected)}
           className="w-full"
           name="order-options"
           options={AmountOptions}
@@ -73,7 +73,7 @@ const CookieOrderForm = () => {
         </span>
         <input
           value={cookieFlavorInput}
-          onChange={(e) => handleCookieFlavorInput!(e)}
+          onChange={(e) => handleCookieFlavorInput(e)}
           type="text"
           placeholder="Vanilla, Chocolate, Strawberry etc..."
           className="w-full"
@@ -88,7 +88,7 @@ const CookieOrderForm = () => {
         </span>
         <input
           value={cookieFrostingInput}
-          onChange={(e) => handleCookieFrostingInput!(e)}
+          onChange={(e) => handleCookieFrostingInput(e)}
           type="text"
           placeholder="Vanilla Buttercream..."
           className="w-full"
@@ -103,7 +103,7 @@ const CookieOrderForm = () => {
         </span>
         <input
           value={cookieFillingInput}
-          onChange={(e) => handleCookieFillingInput!(e)}
+          onChange={(e) => handleCookieFillingInput(e)}
           type="text"
           placeholder="Vanilla Buttercream..."
           className="w-full"
@@ -122,14 +122,14 @@ const CookieOrderForm = () => {
           name="order-options"
           options={FruitOptions}
           value={
-            cookieFruitFilling?.value === "" ? "Select..." : cookieFruitFilling
+            cookieFruitFilling.value === "" ? "Select..." : cookieFruitFilling
           }
-          onChange={(selected: any) => setCookieFruitFilling!(selected)}
+          onChange={(selected: any) => setCookieFruitFilling(selected)}
         />
       </div>
 
       {/* FRUIT FILLING INPUT */}
-      {cookieFruitFilling?.value === "other" && (
+      {cookieFruitFilling.value === "other" && (
         <div className="form-item">
           <span>
             <strong>Describe</strong> what <strong>Fruit Filling</strong> you
@@ -137,7 +137,7 @@ const CookieOrderForm = () => {
           </span>
           <input
             value={cookieFruitFillingInput}
-            onChange={(e) => handleCookieFruitFillingInput!(e)}
+            onChange={(e) => handleCookieFruitFillingInput(e)}
             type="text"
             placeholder="Dragonfruit, Pear, Starfruit etc..."
             className="w-full"
@@ -159,7 +159,7 @@ const CookieOrderForm = () => {
           value={
             cookieFruitTopping?.value === "" ? "Select..." : cookieFruitTopping
           }
-          onChange={(selected: any) => setCookieFruitTopping!(selected)}
+          onChange={(selected: any) => setCookieFruitTopping(selected)}
         />
       </div>
 
@@ -172,7 +172,7 @@ const CookieOrderForm = () => {
           </span>
           <input
             value={cookieFruitToppingInput}
-            onChange={(e) => handleCookieFruitToppingInput!(e)}
+            onChange={(e) => handleCookieFruitToppingInput(e)}
             type="text"
             placeholder="Dragonfruit, Pear, Starfruit etc..."
             className="w-full"

@@ -28,11 +28,11 @@ const CupcakeOrderForm = () => {
     handleCupcakeFruitFillingInput,
     handleCupcakeFruitToppingInput,
     setCupcakeFormSubmit,
-  } = useGlobalStore().cupcakeStore!
+  } = useGlobalStore().cupcakeStore
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault
-    setCupcakeFormSubmit!(true)
+    setCupcakeFormSubmit(true)
   }
 
   return (
@@ -45,8 +45,8 @@ const CupcakeOrderForm = () => {
           <strong>Cupcakes</strong> to be?
         </span>
         <Select
-          value={cupcakeSize?.value === "" ? "Select..." : cupcakeSize}
-          onChange={(selected: any) => setCupcakeSize!(selected)}
+          value={cupcakeSize.value === "" ? "Select..." : cupcakeSize}
+          onChange={(selected: any) => setCupcakeSize(selected)}
           className="form-input"
           name="order-options"
           options={SizeOptions}
@@ -59,7 +59,7 @@ const CupcakeOrderForm = () => {
         </span>
         <Select
           value={cupcakeAmount?.value === "" ? "Select..." : cupcakeAmount}
-          onChange={(selected: any) => setCupcakeAmount!(selected)}
+          onChange={(selected: any) => setCupcakeAmount(selected)}
           className="form-input"
           name="order-options"
           options={AmountOptions}
@@ -73,7 +73,7 @@ const CupcakeOrderForm = () => {
         </span>
         <input
           value={cupcakeFlavorInput}
-          onChange={(e) => handleCupcakeFlavorInput!(e)}
+          onChange={(e) => handleCupcakeFlavorInput(e)}
           type="text"
           placeholder="Vanilla, Chocolate, Strawberry etc..."
           className="form-input"
@@ -88,7 +88,7 @@ const CupcakeOrderForm = () => {
         </span>
         <input
           value={cupcakeFrostingInput}
-          onChange={(e) => handleCupcakeFrostingInput!(e)}
+          onChange={(e) => handleCupcakeFrostingInput(e)}
           type="text"
           placeholder="Vanilla Buttercream..."
           className="form-input"
@@ -103,7 +103,7 @@ const CupcakeOrderForm = () => {
         </span>
         <input
           value={cupcakeFillingInput}
-          onChange={(e) => handleCupcakeFillingInput!(e)}
+          onChange={(e) => handleCupcakeFillingInput(e)}
           type="text"
           placeholder="Vanilla Buttercream..."
           className="form-input"
@@ -122,16 +122,14 @@ const CupcakeOrderForm = () => {
           name="order-options"
           options={FruitOptions}
           value={
-            cupcakeFruitFilling?.value === ""
-              ? "Select..."
-              : cupcakeFruitFilling
+            cupcakeFruitFilling.value === "" ? "Select..." : cupcakeFruitFilling
           }
-          onChange={(selected: any) => setCupcakeFruitFilling!(selected)}
+          onChange={(selected: any) => setCupcakeFruitFilling(selected)}
         />
       </div>
 
       {/* FRUIT FILLING INPUT */}
-      {cupcakeFruitFilling?.value === "other" && (
+      {cupcakeFruitFilling.value === "other" && (
         <div className="form-item">
           <span>
             <strong>Describe</strong> what <strong>Fruit Filling</strong> you
@@ -139,7 +137,7 @@ const CupcakeOrderForm = () => {
           </span>
           <input
             value={cupcakeFruitFillingInput}
-            onChange={(e) => handleCupcakeFruitFillingInput!(e)}
+            onChange={(e) => handleCupcakeFruitFillingInput(e)}
             type="text"
             placeholder="Dragonfruit, Pear, Starfruit etc..."
             className="form-input"
@@ -163,12 +161,12 @@ const CupcakeOrderForm = () => {
               ? "Select..."
               : cupcakeFruitTopping
           }
-          onChange={(selected: any) => setCupcakeFruitTopping!(selected)}
+          onChange={(selected: any) => setCupcakeFruitTopping(selected)}
         />
       </div>
 
       {/* FRUIT TOPPING INPUT */}
-      {cupcakeFruitTopping?.value === "other" && (
+      {cupcakeFruitTopping.value === "other" && (
         <div className="form-item">
           <span>
             <strong>Describe</strong> what <strong>Fruit Topping</strong> you
@@ -176,7 +174,7 @@ const CupcakeOrderForm = () => {
           </span>
           <input
             value={cupcakeFruitToppingInput}
-            onChange={(e) => handleCupcakeFruitToppingInput!(e)}
+            onChange={(e) => handleCupcakeFruitToppingInput(e)}
             type="text"
             placeholder="Dragonfruit, Pear, Starfruit etc..."
             className="form-input"

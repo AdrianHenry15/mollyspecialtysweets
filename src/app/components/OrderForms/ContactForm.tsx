@@ -32,11 +32,11 @@ const ContactForm = () => {
     handleRecipient,
     handleColors,
     handleDetails,
-  } = useGlobalStore().contactStore!
+  } = useGlobalStore().contactStore
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setContactFormSubmit!(true)
+    setContactFormSubmit(true)
   }
 
   return (
@@ -48,50 +48,50 @@ const ContactForm = () => {
       </span>
       <input
         value={firstName}
-        onChange={(e) => handleFirstName!(e)}
+        onChange={(e) => handleFirstName(e)}
         id="contact-input"
         type="text"
         placeholder="First Name..."
       />
       <input
         value={lastName}
-        onChange={(e) => handleLastName!(e)}
+        onChange={(e) => handleLastName(e)}
         id="contact-input"
         type="text"
         placeholder="Last Name..."
       />
       <input
         value={email}
-        onChange={(e) => handleEmail!(e)}
+        onChange={(e) => handleEmail(e)}
         id="contact-input"
         type="text"
         placeholder="Email Address..."
       />
       <input
         value={phone}
-        onChange={(e) => handlePhone!(e)}
+        onChange={(e) => handlePhone(e)}
         id="contact-input"
         type="text"
         placeholder="Phone Number..."
       />
       <input
         value={date}
-        onChange={(e) => handleDate!(e)}
+        onChange={(e) => handleDate(e)}
         id="contact-input"
         type="text"
         placeholder="Delivery Date..."
       />
       <Select
-        value={deliveryOption?.value === "" ? "Select..." : deliveryOption}
-        onChange={(selected: any) => setDeliveryOption!(selected)}
+        value={deliveryOption.value === "" ? "Select..." : deliveryOption}
+        onChange={(selected: any) => setDeliveryOption(selected)}
         id="contact-input"
         name="order-options"
         options={DeliveryOptions}
       />
-      {deliveryOption?.value === "delivery" && (
+      {deliveryOption.value === "delivery" && (
         <input
           value={deliveryAddress}
-          onChange={(e) => handleDeliveryAddress!(e)}
+          onChange={(e) => handleDeliveryAddress(e)}
           id="contact-input"
           type="text"
           placeholder="Delivery Address..."
@@ -99,7 +99,7 @@ const ContactForm = () => {
       )}
       <input
         value={occasion}
-        onChange={(e) => handleOccasion!(e)}
+        onChange={(e) => handleOccasion(e)}
         id="contact-input"
         type="text"
         placeholder="Occasion Theme..."
@@ -113,14 +113,14 @@ const ContactForm = () => {
       />
       <input
         value={colors}
-        onChange={(e) => handleColors!(e)}
+        onChange={(e) => handleColors(e)}
         id="contact-input"
         type="text"
         placeholder="Preferred Colors..."
       />
       <textarea
         value={details}
-        onChange={(e) => handleDetails!(e)}
+        onChange={(e) => handleDetails(e)}
         id="contact-textarea"
         placeholder="Additional Details..."
       />
