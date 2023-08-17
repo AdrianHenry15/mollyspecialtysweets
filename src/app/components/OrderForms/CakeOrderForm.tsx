@@ -2,7 +2,6 @@
 import React from "react";
 import Select from "react-select";
 import { useGlobalStore } from "../../stores/GlobalStore";
-import { FruitOptions } from "@/app/costants/GlobalOptions";
 
 const TierOptions = [
   { value: "single", label: "Single" },
