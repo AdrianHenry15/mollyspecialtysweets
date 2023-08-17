@@ -255,6 +255,13 @@ button:hover {
   cursor: pointer;
 }
 
+.form-btn-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
 @media (max-width: 640px) {
   footer {
     display: flex;

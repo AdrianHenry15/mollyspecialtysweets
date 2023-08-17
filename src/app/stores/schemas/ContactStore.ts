@@ -21,6 +21,7 @@ export interface ContactStore {
   phoneError: string;
   dateError: string;
   deliveryOptionError: string;
+  // deliveryAddressError: string;
   occasionError: string;
   recipientError: string;
   colorsError: string;
