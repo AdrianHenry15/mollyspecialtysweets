@@ -1,39 +1,16 @@
-import React, { useState } from "react"
-import Select from "react-select"
-import { useGlobalStore } from "../../stores/GlobalStore"
-import {
-  AmountOptions,
-  FruitOptions,
-  SizeOptions,
-} from "@/app/costants/GlobalOptions"
+import React, { useState } from "react";
+import Select from "react-select";
+import { useGlobalStore } from "../../stores/GlobalStore";
+import { AmountOptions, FruitOptions, SizeOptions } from "@/app/costants/GlobalOptions";
 
 const CookieOrderForm = () => {
-  const {
-    cookieSize,
-    cookieAmount,
-    cookieFlavorInput,
-    cookieFrostingInput,
-    cookieFillingInput,
-    cookieFruitFilling,
-    cookieFruitTopping,
-    cookieFruitFillingInput,
-    cookieFruitToppingInput,
-    setCookieSize,
-    setCookieAmount,
-    handleCookieFlavorInput,
-    handleCookieFrostingInput,
-    handleCookieFillingInput,
-    setCookieFruitFilling,
-    setCookieFruitTopping,
-    handleCookieFruitFillingInput,
-    handleCookieFruitToppingInput,
-    setCookieFormSubmit,
-  } = useGlobalStore().cookieStore!
+  const { ...state } = useGlobalStore().cookieStore;
+  const { modalError } = useGlobalStore().modalStore;
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault
-    setCookieFormSubmit!(true)
-  }
+    e.preventDefault;
+    state.setCookieFormSubmit(true);
+  };
 
   return (
     <div className="flex flex-col justify-center">
@@ -41,16 +18,16 @@ const CookieOrderForm = () => {
       {/* SIZE  */}
       <div className="form-item">
         <span>
-          What <strong>Size</strong> would you like your{" "}
-          <strong>Cookies</strong> to be?
+          What <strong>Size</strong> would you like your <strong>Cookies</strong> to be?
         </span>
         <Select
-          value={cookieSize?.value === "" ? "Select..." : cookieSize}
-          onChange={(selectedSize: any) => setCookieSize!(selectedSize)}
+          value={state.cookieSize.value === "" ? "Select..." : state.cookieSize}
+          onChange={(selectedSize: any) => state.setCookieSize(selectedSize)}
           className="w-full"
           name="order-options"
           options={SizeOptions}
         />
+        {state.cookieSizeError && <div className="text-red-600 absolute my-16">{state.cookieSizeError}</div>}
       </div>
       {/* AMOUNT  */}
       <div className="form-item">
@@ -58,37 +35,37 @@ const CookieOrderForm = () => {
           How many <strong>Cookies</strong> would you like?
         </span>
         <Select
-          value={cookieAmount?.value === "" ? "Select..." : cookieAmount}
-          onChange={(selected: any) => setCookieAmount!(selected)}
+          value={state.cookieAmount.value === "" ? "Select..." : state.cookieAmount}
+          onChange={(selected: any) => state.setCookieAmount(selected)}
           className="w-full"
           name="order-options"
           options={AmountOptions}
         />
+        {state.cookieAmountError && <div className="text-red-600 absolute my-16">{state.cookieAmountError}</div>}
       </div>
       {/* FLAVOR INPUT */}
       <div className="form-item">
         <span>
-          What <strong>Flavor</strong> would you like your{" "}
-          <strong>Cookies</strong> to be?
+          What <strong>Flavor</strong> would you like your <strong>Cookies</strong> to be?
         </span>
         <input
-          value={cookieFlavorInput}
-          onChange={(e) => handleCookieFlavorInput!(e)}
+          value={state.cookieFlavorInput}
+          onChange={(e) => state.handleCookieFlavorInput(e)}
           type="text"
           placeholder="Vanilla, Chocolate, Strawberry etc..."
           className="w-full"
           style={{ minHeight: "38px" }}
         />
+        {state.cookieFlavorInputError && <div className="text-red-600 absolute my-16">{state.cookieFlavorInputError}</div>}
       </div>
       {/* FROSTING INPUT */}
       <div className="form-item">
         <span>
-          What <strong>Frosting</strong> would you like on your{" "}
-          <strong>Cookies</strong>?
+          What <strong>Frosting</strong> would you like on your <strong>Cookies</strong>?
         </span>
         <input
-          value={cookieFrostingInput}
-          onChange={(e) => handleCookieFrostingInput!(e)}
+          value={state.cookieFrostingInput}
+          onChange={(e) => state.handleCookieFrostingInput(e)}
           type="text"
           placeholder="Vanilla Buttercream..."
           className="w-full"
@@ -98,12 +75,11 @@ const CookieOrderForm = () => {
       {/* FILLING INPUT */}
       <div className="form-item">
         <span>
-          What <strong>Filling</strong> would you like in your{" "}
-          <strong>Cookies</strong>?
+          What <strong>Filling</strong> would you like in your <strong>Cookies</strong>?
         </span>
         <input
-          value={cookieFillingInput}
-          onChange={(e) => handleCookieFillingInput!(e)}
+          value={state.cookieFillingInput}
+          onChange={(e) => state.handleCookieFillingInput(e)}
           type="text"
           placeholder="Vanilla Buttercream..."
           className="w-full"
@@ -114,80 +90,41 @@ const CookieOrderForm = () => {
       {/* FRUIT FILLING  */}
       <div className="form-item">
         <span>
-          Would you like a <strong>Fruit Filling</strong> in your{" "}
-          <strong>Cookies</strong>?
+          Would you like a <strong>Fruit Filling</strong> in your <strong>Cookies</strong>?
         </span>
-        <Select
+        <input
           className="w-full"
-          name="order-options"
-          options={FruitOptions}
-          value={
-            cookieFruitFilling?.value === "" ? "Select..." : cookieFruitFilling
-          }
-          onChange={(selected: any) => setCookieFruitFilling!(selected)}
+          style={{ minHeight: "38px" }}
+          placeholder="Strawberries Filling..."
+          type="text"
+          value={state.cookieFruitFillingInput}
+          onChange={(e) => state.handleCookieFruitFillingInput(e)}
         />
       </div>
 
-      {/* FRUIT FILLING INPUT */}
-      {cookieFruitFilling?.value === "other" && (
-        <div className="form-item">
-          <span>
-            <strong>Describe</strong> what <strong>Fruit Filling</strong> you
-            would like in your <strong>Cookies</strong>?
-          </span>
-          <input
-            value={cookieFruitFillingInput}
-            onChange={(e) => handleCookieFruitFillingInput!(e)}
-            type="text"
-            placeholder="Dragonfruit, Pear, Starfruit etc..."
-            className="w-full"
-            style={{ minHeight: "38px" }}
-          />
-        </div>
-      )}
       {/* FRUIT TOPPING  */}
       <div className="form-item">
         <span>
-          Would you like a <strong>Fruit Topping</strong> in your{" "}
-          <strong>Cookies</strong>?
+          Would you like a <strong>Fruit Topping</strong> in your <strong>Cookies</strong>?
         </span>
-        <Select
+        <input
           className="w-full"
-          name="order-options"
-          options={FruitOptions}
-          placeholder="Select..."
-          value={
-            cookieFruitTopping?.value === "" ? "Select..." : cookieFruitTopping
-          }
-          onChange={(selected: any) => setCookieFruitTopping!(selected)}
+          style={{ minHeight: "38px" }}
+          placeholder="Strawberries..."
+          value={state.cookieFruitToppingInput}
+          onChange={(e) => state.handleCookieFruitToppingInput(e)}
         />
       </div>
 
-      {/* FRUIT TOPPING INPUT */}
-      {cookieFruitTopping?.value === "other" && (
-        <div className="form-item">
-          <span>
-            <strong>Describe</strong> what <strong>Fruit Topping</strong> you
-            would like on your <strong>Cookies</strong>?
-          </span>
-          <input
-            value={cookieFruitToppingInput}
-            onChange={(e) => handleCookieFruitToppingInput!(e)}
-            type="text"
-            placeholder="Dragonfruit, Pear, Starfruit etc..."
-            className="w-full"
-            style={{ minHeight: "38px" }}
-          />
-        </div>
-      )}
-      <button
-        className="order-form-submit"
-        type="submit"
-        onClick={(e) => handleSubmit(e)}>
-        Submit Cookie <br /> Form
-      </button>
+      {/* Cookie Form Submit Button */}
+      <div className="form-btn-container">
+        <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
+          Submit Cookie <br /> Form
+        </button>
+        {modalError && <div className="text-red-600 absolute my-16">{modalError}</div>}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default CookieOrderForm
+export default CookieOrderForm;

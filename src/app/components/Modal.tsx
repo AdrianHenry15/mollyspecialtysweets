@@ -155,7 +155,7 @@ const Modal = () => {
             <button onClick={(e) => sendOrder(e)} id="modal-btn">
               Submit Forms
             </button>
-            <button onClick={() => setModal!(false)} id="modal-btn-2">
+            <button onClick={() => setModal(false)} id="modal-btn-2">
               Edit Forms
             </button>
           </div>
