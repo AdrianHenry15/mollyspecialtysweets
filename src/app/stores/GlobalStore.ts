@@ -291,7 +291,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         cupcakeStore: {
           // Cupcake Form Submission State
           ...state.cupcakeStore,
-          // Cake Validation
+          // Cupcake Validation
           cupcakeFormSubmit: isCupcakeFormValid ? formSubmit : !formSubmit,
           cupcakeSizeError: isSizeValid ? "" : "Cupcake Size is required.",
           cupcakeAmountError: isAmountValid ? "" : "Cupcake Amount is required.",
@@ -354,14 +354,39 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
     cookieFlavorInput: "",
     cookieFrostingInput: "",
     cookieFillingInput: "",
-    cookieFruitFilling: { value: "", label: "" },
-    cookieFruitTopping: { value: "", label: "" },
     cookieFruitFillingInput: "",
     cookieFruitToppingInput: "",
-
     cookieFormSubmit: false,
+    // Error Handling
+    cookieShapeError: "",
+    cookieAmountError: "",
+    cookieSizeError: "",
+    cookieFlavorInputError: "",
 
-    // ACTIONS
+    // Setters
+    setCookieFormSubmit: (formSubmit: boolean) => {
+      // Cookie Property Validation Check
+      const isSizeValid = get().cookieStore.cookieSize.value !== "";
+      const isAmountValid = get().cookieStore.cookieAmount.value !== "";
+      const isFlavorValid = get().cookieStore.cookieFlavorInput !== "";
+
+      // Entire Cookie Form Validation Check
+      const isCookieFormValid = isSizeValid && isAmountValid && isFlavorValid;
+
+      // Setting State for Cookie Properties
+      set((state) => ({
+        ...state,
+        cookieStore: {
+          // Cookie Form Submission State
+          ...state.cookieStore,
+          // Cookie Validation
+          cookieFormSubmit: isCookieFormValid ? formSubmit : !formSubmit,
+          cookieSizeError: isSizeValid ? "" : "Cookie Size is required.",
+          cookieAmountError: isAmountValid ? "" : "Cookie Amount is required.",
+          cookieFlavorInputError: isFlavorValid ? "" : "Cookie Flavor is required.",
+        },
+      }));
+    },
     setCookieSize: (selected: OrderOption | null) =>
       set((state) => ({
         ...state,
@@ -372,6 +397,18 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         ...state,
         cookieStore: { ...state.cookieStore, cookieAmount: selected! },
       })),
+    setCookieFruitFilling: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        cookieStore: { ...state.cookieStore, cookieFruitFilling: selected! },
+      })),
+    setCookieFruitTopping: (selected: OrderOption | null) =>
+      set((state) => ({
+        ...state,
+        cookieStore: { ...state.cookieStore, cookieFruitTopping: selected! },
+      })),
+
+    // Handlers
     handleCookieFlavorInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
@@ -396,16 +433,6 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
           cookieFillingInput: e.target.value,
         },
       })),
-    setCookieFruitFilling: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cookieStore: { ...state.cookieStore, cookieFruitFilling: selected! },
-      })),
-    setCookieFruitTopping: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cookieStore: { ...state.cookieStore, cookieFruitTopping: selected! },
-      })),
     handleCookieFruitFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
@@ -421,12 +448,6 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
           ...state.cookieStore,
           cookieFruitToppingInput: e.target.value,
         },
-      })),
-
-    setCookieFormSubmit: (formSubmit: boolean) =>
-      set((state) => ({
-        ...state,
-        cookieStore: { ...state.cookieStore, cookieFormSubmit: formSubmit },
       })),
   },
   orderTypeStore: {
