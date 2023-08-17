@@ -5,6 +5,7 @@ import { AmountOptions, SizeOptions } from "@/app/costants/GlobalOptions";
 
 const CupcakeOrderForm = () => {
   const { ...state } = useGlobalStore().cupcakeStore;
+  const { modalError } = useGlobalStore().modalStore;
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault;
@@ -121,9 +122,12 @@ const CupcakeOrderForm = () => {
       </div>
 
       {/* Cupcake Form Submit Button */}
-      <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
-        Submit Cupcake <br /> Form
-      </button>
+      <div className="form-btn-container">
+        <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
+          Submit Cupcake <br /> Form
+        </button>
+        {modalError && <div className="text-red-600 absolute my-16">{modalError}</div>}
+      </div>
     </div>
   );
 };

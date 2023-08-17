@@ -9,6 +9,7 @@ const DeliveryOptions = [
 
 const ContactForm = () => {
   const { ...state } = useGlobalStore().contactStore;
+  const { modalError } = useGlobalStore().modalStore;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,9 +97,12 @@ const ContactForm = () => {
       <textarea value={state.details} onChange={(e) => state.handleDetails(e)} id="contact-textarea" placeholder="Additional Details..." />
 
       {/* SUBMIT BUTTON */}
-      <button className="items-center" type="submit" onClick={(e) => handleSubmit(e)}>
-        Submit
-      </button>
+      <div className="form-btn-container">
+        <button className="items-center" type="submit" onClick={(e) => handleSubmit(e)}>
+          Submit
+        </button>
+        {modalError && <div className="text-red-600 absolute my-20">{modalError}</div>}
+      </div>
     </form>
   );
 };

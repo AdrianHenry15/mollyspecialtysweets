@@ -5,6 +5,7 @@ import { AmountOptions, FruitOptions, SizeOptions } from "@/app/costants/GlobalO
 
 const CookieOrderForm = () => {
   const { ...state } = useGlobalStore().cookieStore;
+  const { modalError } = useGlobalStore().modalStore;
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault;
@@ -116,9 +117,12 @@ const CookieOrderForm = () => {
       </div>
 
       {/* Cookie Form Submit Button */}
-      <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
-        Submit Cookie <br /> Form
-      </button>
+      <div className="form-btn-container">
+        <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
+          Submit Cookie <br /> Form
+        </button>
+        {modalError && <div className="text-red-600 absolute my-16">{modalError}</div>}
+      </div>
     </div>
   );
 };

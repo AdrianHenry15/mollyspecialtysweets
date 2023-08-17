@@ -24,6 +24,7 @@ const CakeSizeOptions = [
 
 const CakeOrderForm = () => {
   const { ...state } = useGlobalStore().cakeStore;
+  const { modalError } = useGlobalStore().modalStore;
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault;
@@ -155,9 +156,12 @@ const CakeOrderForm = () => {
           type="text"
         />
       </div>
-      <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
-        Submit Cake <br /> Form
-      </button>
+      <div className="form-btn-container">
+        <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
+          Submit Cake <br /> Form
+        </button>
+        {modalError && <div className="text-red-600 absolute my-16">{modalError}</div>}
+      </div>
     </div>
   );
 };
