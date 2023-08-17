@@ -98,10 +98,10 @@ const CupcakeOrderForm = () => {
         </span>
         <input
           className="form-input"
-          name="order-options"
           value={state.cupcakeFruitFillingInput}
           type="text"
           placeholder="Strawberry Filling..."
+          style={{ minHeight: "38px" }}
           onChange={(e) => state.handleCupcakeFruitFillingInput(e)}
         />
       </div>
@@ -112,7 +112,7 @@ const CupcakeOrderForm = () => {
         </span>
         <input
           className="form-input"
-          name="order-options"
+          style={{ minHeight: "38px" }}
           placeholder="Strawberries..."
           value={state.cupcakeFruitToppingInput}
           type="text"
