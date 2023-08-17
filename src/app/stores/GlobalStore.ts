@@ -43,16 +43,23 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
     colorsError: "",
     // Setters
     setContactFormSubmit: (formSubmit: boolean) => {
+      const { ...state } = get().contactStore;
+      // Unique Validation Variables
+      const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/;
+      const phoneRegex = /^(?:\+\d{1,3}[- ]?)?\(?\d{3}\)?[- ]?\d{3}[- ]?\d{4}$/;
+      const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
+
       // Contact Property Validation Check
-      const isFirstNameValid = get().contactStore.firstName !== "";
-      const isLastNameValid = get().contactStore.lastName !== "";
-      const isEmailValid = get().contactStore.email !== "";
-      const isPhoneValid = get().contactStore.phone !== "";
-      const isDateValid = get().contactStore.date !== "";
-      const isDeliveryOptionValid = get().contactStore.deliveryOption?.value !== "";
-      const isOccasionValid = get().contactStore.occasion !== "";
-      const isRecipientValid = get().contactStore.recipient !== "";
-      const isColorsValid = get().contactStore.colors !== "";
+      const isFirstNameValid = state.firstName !== "";
+      const isLastNameValid = state.lastName !== "";
+      const isEmailValid = state.email !== "" && emailRegex.test(state.email);
+      const isPhoneValid = state.phone !== "" && phoneRegex.test(state.phone);
+      const isDateValid = state.date !== "" && dateRegex.test(state.date);
+      const isDeliveryOptionValid = state.deliveryOption?.value !== "";
+      // const isDeliveryAddressValid = state.deliveryOption?.value !== "delivery" && state.deliveryAddress !== "";
+      const isOccasionValid = state.occasion !== "";
+      const isRecipientValid = state.recipient !== "";
+      const isColorsValid = state.colors !== "";
 
       // Entire Contact Form Validation Check
       const isContactFormValid =
@@ -76,10 +83,11 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
           contactFormSubmit: isContactFormValid ? formSubmit : !formSubmit,
           firstNameError: isFirstNameValid ? "" : "First Name is required.",
           lastNameError: isLastNameValid ? "" : "Last Name is required.",
-          emailError: isEmailValid ? "" : "Email is required.",
-          phoneError: isPhoneValid ? "" : "Phone Number is required | 321-123-1234",
-          dateError: isDateValid ? "" : "Date is required | 01/01/2014",
+          emailError: isEmailValid ? "" : "Please enter valid Email Address. abc@123.com",
+          phoneError: isPhoneValid ? "" : "Please enter valid Phone Number.",
+          dateError: isDateValid ? "" : "Please enter valid Date. 01/01/2014",
           deliveryOptionError: isDeliveryOptionValid ? "" : "Delivery Option is required.",
+          // deliveryAddressError: isDeliveryAddressValid ? "" : "Please enter valid Address.",
           occasionError: isOccasionValid ? "" : "Party Type is required.",
           recipientError: isRecipientValid ? "" : "Recipient is required.",
           colorsError: isColorsValid ? "" : "Your Preferred Colors for the party is required.",
