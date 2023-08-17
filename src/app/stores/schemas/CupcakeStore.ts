@@ -11,10 +11,8 @@ export interface CupcakeStore {
   cupcakeFruitToppingInput: string;
   cupcakeFormSubmit: boolean;
   // Error Handling
-  cupcakeShapeError: string;
-  cupcakeAmountError: string;
-  cupcakeTierError: string;
   cupcakeSizeError: string;
+  cupcakeAmountError: string;
   cupcakeFlavorInputError: string;
   cupcakeFrostingInputError: string;
 

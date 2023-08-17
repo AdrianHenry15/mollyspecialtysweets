@@ -7,7 +7,7 @@ export interface ContactStore {
   email: string;
   phone: string;
   date: string;
-  deliveryOption: OrderOption;
+  deliveryOption: OrderOption | null;
   deliveryAddress: string;
   occasion: string;
   recipient: string;
@@ -24,18 +24,18 @@ export interface ContactStore {
   occasionError: string;
   recipientError: string;
   colorsError: string;
-  // ACTIONS
+  // Setters
+  setContactFormSubmit: (formSubmit: boolean) => void;
+  setDeliveryOption: (selected: any) => void;
+  // Handlers
   handleFirstName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleLastName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleEmail: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handlePhone: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleDate: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  setDeliveryOption: (selected: any) => void;
   handleDeliveryAddress: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleOccasion: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleRecipient: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleColors: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleDetails: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-
-  setContactFormSubmit: (formSubmit: boolean) => void;
 }

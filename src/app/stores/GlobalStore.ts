@@ -49,7 +49,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
       const isEmailValid = get().contactStore.email !== "";
       const isPhoneValid = get().contactStore.phone !== "";
       const isDateValid = get().contactStore.date !== "";
-      const isDeliveryOptionValid = get().contactStore.deliveryOption.value !== "";
+      const isDeliveryOptionValid = get().contactStore.deliveryOption?.value !== "";
       const isOccasionValid = get().contactStore.occasion !== "";
       const isRecipientValid = get().contactStore.recipient !== "";
       const isColorsValid = get().contactStore.colors !== "";
@@ -82,7 +82,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
           deliveryOptionError: isDeliveryOptionValid ? "" : "Delivery Option is required.",
           occasionError: isOccasionValid ? "" : "Party Type is required.",
           recipientError: isRecipientValid ? "" : "Recipient is required.",
-          colorsError: isColorsValid ? "" : "Your Preffered Colors for the party is required.",
+          colorsError: isColorsValid ? "" : "Your Preferred Colors for the party is required.",
         },
       }));
     },
@@ -91,7 +91,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         ...state,
         contactStore: {
           ...state.contactStore,
-          deliveryOption: selected!,
+          deliveryOption: selected,
         },
       })),
     // Handlers
@@ -167,8 +167,6 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
     cakeFlavorInputError: "",
     cakeFrostingInputError: "",
     cakeFillingInputError: "",
-    cakeFruitFillingInputError: "",
-    cakeFruitToppingInputError: "",
 
     // ACTIONS
     setCakeFormSubmit: (formSubmit: boolean) => {
@@ -179,19 +177,9 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
       const isFlavorValid = get().cakeStore.cakeFlavorInput !== "";
       const isFrostingValid = get().cakeStore.cakeFrostingInput !== "";
       const isFillingValid = get().cakeStore.cakeFillingInput !== "";
-      const isFruitFillingValid = get().cakeStore.cakeFruitFillingInput !== "";
-      const isFruitToppingValid = get().cakeStore.cakeFruitToppingInput !== "";
 
       // Entire Cake Form Validation Check
-      const isCakeFormValid =
-        isShapeValid &&
-        isTierValid &&
-        isSizeValid &&
-        isFlavorValid &&
-        isFrostingValid &&
-        isFillingValid &&
-        isFruitFillingValid &&
-        isFruitToppingValid;
+      const isCakeFormValid = isShapeValid && isTierValid && isSizeValid && isFlavorValid && isFrostingValid && isFillingValid;
 
       // Setting State for Cake Properties
       set((state) => ({
@@ -207,8 +195,6 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
           cakeFlavorInputError: isFlavorValid ? "" : "Cake Flavor is required.",
           cakeFrostingInputError: isFrostingValid ? "" : "Cake Frosting is required.",
           cakeFillingInputError: isFillingValid ? "" : "Cake Filling is required.",
-          cakeFruitFillingError: isFruitFillingValid ? "" : "Cake Fruit Filling is required.",
-          cakeFruitToppingError: isFruitToppingValid ? "" : "Cake Fruit Topping is required.",
         },
       }));
     },
@@ -248,12 +234,12 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
     handleCakeFruitFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
-        cakeStore: { ...state.cakeStore, cakeFruitFilling: e.target.value },
+        cakeStore: { ...state.cakeStore, cakeFruitFillingInput: e.target.value },
       })),
     handleCakeFruitToppingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
-        cakeStore: { ...state.cakeStore, cakeFruitTopping: e.target.value },
+        cakeStore: { ...state.cakeStore, cakeFruitToppingInput: e.target.value },
       })),
   },
   cupcakeStore: {
@@ -267,9 +253,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
     cupcakeFruitToppingInput: "",
     cupcakeFormSubmit: false,
     // Error Handling
-    cupcakeShapeError: "",
     cupcakeAmountError: "",
-    cupcakeTierError: "",
     cupcakeSizeError: "",
     cupcakeFlavorInputError: "",
     cupcakeFrostingInputError: "",
@@ -339,12 +323,12 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
     handleCupcakeFruitFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
-        cupcakeStore: { ...state.cupcakeStore, cupcakeFruitFilling: e.target.value },
+        cupcakeStore: { ...state.cupcakeStore, cupcakeFruitFillingInput: e.target.value },
       })),
     handleCupcakeFruitToppingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
-        cupcakeStore: { ...state.cupcakeStore, cupcakeFruitTopping: e.target.value },
+        cupcakeStore: { ...state.cupcakeStore, cupcakeFruitToppingInput: e.target.value },
       })),
   },
   cookieStore: {

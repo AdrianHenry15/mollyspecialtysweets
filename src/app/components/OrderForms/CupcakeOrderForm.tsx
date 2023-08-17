@@ -26,7 +26,7 @@ const CupcakeOrderForm = () => {
           name="order-options"
           options={SizeOptions}
         />
-        {state.cupcakeSizeError && <div className="text-red-600">{state.cupcakeSizeError}</div>}
+        {state.cupcakeSizeError && <div className="text-red-600 absolute my-16">{state.cupcakeSizeError}</div>}
       </div>
 
       {/* AMOUNT  */}
@@ -41,7 +41,7 @@ const CupcakeOrderForm = () => {
           name="order-options"
           options={AmountOptions}
         />
-        {state.cupcakeAmountError && <div className="text-red-600">{state.cupcakeAmountError}</div>}
+        {state.cupcakeAmountError && <div className="text-red-600 absolute my-16">{state.cupcakeAmountError}</div>}
       </div>
 
       {/* FLAVOR INPUT */}
@@ -57,7 +57,7 @@ const CupcakeOrderForm = () => {
           className="form-input"
           style={{ minHeight: "38px" }}
         />
-        {state.cupcakeFlavorInputError && <div className="text-red-600">{state.cupcakeFlavorInputError}</div>}
+        {state.cupcakeFlavorInputError && <div className="text-red-600 absolute my-16">{state.cupcakeFlavorInputError}</div>}
       </div>
 
       {/* FROSTING INPUT */}
@@ -73,7 +73,7 @@ const CupcakeOrderForm = () => {
           className="form-input"
           style={{ minHeight: "38px" }}
         />
-        {state.cupcakeFrostingInputError && <div className="text-red-600">{state.cupcakeFrostingInputError}</div>}
+        {state.cupcakeFrostingInputError && <div className="text-red-600 absolute my-16">{state.cupcakeFrostingInputError}</div>}
       </div>
 
       {/* FILLING INPUT */}

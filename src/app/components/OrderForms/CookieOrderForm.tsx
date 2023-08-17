@@ -26,6 +26,7 @@ const CookieOrderForm = () => {
           name="order-options"
           options={SizeOptions}
         />
+        {state.cookieSizeError && <div className="text-red-600 absolute my-16">{state.cookieSizeError}</div>}
       </div>
       {/* AMOUNT  */}
       <div className="form-item">
@@ -39,7 +40,7 @@ const CookieOrderForm = () => {
           name="order-options"
           options={AmountOptions}
         />
-        {state.cookieAmountError && <div className="text-red-600">{state.cookieAmountError}</div>}
+        {state.cookieAmountError && <div className="text-red-600 absolute my-16">{state.cookieAmountError}</div>}
       </div>
       {/* FLAVOR INPUT */}
       <div className="form-item">
@@ -54,7 +55,7 @@ const CookieOrderForm = () => {
           className="w-full"
           style={{ minHeight: "38px" }}
         />
-        {state.cookieFlavorInputError && <div className="text-red-600">{state.cookieFlavorInputError}</div>}
+        {state.cookieFlavorInputError && <div className="text-red-600 absolute my-16">{state.cookieFlavorInputError}</div>}
       </div>
       {/* FROSTING INPUT */}
       <div className="form-item">
