@@ -8,8 +8,8 @@ export interface CakeStore {
   cakeFlavorInput: string;
   cakeFrostingInput: string;
   cakeFillingInput: string;
-  cakeFruitFilling: string;
-  cakeFruitTopping: string;
+  cakeFruitFillingInput: string;
+  cakeFruitToppingInput: string;
   cakeFormSubmit: boolean;
   // Error Handling
   cakeShapeError: string;
@@ -18,8 +18,8 @@ export interface CakeStore {
   cakeFlavorInputError: string;
   cakeFrostingInputError: string;
   cakeFillingInputError: string;
-  cakeFruitFillingError: string;
-  cakeFruitToppingError: string;
+  cakeFruitFillingInputError: string;
+  cakeFruitToppingInputError: string;
 
   // Setters
   setCakeShape: (selected: OrderOption | null) => void;
@@ -31,6 +31,6 @@ export interface CakeStore {
   handleCakeFlavorInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCakeFrostingInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCakeFillingInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleCakeFruitFilling: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleCakeFruitTopping: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCakeFruitFillingInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCakeFruitToppingInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

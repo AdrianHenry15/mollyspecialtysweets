@@ -136,11 +136,11 @@ const CakeOrderForm = () => {
           placeholder="Strawberry Filling..."
           style={{ minHeight: "38px" }}
           type="text"
-          value={state.cakeFruitFilling}
-          onChange={(e) => state.handleCakeFruitFilling(e)}
+          value={state.cakeFruitFillingInput}
+          onChange={(e) => state.handleCakeFruitFillingInput(e)}
           className="form-input"
         />
-        {state.cakeFruitFillingError && <div className="text-red-600">{state.cakeFruitFillingError}</div>}
+        {state.cakeFruitFillingInputError && <div className="text-red-600">{state.cakeFruitFillingInputError}</div>}
       </div>
       {/* FRUIT TOPPING */}
       <div className="form-item">
@@ -148,14 +148,14 @@ const CakeOrderForm = () => {
           Would you like a <strong>Fruit</strong> topping on your <strong>Cake</strong>?
         </span>
         <input
-          value={state.cakeFruitTopping}
-          onChange={(selected: any) => state.handleCakeFruitTopping(selected)}
+          value={state.cakeFruitToppingInput}
+          onChange={(selected: any) => state.handleCakeFruitToppingInput(selected)}
           className="form-input"
           placeholder="Strawberries..."
           style={{ minHeight: "38px" }}
           type="text"
         />
-        {state.cakeFruitToppingError && <div className="text-red-600">{state.cakeFruitToppingError}</div>}
+        {state.cakeFruitToppingInputError && <div className="text-red-600">{state.cakeFruitToppingInputError}</div>}
       </div>
       <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
         Submit Cake <br /> Form

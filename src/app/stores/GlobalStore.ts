@@ -157,8 +157,8 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
     cakeFlavorInput: "",
     cakeFrostingInput: "",
     cakeFillingInput: "",
-    cakeFruitFilling: "",
-    cakeFruitTopping: "",
+    cakeFruitFillingInput: "",
+    cakeFruitToppingInput: "",
     cakeFormSubmit: false,
     // Error Handling
     cakeShapeError: "",
@@ -167,8 +167,8 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
     cakeFlavorInputError: "",
     cakeFrostingInputError: "",
     cakeFillingInputError: "",
-    cakeFruitFillingError: "",
-    cakeFruitToppingError: "",
+    cakeFruitFillingInputError: "",
+    cakeFruitToppingInputError: "",
 
     // ACTIONS
     setCakeFormSubmit: (formSubmit: boolean) => {
@@ -179,8 +179,8 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
       const isFlavorValid = get().cakeStore.cakeFlavorInput !== "";
       const isFrostingValid = get().cakeStore.cakeFrostingInput !== "";
       const isFillingValid = get().cakeStore.cakeFillingInput !== "";
-      const isFruitFillingValid = get().cakeStore.cakeFruitFilling !== "";
-      const isFruitToppingValid = get().cakeStore.cakeFruitTopping !== "";
+      const isFruitFillingValid = get().cakeStore.cakeFruitFillingInput !== "";
+      const isFruitToppingValid = get().cakeStore.cakeFruitToppingInput !== "";
 
       // Entire Cake Form Validation Check
       const isCakeFormValid =
@@ -245,12 +245,12 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         ...state,
         cakeStore: { ...state.cakeStore, cakeFillingInput: e.target.value },
       })),
-    handleCakeFruitFilling: (e: React.ChangeEvent<HTMLInputElement>) =>
+    handleCakeFruitFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
         cakeStore: { ...state.cakeStore, cakeFruitFilling: e.target.value },
       })),
-    handleCakeFruitTopping: (e: React.ChangeEvent<HTMLInputElement>) =>
+    handleCakeFruitToppingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
         cakeStore: { ...state.cakeStore, cakeFruitTopping: e.target.value },
@@ -263,14 +263,43 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
     cupcakeFlavorInput: "",
     cupcakeFrostingInput: "",
     cupcakeFillingInput: "",
-    cupcakeFruitFilling: { value: "", label: "" },
-    cupcakeFruitTopping: { value: "", label: "" },
     cupcakeFruitFillingInput: "",
     cupcakeFruitToppingInput: "",
-
     cupcakeFormSubmit: false,
+    // Error Handling
+    cupcakeShapeError: "",
+    cupcakeAmountError: "",
+    cupcakeTierError: "",
+    cupcakeSizeError: "",
+    cupcakeFlavorInputError: "",
+    cupcakeFrostingInputError: "",
 
-    // ACTIONS
+    // Setters
+    setCupcakeFormSubmit: (formSubmit: boolean) => {
+      // Cupcake Property Validation Check
+      const isSizeValid = get().cupcakeStore.cupcakeSize.value !== "";
+      const isAmountValid = get().cupcakeStore.cupcakeAmount.value !== "";
+      const isFlavorValid = get().cupcakeStore.cupcakeFlavorInput !== "";
+      const isFrostingValid = get().cupcakeStore.cupcakeFrostingInput !== "";
+
+      // Entire Cupcake Form Validation Check
+      const isCupcakeFormValid = isSizeValid && isAmountValid && isFlavorValid && isFrostingValid;
+
+      // Setting State for Cupcake Properties
+      set((state) => ({
+        ...state,
+        cupcakeStore: {
+          // Cupcake Form Submission State
+          ...state.cupcakeStore,
+          // Cake Validation
+          cupcakeFormSubmit: isCupcakeFormValid ? formSubmit : !formSubmit,
+          cupcakeSizeError: isSizeValid ? "" : "Cupcake Size is required.",
+          cupcakeAmountError: isAmountValid ? "" : "Cupcake Amount is required.",
+          cupcakeFlavorInputError: isFlavorValid ? "" : "Cupcake Flavor is required.",
+          cupcakeFrostingInputError: isFrostingValid ? "" : "Cupcake Frosting is required.",
+        },
+      }));
+    },
     setCupcakeSize: (selected: OrderOption | null) =>
       set((state) => ({
         ...state,
@@ -281,6 +310,8 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         ...state,
         cupcakeStore: { ...state.cupcakeStore, cupcakeAmount: selected! },
       })),
+
+    // Handlers
     handleCupcakeFlavorInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
@@ -305,37 +336,15 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
           cupcakeFillingInput: e.target.value,
         },
       })),
-    setCupcakeFruitFilling: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cupcakeStore: { ...state.cupcakeStore, cupcakeFruitFilling: selected! },
-      })),
-    setCupcakeFruitTopping: (selected: OrderOption | null) =>
-      set((state) => ({
-        ...state,
-        cupcakeStore: { ...state.cupcakeStore, cupcakeFruitTopping: selected! },
-      })),
     handleCupcakeFruitFillingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
-        cupcakeStore: {
-          ...state.cupcakeStore,
-          cupcakeFruitFillingInput: e.target.value,
-        },
+        cupcakeStore: { ...state.cupcakeStore, cupcakeFruitFilling: e.target.value },
       })),
     handleCupcakeFruitToppingInput: (e: React.ChangeEvent<HTMLInputElement>) =>
       set((state) => ({
         ...state,
-        cupcakeStore: {
-          ...state.cupcakeStore,
-          cupcakeFruitToppingInput: e.target.value,
-        },
-      })),
-
-    setCupcakeFormSubmit: (formSubmit: boolean) =>
-      set((state) => ({
-        ...state,
-        cupcakeStore: { ...state.cupcakeStore, cupcakeFormSubmit: formSubmit },
+        cupcakeStore: { ...state.cupcakeStore, cupcakeFruitTopping: e.target.value },
       })),
   },
   cookieStore: {

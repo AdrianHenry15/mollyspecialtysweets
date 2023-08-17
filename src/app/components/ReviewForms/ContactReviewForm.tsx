@@ -13,6 +13,8 @@ const ContactReviewForm = () => {
   return (
     <form className="review-form">
       <h3>Contact Review Form</h3>
+
+      {/* Contact Review Items */}
       <ReviewItem label="First Name" value={state.firstName} />
       <ReviewItem label="Last Name" value={state.lastName} />
       <ReviewItem label="Email" value={state.email} />
@@ -24,6 +26,8 @@ const ContactReviewForm = () => {
       <ReviewItem label="Recipient" value={state.recipient} />
       <ReviewItem label="Colors" value={state.colors} />
       <ReviewItem label="Details" value={state.details} />
+
+      {/* Edit Contact Form Button */}
       <button className="review-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
         Edit Cake <br /> Form
       </button>

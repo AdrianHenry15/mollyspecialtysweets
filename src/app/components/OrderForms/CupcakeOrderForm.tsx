@@ -1,39 +1,15 @@
-import React from "react"
-import Select from "react-select"
-import { useGlobalStore } from "../../stores/GlobalStore"
-import {
-  AmountOptions,
-  FruitOptions,
-  SizeOptions,
-} from "@/app/costants/GlobalOptions"
+import React from "react";
+import Select from "react-select";
+import { useGlobalStore } from "../../stores/GlobalStore";
+import { AmountOptions, SizeOptions } from "@/app/costants/GlobalOptions";
 
 const CupcakeOrderForm = () => {
-  const {
-    cupcakeSize,
-    cupcakeAmount,
-    cupcakeFlavorInput,
-    cupcakeFrostingInput,
-    cupcakeFillingInput,
-    cupcakeFruitFilling,
-    cupcakeFruitTopping,
-    cupcakeFruitFillingInput,
-    cupcakeFruitToppingInput,
-    setCupcakeSize,
-    setCupcakeAmount,
-    handleCupcakeFlavorInput,
-    handleCupcakeFrostingInput,
-    handleCupcakeFillingInput,
-    setCupcakeFruitFilling,
-    setCupcakeFruitTopping,
-    handleCupcakeFruitFillingInput,
-    handleCupcakeFruitToppingInput,
-    setCupcakeFormSubmit,
-  } = useGlobalStore().cupcakeStore
+  const { ...state } = useGlobalStore().cupcakeStore;
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault
-    setCupcakeFormSubmit(true)
-  }
+    e.preventDefault;
+    state.setCupcakeFormSubmit(true);
+  };
 
   return (
     <div className="flex flex-col justify-center">
@@ -41,69 +17,73 @@ const CupcakeOrderForm = () => {
       {/* SIZE  */}
       <div className="form-item">
         <span>
-          What <strong>Size</strong> would you like your{" "}
-          <strong>Cupcakes</strong> to be?
+          What <strong>Size</strong> would you like your <strong>Cupcakes</strong> to be?
         </span>
         <Select
-          value={cupcakeSize.value === "" ? "Select..." : cupcakeSize}
-          onChange={(selected: any) => setCupcakeSize(selected)}
+          value={state.cupcakeSize.value === "" ? "Select..." : state.cupcakeSize}
+          onChange={(selected: any) => state.setCupcakeSize(selected)}
           className="form-input"
           name="order-options"
           options={SizeOptions}
         />
+        {state.cupcakeSizeError && <div className="text-red-600">{state.cupcakeSizeError}</div>}
       </div>
+
       {/* AMOUNT  */}
       <div className="form-item">
         <span>
           How many <strong>Cupcakes</strong> would you like?
         </span>
         <Select
-          value={cupcakeAmount?.value === "" ? "Select..." : cupcakeAmount}
-          onChange={(selected: any) => setCupcakeAmount(selected)}
+          value={state.cupcakeAmount?.value === "" ? "Select..." : state.cupcakeAmount}
+          onChange={(selected: any) => state.setCupcakeAmount(selected)}
           className="form-input"
           name="order-options"
           options={AmountOptions}
         />
+        {state.cupcakeAmountError && <div className="text-red-600">{state.cupcakeAmountError}</div>}
       </div>
+
       {/* FLAVOR INPUT */}
       <div className="form-item">
         <span>
-          What <strong>Flavor</strong> would you like your{" "}
-          <strong>Cupcakes</strong> to be?
+          What <strong>Flavor</strong> would you like your <strong>Cupcakes</strong> to be?
         </span>
         <input
-          value={cupcakeFlavorInput}
-          onChange={(e) => handleCupcakeFlavorInput(e)}
+          value={state.cupcakeFlavorInput}
+          onChange={(e) => state.handleCupcakeFlavorInput(e)}
           type="text"
           placeholder="Vanilla, Chocolate, Strawberry etc..."
           className="form-input"
           style={{ minHeight: "38px" }}
         />
+        {state.cupcakeFlavorInputError && <div className="text-red-600">{state.cupcakeFlavorInputError}</div>}
       </div>
+
       {/* FROSTING INPUT */}
       <div className="form-item">
         <span>
-          What <strong>Frosting</strong> would you like on your{" "}
-          <strong>Cupcakes</strong>?
+          What <strong>Frosting</strong> would you like on your <strong>Cupcakes</strong>?
         </span>
         <input
-          value={cupcakeFrostingInput}
-          onChange={(e) => handleCupcakeFrostingInput(e)}
+          value={state.cupcakeFrostingInput}
+          onChange={(e) => state.handleCupcakeFrostingInput(e)}
           type="text"
           placeholder="Vanilla Buttercream..."
           className="form-input"
           style={{ minHeight: "38px" }}
         />
+        {state.cupcakeFrostingInputError && <div className="text-red-600">{state.cupcakeFrostingInputError}</div>}
       </div>
+
       {/* FILLING INPUT */}
       <div className="form-item">
         <span>
-          What <strong>Filling</strong> would you like in your{" "}
-          <strong>Cupcakes</strong>?
+          What <strong>Filling</strong> would you like in your <strong>Cupcakes</strong>?
         </span>
         <input
-          value={cupcakeFillingInput}
-          onChange={(e) => handleCupcakeFillingInput(e)}
+          value={state.cupcakeFillingInput}
+          onChange={(e) => state.handleCupcakeFillingInput(e)}
           type="text"
           placeholder="Vanilla Buttercream..."
           className="form-input"
@@ -114,82 +94,38 @@ const CupcakeOrderForm = () => {
       {/* FRUIT FILLING  */}
       <div className="form-item">
         <span>
-          Would you like a <strong>Fruit Filling</strong> in your{" "}
-          <strong>Cupcakes</strong>?
+          Would you like a <strong>Fruit Filling</strong> in your <strong>Cupcakes</strong>?
         </span>
-        <Select
+        <input
           className="form-input"
           name="order-options"
-          options={FruitOptions}
-          value={
-            cupcakeFruitFilling.value === "" ? "Select..." : cupcakeFruitFilling
-          }
-          onChange={(selected: any) => setCupcakeFruitFilling(selected)}
+          value={state.cupcakeFruitFillingInput}
+          type="text"
+          placeholder="Strawberry Filling..."
+          onChange={(e) => state.handleCupcakeFruitFillingInput(e)}
         />
       </div>
-
-      {/* FRUIT FILLING INPUT */}
-      {cupcakeFruitFilling.value === "other" && (
-        <div className="form-item">
-          <span>
-            <strong>Describe</strong> what <strong>Fruit Filling</strong> you
-            would like in your <strong>Cupcakes</strong>?
-          </span>
-          <input
-            value={cupcakeFruitFillingInput}
-            onChange={(e) => handleCupcakeFruitFillingInput(e)}
-            type="text"
-            placeholder="Dragonfruit, Pear, Starfruit etc..."
-            className="form-input"
-            style={{ minHeight: "38px" }}
-          />
-        </div>
-      )}
       {/* FRUIT TOPPING  */}
       <div className="form-item">
         <span>
-          Would you like a <strong>Fruit Topping</strong> in your{" "}
-          <strong>Cupcakes</strong>?
+          Would you like a <strong>Fruit Topping</strong> in your <strong>Cupcakes</strong>?
         </span>
-        <Select
+        <input
           className="form-input"
           name="order-options"
-          options={FruitOptions}
-          placeholder="Select..."
-          value={
-            cupcakeFruitTopping?.value === ""
-              ? "Select..."
-              : cupcakeFruitTopping
-          }
-          onChange={(selected: any) => setCupcakeFruitTopping(selected)}
+          placeholder="Strawberries..."
+          value={state.cupcakeFruitToppingInput}
+          type="text"
+          onChange={(e) => state.handleCupcakeFruitToppingInput(e)}
         />
       </div>
 
-      {/* FRUIT TOPPING INPUT */}
-      {cupcakeFruitTopping.value === "other" && (
-        <div className="form-item">
-          <span>
-            <strong>Describe</strong> what <strong>Fruit Topping</strong> you
-            would like on your <strong>Cupcakes</strong>?
-          </span>
-          <input
-            value={cupcakeFruitToppingInput}
-            onChange={(e) => handleCupcakeFruitToppingInput(e)}
-            type="text"
-            placeholder="Dragonfruit, Pear, Starfruit etc..."
-            className="form-input"
-            style={{ minHeight: "38px" }}
-          />
-        </div>
-      )}
-      <button
-        className="order-form-submit"
-        type="submit"
-        onClick={(e) => handleSubmit(e)}>
+      {/* Cupcake Form Submit Button */}
+      <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
         Submit Cupcake <br /> Form
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default CupcakeOrderForm
+export default CupcakeOrderForm;
