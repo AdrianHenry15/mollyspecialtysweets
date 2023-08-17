@@ -12,7 +12,8 @@
   --btn-modal-color: #4681f4;
   --btn-modal-hover-color: #33b249;
   --btn-modal-hover-edit-color: #b41414;
-  --input-width: 350px;
+  --input-width-sm: 350px;
+  --input-width-reg: 425px;
 }
 
 /* CONTAINER */
@@ -158,6 +159,10 @@ button:hover {
   width: 500px;
 }
 
+#crf {
+  align-items: center;
+}
+
 .col {
   display: flex;
   flex-direction: column;
@@ -169,6 +174,7 @@ button:hover {
   height: 40px;
   border-radius: 10px;
   letter-spacing: 2px;
+  width: var(--input-width-reg);
 }
 
 #contact-textarea {
@@ -177,6 +183,7 @@ button:hover {
   height: 100px;
   border-radius: 10px;
   letter-spacing: 2px;
+  width: 425px;
   padding: 5px;
 }
 
@@ -248,6 +255,13 @@ button:hover {
   cursor: pointer;
 }
 
+.form-btn-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
 @media (max-width: 640px) {
   footer {
     display: flex;
@@ -282,10 +296,6 @@ button:hover {
     /* align-items: center; */
   }
 
-  #crf {
-    align-items: center !important;
-  }
-
   .review-item {
     padding: 0;
   }
@@ -293,7 +303,7 @@ button:hover {
   #contact-input,
   #contact-textarea {
     height: 35px;
-    width: var(--input-width);
+    width: var(--input-width-sm);
   }
 
   #contact-textarea {

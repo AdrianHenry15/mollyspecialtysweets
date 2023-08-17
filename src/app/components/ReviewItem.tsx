@@ -1,26 +1,18 @@
-import React from "react"
+import React from "react";
 
 interface ReviewItemProps {
-  label: string
-  value: string
-  isFruitField?: boolean
-  fruitValue?: string
-  fruitLabel?: string
+  label: string;
+  value: string;
 }
 
 const ReviewItem = (props: ReviewItemProps) => {
-  const { label, value, isFruitField, fruitValue, fruitLabel } = props
+  const { label, value } = props;
   return (
     <div className="review-item">
       <h2>{label}: </h2>
-      <i>
-        {isFruitField && fruitValue !== "other" && fruitLabel
-          ? `${fruitLabel} `
-          : ""}
-        {value}
-      </i>
+      <i>{value}</i>
     </div>
-  )
-}
+  );
+};
 
-export default ReviewItem
+export default ReviewItem;
