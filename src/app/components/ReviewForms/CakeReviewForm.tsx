@@ -20,9 +20,10 @@ const CakeReviewForm = () => {
       <ReviewItem label="Cake Flavor" value={state.cakeFlavorInput} />
       <ReviewItem label="Cake Frosting" value={state.cakeFrostingInput} />
       <ReviewItem label="Cake Filling" value={state.cakeFillingInput} />
-      <ReviewItem label="Cake Fruit Filling" value={state.cakeFruitFilling} />
-      <ReviewItem label="Cake Fruit Topping" value={state.cakeFruitTopping} />
+      <ReviewItem label="Cake Fruit Filling" value={state.cakeFruitFillingInput} />
+      <ReviewItem label="Cake Fruit Topping" value={state.cakeFruitToppingInput} />
 
+      {/* Edit Cakes Form Button */}
       <button className="review-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
         Edit Cake <br /> Form
       </button>
