@@ -18,8 +18,6 @@ export interface CakeStore {
   cakeFlavorInputError: string;
   cakeFrostingInputError: string;
   cakeFillingInputError: string;
-  cakeFruitFillingInputError: string;
-  cakeFruitToppingInputError: string;
 
   // Setters
   setCakeShape: (selected: OrderOption | null) => void;
