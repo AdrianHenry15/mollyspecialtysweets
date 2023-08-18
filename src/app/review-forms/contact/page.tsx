@@ -1,6 +1,7 @@
-import { useGlobalStore } from "../../stores/GlobalStore";
+"use client";
+import ReviewItem from "@/app/components/ReviewItem";
+import { useGlobalStore } from "@/app/stores/GlobalStore";
 import React from "react";
-import ReviewItem from "../ReviewItem";
 
 const ContactReviewForm = () => {
     const { ...state } = useGlobalStore().contactStore;
