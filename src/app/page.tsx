@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import Select from "react-select";
-import Link from "next/link";
 import { useGlobalStore } from "./stores/GlobalStore";
 import ContactForm from "./order-forms/contact/page";
 import ContactReviewForm from "./review-forms/contact/page";
@@ -89,9 +88,15 @@ const Home = () => {
             </div>
             {renderContactForm()}
             {state.orderType!.some((selected) => selected.value !== "none") && (
-                <button className="form-item" type="submit" onClick={(e) => handleSubmit(e)}>
-                    Finish Order
-                </button>
+                <div className={!contactFormSubmit ? "cursor-progress" : ""}>
+                    <button
+                        className={`form-item ${!contactFormSubmit ? "pointer-events-none" : ""}`}
+                        type="submit"
+                        onClick={(e) => handleSubmit(e)}
+                    >
+                        Finish Order
+                    </button>
+                </div>
             )}
         </main>
     );
