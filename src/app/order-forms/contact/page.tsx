@@ -155,7 +155,7 @@ const ContactForm = () => {
 
             {/* SUBMIT BUTTON */}
             <div className="form-btn-container">
-                <Link href={"#contact"} replace>
+                <Link href={"#contact"} scroll={true} replace>
                     <button className="items-center" type="submit" onClick={(e) => handleSubmit(e)}>
                         Submit
                     </button>
