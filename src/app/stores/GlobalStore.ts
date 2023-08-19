@@ -451,7 +451,6 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                 orderTypeStore: {
                     ...state.orderTypeStore,
                     orderType: selected || [],
-                    cakeLink: "/cake",
                 },
             }));
         },
@@ -463,7 +462,6 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                     orderFormSubmit: formSubmit,
                 },
             })),
-        cakeLink: "",
     },
     modalStore: {
         modal: false,
