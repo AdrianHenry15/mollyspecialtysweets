@@ -445,11 +445,15 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
     orderTypeStore: {
         orderType: [],
         orderFormSubmit: false,
-        setOrderType: (selected: OrderOption[] | null) =>
+        setOrderType: (selected: OrderOption[] | null) => {
             set((state) => ({
                 ...state,
-                orderTypeStore: { ...state.orderTypeStore, orderType: selected || [] },
-            })),
+                orderTypeStore: {
+                    ...state.orderTypeStore,
+                    orderType: selected || [],
+                },
+            }));
+        },
         setOrderFormSubmit: (formSubmit: boolean) =>
             set((state) => ({
                 ...state,
