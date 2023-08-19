@@ -33,15 +33,7 @@ const Home = () => {
 
     const renderContactForm = (): JSX.Element => {
         if (state.orderType!.some((selected) => selected.value !== "none")) {
-            return !contactFormSubmit ? (
-                // <Link href={"/contact"}>
-                <ContactForm />
-            ) : (
-                // </Link>
-                // <Link href={"/contact"}>
-                <ContactReviewForm />
-                // </Link>
-            );
+            return !contactFormSubmit ? <ContactForm /> : <ContactReviewForm />;
         } else {
             return <div></div>;
         }
@@ -73,6 +65,7 @@ const Home = () => {
             return <div></div>;
         }
     };
+
     return (
         <main className="items-center flex flex-col">
             <div className="flex flex-col items-center">
@@ -85,10 +78,11 @@ const Home = () => {
                         isMulti
                         name="order-options"
                         options={OrderOptions}
-                        onChange={(selected: any) => state.setOrderType(selected)}
+                        onChange={(selected: any) => {
+                            state.setOrderType(selected);
+                        }}
                     />
                 </div>
-
                 {renderCakeForm()}
                 {renderCupcakeForm()}
                 {renderCookieForm()}

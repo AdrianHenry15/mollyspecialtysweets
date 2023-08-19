@@ -1,5 +1,6 @@
 "use client";
 import { useGlobalStore } from "@/app/stores/GlobalStore";
+import Link from "next/link";
 import React from "react";
 import Select from "react-select";
 
@@ -29,11 +30,10 @@ const CakeOrderForm = () => {
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault;
         state.setCakeFormSubmit(true);
-        console.log("something");
     };
 
     return (
-        <div className="flex flex-col justify-center">
+        <div id="cake" className="flex flex-col justify-center">
             <h5>Cake Order Form</h5>
 
             {/* SHAPE  */}
@@ -158,9 +158,11 @@ const CakeOrderForm = () => {
                 />
             </div>
             <div className="form-btn-container">
-                <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
-                    Submit Cake <br /> Form
-                </button>
+                <Link href={"/#cake"} replace>
+                    <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
+                        Submit Cake <br /> Form
+                    </button>
+                </Link>
                 {modalError && <div className="text-red-600 absolute my-16">{modalError}</div>}
             </div>
         </div>

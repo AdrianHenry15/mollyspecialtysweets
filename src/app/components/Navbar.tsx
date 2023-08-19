@@ -6,21 +6,21 @@ import Link from "next/link";
 
 const Navbar = () => {
     return (
-        <nav data-testid="navbar" className="mt-12 mb-20 text-center sm:text-sm">
-            <span data-testid="app-header-test" className="w-full text-center" id="app-header-text">{`Molly's Specialty Sweets`}</span>
+        <nav id="navbar" className="pt-12 mb-20 text-center sm:text-sm">
+            <span className="w-full text-center" id="app-header-text">{`Molly's Specialty Sweets`}</span>
             <div className="mt-10 w-full flex justify-evenly items-center text-4xl">
-                {/* <Link href={"/contact"}> */}
-                <AiFillContacts />
-                {/* </Link> */}
-                {/* <Link href={"../order-forms/cake"}> */}
-                <GiStairsCake />
-                {/* </Link> */}
-                {/* <Link href={"../order-forms/cupcake"}> */}
-                <GiCupcake />
-                {/* </Link> */}
-                {/* <Link href={"../order-forms/cookie"}> */}
-                <PiCookieDuotone />
-                {/* </Link> */}
+                <Link href={"#contact"} replace>
+                    <AiFillContacts />
+                </Link>
+                <Link href={"#cake"} replace>
+                    <GiStairsCake />
+                </Link>
+                <Link href={"#cupcake"} replace>
+                    <GiCupcake />
+                </Link>
+                <Link href={"#cookie"} replace>
+                    <PiCookieDuotone />
+                </Link>
             </div>
         </nav>
     );
