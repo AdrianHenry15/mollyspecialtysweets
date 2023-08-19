@@ -42,7 +42,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         recipientError: "",
         colorsError: "",
         // Setters
-        setContactFormSubmit: (formSubmit: boolean) => {
+        setContactFormSubmit: () => {
             const { ...state } = get().contactStore;
             // Unique Validation Variables
             const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/;
@@ -80,7 +80,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                     // Contact Form Submission State
                     ...state.contactStore,
                     // Contact Validation
-                    contactFormSubmit: isContactFormValid ? formSubmit : !formSubmit,
+                    contactFormSubmit: isContactFormValid ? true : false,
                     firstNameError: isFirstNameValid ? "" : "First Name is required.",
                     lastNameError: isLastNameValid ? "" : "Last Name is required.",
                     emailError: isEmailValid ? "" : "Please enter valid Email Address. abc@123.com",
