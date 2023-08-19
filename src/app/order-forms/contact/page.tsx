@@ -1,5 +1,6 @@
 "use client";
 import { useGlobalStore } from "@/app/stores/GlobalStore";
+import Link from "next/link";
 import React from "react";
 import Select from "react-select";
 
@@ -18,7 +19,7 @@ const ContactForm = () => {
     };
 
     return (
-        <form className="review-form" id="crf">
+        <form className="review-form" id="contact">
             <h4>Contact Form</h4>
             <span className="tracking-wide text-sm mb-3">
                 Please fill out this <strong>Contact Form </strong> so we can give you <strong>The Quote</strong> for your order
@@ -154,9 +155,11 @@ const ContactForm = () => {
 
             {/* SUBMIT BUTTON */}
             <div className="form-btn-container">
-                <button className="items-center" type="submit" onClick={(e) => handleSubmit(e)}>
-                    Submit
-                </button>
+                <Link href={"#contact"} replace>
+                    <button className="items-center" type="submit" onClick={(e) => handleSubmit(e)}>
+                        Submit
+                    </button>
+                </Link>
                 {modalError && <div className="text-red-600 absolute my-20">{modalError}</div>}
             </div>
         </form>

@@ -25,6 +25,11 @@ body {
     width: 100%;
 }
 
+#navbar {
+    background-color: var(--body-bg-color);
+    z-index: 100;
+}
+
 /* WRAPPER */
 main {
     padding-bottom: 200px;
@@ -159,7 +164,7 @@ button:hover {
     width: 500px;
 }
 
-#crf {
+#contact {
     align-items: center;
 }
 

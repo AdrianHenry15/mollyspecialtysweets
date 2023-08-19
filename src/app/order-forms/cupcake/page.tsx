@@ -4,6 +4,7 @@ import Select from "react-select";
 
 import { AmountOptions, SizeOptions } from "@/app/costants/GlobalOptions";
 import { useGlobalStore } from "@/app/stores/GlobalStore";
+import Link from "next/link";
 
 const CupcakeOrderForm = () => {
     const { ...state } = useGlobalStore().cupcakeStore;
@@ -15,7 +16,7 @@ const CupcakeOrderForm = () => {
     };
 
     return (
-        <div className="flex flex-col justify-center">
+        <div id="cupcake" className="flex flex-col justify-center">
             <h5>Cupcake Order Form</h5>
             {/* SIZE  */}
             <div className="form-item">
@@ -125,9 +126,11 @@ const CupcakeOrderForm = () => {
 
             {/* Cupcake Form Submit Button */}
             <div className="form-btn-container">
-                <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
-                    Submit Cupcake <br /> Form
-                </button>
+                <Link href={"#cupcake"} replace>
+                    <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
+                        Submit Cupcake <br /> Form
+                    </button>
+                </Link>
                 {modalError && <div className="text-red-600 absolute my-16">{modalError}</div>}
             </div>
         </div>
