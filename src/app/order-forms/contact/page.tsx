@@ -13,11 +13,6 @@ const ContactForm = () => {
     const { ...state } = useGlobalStore().contactStore;
     const { modalError } = useGlobalStore().modalStore;
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        state.setContactFormSubmit(true);
-    };
-
     return (
         <form className="review-form" id="contact">
             <h4>Contact Form</h4>
@@ -155,8 +150,8 @@ const ContactForm = () => {
 
             {/* SUBMIT BUTTON */}
             <div className="form-btn-container">
-                <Link href={"#contact"} replace>
-                    <button className="items-center" type="submit" onClick={(e) => handleSubmit(e)}>
+                <Link href={"#contact"} scroll={true} replace>
+                    <button className="items-center" type="submit" onClick={() => state.setContactFormSubmit()}>
                         Submit
                     </button>
                 </Link>
