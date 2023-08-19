@@ -16,7 +16,6 @@
     --input-width-reg: 425px;
 }
 
-/* CONTAINER */
 body {
     display: flex;
     flex-direction: column;
@@ -28,11 +27,6 @@ body {
 #navbar {
     background-color: var(--body-bg-color);
     z-index: 100;
-}
-
-/* WRAPPER */
-main {
-    padding-bottom: 200px;
 }
 
 #app-header-text {
