@@ -5,5 +5,4 @@ export interface OrderTypeStore {
     setOrderType: (selectedOrderType: OrderOption[] | null) => void;
     orderFormSubmit: boolean;
     setOrderFormSubmit: (formSubmit: boolean) => void;
-    cakeLink: string;
 }

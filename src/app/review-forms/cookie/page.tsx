@@ -1,3 +1,4 @@
+"use client";
 import ReviewItem from "@/app/components/ReviewItem";
 import { useGlobalStore } from "@/app/stores/GlobalStore";
 import React from "react";
