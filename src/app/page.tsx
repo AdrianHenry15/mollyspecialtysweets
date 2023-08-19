@@ -88,9 +88,15 @@ const Home = () => {
             </div>
             {renderContactForm()}
             {state.orderType!.some((selected) => selected.value !== "none") && (
-                <button className="form-item" type="submit" onClick={(e) => handleSubmit(e)}>
-                    Finish Order
-                </button>
+                <div className={!contactFormSubmit ? "cursor-progress" : ""}>
+                    <button
+                        className={`form-item ${!contactFormSubmit ? "pointer-events-none" : ""}`}
+                        type="submit"
+                        onClick={(e) => handleSubmit(e)}
+                    >
+                        Finish Order
+                    </button>
+                </div>
             )}
         </main>
     );
