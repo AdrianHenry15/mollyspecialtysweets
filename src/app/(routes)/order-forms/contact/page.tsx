@@ -146,7 +146,7 @@ const ContactForm = () => {
             {/* SUBMIT BUTTON */}
             <div className="form-btn-container">
                 <Link href={"#contact"} scroll={true} replace>
-                    <button className="items-center" type="submit" onClick={() => state.isContactFormSubmitted(true)}>
+                    <button className="items-center" type="submit" onClick={() => state.submitContactForm(true)}>
                         Submit
                     </button>
                 </Link>

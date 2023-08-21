@@ -9,7 +9,7 @@ const CookieReviewForm = () => {
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault;
-        state.setCookieFormSubmit(false);
+        state.submitCookieForm(false);
     };
     return (
         <form className="review-form" id="cookie">

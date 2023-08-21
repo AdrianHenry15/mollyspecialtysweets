@@ -11,7 +11,7 @@ const CupcakeOrderForm = () => {
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault;
-        state.setCupcakeFormSubmit(true);
+        state.submitCupcakeForm(true);
     };
 
     return (

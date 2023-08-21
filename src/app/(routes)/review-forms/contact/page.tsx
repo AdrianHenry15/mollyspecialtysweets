@@ -8,7 +8,7 @@ const ContactReviewForm = () => {
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault;
-        state.isContactFormSubmitted(false);
+        state.submitContactForm(false);
     };
 
     return (

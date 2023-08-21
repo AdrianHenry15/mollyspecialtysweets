@@ -30,7 +30,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         // recipient: "",
         colors: "",
         details: "",
-        contactFormSubmit: false,
+        isContactFormSubmitted: false,
         // Error Validation
         firstNameError: "",
         lastNameError: "",
@@ -42,7 +42,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         recipientError: "",
         colorsError: "",
         // Setters
-        isContactFormSubmitted: (submitted: boolean) => {
+        submitContactForm: (submitted: boolean) => {
             const { ...state } = get().contactStore;
             // Unique Validation Variables
             const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/;
@@ -80,7 +80,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                     // Contact Form Submission State
                     ...state.contactStore,
                     // Contact Validation
-                    contactFormSubmit: isContactFormValid ? submitted : !submitted,
+                    isContactFormSubmitted: isContactFormValid ? submitted : !submitted,
                     firstNameError: isFirstNameValid ? "" : "First Name is required.",
                     lastNameError: isLastNameValid ? "" : "Last Name is required.",
                     emailError: isEmailValid ? "" : "Please enter valid Email Address. abc@123.com",
@@ -167,7 +167,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         cakeFillingInput: "",
         cakeFruitFillingInput: "",
         cakeFruitToppingInput: "",
-        cakeFormSubmit: false,
+        isCakeFormSubmitted: false,
         // Error Handling
         cakeShapeError: "",
         cakeTierError: "",
@@ -177,7 +177,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         cakeFillingInputError: "",
 
         // ACTIONS
-        setCakeFormSubmit: (formSubmit: boolean) => {
+        submitCakeForm: (submitted: boolean) => {
             // Cake Property Validation Check
             const isShapeValid = get().cakeStore.cakeShape.value !== "";
             const isTierValid = get().cakeStore.cakeTier.value !== "";
@@ -196,7 +196,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                     // Cake Form Submission State
                     ...state.cakeStore,
                     // Cake Validation
-                    cakeFormSubmit: isCakeFormValid ? formSubmit : !formSubmit,
+                    isCakeFormSubmitted: isCakeFormValid ? submitted : !submitted,
                     cakeShapeError: isShapeValid ? "" : "Cake Shape is required.",
                     cakeTierError: isTierValid ? "" : "Cake Tier is required.",
                     cakeSizeError: isSizeValid ? "" : "Cake Size is required.",
@@ -259,7 +259,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         cupcakeFillingInput: "",
         cupcakeFruitFillingInput: "",
         cupcakeFruitToppingInput: "",
-        cupcakeFormSubmit: false,
+        isCupcakeFormSubmitted: false,
         // Error Handling
         cupcakeAmountError: "",
         cupcakeSizeError: "",
@@ -267,7 +267,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         cupcakeFrostingInputError: "",
 
         // Setters
-        setCupcakeFormSubmit: (formSubmit: boolean) => {
+        submitCupcakeForm: (submitted: boolean) => {
             // Cupcake Property Validation Check
             const isSizeValid = get().cupcakeStore.cupcakeSize.value !== "";
             const isAmountValid = get().cupcakeStore.cupcakeAmount.value !== "";
@@ -284,7 +284,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                     // Cupcake Form Submission State
                     ...state.cupcakeStore,
                     // Cupcake Validation
-                    cupcakeFormSubmit: isCupcakeFormValid ? formSubmit : !formSubmit,
+                    isCupcakeFormSubmitted: isCupcakeFormValid ? submitted : !submitted,
                     cupcakeSizeError: isSizeValid ? "" : "Cupcake Size is required.",
                     cupcakeAmountError: isAmountValid ? "" : "Cupcake Amount is required.",
                     cupcakeFlavorInputError: isFlavorValid ? "" : "Cupcake Flavor is required.",
@@ -348,7 +348,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         cookieFillingInput: "",
         cookieFruitFillingInput: "",
         cookieFruitToppingInput: "",
-        cookieFormSubmit: false,
+        isCookieFormSubmitted: false,
         // Error Handling
         cookieShapeError: "",
         cookieAmountError: "",
@@ -356,7 +356,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         cookieFlavorInputError: "",
 
         // Setters
-        setCookieFormSubmit: (formSubmit: boolean) => {
+        submitCookieForm: (submitted: boolean) => {
             // Cookie Property Validation Check
             const isSizeValid = get().cookieStore.cookieSize.value !== "";
             const isAmountValid = get().cookieStore.cookieAmount.value !== "";
@@ -372,7 +372,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                     // Cookie Form Submission State
                     ...state.cookieStore,
                     // Cookie Validation
-                    cookieFormSubmit: isCookieFormValid ? formSubmit : !formSubmit,
+                    isCookieFormSubmitted: isCookieFormValid ? submitted : !submitted,
                     cookieSizeError: isSizeValid ? "" : "Cookie Size is required.",
                     cookieAmountError: isAmountValid ? "" : "Cookie Amount is required.",
                     cookieFlavorInputError: isFlavorValid ? "" : "Cookie Flavor is required.",
@@ -444,7 +444,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
     },
     orderTypeStore: {
         orderType: [],
-        orderFormSubmit: false,
+        isOrderFormSubmitted: false,
         setOrderType: (selected: OrderOption[] | null) => {
             set((state) => ({
                 ...state,
@@ -454,12 +454,12 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                 },
             }));
         },
-        setOrderFormSubmit: (formSubmit: boolean) =>
+        submitOrderForm: (submitted: boolean) =>
             set((state) => ({
                 ...state,
                 orderTypeStore: {
                     ...state.orderTypeStore,
-                    orderFormSubmit: formSubmit,
+                    isOrderFormSubmitted: submitted,
                 },
             })),
     },
