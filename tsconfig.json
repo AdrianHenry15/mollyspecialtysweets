@@ -1,69 +1,30 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "baseUrl": "./",
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "types": [
-      "node",
-      "jest",
-      "@testing-library/jest-dom"
-    ],
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "development-sandbox": [
-        "src/test/lib/development-sandbox"
-      ],
-      "next-test-utils": [
-        "src/test/lib/next-test-utils"
-      ],
-      "amp-test-utils": [
-        "src/test/lib/amp-test-utils"
-      ],
-      "next-webdriver": [
-        "src/test/lib/next-webdriver"
-      ],
-      "e2e-utils": [
-        "src/test/lib/e2e-utils"
-      ]
-    }
-  },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "**/*.d.ts",
-    "jest",
-    "src/test/jest.d.ts",
-    "src/test/**/*.test.ts",
-    "src/test/**/*.test.tsx",
-    "src/test/**/test/*",
-    "packages/next/types/webpack.d.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "compilerOptions": {
+        "target": "es5",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "baseUrl": "./",
+        "allowJs": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noEmit": true,
+        "esModuleInterop": true,
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "preserve",
+        "incremental": true,
+        "types": ["node"],
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ],
+        "paths": {
+            "@/*": ["./*"]
+        }
+    },
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+    "exclude": ["node_modules"]
 }
