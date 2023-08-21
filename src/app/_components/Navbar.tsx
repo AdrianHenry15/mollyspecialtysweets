@@ -15,20 +15,20 @@ const Navbar = () => {
         <nav id="navbar" className="pt-12 mb-20 text-center sm:text-sm">
             <span className="w-full text-center" id="app-header-text">{`Molly's Specialty Sweets`}</span>
             <div className="mt-10 w-full flex justify-evenly items-center text-4xl">
-                <Link href={"#contact"} replace>
+                <Link data-testid={"order-type-icon"} href={"#contact"} replace>
                     <AiFillContacts />
                 </Link>
                 {/* 
                     TODO: If you click the icon than it selects the Order Type... 
                     This Order Type needs to be displayed inside of the react-select 'Select' element
                 */}
-                <Link onChange={(selected: any) => setOrderType(selected)} href={"#cake"} replace>
+                <Link data-testid={"order-type-icon"} onChange={(selected: any) => setOrderType(selected)} href={"#cake"} replace>
                     <GiStairsCake />
                 </Link>
-                <Link href={"#cupcake"} replace>
+                <Link data-testid={"order-type-icon"} href={"#cupcake"} replace>
                     <GiCupcake />
                 </Link>
-                <Link href={"#cookie"} replace>
+                <Link data-testid={"order-type-icon"} href={"#cookie"} replace>
                     <PiCookieDuotone />
                 </Link>
             </div>
