@@ -26,8 +26,8 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         date: "",
         deliveryOption: { value: "", label: "" },
         deliveryAddress: "",
-        occasion: "",
-        recipient: "",
+        theme: "",
+        // recipient: "",
         colors: "",
         details: "",
         contactFormSubmit: false,
@@ -38,11 +38,11 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         phoneError: "",
         dateError: "",
         deliveryOptionError: "",
-        occasionError: "",
+        themeError: "",
         recipientError: "",
         colorsError: "",
         // Setters
-        setContactFormSubmit: () => {
+        isContactFormSubmitted: (submitted: boolean) => {
             const { ...state } = get().contactStore;
             // Unique Validation Variables
             const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/;
@@ -57,8 +57,8 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
             const isDateValid = state.date !== "" && dateRegex.test(state.date);
             const isDeliveryOptionValid = state.deliveryOption?.value !== "";
             // const isDeliveryAddressValid = state.deliveryOption?.value !== "delivery" && state.deliveryAddress !== "";
-            const isOccasionValid = state.occasion !== "";
-            const isRecipientValid = state.recipient !== "";
+            const isThemeValid = state.theme !== "";
+            // const isRecipientValid = state.recipient !== "";
             const isColorsValid = state.colors !== "";
 
             // Entire Contact Form Validation Check
@@ -69,8 +69,8 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                 isPhoneValid &&
                 isDateValid &&
                 isDeliveryOptionValid &&
-                isOccasionValid &&
-                isRecipientValid &&
+                isThemeValid &&
+                // isRecipientValid &&
                 isColorsValid;
 
             // Setting State for Contact Properties
@@ -80,7 +80,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                     // Contact Form Submission State
                     ...state.contactStore,
                     // Contact Validation
-                    contactFormSubmit: isContactFormValid ? true : false,
+                    contactFormSubmit: isContactFormValid ? submitted : !submitted,
                     firstNameError: isFirstNameValid ? "" : "First Name is required.",
                     lastNameError: isLastNameValid ? "" : "Last Name is required.",
                     emailError: isEmailValid ? "" : "Please enter valid Email Address. abc@123.com",
@@ -88,8 +88,8 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                     dateError: isDateValid ? "" : "Please enter valid Date. 01/01/2014",
                     deliveryOptionError: isDeliveryOptionValid ? "" : "Delivery Option is required.",
                     // deliveryAddressError: isDeliveryAddressValid ? "" : "Please enter valid Address.",
-                    occasionError: isOccasionValid ? "" : "Party Type is required.",
-                    recipientError: isRecipientValid ? "" : "Recipient is required.",
+                    occasionError: isThemeValid ? "" : "Party Type is required.",
+                    // recipientError: isRecipientValid ? "" : "Recipient is required.",
                     colorsError: isColorsValid ? "" : "Your Preferred Colors for the party is required.",
                 },
             }));
@@ -111,16 +111,16 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                     deliveryAddress: e.target.value,
                 },
             })),
-        handleOccasion: (e: React.ChangeEvent<HTMLInputElement>) =>
+        handleTheme: (e: React.ChangeEvent<HTMLInputElement>) =>
             set((state) => ({
                 ...state,
-                contactStore: { ...state.contactStore, occasion: e.target.value },
+                contactStore: { ...state.contactStore, theme: e.target.value },
             })),
-        handleRecipient: (e: React.ChangeEvent<HTMLInputElement>) =>
-            set((state) => ({
-                ...state,
-                contactStore: { ...state.contactStore, recipient: e.target.value },
-            })),
+        // handleRecipient: (e: React.ChangeEvent<HTMLInputElement>) =>
+        //     set((state) => ({
+        //         ...state,
+        //         contactStore: { ...state.contactStore, recipient: e.target.value },
+        //     })),
         handleColors: (e: React.ChangeEvent<HTMLInputElement>) =>
             set((state) => ({
                 ...state,

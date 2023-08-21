@@ -4,87 +4,50 @@ import emailjs from "@emailjs/browser";
 import { useGlobalStore } from "../_stores/GlobalStore";
 
 const Modal = () => {
-    const { modal, setModal } = useGlobalStore().modalStore!;
-    // CONTACT STORE
-    const { firstName, lastName, email, phone, date, deliveryOption, deliveryAddress, occasion, recipient, colors, details } =
-        useGlobalStore().contactStore!;
-    // CAKE STORE
-    const {
-        cakeShape,
-        cakeTier,
-        cakeSize,
-        cakeFlavorInput,
-        cakeFrostingInput,
-        cakeFillingInput,
-
-        cakeFruitFillingInput,
-        cakeFruitToppingInput,
-    } = useGlobalStore().cakeStore!;
-    //CUPCAKE STORE
-    const {
-        cupcakeSize,
-        cupcakeAmount,
-        cupcakeFlavorInput,
-        cupcakeFrostingInput,
-        cupcakeFillingInput,
-
-        cupcakeFruitFillingInput,
-        cupcakeFruitToppingInput,
-    } = useGlobalStore().cupcakeStore!;
-    // COOKIE STORE
-    const {
-        cookieSize,
-        cookieAmount,
-        cookieFillingInput,
-        cookieFrostingInput,
-        cookieFlavorInput,
-
-        cookieFruitFillingInput,
-        cookieFruitToppingInput,
-    } = useGlobalStore().cookieStore!;
+    const { ...state } = useGlobalStore();
 
     const sendOrder = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        setModal!(false);
+        state.modalStore.setModal!(false);
 
         const templateParams = {
             // CONTACT PARAMS
-            name: `${firstName} ${lastName}`,
-            email: email,
-            phone: phone,
-            date: date,
-            deliveryOption: deliveryOption!.label,
-            deliveryAddress: deliveryAddress,
-            occasion: occasion,
-            recipient: recipient,
-            colors: colors,
-            details: details,
+            name: `${state.contactStore.firstName} ${state.contactStore.lastName}`,
+            email: state.contactStore.email,
+            phone: state.contactStore.phone,
+            date: state.contactStore.date,
+            deliveryOption: state.contactStore.deliveryOption!.label,
+            deliveryAddress: state.contactStore.deliveryAddress,
+            theme: state.contactStore.theme,
+            // recipient: recipient,
+            colors: state.contactStore.colors,
+            details: state.contactStore.details,
             // CAKE PARAMS
-            cakeShape: cakeShape.label,
-            cakeTier: cakeTier.label,
-            cakeSize: cakeSize.label,
-            cakeFlavor: cakeFlavorInput,
-            cakeFrosting: cakeFrostingInput,
-            cakeFilling: cakeFillingInput,
-            cakeFruitFilling: cakeFruitFillingInput,
-            cakeFruitTopping: cakeFruitToppingInput,
+            cakeShape: state.cakeStore.cakeShape.label,
+            cakeTier: state.cakeStore.cakeTier.label,
+            cakeSize: state.cakeStore.cakeSize.label,
+            cakeFlavor: state.cakeStore.cakeFlavorInput,
+            cakeFrosting: state.cakeStore.cakeFrostingInput,
+            cakeFilling: state.cakeStore.cakeFillingInput,
+            cakeFruitFilling: state.cakeStore.cakeFruitFillingInput,
+            cakeFruitTopping: state.cakeStore.cakeFruitToppingInput,
             // CUPCAKE PARAMS
-            cupcakeSize: cupcakeSize.label,
-            cupcakeAmount: cupcakeAmount.label,
-            cupcakeFlavor: cupcakeFlavorInput,
-            cupcakeFrosting: cupcakeFrostingInput,
-            cupcakeFilling: cupcakeFillingInput,
-            cupcakeFruitFilling: cupcakeFruitFillingInput,
-            cupcakeFruitTopping: cupcakeFruitToppingInput,
+            cupcakeSize: state.cupcakeStore.cupcakeSize.label,
+            cupcakeAmount: state.cupcakeStore.cupcakeAmount.label,
+            cupcakeFlavor: state.cupcakeStore.cupcakeFlavorInput,
+            cupcakeFrosting: state.cupcakeStore.cupcakeFrostingInput,
+            cupcakeFilling: state.cupcakeStore.cupcakeFillingInput,
+            cupcakeFruitFilling: state.cupcakeStore.cupcakeFruitFillingInput,
+            cupcakeFruitTopping: state.cupcakeStore.cupcakeFruitToppingInput,
 
             // COOKIE PARAMS
-            cookieSize: cookieSize.label,
-            cookieAmount: cookieAmount.label,
-            cookieFlavor: cookieFlavorInput,
-            cookieFrosting: cookieFrostingInput,
-            cookieFilling: cookieFillingInput,
-            cookieFruitFilling: cookieFruitFillingInput,
-            cookieFruitTopping: cookieFruitToppingInput,
+            cookieSize: state.cookieStore.cookieSize.label,
+            cookieAmount: state.cookieStore.cookieAmount.label,
+            cookieFlavor: state.cookieStore.cookieFlavorInput,
+            cookieFrosting: state.cookieStore.cookieFrostingInput,
+            cookieFilling: state.cookieStore.cookieFillingInput,
+            cookieFruitFilling: state.cookieStore.cookieFruitFillingInput,
+            cookieFruitTopping: state.cookieStore.cookieFruitToppingInput,
         };
         alert("Your Order Has Been Submitted!");
 
@@ -98,7 +61,7 @@ const Modal = () => {
             }
         );
     };
-    if (!modal) {
+    if (!state.modalStore.modal) {
         return <div></div>;
     } else {
         return (
@@ -109,7 +72,7 @@ const Modal = () => {
                         <button onClick={(e) => sendOrder(e)} id="modal-btn">
                             Submit Forms
                         </button>
-                        <button onClick={() => setModal(false)} id="modal-btn-2">
+                        <button onClick={() => state.modalStore.setModal(false)} id="modal-btn-2">
                             Edit Forms
                         </button>
                     </div>

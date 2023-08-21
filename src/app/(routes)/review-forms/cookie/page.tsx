@@ -12,7 +12,7 @@ const CookieReviewForm = () => {
         state.setCookieFormSubmit(false);
     };
     return (
-        <form className="review-form">
+        <form className="review-form" id="cookie">
             <h3>Cookie Review Form</h3>
             <ReviewItem label="Cookie Size" value={state.cookieSize.label} />
             <ReviewItem label="Cookie Amount" value={state.cookieAmount.label} />
