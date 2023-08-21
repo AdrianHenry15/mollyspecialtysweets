@@ -18,7 +18,7 @@ const OrderOptions = [
 ];
 
 const Home = () => {
-    const { ...state } = useGlobalStore().orderTypeStore!;
+    const { orderType, setOrderType } = useGlobalStore().orderTypeStore!;
     const { contactFormSubmit } = useGlobalStore().contactStore!;
     const { setModal } = useGlobalStore().modalStore!;
     const { cakeFormSubmit } = useGlobalStore().cakeStore!;
@@ -31,7 +31,7 @@ const Home = () => {
     };
 
     const renderContactForm = (): JSX.Element => {
-        if (state.orderType!.some((selected) => selected.value !== "none")) {
+        if (orderType!.some((selected) => selected.value !== "none")) {
             return !contactFormSubmit ? <ContactForm /> : <ContactReviewForm />;
         } else {
             return <div></div>;
@@ -39,7 +39,7 @@ const Home = () => {
     };
 
     const renderCakeForm = (): JSX.Element => {
-        if (state.orderType!.some((selected) => selected.value === "cake")) {
+        if (orderType!.some((selected) => selected.value === "cake")) {
             // if there is a "Cookie Order Form" the order form has not been submitted yet
             return !cakeFormSubmit ? <CakeOrderForm /> : <CakeReviewForm />;
         } else {
@@ -48,7 +48,7 @@ const Home = () => {
     };
 
     const renderCupcakeForm = (): JSX.Element => {
-        if (state.orderType!.some((selected) => selected.value === "cupcakes")) {
+        if (orderType!.some((selected) => selected.value === "cupcakes")) {
             // if there is a "Cookie Order Form" the order form has not been submitted yet
             return !cupcakeFormSubmit ? <CupcakeOrderForm /> : <CupcakeReviewForm />;
         } else {
@@ -57,7 +57,7 @@ const Home = () => {
     };
 
     const renderCookieForm = (): JSX.Element => {
-        if (state.orderType!.some((selected) => selected.value === "cookies")) {
+        if (orderType!.some((selected) => selected.value === "cookies")) {
             // if there is a "Cookie Order Form" the order form has not been submitted yet
             return !cookieFormSubmit ? <CookieOrderForm /> : <CookieReviewForm />;
         } else {
@@ -78,7 +78,7 @@ const Home = () => {
                         name="order-options"
                         options={OrderOptions}
                         onChange={(selected: any) => {
-                            state.setOrderType(selected);
+                            setOrderType(selected);
                         }}
                     />
                 </div>
@@ -87,7 +87,7 @@ const Home = () => {
                 {renderCookieForm()}
             </div>
             {renderContactForm()}
-            {state.orderType!.some((selected) => selected.value !== "none") && (
+            {orderType!.some((selected) => selected.value !== "none") && (
                 <div className={!contactFormSubmit ? "cursor-progress" : ""}>
                     <button
                         className={`form-item ${!contactFormSubmit ? "pointer-events-none" : ""}`}

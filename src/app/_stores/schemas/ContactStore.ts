@@ -9,8 +9,8 @@ export interface ContactStore {
     date: string;
     deliveryOption: OrderOption | null;
     deliveryAddress: string;
-    occasion: string;
-    recipient: string;
+    theme: string;
+    // recipient: string;
     colors: string;
     details: string;
     contactFormSubmit: boolean;
@@ -22,11 +22,11 @@ export interface ContactStore {
     dateError: string;
     deliveryOptionError: string;
     // deliveryAddressError: string;
-    occasionError: string;
+    themeError: string;
     recipientError: string;
     colorsError: string;
     // Setters
-    setContactFormSubmit: () => void;
+    isContactFormSubmitted: (submitted: boolean) => void;
     setDeliveryOption: (selected: any) => void;
     // Handlers
     handleFirstName: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -35,8 +35,8 @@ export interface ContactStore {
     handlePhone: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleDate: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleDeliveryAddress: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleOccasion: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleRecipient: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleTheme: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    // handleRecipient: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleColors: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleDetails: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
