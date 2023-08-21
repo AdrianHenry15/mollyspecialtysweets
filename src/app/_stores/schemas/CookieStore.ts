@@ -18,8 +18,8 @@ export interface CookieStore {
 
     // Setters
     submitCookieForm: (submitted: boolean) => void;
-    setCookieSize: (selectedSize: OrderOption | null) => void;
-    setCookieAmount: (selectedAmount: OrderOption | null) => void;
+    setCookieSize: (selected: OrderOption | null) => void;
+    setCookieAmount: (selected: OrderOption | null) => void;
     // Handlers
     handleCookieFlavorInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleCookieFrostingInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
