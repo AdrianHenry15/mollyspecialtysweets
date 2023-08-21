@@ -8,11 +8,10 @@ const CakeReviewForm = () => {
     const { ...state } = useGlobalStore().cakeStore;
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault;
-        state.setCakeFormSubmit(false);
+        state.submitCakeForm(false);
     };
     return (
-        <form className="review-form">
+        <form className="review-form" id="cake">
             <h3>Cake Review Form</h3>
 
             {/* Cake Form Review Items */}
@@ -26,7 +25,7 @@ const CakeReviewForm = () => {
             <ReviewItem label="Cake Fruit Topping" value={state.cakeFruitToppingInput} />
 
             {/* Edit Cakes Form Button */}
-            <button className="review-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
+            <button className="review-form-submit" type="submit" onClick={() => state.submitCakeForm(false)}>
                 Edit Cake <br /> Form
             </button>
         </form>

@@ -9,7 +9,7 @@ export interface CookieStore {
     cookieFillingInput: string;
     cookieFruitFillingInput: string;
     cookieFruitToppingInput: string;
-    cookieFormSubmit: boolean;
+    isCookieFormSubmitted: boolean;
     // Error Handling
     cookieShapeError: string;
     cookieAmountError: string;
@@ -17,9 +17,9 @@ export interface CookieStore {
     cookieFlavorInputError: string;
 
     // Setters
-    setCookieFormSubmit: (formSubmit: boolean) => void;
-    setCookieSize: (selectedSize: OrderOption | null) => void;
-    setCookieAmount: (selectedAmount: OrderOption | null) => void;
+    submitCookieForm: (submitted: boolean) => void;
+    setCookieSize: (selected: OrderOption | null) => void;
+    setCookieAmount: (selected: OrderOption | null) => void;
     // Handlers
     handleCookieFlavorInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleCookieFrostingInput: (e: React.ChangeEvent<HTMLInputElement>) => void;

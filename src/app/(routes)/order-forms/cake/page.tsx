@@ -28,10 +28,10 @@ const CakeOrderForm = () => {
     const { ...state } = useGlobalStore().cakeStore;
     const { modalError } = useGlobalStore().modalStore;
 
-    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault;
-        state.setCakeFormSubmit(true);
-    };
+    // const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    //     e.preventDefault;
+    //     state.submitCakeForm(true);
+    // };
 
     return (
         <div id="cake" className="flex flex-col justify-center">
@@ -160,7 +160,7 @@ const CakeOrderForm = () => {
             </div>
             <div className="form-btn-container">
                 <Link href={"/#cake"} replace>
-                    <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
+                    <button className="order-form-submit" type="submit" onClick={() => state.submitCakeForm(true)}>
                         Submit Cake <br /> Form
                     </button>
                 </Link>
