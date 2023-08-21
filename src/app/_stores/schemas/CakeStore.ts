@@ -10,7 +10,7 @@ export interface CakeStore {
     cakeFillingInput: string;
     cakeFruitFillingInput: string;
     cakeFruitToppingInput: string;
-    cakeFormSubmit: boolean;
+    isCakeFormSubmitted: boolean;
     // Error Handling
     cakeShapeError: string;
     cakeTierError: string;
@@ -23,7 +23,7 @@ export interface CakeStore {
     setCakeShape: (selected: OrderOption | null) => void;
     setCakeTier: (selected: OrderOption | null) => void;
     setCakeSize: (selected: OrderOption | null) => void;
-    setCakeFormSubmit: (formSubmit: boolean) => void;
+    submitCakeForm: (submitted: boolean) => void;
 
     // Handlers
     handleCakeFlavorInput: (e: React.ChangeEvent<HTMLInputElement>) => void;

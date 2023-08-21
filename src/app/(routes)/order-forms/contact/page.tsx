@@ -15,7 +15,7 @@ const ContactForm = () => {
     const { modalError } = useGlobalStore().modalStore;
 
     return (
-        <form className="review-form" id="contact">
+        <form className="review-form items-center" id="contact">
             <h4>Contact Form</h4>
             <span className="tracking-wide text-sm mb-3">
                 Please fill out this <strong>Contact Form </strong> so we can give you <strong>The Quote</strong> for your order
@@ -105,20 +105,14 @@ const ContactForm = () => {
                 />
             )}
 
-            {/* OCCASION */}
+            {/* THEME */}
             <div className="my-3 flex justify-center ">
-                <input
-                    value={state.occasion}
-                    onChange={(e) => state.handleOccasion(e)}
-                    id="contact-input"
-                    type="text"
-                    placeholder="Occasion Theme..."
-                />
-                {state.occasionError && <div className="text-red-600 text-center text-xs absolute my-14">{state.occasionError}</div>}
+                <input value={state.theme} onChange={(e) => state.handleTheme(e)} id="contact-input" type="text" placeholder="Theme..." />
+                {state.themeError && <div className="text-red-600 text-center text-xs absolute my-14">{state.themeError}</div>}
             </div>
 
             {/* RECIPIENT */}
-            <div className="my-3 flex justify-center ">
+            {/* <div className="my-3 flex justify-center ">
                 <input
                     value={state.recipient}
                     onChange={state.handleRecipient}
@@ -127,7 +121,7 @@ const ContactForm = () => {
                     placeholder="Recipient Name..."
                 />
                 {state.recipientError && <div className="text-red-600 text-center text-xs absolute my-14">{state.recipientError}</div>}
-            </div>
+            </div> */}
 
             {/* COLORS */}
             <div className="my-3 flex justify-center ">
@@ -152,7 +146,7 @@ const ContactForm = () => {
             {/* SUBMIT BUTTON */}
             <div className="form-btn-container">
                 <Link href={"#contact"} scroll={true} replace>
-                    <button className="items-center" type="submit" onClick={() => state.setContactFormSubmit()}>
+                    <button className="items-center" type="submit" onClick={() => state.submitContactForm(true)}>
                         Submit
                     </button>
                 </Link>

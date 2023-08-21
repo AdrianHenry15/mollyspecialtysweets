@@ -18,12 +18,12 @@ const OrderOptions = [
 ];
 
 const Home = () => {
-    const { ...state } = useGlobalStore().orderTypeStore!;
-    const { contactFormSubmit } = useGlobalStore().contactStore!;
-    const { setModal } = useGlobalStore().modalStore!;
-    const { cakeFormSubmit } = useGlobalStore().cakeStore!;
-    const { cupcakeFormSubmit } = useGlobalStore().cupcakeStore!;
-    const { cookieFormSubmit } = useGlobalStore().cookieStore!;
+    const { orderType, setOrderType } = useGlobalStore().orderTypeStore;
+    const { isContactFormSubmitted } = useGlobalStore().contactStore;
+    const { setModal } = useGlobalStore().modalStore;
+    const { isCakeFormSubmitted } = useGlobalStore().cakeStore;
+    const { isCupcakeFormSubmitted } = useGlobalStore().cupcakeStore;
+    const { isCookieFormSubmitted } = useGlobalStore().cookieStore;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -31,35 +31,35 @@ const Home = () => {
     };
 
     const renderContactForm = (): JSX.Element => {
-        if (state.orderType!.some((selected) => selected.value !== "none")) {
-            return !contactFormSubmit ? <ContactForm /> : <ContactReviewForm />;
+        if (orderType!.some((selected) => selected.value !== "none")) {
+            return !isContactFormSubmitted ? <ContactForm /> : <ContactReviewForm />;
         } else {
             return <div></div>;
         }
     };
 
     const renderCakeForm = (): JSX.Element => {
-        if (state.orderType!.some((selected) => selected.value === "cake")) {
+        if (orderType!.some((selected) => selected.value === "cake")) {
             // if there is a "Cookie Order Form" the order form has not been submitted yet
-            return !cakeFormSubmit ? <CakeOrderForm /> : <CakeReviewForm />;
+            return !isCakeFormSubmitted ? <CakeOrderForm /> : <CakeReviewForm />;
         } else {
             return <div></div>;
         }
     };
 
     const renderCupcakeForm = (): JSX.Element => {
-        if (state.orderType!.some((selected) => selected.value === "cupcakes")) {
+        if (orderType!.some((selected) => selected.value === "cupcakes")) {
             // if there is a "Cookie Order Form" the order form has not been submitted yet
-            return !cupcakeFormSubmit ? <CupcakeOrderForm /> : <CupcakeReviewForm />;
+            return !isCupcakeFormSubmitted ? <CupcakeOrderForm /> : <CupcakeReviewForm />;
         } else {
             return <div></div>;
         }
     };
 
     const renderCookieForm = (): JSX.Element => {
-        if (state.orderType!.some((selected) => selected.value === "cookies")) {
+        if (orderType!.some((selected) => selected.value === "cookies")) {
             // if there is a "Cookie Order Form" the order form has not been submitted yet
-            return !cookieFormSubmit ? <CookieOrderForm /> : <CookieReviewForm />;
+            return !isCookieFormSubmitted ? <CookieOrderForm /> : <CookieReviewForm />;
         } else {
             return <div></div>;
         }
@@ -78,7 +78,7 @@ const Home = () => {
                         name="order-options"
                         options={OrderOptions}
                         onChange={(selected: any) => {
-                            state.setOrderType(selected);
+                            setOrderType(selected);
                         }}
                     />
                 </div>
@@ -87,10 +87,10 @@ const Home = () => {
                 {renderCookieForm()}
             </div>
             {renderContactForm()}
-            {state.orderType!.some((selected) => selected.value !== "none") && (
-                <div className={!contactFormSubmit ? "cursor-progress" : ""}>
+            {orderType!.some((selected) => selected.value !== "none") && (
+                <div className={!isContactFormSubmitted ? "cursor-progress" : ""}>
                     <button
-                        className={`form-item ${!contactFormSubmit ? "pointer-events-none" : ""}`}
+                        className={`form-item ${!isContactFormSubmitted ? "pointer-events-none" : ""}`}
                         type="submit"
                         onClick={(e) => handleSubmit(e)}
                     >

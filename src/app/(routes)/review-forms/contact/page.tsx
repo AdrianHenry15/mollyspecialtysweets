@@ -1,5 +1,4 @@
 "use client";
-
 import ReviewItem from "@/src/app/_components/ReviewItem";
 import { useGlobalStore } from "@/src/app/_stores/GlobalStore";
 import React from "react";
@@ -9,11 +8,11 @@ const ContactReviewForm = () => {
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault;
-        state.setContactFormSubmit();
+        state.submitContactForm(false);
     };
 
     return (
-        <form className="review-form">
+        <form className="review-form" id="contact">
             <h3>Contact Review Form</h3>
 
             {/* Contact Review Items */}
@@ -24,14 +23,15 @@ const ContactReviewForm = () => {
             <ReviewItem label="Date" value={state.date} />
             <ReviewItem label="Delivery Option" value={state.deliveryOption!.label} />
             <ReviewItem label="Delivery Address" value={state.deliveryAddress} />
-            <ReviewItem label="Occasion" value={state.occasion} />
-            <ReviewItem label="Recipient" value={state.recipient} />
+            <ReviewItem label="Theme" value={state.theme} />
+            {/* <ReviewItem label="Recipient" value={state.recipient} /> */}
             <ReviewItem label="Colors" value={state.colors} />
             <ReviewItem label="Details" value={state.details} />
 
             {/* Edit Contact Form Button */}
+
             <button className="review-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
-                Edit Cake <br /> Form
+                Edit Contact <br /> Form
             </button>
         </form>
     );

@@ -158,10 +158,6 @@ button:hover {
     width: 500px;
 }
 
-#contact {
-    align-items: center;
-}
-
 .col {
     display: flex;
     flex-direction: column;
