@@ -389,16 +389,6 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                 ...state,
                 cookieStore: { ...state.cookieStore, cookieAmount: selected! },
             })),
-        setCookieFruitFilling: (selected: OrderOption | null) =>
-            set((state) => ({
-                ...state,
-                cookieStore: { ...state.cookieStore, cookieFruitFilling: selected! },
-            })),
-        setCookieFruitTopping: (selected: OrderOption | null) =>
-            set((state) => ({
-                ...state,
-                cookieStore: { ...state.cookieStore, cookieFruitTopping: selected! },
-            })),
 
         // Handlers
         handleCookieFlavorInput: (e: React.ChangeEvent<HTMLInputElement>) =>

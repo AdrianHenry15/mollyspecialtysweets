@@ -18,8 +18,8 @@ export interface CupcakeStore {
 
     // Setters
     submitCupcakeForm: (submitted: boolean) => void;
-    setCupcakeSize: (selectedSize: OrderOption | null) => void;
-    setCupcakeAmount: (selectedAmount: OrderOption | null) => void;
+    setCupcakeSize: (selected: OrderOption | null) => void;
+    setCupcakeAmount: (selected: OrderOption | null) => void;
     // Handlers
     handleCupcakeFruitFillingInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleCupcakeFruitToppingInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
