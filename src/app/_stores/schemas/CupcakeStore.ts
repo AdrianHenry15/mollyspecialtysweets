@@ -9,7 +9,7 @@ export interface CupcakeStore {
     cupcakeFillingInput: string;
     cupcakeFruitFillingInput: string;
     cupcakeFruitToppingInput: string;
-    cupcakeFormSubmit: boolean;
+    isCupcakeFormSubmitted: boolean;
     // Error Handling
     cupcakeSizeError: string;
     cupcakeAmountError: string;
@@ -17,7 +17,7 @@ export interface CupcakeStore {
     cupcakeFrostingInputError: string;
 
     // Setters
-    setCupcakeFormSubmit: (formSubmit: boolean) => void;
+    submitCupcakeForm: (submitted: boolean) => void;
     setCupcakeSize: (selectedSize: OrderOption | null) => void;
     setCupcakeAmount: (selectedAmount: OrderOption | null) => void;
     // Handlers

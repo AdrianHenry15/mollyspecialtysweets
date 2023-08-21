@@ -11,7 +11,7 @@ const CookieOrderForm = () => {
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault;
-        state.setCookieFormSubmit(true);
+        state.submitCookieForm(true);
     };
 
     return (

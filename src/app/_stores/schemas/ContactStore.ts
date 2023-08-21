@@ -13,7 +13,7 @@ export interface ContactStore {
     // recipient: string;
     colors: string;
     details: string;
-    contactFormSubmit: boolean;
+    isContactFormSubmitted: boolean;
     // Error Handling
     firstNameError: string;
     lastNameError: string;
@@ -26,7 +26,7 @@ export interface ContactStore {
     recipientError: string;
     colorsError: string;
     // Setters
-    isContactFormSubmitted: (submitted: boolean) => void;
+    submitContactForm: (submitted: boolean) => void;
     setDeliveryOption: (selected: any) => void;
     // Handlers
     handleFirstName: (e: React.ChangeEvent<HTMLInputElement>) => void;
