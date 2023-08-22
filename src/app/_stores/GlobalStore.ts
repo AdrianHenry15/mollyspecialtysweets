@@ -39,7 +39,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         dateError: "",
         deliveryOptionError: "",
         themeError: "",
-        recipientError: "",
+        // recipientError: "",
         colorsError: "",
         // Setters
         submitContactForm: (submitted: boolean) => {
@@ -88,7 +88,7 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                     dateError: isDateValid ? "" : "Please enter valid Date. 01/01/2014",
                     deliveryOptionError: isDeliveryOptionValid ? "" : "Delivery Option is required.",
                     // deliveryAddressError: isDeliveryAddressValid ? "" : "Please enter valid Address.",
-                    occasionError: isThemeValid ? "" : "Party Type is required.",
+                    themeError: isThemeValid ? "" : "Party Theme is required.",
                     // recipientError: isRecipientValid ? "" : "Recipient is required.",
                     colorsError: isColorsValid ? "" : "Your Preferred Colors for the party is required.",
                 },
