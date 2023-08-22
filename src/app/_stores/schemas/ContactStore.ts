@@ -23,7 +23,7 @@ export interface ContactStore {
     deliveryOptionError: string;
     // deliveryAddressError: string;
     themeError: string;
-    recipientError: string;
+    // recipientError: string;
     colorsError: string;
     // Setters
     submitContactForm: (submitted: boolean) => void;
