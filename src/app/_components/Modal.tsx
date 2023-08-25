@@ -13,8 +13,9 @@ const Modal = () => {
         const templateParams = {
             // CONTACT PARAMS
             name: `${state.contactStore.firstName} ${state.contactStore.lastName}`,
-            email: state.contactStore.email,
-            phone: state.contactStore.phone,
+            // email: state.contactStore.email,
+            // phone: state.contactStore.phone,
+            contactOption: state.contactStore.contactOption,
             date: state.contactStore.date,
             deliveryOption: state.contactStore.deliveryOption!.label,
             deliveryAddress: state.contactStore.deliveryAddress,
@@ -39,7 +40,6 @@ const Modal = () => {
             cupcakeFilling: state.cupcakeStore.cupcakeFillingInput,
             cupcakeFruitFilling: state.cupcakeStore.cupcakeFruitFillingInput,
             cupcakeFruitTopping: state.cupcakeStore.cupcakeFruitToppingInput,
-
             // COOKIE PARAMS
             cookieSize: state.cookieStore.cookieSize.label,
             cookieAmount: state.cookieStore.cookieAmount.label,

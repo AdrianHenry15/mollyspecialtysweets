@@ -21,8 +21,9 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
     contactStore: {
         firstName: "",
         lastName: "",
-        email: "",
-        phone: "",
+        // email: "",
+        // phone: "",
+        contactOption: "",
         date: "",
         deliveryOption: { value: "", label: "" },
         deliveryAddress: "",
@@ -34,12 +35,13 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
         // Error Validation
         firstNameError: "",
         lastNameError: "",
-        emailError: "",
-        phoneError: "",
+        // emailError: "",
+        // phoneError: "",
+        contactOptionError: "",
         dateError: "",
         deliveryOptionError: "",
         themeError: "",
-        recipientError: "",
+        // recipientError: "",
         colorsError: "",
         // Setters
         submitContactForm: (submitted: boolean) => {
@@ -52,8 +54,10 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
             // Contact Property Validation Check
             const isFirstNameValid = state.firstName !== "";
             const isLastNameValid = state.lastName !== "";
-            const isEmailValid = state.email !== "" && emailRegex.test(state.email);
-            const isPhoneValid = state.phone !== "" && phoneRegex.test(state.phone);
+            // const isEmailValid = state.email !== "" && emailRegex.test(state.email);
+            // const isPhoneValid = state.phone !== "" && phoneRegex.test(state.phone);
+            const isContactOptionValid =
+                (state.contactOption !== "" && emailRegex.test(state.contactOption)) || phoneRegex.test(state.contactOption);
             const isDateValid = state.date !== "" && dateRegex.test(state.date);
             const isDeliveryOptionValid = state.deliveryOption?.value !== "";
             // const isDeliveryAddressValid = state.deliveryOption?.value !== "delivery" && state.deliveryAddress !== "";
@@ -65,8 +69,9 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
             const isContactFormValid =
                 isFirstNameValid &&
                 isLastNameValid &&
-                isEmailValid &&
-                isPhoneValid &&
+                // isEmailValid &&
+                // isPhoneValid &&
+                isContactOptionValid &&
                 isDateValid &&
                 isDeliveryOptionValid &&
                 isThemeValid &&
@@ -83,12 +88,13 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                     isContactFormSubmitted: isContactFormValid ? submitted : !submitted,
                     firstNameError: isFirstNameValid ? "" : "First Name is required.",
                     lastNameError: isLastNameValid ? "" : "Last Name is required.",
-                    emailError: isEmailValid ? "" : "Please enter valid Email Address. abc@123.com",
-                    phoneError: isPhoneValid ? "" : "Please enter valid Phone Number.",
+                    // emailError: isEmailValid ? "" : "Please enter valid Email Address. abc@123.com",
+                    // phoneError: isPhoneValid ? "" : "Please enter valid Phone Number.",
+                    contactOptionError: isContactOptionValid ? "" : "Please enter Phone Number or Email",
                     dateError: isDateValid ? "" : "Please enter valid Date. 01/01/2014",
                     deliveryOptionError: isDeliveryOptionValid ? "" : "Delivery Option is required.",
                     // deliveryAddressError: isDeliveryAddressValid ? "" : "Please enter valid Address.",
-                    occasionError: isThemeValid ? "" : "Party Type is required.",
+                    themeError: isThemeValid ? "" : "Party Theme is required.",
                     // recipientError: isRecipientValid ? "" : "Recipient is required.",
                     colorsError: isColorsValid ? "" : "Your Preferred Colors for the party is required.",
                 },
@@ -141,15 +147,20 @@ export const useGlobalStore = create<GlobalStore>()((set, get) => ({
                 ...state,
                 contactStore: { ...state.contactStore, lastName: e.target.value },
             })),
-        handleEmail: (e: React.ChangeEvent<HTMLInputElement>) =>
+        // handleEmail: (e: React.ChangeEvent<HTMLInputElement>) =>
+        //     set((state) => ({
+        //         ...state,
+        //         contactStore: { ...state.contactStore, email: e.target.value },
+        //     })),
+        // handlePhone: (e: React.ChangeEvent<HTMLInputElement>) =>
+        //     set((state) => ({
+        //         ...state,
+        //         contactStore: { ...state.contactStore, phone: e.target.value },
+        //     })),
+        handleContactOption: (e: React.ChangeEvent<HTMLInputElement>) =>
             set((state) => ({
                 ...state,
-                contactStore: { ...state.contactStore, email: e.target.value },
-            })),
-        handlePhone: (e: React.ChangeEvent<HTMLInputElement>) =>
-            set((state) => ({
-                ...state,
-                contactStore: { ...state.contactStore, phone: e.target.value },
+                contactStore: { ...state.contactStore, contactOption: e.target.value },
             })),
         handleDate: (e: React.ChangeEvent<HTMLInputElement>) =>
             set((state) => ({

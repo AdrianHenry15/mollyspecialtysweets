@@ -2,6 +2,7 @@
 
 import ReviewItem from "@/src/app/_components/ReviewItem";
 import { useGlobalStore } from "@/src/app/_stores/GlobalStore";
+import Link from "next/link";
 import React from "react";
 
 const CakeReviewForm = () => {
@@ -25,9 +26,11 @@ const CakeReviewForm = () => {
             <ReviewItem label="Cake Fruit Topping" value={state.cakeFruitToppingInput} />
 
             {/* Edit Cakes Form Button */}
-            <button className="review-form-submit" type="submit" onClick={() => state.submitCakeForm(false)}>
-                Edit Cake <br /> Form
-            </button>
+            <Link className="flex justify-center" href={"#cake"}>
+                <button className="review-form-submit" type="submit" onClick={() => state.submitCakeForm(false)}>
+                    Edit Cake <br /> Form
+                </button>
+            </Link>
         </form>
     );
 };

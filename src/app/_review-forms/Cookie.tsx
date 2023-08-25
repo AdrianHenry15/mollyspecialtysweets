@@ -2,6 +2,7 @@
 
 import ReviewItem from "@/src/app/_components/ReviewItem";
 import { useGlobalStore } from "@/src/app/_stores/GlobalStore";
+import Link from "next/link";
 import React from "react";
 
 const CookieReviewForm = () => {
@@ -23,9 +24,11 @@ const CookieReviewForm = () => {
             <ReviewItem label="Cookie Fruit" value={state.cookieFruitToppingInput} />
 
             {/* Edit Cookies Form Button */}
-            <button className="review-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
-                Edit Cookies <br /> Form
-            </button>
+            <Link className="flex justify-center" href={"#cookie"}>
+                <button className="review-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
+                    Edit Cookies <br /> Form
+                </button>
+            </Link>
         </form>
     );
 };
