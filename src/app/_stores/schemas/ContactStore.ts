@@ -4,8 +4,9 @@ export interface ContactStore {
     // STATE
     firstName: string;
     lastName: string;
-    email: string;
-    phone: string;
+    // email: string;
+    // phone: string;
+    contactOption: string;
     date: string;
     deliveryOption: OrderOption | null;
     deliveryAddress: string;
@@ -17,8 +18,9 @@ export interface ContactStore {
     // Error Handling
     firstNameError: string;
     lastNameError: string;
-    emailError: string;
-    phoneError: string;
+    // emailError: string;
+    // phoneError: string;
+    contactOptionError: string;
     dateError: string;
     deliveryOptionError: string;
     // deliveryAddressError: string;
@@ -31,8 +33,9 @@ export interface ContactStore {
     // Handlers
     handleFirstName: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleLastName: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleEmail: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handlePhone: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    // handleEmail: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    // handlePhone: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleContactOption: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleDate: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleDeliveryAddress: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleTheme: (e: React.ChangeEvent<HTMLInputElement>) => void;
