@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Select from "react-select";
 import Link from "next/link";
 import { useGlobalStore } from "@/src/app/_stores/GlobalStore";
-import { AmountOptions, SizeOptions } from "@/src/app/_costants/GlobalOptions";
+import { AmountOptions, SizeOptions } from "@/src/app/lib/GlobalOptions";
 
 const CookieOrderForm = () => {
     const { ...state } = useGlobalStore().cookieStore;

@@ -1,7 +1,7 @@
 "use client";
-import Footer from "../_components/Footer";
-import Modal from "../_components/Modal";
-import Navbar from "../_components/Navbar";
+import Footer from "../components/Footer";
+import Modal from "../components/Modal";
+import Navbar from "../components/Navbar";
 import HydrationZustand from "../_helpers/HydrationZustand";
 import "./globals.css";
 
