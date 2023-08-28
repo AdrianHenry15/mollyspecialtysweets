@@ -1,4 +1,4 @@
-import { OrderOption } from "../../_costants/GlobalOptions";
+import { OrderOption } from "../../lib/GlobalOptions";
 
 export interface CookieStore {
     // STATE
