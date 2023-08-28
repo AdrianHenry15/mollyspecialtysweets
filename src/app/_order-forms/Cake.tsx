@@ -28,11 +28,6 @@ const CakeOrderForm = () => {
     const { ...state } = useGlobalStore().cakeStore;
     const { modalError } = useGlobalStore().modalStore;
 
-    // const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    //     e.preventDefault;
-    //     state.submitCakeForm(true);
-    // };
-
     return (
         <div id="cake" className="flex flex-col justify-center">
             <h5>Cake Order Form</h5>

@@ -1,6 +1,6 @@
 "use client";
 
-import ReviewItem from "@/src/app/_components/ReviewItem";
+import ReviewItem from "@/src/app/components/ReviewItem";
 import { useGlobalStore } from "@/src/app/_stores/GlobalStore";
 import Link from "next/link";
 import React from "react";

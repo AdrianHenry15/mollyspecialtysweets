@@ -5,7 +5,7 @@ import { CupcakeStore } from "./schemas/CupcakeStore";
 import { CookieStore } from "./schemas/CookieStore";
 import { OrderTypeStore } from "./schemas/OrderTypeStore";
 import { ModalStore } from "./schemas/ModalStore";
-import { OrderOption } from "../_costants/GlobalOptions";
+import { OrderOption } from "../lib/GlobalOptions";
 
 interface GlobalStore {
     contactStore: ContactStore;
