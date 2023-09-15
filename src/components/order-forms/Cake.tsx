@@ -1,8 +1,6 @@
-"use client";
-
-import { useGlobalStore } from "@/src/app/_stores/GlobalStore";
-import Link from "next/link";
+import { useGlobalStore } from "../../stores/GlobalStore";
 import React from "react";
+import { Link } from "react-router-dom";
 import Select from "react-select";
 
 const TierOptions = [
@@ -154,7 +152,7 @@ const CakeOrderForm = () => {
                 />
             </div>
             <div className="form-btn-container">
-                <Link href={"/#cake"} replace>
+                <Link to={"#cake"} replace>
                     <button className="order-form-submit" type="submit" onClick={() => state.submitCakeForm(true)}>
                         Submit Cake <br /> Form
                     </button>

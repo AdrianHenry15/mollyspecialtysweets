@@ -1,8 +1,6 @@
-"use client";
-
-import { useGlobalStore } from "@/src/app/_stores/GlobalStore";
-import Link from "next/link";
+import { useGlobalStore } from "../../stores/GlobalStore";
 import React from "react";
+import { Link } from "react-router-dom";
 import Select from "react-select";
 
 const DeliveryOptions = [
@@ -159,7 +157,7 @@ const ContactForm = () => {
 
             {/* SUBMIT BUTTON */}
             <div className="form-btn-container">
-                <Link href={"#contact"} scroll={true} replace>
+                <Link to={"#contact"} replace>
                     <button className="items-center" type="submit" onClick={() => state.submitContactForm(true)}>
                         Submit
                     </button>

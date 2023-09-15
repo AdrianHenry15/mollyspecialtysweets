@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import emailjs from "@emailjs/browser";
-import { useGlobalStore } from "../_stores/GlobalStore";
+import { useGlobalStore } from "../stores/GlobalStore";
 
 const Modal = () => {
     const { ...state } = useGlobalStore();
