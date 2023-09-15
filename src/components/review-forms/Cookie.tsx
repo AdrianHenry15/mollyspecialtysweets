@@ -1,9 +1,7 @@
-"use client";
-
-import ReviewItem from "@/src/app/components/ReviewItem";
-import { useGlobalStore } from "@/src/app/_stores/GlobalStore";
-import Link from "next/link";
+import { useGlobalStore } from "../../stores/GlobalStore";
 import React from "react";
+import ReviewItem from "../ReviewItem";
+import { Link } from "react-router-dom";
 
 const CookieReviewForm = () => {
     const { ...state } = useGlobalStore().cookieStore;
@@ -24,7 +22,7 @@ const CookieReviewForm = () => {
             <ReviewItem label="Cookie Fruit" value={state.cookieFruitToppingInput} />
 
             {/* Edit Cookies Form Button */}
-            <Link className="flex justify-center" href={"#cookie"}>
+            <Link className="flex justify-center" to={"#cookie"}>
                 <button className="review-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
                     Edit Cookies <br /> Form
                 </button>

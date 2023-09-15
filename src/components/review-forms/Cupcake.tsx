@@ -1,9 +1,7 @@
-"use client";
-
-import ReviewItem from "@/src/app/components/ReviewItem";
-import { useGlobalStore } from "@/src/app/_stores/GlobalStore";
-import Link from "next/link";
 import React from "react";
+import ReviewItem from "../ReviewItem";
+import { useGlobalStore } from "../../stores/GlobalStore";
+import { Link } from "react-router-dom";
 
 const CupcakeReviewForm = () => {
     const { ...state } = useGlobalStore().cupcakeStore;
@@ -25,7 +23,7 @@ const CupcakeReviewForm = () => {
             <ReviewItem label="Cupcake Fruit" value={state.cupcakeFruitToppingInput} />
 
             {/* Edit Cupcakes Form Button */}
-            <Link className="flex justify-center" href={"#cupcake"}>
+            <Link className="flex justify-center" to={"#cupcake"}>
                 <button className="review-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
                     Edit Cupcakes <br /> Form
                 </button>

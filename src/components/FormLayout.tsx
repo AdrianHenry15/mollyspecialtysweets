@@ -1,15 +1,15 @@
-"use client";
 import React from "react";
 import Select from "react-select";
-import { useGlobalStore } from "../_stores/GlobalStore";
-import ContactForm from "../_order-forms/Contact";
-import ContactReviewForm from "../_review-forms/Contact";
-import CakeOrderForm from "../_order-forms/Cake";
-import CakeReviewForm from "../_review-forms/Cake";
-import CupcakeOrderForm from "../_order-forms/Cupcake";
-import CupcakeReviewForm from "../_review-forms/Cupcake";
-import CookieOrderForm from "../_order-forms/Cookie";
-import CookieReviewForm from "../_review-forms/Cookie";
+import { useGlobalStore } from "../stores/GlobalStore";
+import ContactForm from "./order-forms/Contact";
+import ContactReviewForm from "./review-forms/Contact";
+import CakeOrderForm from "./order-forms/Cake";
+import CakeReviewForm from "./review-forms/Cake";
+import CupcakeOrderForm from "./order-forms/Cupcake";
+import CupcakeReviewForm from "./review-forms/Cupcake";
+import CookieOrderForm from "./order-forms/Cookie";
+import CookieReviewForm from "./review-forms/Cookie";
+import SelectElement from "./SelectElement";
 
 const OrderOptions = [
     { value: "cake", label: "Cake" },
@@ -17,7 +17,7 @@ const OrderOptions = [
     { value: "cookies", label: "Cookies" },
 ];
 
-const Home = () => {
+const FormLayout = () => {
     const { orderType, setOrderType } = useGlobalStore().orderTypeStore;
     const { isContactFormSubmitted } = useGlobalStore().contactStore;
     const { setModal } = useGlobalStore().modalStore;
@@ -65,22 +65,27 @@ const Home = () => {
         }
     };
 
+    const handleOrderType = (selected: any) => {
+        setOrderType(selected);
+    };
+
     return (
-        <main className="items-center flex flex-col">
+        <section className="items-center flex flex-col">
             <div className="flex flex-col items-center">
                 {/* FORM ITEM 1 */}
                 <div className="form-item">
                     <span>What would you like to order?</span>
                     {/* When the 'orderType' gets set, so does the url */}
-                    <Select
+                    {/* <Select
                         className="form-input"
                         isMulti
                         name="order-options"
                         options={OrderOptions}
                         onChange={(selected: any) => {
-                            setOrderType(selected);
+                            handleOrderType(selected);
                         }}
-                    />
+                    /> */}
+                    <SelectElement />
                 </div>
                 {renderCakeForm()}
                 {renderCupcakeForm()}
@@ -98,8 +103,8 @@ const Home = () => {
                     </button>
                 </div>
             )}
-        </main>
+        </section>
     );
 };
 
-export default Home;
+export default FormLayout;
