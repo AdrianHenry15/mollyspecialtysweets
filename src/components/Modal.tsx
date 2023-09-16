@@ -52,16 +52,14 @@ const Modal = () => {
         alert("Your Order Has Been Submitted!");
 
         // service id, template id, template params and public key to send order form to client
-        emailjs
-            .send(process.env.SERVICE_ID as string, process.env.TEMPLATE_ID as string, templateParams, process.env.PUBLIC_KEY as string)
-            .then(
-                function (response: any) {
-                    console.log("SUCCESS!", response.status, response.text);
-                },
-                function (error: any) {
-                    console.log("FAILED...", error);
-                }
-            );
+        emailjs.send(process.env.SERVICE_ID!, process.env.TEMPLATE_ID!, templateParams, process.env.PUBLIC_KEY!).then(
+            function (response: any) {
+                console.log("SUCCESS!", response.status, response.text);
+            },
+            function (error: any) {
+                console.log("FAILED...", error);
+            }
+        );
     };
     if (!state.modalStore.modal) {
         return <div></div>;

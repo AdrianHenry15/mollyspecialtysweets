@@ -24,11 +24,11 @@ const CakeReviewForm = () => {
             <ReviewItem label="Cake Fruit Topping" value={state.cakeFruitToppingInput} />
 
             {/* Edit Cakes Form Button */}
-            <Link className="flex justify-center" to={"#cake"}>
+            <a className="flex justify-center" href={"#cake"}>
                 <button className="review-form-submit" type="submit" onClick={() => state.submitCakeForm(false)}>
                     Edit Cake <br /> Form
                 </button>
-            </Link>
+            </a>
         </form>
     );
 };

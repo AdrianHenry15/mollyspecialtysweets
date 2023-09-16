@@ -23,11 +23,11 @@ const CupcakeReviewForm = () => {
             <ReviewItem label="Cupcake Fruit" value={state.cupcakeFruitToppingInput} />
 
             {/* Edit Cupcakes Form Button */}
-            <Link className="flex justify-center" to={"#cupcake"}>
+            <a className="flex justify-center" href={"#cupcake"}>
                 <button className="review-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
                     Edit Cupcakes <br /> Form
                 </button>
-            </Link>
+            </a>
         </form>
     );
 };

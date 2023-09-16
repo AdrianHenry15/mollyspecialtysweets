@@ -5,29 +5,24 @@ import { PiCookieDuotone } from "react-icons/pi";
 import { useGlobalStore } from "../stores/GlobalStore";
 
 const Navbar = () => {
-    const { orderType, setOrderType } = useGlobalStore().orderTypeStore;
-
-    // const selectOrderType = (type: "Cake" | "Cupcakes" | "Cookies") => {
-    //     if (orderType?.some((selected) => selected.value === type)) setOrderType([{ value: `${type.toLowerCase()}`, label: type }]);
-    // };
     return (
         <nav id="navbar" className="pt-12 mb-20 text-center sm:text-sm">
             <span className="w-full text-center" id="app-header-text">{`Molly's Specialty Sweets`}</span>
             <div className="mt-10 w-full flex justify-evenly items-center text-4xl">
-                <a href={"#contact"}>
+                <a onChange={() => {}} href={"#contact"}>
                     <AiFillContacts />
                 </a>
                 {/* 
                     TODO: If you click the icon than it selects the Order Type... 
                     This Order Type needs to be displayed inside of the react-select 'Select' element
                 */}
-                <a onChange={(selected: any) => setOrderType(selected)} href={"#cake"}>
+                <a onChange={() => {}} href={"#cake"}>
                     <GiStairsCake />
                 </a>
-                <a href={"#cupcake"}>
+                <a onChange={() => {}} href={"#cupcake"}>
                     <GiCupcake />
                 </a>
-                <a href={"#cookie"}>
+                <a onChange={() => {}} href={"#cookie"}>
                     <PiCookieDuotone />
                 </a>
             </div>

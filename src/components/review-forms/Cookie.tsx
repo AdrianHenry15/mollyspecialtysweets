@@ -22,11 +22,11 @@ const CookieReviewForm = () => {
             <ReviewItem label="Cookie Fruit" value={state.cookieFruitToppingInput} />
 
             {/* Edit Cookies Form Button */}
-            <Link className="flex justify-center" to={"#cookie"}>
+            <a className="flex justify-center" href={"#cookie"}>
                 <button className="review-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
                     Edit Cookies <br /> Form
                 </button>
-            </Link>
+            </a>
         </form>
     );
 };
