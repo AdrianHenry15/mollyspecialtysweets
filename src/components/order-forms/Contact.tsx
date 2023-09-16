@@ -1,6 +1,5 @@
 import { useGlobalStore } from "../../stores/GlobalStore";
 import React from "react";
-import { Link } from "react-router-dom";
 import Select from "react-select";
 
 const DeliveryOptions = [
@@ -11,6 +10,11 @@ const DeliveryOptions = [
 const ContactForm = () => {
     const { ...state } = useGlobalStore().contactStore;
     const { modalError } = useGlobalStore().modalStore;
+
+    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        state.submitContactForm(true);
+    };
 
     return (
         <form className="review-form items-center" id="contact">
@@ -157,11 +161,11 @@ const ContactForm = () => {
 
             {/* SUBMIT BUTTON */}
             <div className="form-btn-container">
-                <Link to={"#contact"} replace>
-                    <button className="items-center" type="submit" onClick={() => state.submitContactForm(true)}>
+                <a href="#contact">
+                    <button className="items-center" type="submit" onClick={(e) => handleSubmit(e)}>
                         Submit
                     </button>
-                </Link>
+                </a>
                 {modalError && <div className="text-red-600 absolute my-20">{modalError}</div>}
             </div>
         </form>

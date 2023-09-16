@@ -2,14 +2,13 @@ import React from "react";
 import Select from "react-select";
 import { useGlobalStore } from "../stores/GlobalStore";
 import ContactForm from "./order-forms/Contact";
-import ContactReviewForm from "./review-forms/Contact";
 import CakeOrderForm from "./order-forms/Cake";
-import CakeReviewForm from "./review-forms/Cake";
 import CupcakeOrderForm from "./order-forms/Cupcake";
+import ContactReviewForm from "./review-forms/Contact";
+import CakeReviewForm from "./review-forms/Cake";
 import CupcakeReviewForm from "./review-forms/Cupcake";
-import CookieOrderForm from "./order-forms/Cookie";
 import CookieReviewForm from "./review-forms/Cookie";
-import SelectElement from "./SelectElement";
+import CookieOrderForm from "./order-forms/Cookie";
 
 const OrderOptions = [
     { value: "cake", label: "Cake" },
@@ -17,7 +16,7 @@ const OrderOptions = [
     { value: "cookies", label: "Cookies" },
 ];
 
-const FormLayout = () => {
+const Home = () => {
     const { orderType, setOrderType } = useGlobalStore().orderTypeStore;
     const { isContactFormSubmitted } = useGlobalStore().contactStore;
     const { setModal } = useGlobalStore().modalStore;
@@ -65,27 +64,22 @@ const FormLayout = () => {
         }
     };
 
-    const handleOrderType = (selected: any) => {
-        setOrderType(selected);
-    };
-
     return (
-        <section className="items-center flex flex-col">
+        <main className="items-center flex flex-col">
             <div className="flex flex-col items-center">
                 {/* FORM ITEM 1 */}
                 <div className="form-item">
                     <span>What would you like to order?</span>
                     {/* When the 'orderType' gets set, so does the url */}
-                    {/* <Select
+                    <Select
                         className="form-input"
                         isMulti
                         name="order-options"
                         options={OrderOptions}
                         onChange={(selected: any) => {
-                            handleOrderType(selected);
+                            setOrderType(selected);
                         }}
-                    /> */}
-                    <SelectElement />
+                    />
                 </div>
                 {renderCakeForm()}
                 {renderCupcakeForm()}
@@ -103,8 +97,8 @@ const FormLayout = () => {
                     </button>
                 </div>
             )}
-        </section>
+        </main>
     );
 };
 
-export default FormLayout;
+export default Home;

@@ -30,11 +30,11 @@ const ContactReviewForm = () => {
             <ReviewItem label="Details" value={state.details} />
 
             {/* Edit Contact Form Button */}
-            <Link className="flex justify-center" to={"#contact"}>
+            <a className="flex justify-center" href={"#contact"}>
                 <button className="review-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
                     Edit Contact <br /> Form
                 </button>
-            </Link>
+            </a>
         </form>
     );
 };

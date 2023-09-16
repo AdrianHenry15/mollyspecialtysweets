@@ -119,11 +119,11 @@ const CookieOrderForm = () => {
 
             {/* Cookie Form Submit Button */}
             <div className="form-btn-container">
-                <Link to={"#cookie"} replace>
+                <a href={"#cookie"}>
                     <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
                         Submit Cookie <br /> Form
                     </button>
-                </Link>
+                </a>
                 {modalError && <div className="text-red-600 absolute my-16">{modalError}</div>}
             </div>
         </div>

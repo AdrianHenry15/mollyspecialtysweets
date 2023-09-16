@@ -152,11 +152,11 @@ const CakeOrderForm = () => {
                 />
             </div>
             <div className="form-btn-container">
-                <Link to={"#cake"} replace>
+                <a href={"#cake"}>
                     <button className="order-form-submit" type="submit" onClick={() => state.submitCakeForm(true)}>
                         Submit Cake <br /> Form
                     </button>
-                </Link>
+                </a>
                 {modalError && <div className="text-red-600 absolute my-16">{modalError}</div>}
             </div>
         </div>
