@@ -1,7 +1,6 @@
 import React from "react";
 import ReviewItem from "../ReviewItem";
 import { useGlobalStore } from "../../stores/GlobalStore";
-import { Link } from "react-router-dom";
 
 const ContactReviewForm = () => {
     const { ...state } = useGlobalStore().contactStore;
@@ -18,14 +17,11 @@ const ContactReviewForm = () => {
             {/* Contact Review Items */}
             <ReviewItem label="First Name" value={state.firstName} />
             <ReviewItem label="Last Name" value={state.lastName} />
-            {/* <ReviewItem label="Email" value={state.email} />
-            <ReviewItem label="Phone" value={state.phone} /> */}
-            <ReviewItem label="Phone" value={state.contactOption} />
+            <ReviewItem label="Contact Option" value={state.contactOption} />
             <ReviewItem label="Date" value={state.date} />
             <ReviewItem label="Delivery Option" value={state.deliveryOption!.label} />
             <ReviewItem label="Delivery Address" value={state.deliveryAddress} />
             <ReviewItem label="Theme" value={state.theme} />
-            {/* <ReviewItem label="Recipient" value={state.recipient} /> */}
             <ReviewItem label="Colors" value={state.colors} />
             <ReviewItem label="Details" value={state.details} />
 

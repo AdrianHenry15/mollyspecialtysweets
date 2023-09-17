@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import emailjs from "@emailjs/browser";
 import { useGlobalStore } from "../stores/GlobalStore";
@@ -8,7 +7,7 @@ const Modal = () => {
 
     const sendOrder = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        state.modalStore.setModal!(false);
+        state.modalStore.setModal(false);
 
         const templateParams = {
             // CONTACT PARAMS
