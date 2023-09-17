@@ -1,7 +1,6 @@
 import { useGlobalStore } from "../../stores/GlobalStore";
 import React from "react";
 import ReviewItem from "../ReviewItem";
-import { Link } from "react-router-dom";
 
 const CookieReviewForm = () => {
     const { ...state } = useGlobalStore().cookieStore;

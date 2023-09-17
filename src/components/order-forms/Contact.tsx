@@ -60,30 +60,6 @@ const ContactForm = () => {
                 )}
             </div>
 
-            {/* EMAIL */}
-            {/* <div className="my-3 flex justify-center ">
-                <input
-                    value={state.email}
-                    onChange={(e) => state.handleEmail(e)}
-                    id="contact-input"
-                    type="text"
-                    placeholder="Email Address..."
-                />
-                {state.emailError && <div className="text-red-600 text-center text-xs absolute my-14">{state.emailError}</div>}
-            </div> */}
-
-            {/* PHONE */}
-            {/* <div className="my-3 flex justify-center ">
-                <input
-                    value={state.phone}
-                    onChange={(e) => state.handlePhone(e)}
-                    id="contact-input"
-                    type="text"
-                    placeholder="Phone Number..."
-                />
-                {state.phoneError && <div className="text-red-600 text-center text-xs absolute my-14">{state.phoneError}</div>}
-            </div> */}
-
             {/* DATE */}
             <div className="my-3 flex justify-center ">
                 <input
@@ -126,18 +102,6 @@ const ContactForm = () => {
                 <input value={state.theme} onChange={(e) => state.handleTheme(e)} id="contact-input" type="text" placeholder="Theme..." />
                 {state.themeError && <div className="text-red-600 text-center text-xs absolute my-14">{state.themeError}</div>}
             </div>
-
-            {/* RECIPIENT */}
-            {/* <div className="my-3 flex justify-center ">
-                <input
-                    value={state.recipient}
-                    onChange={state.handleRecipient}
-                    id="contact-input"
-                    type="text"
-                    placeholder="Recipient Name..."
-                />
-                {state.recipientError && <div className="text-red-600 text-center text-xs absolute my-14">{state.recipientError}</div>}
-            </div> */}
 
             {/* COLORS */}
             <div className="my-3 flex justify-center ">
