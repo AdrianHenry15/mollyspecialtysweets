@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "lib": ["dom", "dom.iterable", "esnext"],
+        "lib": ["dom", "dom.iterable", "esnext", "WebWorker"],
         "baseUrl": "./",
         "allowJs": true,
         "skipLibCheck": true,
@@ -16,15 +16,10 @@
         "jsx": "preserve",
         "incremental": true,
         "types": ["node"],
-        "plugins": [
-            {
-                "name": "next"
-            }
-        ],
         "paths": {
             "@/*": ["./*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/main.jsx"],
+    "include": ["**/*.ts", "**/*.tsx", "src/main.jsx"],
     "exclude": ["node_modules"]
 }
