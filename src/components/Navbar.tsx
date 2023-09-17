@@ -2,7 +2,6 @@ import React from "react";
 import { GiStairsCake, GiCupcake } from "react-icons/gi";
 import { AiFillContacts } from "react-icons/ai";
 import { PiCookieDuotone } from "react-icons/pi";
-import { useGlobalStore } from "../stores/GlobalStore";
 
 const Navbar = () => {
     return (

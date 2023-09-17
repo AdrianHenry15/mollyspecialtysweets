@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import React from "react";
 import ReviewItem from "../ReviewItem";
 import { useGlobalStore } from "../../stores/GlobalStore";
@@ -6,9 +5,9 @@ import { useGlobalStore } from "../../stores/GlobalStore";
 const CakeReviewForm = () => {
     const { ...state } = useGlobalStore().cakeStore;
 
-    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-        state.submitCakeForm(false);
-    };
+    // const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    //     state.submitCakeForm(false);
+    // };
     return (
         <form className="review-form" id="cake">
             <h3>Cake Review Form</h3>

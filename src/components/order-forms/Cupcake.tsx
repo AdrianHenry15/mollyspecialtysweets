@@ -1,7 +1,6 @@
 import { AmountOptions, SizeOptions } from "../../lib/GlobalOptions";
 import { useGlobalStore } from "../../stores/GlobalStore";
 import React from "react";
-import { Link } from "react-router-dom";
 import Select from "react-select";
 
 const CupcakeOrderForm = () => {

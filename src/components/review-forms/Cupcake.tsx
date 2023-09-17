@@ -1,7 +1,6 @@
 import React from "react";
 import ReviewItem from "../ReviewItem";
 import { useGlobalStore } from "../../stores/GlobalStore";
-import { Link } from "react-router-dom";
 
 const CupcakeReviewForm = () => {
     const { ...state } = useGlobalStore().cupcakeStore;
