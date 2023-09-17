@@ -1,9 +1,8 @@
-"use client";
-import React, { useState } from "react";
+import { AmountOptions, SizeOptions } from "../../lib/GlobalOptions";
+import { useGlobalStore } from "../../stores/GlobalStore";
+import React from "react";
+import { Link } from "react-router-dom";
 import Select from "react-select";
-import Link from "next/link";
-import { useGlobalStore } from "@/src/app/_stores/GlobalStore";
-import { AmountOptions, SizeOptions } from "@/src/app/lib/GlobalOptions";
 
 const CookieOrderForm = () => {
     const { ...state } = useGlobalStore().cookieStore;
@@ -120,11 +119,11 @@ const CookieOrderForm = () => {
 
             {/* Cookie Form Submit Button */}
             <div className="form-btn-container">
-                <Link href={"#cookie"} replace>
+                <a href={"#cookie"}>
                     <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
                         Submit Cookie <br /> Form
                     </button>
-                </Link>
+                </a>
                 {modalError && <div className="text-red-600 absolute my-16">{modalError}</div>}
             </div>
         </div>

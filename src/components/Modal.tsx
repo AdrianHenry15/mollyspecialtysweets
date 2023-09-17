@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import emailjs from "@emailjs/browser";
-import { useGlobalStore } from "../_stores/GlobalStore";
+import { useGlobalStore } from "../stores/GlobalStore";
 
 const Modal = () => {
     const { ...state } = useGlobalStore();
@@ -51,8 +51,12 @@ const Modal = () => {
         };
         alert("Your Order Has Been Submitted!");
 
+        const serviceID = import.meta.env.VITE_SERVICE_ID;
+        const templateID = import.meta.env.VITE_TEMPLATE_ID;
+        const publicKey = import.meta.env.VITE_PUBLIC_KEY;
+
         // service id, template id, template params and public key to send order form to client
-        emailjs.send("service_xy138l8", "template_qtym3op", templateParams, "C0uERlxhef55UiLEd").then(
+        emailjs.send(serviceID, templateID, templateParams, publicKey).then(
             function (response: any) {
                 console.log("SUCCESS!", response.status, response.text);
             },
