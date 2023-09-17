@@ -1,15 +1,14 @@
-"use client";
 import React from "react";
 import Select from "react-select";
-import { useGlobalStore } from "../_stores/GlobalStore";
-import ContactForm from "../_order-forms/Contact";
-import ContactReviewForm from "../_review-forms/Contact";
-import CakeOrderForm from "../_order-forms/Cake";
-import CakeReviewForm from "../_review-forms/Cake";
-import CupcakeOrderForm from "../_order-forms/Cupcake";
-import CupcakeReviewForm from "../_review-forms/Cupcake";
-import CookieOrderForm from "../_order-forms/Cookie";
-import CookieReviewForm from "../_review-forms/Cookie";
+import { useGlobalStore } from "../stores/GlobalStore";
+import ContactForm from "./order-forms/Contact";
+import CakeOrderForm from "./order-forms/Cake";
+import CupcakeOrderForm from "./order-forms/Cupcake";
+import ContactReviewForm from "./review-forms/Contact";
+import CakeReviewForm from "./review-forms/Cake";
+import CupcakeReviewForm from "./review-forms/Cupcake";
+import CookieReviewForm from "./review-forms/Cookie";
+import CookieOrderForm from "./order-forms/Cookie";
 
 const OrderOptions = [
     { value: "cake", label: "Cake" },
