@@ -46,6 +46,7 @@ body {
 
 .form-input {
     width: 100%;
+    cursor: pointer;
 }
 
 .order-form-submit {

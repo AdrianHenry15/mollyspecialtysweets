@@ -1,9 +1,9 @@
 import React from "react";
-import ReviewItem from "../ReviewItem";
-import { useGlobalStore } from "../../stores/GlobalStore";
+import ReviewItem from "./ReviewItem";
+import useContactStore from "../../hooks/useContactStore";
 
 const ContactReviewForm = () => {
-    const { ...state } = useGlobalStore().contactStore;
+    const { ...state } = useContactStore();
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault;

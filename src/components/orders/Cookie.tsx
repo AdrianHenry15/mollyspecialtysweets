@@ -1,11 +1,13 @@
 import { AmountOptions, SizeOptions } from "../../lib/GlobalOptions";
-import { useGlobalStore } from "../../stores/GlobalStore";
 import React from "react";
 import Select from "react-select";
+import Input from "../inputs/Input";
+import useCookieStore from "../../hooks/useCookieStore";
+import useModalStore from "../../hooks/useModalStore";
 
 const CookieOrderForm = () => {
-    const { ...state } = useGlobalStore().cookieStore;
-    const { modalError } = useGlobalStore().modalStore;
+    const { ...state } = useCookieStore();
+    const { orderModalError } = useModalStore();
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault;
@@ -48,43 +50,26 @@ const CookieOrderForm = () => {
                 <span>
                     What <strong>Flavor</strong> would you like your <strong>Cookies</strong> to be?
                 </span>
-                <input
-                    value={state.cookieFlavorInput}
-                    onChange={(e) => state.handleCookieFlavorInput(e)}
-                    type="text"
+                <Input
+                    value={state.cookieFlavor}
+                    onChange={(e) => state.handleCookieFlavor(e)}
                     placeholder="Vanilla, Chocolate, Strawberry etc..."
-                    className="w-full"
-                    style={{ minHeight: "38px" }}
                 />
-                {state.cookieFlavorInputError && <div className="text-red-600 absolute my-16">{state.cookieFlavorInputError}</div>}
+                {state.cookieFlavorError && <div className="text-red-600 absolute my-16">{state.cookieFlavorError}</div>}
             </div>
             {/* FROSTING INPUT */}
             <div className="form-item">
                 <span>
                     What <strong>Frosting</strong> would you like on your <strong>Cookies</strong>?
                 </span>
-                <input
-                    value={state.cookieFrostingInput}
-                    onChange={(e) => state.handleCookieFrostingInput(e)}
-                    type="text"
-                    placeholder="Vanilla Buttercream..."
-                    className="w-full"
-                    style={{ minHeight: "38px" }}
-                />
+                <Input value={state.cookieFrosting} onChange={(e) => state.handleCookieFrosting(e)} placeholder="Vanilla Buttercream..." />
             </div>
             {/* FILLING INPUT */}
             <div className="form-item">
                 <span>
                     What <strong>Filling</strong> would you like in your <strong>Cookies</strong>?
                 </span>
-                <input
-                    value={state.cookieFillingInput}
-                    onChange={(e) => state.handleCookieFillingInput(e)}
-                    type="text"
-                    placeholder="Vanilla Buttercream..."
-                    className="w-full"
-                    style={{ minHeight: "38px" }}
-                />
+                <Input value={state.cookieFilling} onChange={(e) => state.handleCookieFilling(e)} placeholder="Vanilla Buttercream..." />
             </div>
 
             {/* FRUIT FILLING  */}
@@ -92,13 +77,10 @@ const CookieOrderForm = () => {
                 <span>
                     Would you like a <strong>Fruit Filling</strong> in your <strong>Cookies</strong>?
                 </span>
-                <input
-                    className="w-full"
-                    style={{ minHeight: "38px" }}
+                <Input
                     placeholder="Strawberries Filling..."
-                    type="text"
-                    value={state.cookieFruitFillingInput}
-                    onChange={(e) => state.handleCookieFruitFillingInput(e)}
+                    value={state.cookieFruitFilling}
+                    onChange={(e) => state.handleCookieFruitFilling(e)}
                 />
             </div>
 
@@ -107,13 +89,7 @@ const CookieOrderForm = () => {
                 <span>
                     Would you like a <strong>Fruit Topping</strong> in your <strong>Cookies</strong>?
                 </span>
-                <input
-                    className="w-full"
-                    style={{ minHeight: "38px" }}
-                    placeholder="Strawberries..."
-                    value={state.cookieFruitToppingInput}
-                    onChange={(e) => state.handleCookieFruitToppingInput(e)}
-                />
+                <Input placeholder="Strawberries..." value={state.cookieFruitTopping} onChange={(e) => state.handleCookieFruitTopping(e)} />
             </div>
 
             {/* Cookie Form Submit Button */}
@@ -123,7 +99,7 @@ const CookieOrderForm = () => {
                         Submit Cookie <br /> Form
                     </button>
                 </a>
-                {modalError && <div className="text-red-600 absolute my-16">{modalError}</div>}
+                {orderModalError && <div className="text-red-600 absolute my-16">{orderModalError}</div>}
             </div>
         </div>
     );

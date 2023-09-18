@@ -1,14 +1,14 @@
 import React from "react";
 import FormLayout from "./components/FormLayout";
 import Navbar from "./components/Navbar";
-import Modal from "./components/Modal";
 import Footer from "./components/Footer";
+import OrderModal from "./components/modals/OrderModal";
 
 const App = () => {
     return (
         <div className="flex flex-col h-full w-full items-center">
             <Navbar />
-            <Modal />
+            <OrderModal />
             <FormLayout />
             <Footer />
         </div>

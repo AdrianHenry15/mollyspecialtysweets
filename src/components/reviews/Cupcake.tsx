@@ -1,9 +1,9 @@
 import React from "react";
-import ReviewItem from "../ReviewItem";
-import { useGlobalStore } from "../../stores/GlobalStore";
+import ReviewItem from "./ReviewItem";
+import useCupcakeStore from "../../hooks/useCupcakeStore";
 
 const CupcakeReviewForm = () => {
-    const { ...state } = useGlobalStore().cupcakeStore;
+    const { ...state } = useCupcakeStore();
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault;
@@ -15,11 +15,11 @@ const CupcakeReviewForm = () => {
             {/* Cupcake Review Items */}
             <ReviewItem label="Cupcake Size" value={state.cupcakeSize.label} />
             <ReviewItem label="Cupcake Amount" value={state.cupcakeAmount.label} />
-            <ReviewItem label="Cupcake Flavor" value={state.cupcakeFlavorInput} />
-            <ReviewItem label="Cupcake Frosting" value={state.cupcakeFrostingInput} />
-            <ReviewItem label="Cupcake Filling" value={state.cupcakeFillingInput} />
-            <ReviewItem label="Cupcake Fruit" value={state.cupcakeFruitFillingInput} />
-            <ReviewItem label="Cupcake Fruit" value={state.cupcakeFruitToppingInput} />
+            <ReviewItem label="Cupcake Flavor" value={state.cupcakeFlavor} />
+            <ReviewItem label="Cupcake Frosting" value={state.cupcakeFrosting} />
+            <ReviewItem label="Cupcake Filling" value={state.cupcakeFilling} />
+            <ReviewItem label="Cupcake Fruit" value={state.cupcakeFruitFilling} />
+            <ReviewItem label="Cupcake Fruit" value={state.cupcakeFruitTopping} />
 
             {/* Edit Cupcakes Form Button */}
             <a className="flex justify-center" href={"#cupcake"}>

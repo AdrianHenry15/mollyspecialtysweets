@@ -1,9 +1,9 @@
 import React from "react";
-import ReviewItem from "../ReviewItem";
-import { useGlobalStore } from "../../stores/GlobalStore";
+import ReviewItem from "./ReviewItem";
+import useCakeStore from "../../hooks/useCakeStore";
 
 const CakeReviewForm = () => {
-    const { ...state } = useGlobalStore().cakeStore;
+    const { ...state } = useCakeStore();
 
     // const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     //     state.submitCakeForm(false);
@@ -16,11 +16,11 @@ const CakeReviewForm = () => {
             <ReviewItem label="Cake Shape" value={state.cakeShape.label} />
             <ReviewItem label="Cake Tiers" value={state.cakeTier.label} />
             <ReviewItem label="Cake Size" value={state.cakeSize.label} />
-            <ReviewItem label="Cake Flavor" value={state.cakeFlavorInput} />
-            <ReviewItem label="Cake Frosting" value={state.cakeFrostingInput} />
-            <ReviewItem label="Cake Filling" value={state.cakeFillingInput} />
-            <ReviewItem label="Cake Fruit Filling" value={state.cakeFruitFillingInput} />
-            <ReviewItem label="Cake Fruit Topping" value={state.cakeFruitToppingInput} />
+            <ReviewItem label="Cake Flavor" value={state.cakeFlavor} />
+            <ReviewItem label="Cake Frosting" value={state.cakeFrosting} />
+            <ReviewItem label="Cake Filling" value={state.cakeFilling} />
+            <ReviewItem label="Cake Fruit Filling" value={state.cakeFruitFilling} />
+            <ReviewItem label="Cake Fruit Topping" value={state.cakeFruitTopping} />
 
             {/* Edit Cakes Form Button */}
             <a className="flex justify-center" href={"#cake"}>
