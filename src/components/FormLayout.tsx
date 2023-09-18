@@ -1,14 +1,19 @@
 import React from "react";
 import Select from "react-select";
-import { useGlobalStore } from "../stores/GlobalStore";
-import ContactForm from "./order-forms/Contact";
-import CakeOrderForm from "./order-forms/Cake";
-import CupcakeOrderForm from "./order-forms/Cupcake";
-import ContactReviewForm from "./review-forms/Contact";
-import CakeReviewForm from "./review-forms/Cake";
-import CupcakeReviewForm from "./review-forms/Cupcake";
-import CookieReviewForm from "./review-forms/Cookie";
-import CookieOrderForm from "./order-forms/Cookie";
+import ContactForm from "./orders/Contact";
+import CakeOrderForm from "./orders/Cake";
+import CupcakeOrderForm from "./orders/Cupcake";
+import ContactReviewForm from "./reviews/Contact";
+import CakeReviewForm from "./reviews/Cake";
+import CupcakeReviewForm from "./reviews/Cupcake";
+import CookieReviewForm from "./reviews/Cookie";
+import CookieOrderForm from "./orders/Cookie";
+import useOrderTypeStore from "../hooks/useOrderTypeStore";
+import useContactStore from "../hooks/useContactStore";
+import useModalStore from "../hooks/useModalStore";
+import useCakeStore from "../hooks/useCakeStore";
+import useCupcakeStore from "../hooks/useCupcakeStore";
+import useCookieStore from "../hooks/useCookieStore";
 
 const OrderOptions = [
     { value: "cake", label: "Cake" },
@@ -17,16 +22,16 @@ const OrderOptions = [
 ];
 
 const Home = () => {
-    const { orderType, setOrderType } = useGlobalStore().orderTypeStore;
-    const { isContactFormSubmitted } = useGlobalStore().contactStore;
-    const { setModal } = useGlobalStore().modalStore;
-    const { isCakeFormSubmitted } = useGlobalStore().cakeStore;
-    const { isCupcakeFormSubmitted } = useGlobalStore().cupcakeStore;
-    const { isCookieFormSubmitted } = useGlobalStore().cookieStore;
+    const { orderType, setOrderType } = useOrderTypeStore();
+    const { isContactFormSubmitted } = useContactStore();
+    const { setOrderModal } = useModalStore();
+    const { isCakeFormSubmitted } = useCakeStore();
+    const { isCupcakeFormSubmitted } = useCupcakeStore();
+    const { isCookieFormSubmitted } = useCookieStore();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        setModal!(true);
+        setOrderModal(true);
     };
 
     const renderContactForm = (): JSX.Element => {

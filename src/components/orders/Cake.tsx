@@ -1,6 +1,8 @@
-import { useGlobalStore } from "../../stores/GlobalStore";
 import React from "react";
 import Select from "react-select";
+import Input from "../inputs/Input";
+import useCakeStore from "../../hooks/useCakeStore";
+import useModalStore from "../../hooks/useModalStore";
 
 const TierOptions = [
     { value: "single", label: "Single" },
@@ -22,8 +24,8 @@ const CakeSizeOptions = [
 ];
 
 const CakeOrderForm = () => {
-    const { ...state } = useGlobalStore().cakeStore;
-    const { modalError } = useGlobalStore().modalStore;
+    const { ...state } = useCakeStore();
+    const { orderModalError } = useModalStore();
 
     return (
         <div id="cake" className="flex flex-col justify-center">
@@ -36,7 +38,7 @@ const CakeOrderForm = () => {
                 </span>
                 <Select
                     value={state.cakeShape.value === "" ? "Select..." : state.cakeShape}
-                    onChange={(selectedShape: any) => state.setCakeShape!(selectedShape)}
+                    onChange={(selected: any) => state.setCakeShape(selected)}
                     className="form-input"
                     name="order-options"
                     options={CakeShapeOptions}
@@ -51,7 +53,7 @@ const CakeOrderForm = () => {
                 </span>
                 <Select
                     value={state.cakeTier.value === "" ? "Select..." : state.cakeTier}
-                    onChange={(selectedTier: any) => state.setCakeTier!(selectedTier)}
+                    onChange={(selected: any) => state.setCakeTier!(selected)}
                     className="form-input"
                     name="order-options"
                     options={TierOptions}
@@ -66,7 +68,7 @@ const CakeOrderForm = () => {
                 </span>
                 <Select
                     value={state.cakeSize.value === "" ? "Select..." : state.cakeSize}
-                    onChange={(selectedSize: any) => state.setCakeSize!(selectedSize)}
+                    onChange={(selected: any) => state.setCakeSize!(selected)}
                     className="form-input"
                     name="order-options"
                     options={CakeSizeOptions}
@@ -79,15 +81,12 @@ const CakeOrderForm = () => {
                 <span>
                     What <strong>Flavor</strong> would you like your <strong>Cake</strong> to be?
                 </span>
-                <input
-                    value={state.cakeFlavorInput}
-                    onChange={(e) => state.handleCakeFlavorInput!(e)}
-                    type="text"
+                <Input
+                    value={state.cakeFlavor}
+                    onChange={(e) => state.handleCakeFlavor(e)}
                     placeholder="Vanilla, Chocolate, Strawberry etc..."
-                    className="form-input"
-                    style={{ minHeight: "38px" }}
                 />
-                {state.cakeFlavorInputError && <div className="text-red-600 absolute my-16">{state.cakeFlavorInputError}</div>}
+                {state.cakeFlavorError && <div className="text-red-600 absolute my-16">{state.cakeFlavorError}</div>}
             </div>
 
             {/* FROSTING INPUT */}
@@ -95,15 +94,8 @@ const CakeOrderForm = () => {
                 <span>
                     What <strong>Frosting</strong> would you like on your <strong>Cake</strong>?
                 </span>
-                <input
-                    value={state.cakeFrostingInput}
-                    onChange={(e) => state.handleCakeFrostingInput!(e)}
-                    type="text"
-                    placeholder="Vanilla Buttercream..."
-                    className="form-input"
-                    style={{ minHeight: "38px" }}
-                />
-                {state.cakeFrostingInputError && <div className="text-red-600 absolute my-16">{state.cakeFlavorInputError}</div>}
+                <Input value={state.cakeFrosting} onChange={(e) => state.handleCakeFrosting(e)} placeholder="Vanilla Buttercream..." />
+                {state.cakeFrostingError && <div className="text-red-600 absolute my-16">{state.cakeFlavorError}</div>}
             </div>
 
             {/* FILLING INPUT */}
@@ -111,15 +103,8 @@ const CakeOrderForm = () => {
                 <span>
                     What <strong>Filling</strong> would you like in your <strong>Cake</strong>?
                 </span>
-                <input
-                    value={state.cakeFillingInput}
-                    onChange={(e) => state.handleCakeFillingInput!(e)}
-                    type="text"
-                    placeholder="Vanilla Buttercream..."
-                    className="form-input"
-                    style={{ minHeight: "38px" }}
-                />
-                {state.cakeFillingInputError && <div className="text-red-600 absolute my-16">{state.cakeFillingInputError}</div>}
+                <Input value={state.cakeFilling} onChange={(e) => state.handleCakeFilling(e)} placeholder="Vanilla Buttercream..." />
+                {state.cakeFillingError && <div className="text-red-600 absolute my-16">{state.cakeFillingError}</div>}
             </div>
 
             {/* FRUIT FILLING */}
@@ -127,13 +112,10 @@ const CakeOrderForm = () => {
                 <span>
                     Would you like a <strong>Fruit</strong> filling inside of your <strong>Cake</strong>?
                 </span>
-                <input
+                <Input
                     placeholder="Strawberry Filling..."
-                    style={{ minHeight: "38px" }}
-                    type="text"
-                    value={state.cakeFruitFillingInput}
-                    onChange={(e) => state.handleCakeFruitFillingInput(e)}
-                    className="form-input"
+                    value={state.cakeFruitFilling}
+                    onChange={(e) => state.handleCakeFruitFilling(e)}
                 />
             </div>
             {/* FRUIT TOPPING */}
@@ -141,14 +123,7 @@ const CakeOrderForm = () => {
                 <span>
                     Would you like a <strong>Fruit</strong> topping on your <strong>Cake</strong>?
                 </span>
-                <input
-                    value={state.cakeFruitToppingInput}
-                    onChange={(e) => state.handleCakeFruitToppingInput(e)}
-                    className="form-input"
-                    placeholder="Strawberries..."
-                    style={{ minHeight: "38px" }}
-                    type="text"
-                />
+                <Input value={state.cakeFruitTopping} onChange={(e) => state.handleCakeFruitTopping(e)} placeholder="Strawberries..." />
             </div>
             <div className="form-btn-container">
                 <a href={"#cake"}>
@@ -156,7 +131,7 @@ const CakeOrderForm = () => {
                         Submit Cake <br /> Form
                     </button>
                 </a>
-                {modalError && <div className="text-red-600 absolute my-16">{modalError}</div>}
+                {orderModalError && <div className="text-red-600 absolute my-16">{orderModalError}</div>}
             </div>
         </div>
     );

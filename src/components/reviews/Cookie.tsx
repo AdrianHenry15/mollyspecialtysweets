@@ -1,9 +1,9 @@
-import { useGlobalStore } from "../../stores/GlobalStore";
 import React from "react";
-import ReviewItem from "../ReviewItem";
+import ReviewItem from "./ReviewItem";
+import useCookieStore from "../../hooks/useCookieStore";
 
 const CookieReviewForm = () => {
-    const { ...state } = useGlobalStore().cookieStore;
+    const { ...state } = useCookieStore();
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault;
@@ -14,11 +14,11 @@ const CookieReviewForm = () => {
             <h3>Cookie Review Form</h3>
             <ReviewItem label="Cookie Size" value={state.cookieSize.label} />
             <ReviewItem label="Cookie Amount" value={state.cookieAmount.label} />
-            <ReviewItem label="Cookie Flavor" value={state.cookieFlavorInput} />
-            <ReviewItem label="Cookie Frosting" value={state.cookieFrostingInput} />
-            <ReviewItem label="Cookie Filling" value={state.cookieFillingInput} />
-            <ReviewItem label="Cookie Fruit" value={state.cookieFruitFillingInput} />
-            <ReviewItem label="Cookie Fruit" value={state.cookieFruitToppingInput} />
+            <ReviewItem label="Cookie Flavor" value={state.cookieFlavor} />
+            <ReviewItem label="Cookie Frosting" value={state.cookieFrosting} />
+            <ReviewItem label="Cookie Filling" value={state.cookieFilling} />
+            <ReviewItem label="Cookie Fruit" value={state.cookieFruitFilling} />
+            <ReviewItem label="Cookie Fruit" value={state.cookieFruitTopping} />
 
             {/* Edit Cookies Form Button */}
             <a className="flex justify-center" href={"#cookie"}>

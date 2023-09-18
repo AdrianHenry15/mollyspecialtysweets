@@ -1,11 +1,13 @@
 import { AmountOptions, SizeOptions } from "../../lib/GlobalOptions";
-import { useGlobalStore } from "../../stores/GlobalStore";
 import React from "react";
 import Select from "react-select";
+import Input from "../inputs/Input";
+import useCupcakeStore from "../../hooks/useCupcakeStore";
+import useModalStore from "../../hooks/useModalStore";
 
 const CupcakeOrderForm = () => {
-    const { ...state } = useGlobalStore().cupcakeStore;
-    const { modalError } = useGlobalStore().modalStore;
+    const { ...state } = useCupcakeStore();
+    const { orderModalError } = useModalStore();
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault;
@@ -50,15 +52,12 @@ const CupcakeOrderForm = () => {
                 <span>
                     What <strong>Flavor</strong> would you like your <strong>Cupcakes</strong> to be?
                 </span>
-                <input
-                    value={state.cupcakeFlavorInput}
-                    onChange={(e) => state.handleCupcakeFlavorInput(e)}
-                    type="text"
+                <Input
+                    value={state.cupcakeFlavor}
+                    onChange={(e) => state.handleCupcakeFlavor(e)}
                     placeholder="Vanilla, Chocolate, Strawberry etc..."
-                    className="form-input"
-                    style={{ minHeight: "38px" }}
                 />
-                {state.cupcakeFlavorInputError && <div className="text-red-600 absolute my-16">{state.cupcakeFlavorInputError}</div>}
+                {state.cupcakeFlavorError && <div className="text-red-600 absolute my-16">{state.cupcakeFlavorError}</div>}
             </div>
 
             {/* FROSTING INPUT */}
@@ -66,15 +65,12 @@ const CupcakeOrderForm = () => {
                 <span>
                     What <strong>Frosting</strong> would you like on your <strong>Cupcakes</strong>?
                 </span>
-                <input
-                    value={state.cupcakeFrostingInput}
-                    onChange={(e) => state.handleCupcakeFrostingInput(e)}
-                    type="text"
+                <Input
+                    value={state.cupcakeFrosting}
+                    onChange={(e) => state.handleCupcakeFrosting(e)}
                     placeholder="Vanilla Buttercream..."
-                    className="form-input"
-                    style={{ minHeight: "38px" }}
                 />
-                {state.cupcakeFrostingInputError && <div className="text-red-600 absolute my-16">{state.cupcakeFrostingInputError}</div>}
+                {state.cupcakeFrostingError && <div className="text-red-600 absolute my-16">{state.cupcakeFrostingError}</div>}
             </div>
 
             {/* FILLING INPUT */}
@@ -82,14 +78,7 @@ const CupcakeOrderForm = () => {
                 <span>
                     What <strong>Filling</strong> would you like in your <strong>Cupcakes</strong>?
                 </span>
-                <input
-                    value={state.cupcakeFillingInput}
-                    onChange={(e) => state.handleCupcakeFillingInput(e)}
-                    type="text"
-                    placeholder="Vanilla Buttercream..."
-                    className="form-input"
-                    style={{ minHeight: "38px" }}
-                />
+                <Input value={state.cupcakeFilling} onChange={(e) => state.handleCupcakeFilling(e)} placeholder="Vanilla Buttercream..." />
             </div>
 
             {/* FRUIT FILLING  */}
@@ -97,13 +86,10 @@ const CupcakeOrderForm = () => {
                 <span>
                     Would you like a <strong>Fruit Filling</strong> in your <strong>Cupcakes</strong>?
                 </span>
-                <input
-                    className="form-input"
-                    value={state.cupcakeFruitFillingInput}
-                    type="text"
+                <Input
+                    value={state.cupcakeFruitFilling}
                     placeholder="Strawberry Filling..."
-                    style={{ minHeight: "38px" }}
-                    onChange={(e) => state.handleCupcakeFruitFillingInput(e)}
+                    onChange={(e) => state.handleCupcakeFruitFilling(e)}
                 />
             </div>
             {/* FRUIT TOPPING  */}
@@ -111,13 +97,10 @@ const CupcakeOrderForm = () => {
                 <span>
                     Would you like a <strong>Fruit Topping</strong> in your <strong>Cupcakes</strong>?
                 </span>
-                <input
-                    className="form-input"
-                    style={{ minHeight: "38px" }}
+                <Input
                     placeholder="Strawberries..."
-                    value={state.cupcakeFruitToppingInput}
-                    type="text"
-                    onChange={(e) => state.handleCupcakeFruitToppingInput(e)}
+                    value={state.cupcakeFruitTopping}
+                    onChange={(e) => state.handleCupcakeFruitTopping(e)}
                 />
             </div>
 
@@ -128,7 +111,7 @@ const CupcakeOrderForm = () => {
                         Submit Cupcake <br /> Form
                     </button>
                 </a>
-                {modalError && <div className="text-red-600 absolute my-16">{modalError}</div>}
+                {orderModalError && <div className="text-red-600 absolute my-16">{orderModalError}</div>}
             </div>
         </div>
     );
