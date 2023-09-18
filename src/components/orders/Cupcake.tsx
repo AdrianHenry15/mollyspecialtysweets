@@ -4,6 +4,8 @@ import Select from "react-select";
 import Input from "../inputs/Input";
 import useCupcakeStore from "../../hooks/useCupcakeStore";
 import useModalStore from "../../hooks/useModalStore";
+import FormButton from "../buttons/FormButton";
+import FormItem from "./FormItem";
 
 const CupcakeOrderForm = () => {
     const { ...state } = useCupcakeStore();
@@ -105,14 +107,7 @@ const CupcakeOrderForm = () => {
             </div>
 
             {/* Cupcake Form Submit Button */}
-            <div className="form-btn-container">
-                <a href={"#cupcake"}>
-                    <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
-                        Submit Cupcake <br /> Form
-                    </button>
-                </a>
-                {orderModalError && <div className="text-red-600 absolute my-16">{orderModalError}</div>}
-            </div>
+            <FormButton href="#cupcake" handleSubmit={(e) => handleSubmit(e)} />
         </div>
     );
 };

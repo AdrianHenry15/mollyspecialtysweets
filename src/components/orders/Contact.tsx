@@ -3,6 +3,7 @@ import Select from "react-select";
 import ContactInput from "../inputs/ContactInput";
 import useModalStore from "../../hooks/useModalStore";
 import useContactStore from "../../hooks/useContactStore";
+import FormButton from "../buttons/FormButton";
 
 const DeliveryOptions = [
     { value: "delivery", label: "Delivery" },
@@ -94,14 +95,7 @@ const ContactForm = () => {
             />
 
             {/* SUBMIT BUTTON */}
-            <div className="form-btn-container">
-                <a href="#contact">
-                    <button className="items-center" type="submit" onClick={(e) => handleSubmit(e)}>
-                        Submit
-                    </button>
-                </a>
-                {orderModalError && <div className="text-red-600 absolute my-20">{orderModalError}</div>}
-            </div>
+            <FormButton href="#contact" handleSubmit={(e) => handleSubmit(e)} />
         </form>
     );
 };

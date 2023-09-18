@@ -1,6 +1,7 @@
 import React from "react";
 import ReviewItem from "./ReviewItem";
 import useCupcakeStore from "../../hooks/useCupcakeStore";
+import EditFormButton from "../buttons/EditFormButton";
 
 const CupcakeReviewForm = () => {
     const { ...state } = useCupcakeStore();
@@ -22,11 +23,7 @@ const CupcakeReviewForm = () => {
             <ReviewItem label="Cupcake Fruit" value={state.cupcakeFruitTopping} />
 
             {/* Edit Cupcakes Form Button */}
-            <a className="flex justify-center" href={"#cupcake"}>
-                <button className="review-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
-                    Edit Cupcakes <br /> Form
-                </button>
-            </a>
+            <EditFormButton href="#cupcake" handleSubmit={(e) => handleSubmit(e)} />
         </form>
     );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import ReviewItem from "./ReviewItem";
 import useContactStore from "../../hooks/useContactStore";
+import EditFormButton from "../buttons/EditFormButton";
 
 const ContactReviewForm = () => {
     const { ...state } = useContactStore();
@@ -26,11 +27,7 @@ const ContactReviewForm = () => {
             <ReviewItem label="Details" value={state.details} />
 
             {/* Edit Contact Form Button */}
-            <a className="flex justify-center" href={"#contact"}>
-                <button className="review-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
-                    Edit Contact <br /> Form
-                </button>
-            </a>
+            <EditFormButton href="#contact" handleSubmit={(e) => handleSubmit(e)} />
         </form>
     );
 };

@@ -4,6 +4,7 @@ import Select from "react-select";
 import Input from "../inputs/Input";
 import useCookieStore from "../../hooks/useCookieStore";
 import useModalStore from "../../hooks/useModalStore";
+import FormButton from "../buttons/FormButton";
 
 const CookieOrderForm = () => {
     const { ...state } = useCookieStore();
@@ -93,14 +94,7 @@ const CookieOrderForm = () => {
             </div>
 
             {/* Cookie Form Submit Button */}
-            <div className="form-btn-container">
-                <a href={"#cookie"}>
-                    <button className="order-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
-                        Submit Cookie <br /> Form
-                    </button>
-                </a>
-                {orderModalError && <div className="text-red-600 absolute my-16">{orderModalError}</div>}
-            </div>
+            <FormButton href="#cookie" handleSubmit={(e) => handleSubmit(e)} />
         </div>
     );
 };

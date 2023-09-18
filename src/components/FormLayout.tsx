@@ -74,7 +74,7 @@ const Home = () => {
             <div className="flex flex-col items-center">
                 {/* FORM ITEM 1 */}
                 <div className="form-item">
-                    <span>What would you like to order?</span>
+                    <span>Create a Specialty Sweet!</span>
                     {/* When the 'orderType' gets set, so does the url */}
                     <Select
                         className="form-input"
@@ -90,7 +90,8 @@ const Home = () => {
                 {renderCupcakeForm()}
                 {renderCookieForm()}
             </div>
-            {renderContactForm()}
+            {!isContactFormSubmitted ? <ContactForm /> : <ContactReviewForm />}
+            {/* TODO: IF AN ORDER TYPE HAS NOT BEEN CHOSEN OR A TEMPLATE HAS NOT BEEN CHOSEN YOU CANNOT FINISH THE ORDER */}
             {orderType!.some((selected) => selected.value !== "none") && (
                 <div className={!isContactFormSubmitted ? "cursor-progress" : ""}>
                     <button

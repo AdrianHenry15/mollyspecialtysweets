@@ -10,7 +10,7 @@ const OrderModal = () => {
     // CONTACT
     const { firstName, lastName, contactOption, date, deliveryOption, deliveryAddress, theme, colors, details } = useContactStore();
     // MODAL
-    const { setOrderModal, orderModal } = useModalStore();
+    const { setOrderModal } = useModalStore();
     // CAKE
     const { cakeShape, cakeTier, cakeSize, cakeFilling, cakeFlavor, cakeFrosting, cakeFruitFilling, cakeFruitTopping } = useCakeStore();
     // CUPCAKE
@@ -79,25 +79,22 @@ const OrderModal = () => {
             }
         );
     };
-    if (!orderModal) {
-        return <div></div>;
-    } else {
-        return (
-            <div className="modalOverlay">
-                <div className="modal">
-                    <span>Are you sure your forms are completed and you want to submit them?</span>
-                    <div className="flex justify-evenly mt-10">
-                        <button onClick={(e) => sendOrder(e)} id="modal-btn">
-                            Submit Forms
-                        </button>
-                        <button onClick={() => setOrderModal(false)} id="modal-btn-2">
-                            Edit Forms
-                        </button>
-                    </div>
+
+    return (
+        <div className="modalOverlay">
+            <div className="modal justify-center">
+                <span>Are you sure your forms are completed and you want to submit them?</span>
+                <div className="flex justify-evenly mt-10">
+                    <button onClick={(e) => sendOrder(e)} id="modal-btn">
+                        Submit Forms
+                    </button>
+                    <button onClick={() => setOrderModal(false)} id="modal-btn-2">
+                        Edit Forms
+                    </button>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 };
 
 export default OrderModal;

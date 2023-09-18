@@ -4,9 +4,11 @@ import { BsPersonCircle } from "react-icons/bs";
 import { PiCookieDuotone } from "react-icons/pi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import RegisterDropdown from "./RegisterDropdown";
+import useOrderTypeStore from "../hooks/useOrderTypeStore";
 
 const Navbar = () => {
     const [dropdown, setDropdown] = useState(false);
+    const { setOrderType } = useOrderTypeStore();
     return (
         <nav id="navbar" className="pt-12 mb-20 text-center sm:text-sm">
             <div className="flex">
@@ -31,7 +33,7 @@ const Navbar = () => {
                     TODO: If you click the icon than it selects the Order Type... 
                     This Order Type needs to be displayed inside of the react-select 'Select' element
                 */}
-                    <span className="cursor-pointer" onClick={() => {}}>
+                    <span className="cursor-pointer" onClick={(selected: any) => setOrderType(selected)}>
                         <GiStairsCake />
                     </span>
                     <span className="cursor-pointer" onClick={() => {}}>

@@ -1,6 +1,8 @@
 import React from "react";
 import ReviewItem from "./ReviewItem";
 import useCakeStore from "../../hooks/useCakeStore";
+import FormButton from "../buttons/FormButton";
+import EditFormButton from "../buttons/EditFormButton";
 
 const CakeReviewForm = () => {
     const { ...state } = useCakeStore();
@@ -23,11 +25,7 @@ const CakeReviewForm = () => {
             <ReviewItem label="Cake Fruit Topping" value={state.cakeFruitTopping} />
 
             {/* Edit Cakes Form Button */}
-            <a className="flex justify-center" href={"#cake"}>
-                <button className="review-form-submit" type="submit" onClick={() => state.submitCakeForm(false)}>
-                    Edit Cake <br /> Form
-                </button>
-            </a>
+            <EditFormButton href="#cake" onClick={() => state.submitCakeForm(false)} />
         </form>
     );
 };
