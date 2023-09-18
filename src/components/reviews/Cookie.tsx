@@ -1,6 +1,7 @@
 import React from "react";
 import ReviewItem from "./ReviewItem";
 import useCookieStore from "../../hooks/useCookieStore";
+import EditFormButton from "../buttons/EditFormButton";
 
 const CookieReviewForm = () => {
     const { ...state } = useCookieStore();
@@ -21,11 +22,7 @@ const CookieReviewForm = () => {
             <ReviewItem label="Cookie Fruit" value={state.cookieFruitTopping} />
 
             {/* Edit Cookies Form Button */}
-            <a className="flex justify-center" href={"#cookie"}>
-                <button className="review-form-submit" type="submit" onClick={(e) => handleSubmit(e)}>
-                    Edit Cookies <br /> Form
-                </button>
-            </a>
+            <EditFormButton href="#cookie" handleSubmit={(e) => handleSubmit(e)} />
         </form>
     );
 };

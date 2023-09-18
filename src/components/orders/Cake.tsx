@@ -3,6 +3,7 @@ import Select from "react-select";
 import Input from "../inputs/Input";
 import useCakeStore from "../../hooks/useCakeStore";
 import useModalStore from "../../hooks/useModalStore";
+import FormButton from "../buttons/FormButton";
 
 const TierOptions = [
     { value: "single", label: "Single" },
@@ -125,14 +126,7 @@ const CakeOrderForm = () => {
                 </span>
                 <Input value={state.cakeFruitTopping} onChange={(e) => state.handleCakeFruitTopping(e)} placeholder="Strawberries..." />
             </div>
-            <div className="form-btn-container">
-                <a href={"#cake"}>
-                    <button className="order-form-submit" type="submit" onClick={() => state.submitCakeForm(true)}>
-                        Submit Cake <br /> Form
-                    </button>
-                </a>
-                {orderModalError && <div className="text-red-600 absolute my-16">{orderModalError}</div>}
-            </div>
+            <FormButton href="#cake" onClick={() => state.submitCakeForm(true)} error={orderModalError} />
         </div>
     );
 };
