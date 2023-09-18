@@ -126,7 +126,7 @@ const CakeOrderForm = () => {
                 </span>
                 <Input value={state.cakeFruitTopping} onChange={(e) => state.handleCakeFruitTopping(e)} placeholder="Strawberries..." />
             </div>
-            <FormButton href="#cake" onClick={() => state.submitCakeForm(true)} error={orderModalError} />
+            <FormButton href="#cake" onClick={() => state.submitCakeForm(true)} />
         </div>
     );
 };
