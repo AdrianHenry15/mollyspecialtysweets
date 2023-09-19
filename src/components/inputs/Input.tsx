@@ -3,7 +3,7 @@ import React from "react";
 interface IInputProps {
     value: string;
     onChange: (e: any) => void;
-    placeholder: string;
+    placeholder?: string;
 }
 
 const Input = (props: IInputProps) => {

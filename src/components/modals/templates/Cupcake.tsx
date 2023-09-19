@@ -1,7 +1,7 @@
 import React from "react";
 
-const Cupcake = () => {
+const CupcakeModal = () => {
     return <div>Cupcake</div>;
 };
 
-export default Cupcake;
+export default CupcakeModal;
