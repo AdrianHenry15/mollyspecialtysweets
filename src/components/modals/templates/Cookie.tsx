@@ -1,7 +1,7 @@
 import React from "react";
 
-const Cookie = () => {
+const CookieModal = () => {
     return <div>Cookie</div>;
 };
 
-export default Cookie;
+export default CookieModal;

@@ -3,7 +3,7 @@ import React from "react";
 interface IContactInputProps {
     value: string;
     onChange: (e: any) => void;
-    placeholder: string;
+    placeholder?: string;
 }
 
 const ContactInput = (props: IContactInputProps) => {
