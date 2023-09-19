@@ -3,13 +3,10 @@ import React from "react";
 import Select from "react-select";
 import Input from "../inputs/Input";
 import useCupcakeStore from "../../hooks/useCupcakeStore";
-import useModalStore from "../../hooks/useModalStore";
 import FormButton from "../buttons/FormButton";
-import FormItem from "./FormItem";
 
 const CupcakeOrderForm = () => {
     const { ...state } = useCupcakeStore();
-    const { orderModalError } = useModalStore();
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault;

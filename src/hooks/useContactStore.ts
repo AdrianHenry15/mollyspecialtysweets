@@ -6,7 +6,7 @@ interface ContactStore {
     firstName: string;
     lastName: string;
     contactOption: string;
-    // altContactOption: string
+    altContactOption: string;
     date: string;
     deliveryOption: OrderOption | null;
     deliveryAddress: string;
@@ -29,11 +29,10 @@ interface ContactStore {
     handleFirstName: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleLastName: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleContactOption: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    // handleAltContactOption: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleAltContactOption: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleDate: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleDeliveryAddress: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleTheme: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    // handleRecipient: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleColors: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleDetails: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
@@ -42,6 +41,7 @@ const useContactStore = create<ContactStore>((set, get) => ({
     firstName: "",
     lastName: "",
     contactOption: "",
+    altContactOption: "",
     date: "",
     deliveryOption: { value: "", label: "" },
     deliveryAddress: "",
@@ -124,7 +124,7 @@ const useContactStore = create<ContactStore>((set, get) => ({
     handleFirstName: (e: React.ChangeEvent<HTMLInputElement>) => set({ firstName: e.target.value }),
     handleLastName: (e: React.ChangeEvent<HTMLInputElement>) => set({ lastName: e.target.value }),
     handleContactOption: (e: React.ChangeEvent<HTMLInputElement>) => set({ contactOption: e.target.value }),
-    // handleAltContactOption: (e: React.ChangeEvent<HTMLInputElement>) => set({ contactOption: e.target.value }),
+    handleAltContactOption: (e: React.ChangeEvent<HTMLInputElement>) => set({ altContactOption: e.target.value }),
     handleDate: (e: React.ChangeEvent<HTMLInputElement>) => set({ date: e.target.value }),
 }));
 

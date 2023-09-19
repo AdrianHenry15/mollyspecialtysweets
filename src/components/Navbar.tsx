@@ -5,10 +5,11 @@ import { PiCookieDuotone } from "react-icons/pi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import RegisterDropdown from "./RegisterDropdown";
 import useOrderTypeStore from "../hooks/useOrderTypeStore";
+import useModalStore from "../hooks/useModalStore";
 
 const Navbar = () => {
     const [dropdown, setDropdown] = useState(false);
-    const { setOrderType } = useOrderTypeStore();
+    const { setCakeModal, setCupcakeModal, setCookieModal } = useModalStore();
     return (
         <nav id="navbar" className="pt-12 mb-20 text-center sm:text-sm">
             <div className="flex">
@@ -29,17 +30,14 @@ const Navbar = () => {
             <div className="mt-20 w-full text-2xl flex flex-col items-center">
                 <span className="underline">Choose Template</span>
                 <div className="mt-10 w-full flex justify-evenly items-center text-4xl">
-                    {/* 
-                    TODO: If you click the icon than it selects the Order Type... 
-                    This Order Type needs to be displayed inside of the react-select 'Select' element
-                */}
-                    <span className="cursor-pointer" onClick={(selected: any) => setOrderType(selected)}>
+                    {/* TODO: These icons activate a modal with choices for the cake that the user wants */}
+                    <span className="cursor-pointer" onClick={() => setCakeModal(true)}>
                         <GiStairsCake />
                     </span>
-                    <span className="cursor-pointer" onClick={() => {}}>
+                    <span className="cursor-pointer" onClick={() => setCupcakeModal(true)}>
                         <GiCupcake />
                     </span>
-                    <span className="cursor-pointer" onClick={() => {}}>
+                    <span className="cursor-pointer" onClick={() => setCookieModal(true)}>
                         <PiCookieDuotone />
                     </span>
                 </div>

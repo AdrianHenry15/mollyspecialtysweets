@@ -1,7 +1,6 @@
 import React from "react";
 import Select from "react-select";
 import ContactInput from "../inputs/ContactInput";
-import useModalStore from "../../hooks/useModalStore";
 import useContactStore from "../../hooks/useContactStore";
 import FormButton from "../buttons/FormButton";
 
@@ -12,7 +11,6 @@ const DeliveryOptions = [
 
 const ContactForm = () => {
     const { ...state } = useContactStore();
-    const { orderModalError } = useModalStore();
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -43,6 +41,15 @@ const ContactForm = () => {
                 {state.contactOptionError && (
                     <div className="text-red-600 text-center text-xs absolute my-14">{state.contactOptionError}</div>
                 )}
+            </div>
+
+            {/* ALT CONTACT OPTION */}
+            <div className="my-3 flex justify-center ">
+                <ContactInput
+                    value={state.altContactOption}
+                    onChange={(e) => state.handleAltContactOption(e)}
+                    placeholder="Alternate Contact Option..."
+                />
             </div>
 
             {/* DATE */}

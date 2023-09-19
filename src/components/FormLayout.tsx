@@ -22,7 +22,7 @@ const OrderOptions = [
 ];
 
 const Home = () => {
-    const { orderType, setOrderType } = useOrderTypeStore();
+    const { orderType, cakeType, cupcakeType, cookieType } = useOrderTypeStore();
     const { isContactFormSubmitted } = useContactStore();
     const { setOrderModal } = useModalStore();
     const { isCakeFormSubmitted } = useCakeStore();
@@ -34,16 +34,8 @@ const Home = () => {
         setOrderModal(true);
     };
 
-    const renderContactForm = (): JSX.Element => {
-        if (orderType!.some((selected) => selected.value !== "none")) {
-            return !isContactFormSubmitted ? <ContactForm /> : <ContactReviewForm />;
-        } else {
-            return <div></div>;
-        }
-    };
-
     const renderCakeForm = (): JSX.Element => {
-        if (orderType!.some((selected) => selected.value === "cake")) {
+        if (cakeType) {
             // if there is a "Cookie Order Form" the order form has not been submitted yet
             return !isCakeFormSubmitted ? <CakeOrderForm /> : <CakeReviewForm />;
         } else {
@@ -69,22 +61,29 @@ const Home = () => {
         }
     };
 
+    const setOrderType = () => {
+        if (cakeType) {
+        }
+    };
+
     return (
         <main className="items-center flex flex-col">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center w-full">
                 {/* FORM ITEM 1 */}
-                <div className="form-item">
+                <div className="form-item w-full">
                     <span>Create a Specialty Sweet!</span>
                     {/* When the 'orderType' gets set, so does the url */}
-                    <Select
-                        className="form-input"
-                        isMulti
-                        name="order-options"
-                        options={OrderOptions}
-                        onChange={(selected: any) => {
-                            setOrderType(selected);
-                        }}
-                    />
+                    <div className="flex justify-between w-full mt-10">
+                        <span className="border-2 rounded-xl border-black px-6 py-4 text-center flex items-centercursor-pointer hover:shadow-lg">
+                            Cake
+                        </span>
+                        <span className="border-2 rounded-xl border-black px-6 py-4 text-center flex items-center cursor-pointer hover:shadow-lg">
+                            Cupcake
+                        </span>
+                        <span className="border-2 rounded-xl border-black px-6 py-4 text-center flex items-center cursor-pointer hover:shadow-lg">
+                            Cookie
+                        </span>
+                    </div>
                 </div>
                 {renderCakeForm()}
                 {renderCupcakeForm()}

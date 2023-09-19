@@ -2,7 +2,6 @@ import React from "react";
 import Select from "react-select";
 import Input from "../inputs/Input";
 import useCakeStore from "../../hooks/useCakeStore";
-import useModalStore from "../../hooks/useModalStore";
 import FormButton from "../buttons/FormButton";
 
 const TierOptions = [
@@ -26,7 +25,6 @@ const CakeSizeOptions = [
 
 const CakeOrderForm = () => {
     const { ...state } = useCakeStore();
-    const { orderModalError } = useModalStore();
 
     return (
         <div id="cake" className="flex flex-col justify-center">
