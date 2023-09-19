@@ -134,7 +134,7 @@ form {
 
 button {
     display: flex;
-    background-color: var(--btn-color) !important;
+    background-color: var(--btn-color);
     width: 130px;
     justify-content: center;
     align-self: center;
@@ -216,7 +216,6 @@ button:hover {
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     width: 500px;
-    height: 200px;
     border: solid 1px black;
 }
 

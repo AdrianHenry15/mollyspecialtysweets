@@ -12,7 +12,7 @@ const App = () => {
         <div className="flex flex-col h-full w-full items-center">
             <Navbar />
             {!orderModal ? <div></div> : <OrderModal />}
-            {/* <LoginModal /> */}
+            <LoginModal />
             <FormLayout />
             <Footer />
         </div>

@@ -95,6 +95,7 @@ const Home = () => {
             {orderType!.some((selected) => selected.value !== "none") && (
                 <div className={!isContactFormSubmitted ? "cursor-progress" : ""}>
                     <button
+                        style={{ backgroundColor: "#d3caac" }}
                         className={`form-item ${!isContactFormSubmitted ? "pointer-events-none" : ""}`}
                         type="submit"
                         onClick={(e) => handleSubmit(e)}
