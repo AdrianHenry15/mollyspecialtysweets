@@ -3,12 +3,10 @@ import React from "react";
 import Select from "react-select";
 import Input from "../inputs/Input";
 import useCookieStore from "../../hooks/useCookieStore";
-import useModalStore from "../../hooks/useModalStore";
 import FormButton from "../buttons/FormButton";
 
 const CookieOrderForm = () => {
     const { ...state } = useCookieStore();
-    const { orderModalError } = useModalStore();
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault;

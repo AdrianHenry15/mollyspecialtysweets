@@ -21,7 +21,6 @@ const App = () => {
             {!cakeModal ? <div></div> : <CakeModal />}
             {!cupcakeModal ? <div></div> : <CupcakeModal />}
             {!cookieModal ? <div></div> : <CookieModal />}
-            <CakeModal />
             <FormLayout />
             <Footer />
         </div>
