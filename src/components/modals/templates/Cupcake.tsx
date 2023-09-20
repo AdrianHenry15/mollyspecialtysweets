@@ -6,11 +6,11 @@ const CupcakeModal = () => {
     return (
         <Template template="Cupcake">
             {/* VANILLA */}
-            <TemplateBtn template="Cupcake" className="bg-amber-100" text="Vanilla" />
+            <TemplateBtn onClick={() => {}} template="Cupcake" className="bg-amber-100" text="Vanilla" />
             {/* CHOCOLATE */}
-            <TemplateBtn template="Cupcake" className="bg-amber-900" text="Chocolate" />
+            <TemplateBtn onClick={() => {}} template="Cupcake" className="bg-amber-900" text="Chocolate" />
             {/* STRAWBERRY */}
-            <TemplateBtn template="Cupcake" className="bg-rose-400" text="Strawberry" />
+            <TemplateBtn onClick={() => {}} template="Cupcake" className="bg-rose-400" text="Strawberry" />
         </Template>
     );
 };

@@ -13,10 +13,12 @@ const Navbar = () => {
     return (
         <nav id="navbar" className="pt-12 mb-20 text-center sm:text-sm">
             <div className="flex">
+                {/* TITLE */}
                 <span className="w-full text-center" id="app-header-text">{`Molly's Specialty Sweets`}</span>
-                <a
+                {/* REGISTER */}
+                {/* <a
                     onClick={() => setDropdown(!dropdown)}
-                    className="cursor-pointer hover:shadow-lg absolute flex right-2 top-2 p-2 items-center border-2 border-black rounded-xl"
+                    className="cursor-pointer hover:shadow-lg absolute flex right-0 top-2 p-2 items-center border-2 border-black rounded-xl"
                 >
                     <div className="mr-4">
                         <RxHamburgerMenu size={20} />
@@ -25,7 +27,7 @@ const Navbar = () => {
                         <BsPersonCircle size={25} />
                     </div>
                 </a>
-                {dropdown && <RegisterDropdown />}
+                {dropdown && <RegisterDropdown />} */}
             </div>
             <div className="mt-20 w-full text-2xl flex flex-col items-center">
                 <span className="underline">Choose Template</span>

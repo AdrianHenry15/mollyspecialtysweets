@@ -25,13 +25,11 @@ interface CakeStore {
     setCakeTier: (selected: OrderOption | null) => void;
     setCakeSize: (selected: OrderOption | null) => void;
     submitCakeForm: (submitted: boolean) => void;
-
-    // Handlers
-    handleCakeFlavor: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleCakeFrosting: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleCakeFilling: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleCakeFruitFilling: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleCakeFruitTopping: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    setCakeFlavor: (text: string) => void;
+    setCakeFrosting: (text: string) => void;
+    setCakeFilling: (text: string) => void;
+    setCakeFruitFilling: (text: string) => void;
+    setCakeFruitTopping: (text: string) => void;
 }
 
 const useCakeStore = create<CakeStore>((set, get) => ({
@@ -83,14 +81,14 @@ const useCakeStore = create<CakeStore>((set, get) => ({
     setCakeTier: (selected: OrderOption | null) => set({ cakeTier: selected! }),
     setCakeSize: (selected: OrderOption | null) => set({ cakeSize: selected! }),
 
-    //Handlers
-    handleCakeFlavor: (e: React.ChangeEvent<HTMLInputElement>) => set({ cakeFlavor: e.target.value }),
-    handleCakeFrosting: (e: React.ChangeEvent<HTMLInputElement>) => set({ cakeFrosting: e.target.value }),
-    handleCakeFilling: (e: React.ChangeEvent<HTMLInputElement>) => set({ cakeFilling: e.target.value }),
-    handleCakeFruitFilling: (e: React.ChangeEvent<HTMLInputElement>) => set({ cakeFruitFilling: e.target.value }),
-    handleCakeFruitTopping: (e: React.ChangeEvent<HTMLInputElement>) =>
+    //setrs
+    setCakeFlavor: (text: string) => set({ cakeFlavor: text }),
+    setCakeFrosting: (text: string) => set({ cakeFrosting: text }),
+    setCakeFilling: (text: string) => set({ cakeFilling: text }),
+    setCakeFruitFilling: (text: string) => set({ cakeFruitFilling: text }),
+    setCakeFruitTopping: (text: string) =>
         set({
-            cakeFruitTopping: e.target.value,
+            cakeFruitTopping: text,
         }),
 }));
 

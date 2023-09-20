@@ -26,6 +26,36 @@ const CakeSizeOptions = [
 const CakeOrderForm = () => {
     const { ...state } = useCakeStore();
 
+    const handleFlavor = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        state.setCakeFlavor(value);
+    };
+
+    const handleFrosting = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        state.setCakeFrosting(value);
+    };
+
+    const handleFilling = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        state.setCakeFilling(value);
+    };
+
+    const handleFruitFilling = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        state.setCakeFruitFilling(value);
+    };
+
+    const handleFruitTopping = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        state.setCakeFruitTopping(value);
+    };
+
     return (
         <div id="cake" className="flex flex-col justify-center">
             <h5>Cake Order Form</h5>
@@ -80,11 +110,7 @@ const CakeOrderForm = () => {
                 <span>
                     What <strong>Flavor</strong> would you like your <strong>Cake</strong> to be?
                 </span>
-                <Input
-                    value={state.cakeFlavor}
-                    onChange={(e) => state.handleCakeFlavor(e)}
-                    placeholder="Vanilla, Chocolate, Strawberry etc..."
-                />
+                <Input value={state.cakeFlavor} onChange={(e) => handleFlavor(e)} placeholder="Vanilla, Chocolate, Strawberry etc..." />
                 {state.cakeFlavorError && <div className="text-red-600 absolute my-16">{state.cakeFlavorError}</div>}
             </div>
 
@@ -93,7 +119,7 @@ const CakeOrderForm = () => {
                 <span>
                     What <strong>Frosting</strong> would you like on your <strong>Cake</strong>?
                 </span>
-                <Input value={state.cakeFrosting} onChange={(e) => state.handleCakeFrosting(e)} placeholder="Vanilla Buttercream..." />
+                <Input value={state.cakeFrosting} onChange={(e) => handleFrosting(e)} placeholder="Vanilla Buttercream..." />
                 {state.cakeFrostingError && <div className="text-red-600 absolute my-16">{state.cakeFlavorError}</div>}
             </div>
 
@@ -102,7 +128,7 @@ const CakeOrderForm = () => {
                 <span>
                     What <strong>Filling</strong> would you like in your <strong>Cake</strong>?
                 </span>
-                <Input value={state.cakeFilling} onChange={(e) => state.handleCakeFilling(e)} placeholder="Vanilla Buttercream..." />
+                <Input value={state.cakeFilling} onChange={(e) => handleFilling(e)} placeholder="Vanilla Buttercream..." />
                 {state.cakeFillingError && <div className="text-red-600 absolute my-16">{state.cakeFillingError}</div>}
             </div>
 
@@ -111,18 +137,14 @@ const CakeOrderForm = () => {
                 <span>
                     Would you like a <strong>Fruit</strong> filling inside of your <strong>Cake</strong>?
                 </span>
-                <Input
-                    placeholder="Strawberry Filling..."
-                    value={state.cakeFruitFilling}
-                    onChange={(e) => state.handleCakeFruitFilling(e)}
-                />
+                <Input placeholder="Strawberry Filling..." value={state.cakeFruitFilling} onChange={(e) => handleFruitFilling(e)} />
             </div>
             {/* FRUIT TOPPING */}
             <div className="form-item">
                 <span>
                     Would you like a <strong>Fruit</strong> topping on your <strong>Cake</strong>?
                 </span>
-                <Input value={state.cakeFruitTopping} onChange={(e) => state.handleCakeFruitTopping(e)} placeholder="Strawberries..." />
+                <Input value={state.cakeFruitTopping} onChange={(e) => handleFruitTopping(e)} placeholder="Strawberries..." />
             </div>
             <FormButton href="#cake" onClick={() => state.submitCakeForm(true)} />
         </div>

@@ -4,14 +4,16 @@ import { GiStairsCake, GiCupcake } from "react-icons/gi";
 import useModalStore from "../../../hooks/useModalStore";
 import TemplateBtn from "../../buttons/TemplateBtn";
 import { SiCookiecutter } from "react-icons/si";
+import useOrderTypeStore from "../../../hooks/useOrderTypeStore";
 
 interface ITemplateProps {
-    template: string;
+    template: "Cake" | "Cupcake" | "Cookie";
     children: React.ReactNode;
 }
 
 const Template = (props: ITemplateProps) => {
     const { setCakeModal, setCupcakeModal, setCookieModal } = useModalStore();
+    const { setCakeType, setCupcakeType, setCookieType } = useOrderTypeStore();
 
     const setModal = (template: "Cake" | "Cupcake" | "Cookie") => {
         if (template === "Cake") {
@@ -76,17 +78,35 @@ const Template = (props: ITemplateProps) => {
             return <GiStairsCake size={32} />;
         } else if (props.template === "Cupcake") {
             return <GiCupcake size={32} />;
-        } else {
+        } else if (props.template === "Cookie") {
             return <SiCookiecutter size={32} />;
+        } else {
+            return <div></div>;
         }
     };
 
     const closeModal = () => {
         if (props.template === "Cake") {
             setCakeModal(false);
+            setCakeType(false);
         } else if (props.template === "Cupcake") {
             setCupcakeModal(false);
+            setCupcakeType(false);
         } else {
+            setCookieModal(false);
+            setCookieType(false);
+        }
+    };
+
+    const submitFlavor = () => {
+        if (props.template === "Cake") {
+            setCakeType(true);
+            setCakeModal(false);
+        } else if (props.template === "Cupcake") {
+            setCupcakeType(true);
+            setCupcakeModal(false);
+        } else {
+            setCookieType(true);
             setCookieModal(false);
         }
     };
@@ -94,15 +114,20 @@ const Template = (props: ITemplateProps) => {
         <div className="modalOverlay">
             <div className="modal py-10">
                 {/* HEADER */}
-                <div className="border-b-2 border-slate-200 flex items-center justify-center pb-2">
-                    <div style={{ marginRight: "450px" }} onClick={() => closeModal()} className="absolute cursor-pointer">
+                <div className="border-b-2 border-slate-200 flex items-center justify-center pb-2 w-full">
+                    <div style={{}} onClick={() => closeModal()} className="cursor-pointer">
                         <MdOutlineClose />
                     </div>
-                    <h1>{`Choose a ${props.template} Template`}</h1>
+                    <h1 className="flex flex-3 items-center w-full text-center justify-center mr-4">{`Choose a ${props.template} Template`}</h1>
                 </div>
                 {/* WELCOME */}
                 <div className="py-6 flex flex-col items-center">{renderHeaderIcon()}</div>
-                {props.children}
+                <div className="pb-2">{props.children}</div>
+                <hr className="pt-2" />
+                {/* THIS JUMPS TO THE BEGINNING OF SELECTED ORDER FORM */}
+                <a href={`#${props.template.toLowerCase()}`}>
+                    <TemplateBtn text="Submit" className={"bg-black text-white"} template={props.template} onClick={() => submitFlavor()} />
+                </a>
 
                 {/* SIGN UP */}
                 {renderIcons()}

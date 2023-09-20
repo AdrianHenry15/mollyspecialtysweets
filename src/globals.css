@@ -35,6 +35,15 @@ body {
     font-size: 50px;
 }
 
+.order-type {
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    border: 1px solid black;
+    cursor: pointer;
+    animation: fadeIn 2s;
+}
+
 .form-item {
     display: flex;
     flex-direction: column;
@@ -46,7 +55,6 @@ body {
 
 .form-input {
     width: 100%;
-    cursor: pointer;
 }
 
 .order-form-submit {

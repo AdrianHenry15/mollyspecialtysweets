@@ -21,12 +21,12 @@ interface CupcakeStore {
     submitCupcakeForm: (submitted: boolean) => void;
     setCupcakeSize: (selected: OrderOption | null) => void;
     setCupcakeAmount: (selected: OrderOption | null) => void;
-    // Handlers
-    handleCupcakeFruitFilling: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleCupcakeFruitTopping: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleCupcakeFlavor: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleCupcakeFrosting: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleCupcakeFilling: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    // setrs
+    setCupcakeFruitFilling: (text: string) => void;
+    setCupcakeFruitTopping: (text: string) => void;
+    setCupcakeFlavor: (text: string) => void;
+    setCupcakeFrosting: (text: string) => void;
+    setCupcakeFilling: (text: string) => void;
 }
 
 const useCupcakeStore = create<CupcakeStore>((set, get) => ({
@@ -68,22 +68,20 @@ const useCupcakeStore = create<CupcakeStore>((set, get) => ({
     },
     setCupcakeSize: (selected: OrderOption | null) => set({ cupcakeSize: selected! }),
     setCupcakeAmount: (selected: OrderOption | null) => set({ cupcakeAmount: selected! }),
-
-    // Handlers
-    handleCupcakeFlavor: (e: React.ChangeEvent<HTMLInputElement>) =>
+    setCupcakeFlavor: (text: string) =>
         set({
-            cupcakeFlavor: e.target.value,
+            cupcakeFlavor: text,
         }),
-    handleCupcakeFrosting: (e: React.ChangeEvent<HTMLInputElement>) =>
+    setCupcakeFrosting: (text: string) =>
         set({
-            cupcakeFrosting: e.target.value,
+            cupcakeFrosting: text,
         }),
-    handleCupcakeFilling: (e: React.ChangeEvent<HTMLInputElement>) =>
+    setCupcakeFilling: (text: string) =>
         set({
-            cupcakeFilling: e.target.value,
+            cupcakeFilling: text,
         }),
-    handleCupcakeFruitFilling: (e: React.ChangeEvent<HTMLInputElement>) => set({ cupcakeFruitFilling: e.target.value }),
-    handleCupcakeFruitTopping: (e: React.ChangeEvent<HTMLInputElement>) => set({ cupcakeFruitTopping: e.target.value }),
+    setCupcakeFruitFilling: (text: string) => set({ cupcakeFruitFilling: text }),
+    setCupcakeFruitTopping: (text: string) => set({ cupcakeFruitTopping: text }),
 }));
 
 export default useCupcakeStore;
