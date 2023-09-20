@@ -5,6 +5,9 @@ import useModalStore from "../../../hooks/useModalStore";
 import TemplateBtn from "../../buttons/TemplateBtn";
 import { SiCookiecutter } from "react-icons/si";
 import useOrderTypeStore from "../../../hooks/useOrderTypeStore";
+import useCakeStore from "../../../hooks/useCakeStore";
+import useCupcakeStore from "../../../hooks/useCupcakeStore";
+import useCookieStore from "../../../hooks/useCookieStore";
 
 interface ITemplateProps {
     template: "Cake" | "Cupcake" | "Cookie";
@@ -12,6 +15,9 @@ interface ITemplateProps {
 }
 
 const Template = (props: ITemplateProps) => {
+    const { setCakeFlavor, setCakeFrosting, setCakeFilling } = useCakeStore();
+    const { setCupcakeFlavor, setCupcakeFrosting } = useCupcakeStore();
+    const { setCookieFlavor, setCookieFrosting } = useCookieStore();
     const { setCakeModal, setCupcakeModal, setCookieModal } = useModalStore();
     const { setCakeType, setCupcakeType, setCookieType } = useOrderTypeStore();
 
@@ -87,12 +93,24 @@ const Template = (props: ITemplateProps) => {
 
     const closeModal = () => {
         if (props.template === "Cake") {
+            // sets template flavors back to empty string
+            setCakeFlavor("");
+            setCakeFrosting("");
+            setCakeFilling("");
+            //closes modal
             setCakeModal(false);
+            // sets cake order type back to nothing
             setCakeType(false);
         } else if (props.template === "Cupcake") {
+            setCupcakeFlavor("");
+            setCupcakeFrosting("");
+
             setCupcakeModal(false);
             setCupcakeType(false);
         } else {
+            setCookieFlavor("");
+            setCookieFrosting("");
+
             setCookieModal(false);
             setCookieType(false);
         }
