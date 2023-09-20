@@ -30,7 +30,7 @@ const Navbar = () => {
                 {dropdown && <RegisterDropdown />} */}
             </div>
             <div className="mt-20 w-full text-2xl flex flex-col items-center">
-                <span className="underline">Choose Template</span>
+                <span className="underline">Choose Flavor Template</span>
                 <div className="mt-10 w-full flex justify-evenly items-center text-4xl">
                     {/* TODO: These icons activate a modal with choices for the cake that the user wants */}
                     <span className="cursor-pointer" onClick={() => setCakeModal(true)}>
