@@ -67,7 +67,7 @@ const Home = () => {
     };
 
     return (
-        <main className="items-center flex flex-col">
+        <section className="items-center flex flex-col">
             <div className="flex flex-col items-center w-full">
                 {/* FORM ITEM 1 */}
                 <div className="form-item w-full">
@@ -114,7 +114,7 @@ const Home = () => {
                     Finish Order
                 </button>
             </div>
-        </main>
+        </section>
     );
 };
 
