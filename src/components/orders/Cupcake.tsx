@@ -13,6 +13,36 @@ const CupcakeOrderForm = () => {
         state.submitCupcakeForm(true);
     };
 
+    const handleFlavor = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        state.setCupcakeFlavor(value);
+    };
+
+    const handleFrosting = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        state.setCupcakeFrosting(value);
+    };
+
+    const handleFilling = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        state.setCupcakeFilling(value);
+    };
+
+    const handleFruitFilling = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        state.setCupcakeFruitFilling(value);
+    };
+
+    const handleFruitTopping = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        state.setCupcakeFruitTopping(value);
+    };
+
     return (
         <div id="cupcake" className="flex flex-col justify-center">
             <h5>Cupcake Order Form</h5>
@@ -51,11 +81,7 @@ const CupcakeOrderForm = () => {
                 <span>
                     What <strong>Flavor</strong> would you like your <strong>Cupcakes</strong> to be?
                 </span>
-                <Input
-                    value={state.cupcakeFlavor}
-                    onChange={(e) => state.handleCupcakeFlavor(e)}
-                    placeholder="Vanilla, Chocolate, Strawberry etc..."
-                />
+                <Input value={state.cupcakeFlavor} onChange={(e) => handleFlavor(e)} placeholder="Vanilla, Chocolate, Strawberry etc..." />
                 {state.cupcakeFlavorError && <div className="text-red-600 absolute my-16">{state.cupcakeFlavorError}</div>}
             </div>
 
@@ -64,11 +90,7 @@ const CupcakeOrderForm = () => {
                 <span>
                     What <strong>Frosting</strong> would you like on your <strong>Cupcakes</strong>?
                 </span>
-                <Input
-                    value={state.cupcakeFrosting}
-                    onChange={(e) => state.handleCupcakeFrosting(e)}
-                    placeholder="Vanilla Buttercream..."
-                />
+                <Input value={state.cupcakeFrosting} onChange={(e) => handleFrosting(e)} placeholder="Vanilla Buttercream..." />
                 {state.cupcakeFrostingError && <div className="text-red-600 absolute my-16">{state.cupcakeFrostingError}</div>}
             </div>
 
@@ -77,7 +99,7 @@ const CupcakeOrderForm = () => {
                 <span>
                     What <strong>Filling</strong> would you like in your <strong>Cupcakes</strong>?
                 </span>
-                <Input value={state.cupcakeFilling} onChange={(e) => state.handleCupcakeFilling(e)} placeholder="Vanilla Buttercream..." />
+                <Input value={state.cupcakeFilling} onChange={(e) => handleFilling(e)} placeholder="Vanilla Buttercream..." />
             </div>
 
             {/* FRUIT FILLING  */}
@@ -85,22 +107,14 @@ const CupcakeOrderForm = () => {
                 <span>
                     Would you like a <strong>Fruit Filling</strong> in your <strong>Cupcakes</strong>?
                 </span>
-                <Input
-                    value={state.cupcakeFruitFilling}
-                    placeholder="Strawberry Filling..."
-                    onChange={(e) => state.handleCupcakeFruitFilling(e)}
-                />
+                <Input value={state.cupcakeFruitFilling} placeholder="Strawberry Filling..." onChange={(e) => handleFruitFilling(e)} />
             </div>
             {/* FRUIT TOPPING  */}
             <div className="form-item">
                 <span>
                     Would you like a <strong>Fruit Topping</strong> in your <strong>Cupcakes</strong>?
                 </span>
-                <Input
-                    placeholder="Strawberries..."
-                    value={state.cupcakeFruitTopping}
-                    onChange={(e) => state.handleCupcakeFruitTopping(e)}
-                />
+                <Input placeholder="Strawberries..." value={state.cupcakeFruitTopping} onChange={(e) => handleFruitTopping(e)} />
             </div>
 
             {/* Cupcake Form Submit Button */}

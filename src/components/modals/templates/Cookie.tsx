@@ -6,11 +6,11 @@ const CookieModal = () => {
     return (
         <Template template="Cookie">
             {/* VANILLA */}
-            <TemplateBtn template="Cookie" className="bg-amber-100" text="Vanilla" />
+            <TemplateBtn onClick={() => {}} template="Cookie" className="bg-amber-100" text="Vanilla" />
             {/* CHOCOLATE */}
-            <TemplateBtn template="Cookie" className="bg-amber-900" text="Chocolate Chip" />
+            <TemplateBtn onClick={() => {}} template="Cookie" className="bg-amber-900" text="Chocolate Chip" />
             {/* STRAWBERRY */}
-            <TemplateBtn template="Cookie" className="bg-rose-400" text="Strawberry" />
+            <TemplateBtn onClick={() => {}} template="Cookie" className="bg-rose-400" text="Strawberry" />
         </Template>
     );
 };

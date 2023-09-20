@@ -21,12 +21,12 @@ interface CookieStore {
     submitCookieForm: (submitted: boolean) => void;
     setCookieSize: (selected: OrderOption | null) => void;
     setCookieAmount: (selected: OrderOption | null) => void;
-    // Handlers
-    handleCookieFlavor: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleCookieFrosting: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleCookieFilling: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleCookieFruitFilling: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleCookieFruitTopping: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    // setrs
+    setCookieFlavor: (text: string) => void;
+    setCookieFrosting: (text: string) => void;
+    setCookieFilling: (text: string) => void;
+    setCookieFruitFilling: (text: string) => void;
+    setCookieFruitTopping: (text: string) => void;
 }
 
 const useCookieStore = create<CookieStore>((set, get) => ({
@@ -66,27 +66,25 @@ const useCookieStore = create<CookieStore>((set, get) => ({
     },
     setCookieSize: (selected: OrderOption | null) => set({ cookieSize: selected! }),
     setCookieAmount: (selected: OrderOption | null) => set({ cookieAmount: selected! }),
-
-    // Handlers
-    handleCookieFlavor: (e: React.ChangeEvent<HTMLInputElement>) =>
+    setCookieFlavor: (text: string) =>
         set({
-            cookieFlavor: e.target.value,
+            cookieFlavor: text,
         }),
-    handleCookieFrosting: (e: React.ChangeEvent<HTMLInputElement>) =>
+    setCookieFrosting: (text: string) =>
         set({
-            cookieFrosting: e.target.value,
+            cookieFrosting: text,
         }),
-    handleCookieFilling: (e: React.ChangeEvent<HTMLInputElement>) =>
+    setCookieFilling: (text: string) =>
         set({
-            cookieFilling: e.target.value,
+            cookieFilling: text,
         }),
-    handleCookieFruitFilling: (e: React.ChangeEvent<HTMLInputElement>) =>
+    setCookieFruitFilling: (text: string) =>
         set({
-            cookieFruitFilling: e.target.value,
+            cookieFruitFilling: text,
         }),
-    handleCookieFruitTopping: (e: React.ChangeEvent<HTMLInputElement>) =>
+    setCookieFruitTopping: (text: string) =>
         set({
-            cookieFruitTopping: e.target.value,
+            cookieFruitTopping: text,
         }),
 }));
 

@@ -13,6 +13,36 @@ const CookieOrderForm = () => {
         state.submitCookieForm(true);
     };
 
+    const handleFlavor = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        state.setCookieFlavor(value);
+    };
+
+    const handleFrosting = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        state.setCookieFrosting(value);
+    };
+
+    const handleFilling = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        state.setCookieFilling(value);
+    };
+
+    const handleFruitFilling = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        state.setCookieFruitFilling(value);
+    };
+
+    const handleFruitTopping = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        state.setCookieFruitTopping(value);
+    };
+
     return (
         <div id="cookie" className="flex flex-col justify-center">
             <h5>Cookie Order Form</h5>
@@ -49,11 +79,7 @@ const CookieOrderForm = () => {
                 <span>
                     What <strong>Flavor</strong> would you like your <strong>Cookies</strong> to be?
                 </span>
-                <Input
-                    value={state.cookieFlavor}
-                    onChange={(e) => state.handleCookieFlavor(e)}
-                    placeholder="Vanilla, Chocolate, Strawberry etc..."
-                />
+                <Input value={state.cookieFlavor} onChange={(e) => handleFlavor(e)} placeholder="Vanilla, Chocolate, Strawberry etc..." />
                 {state.cookieFlavorError && <div className="text-red-600 absolute my-16">{state.cookieFlavorError}</div>}
             </div>
             {/* FROSTING INPUT */}
@@ -61,14 +87,14 @@ const CookieOrderForm = () => {
                 <span>
                     What <strong>Frosting</strong> would you like on your <strong>Cookies</strong>?
                 </span>
-                <Input value={state.cookieFrosting} onChange={(e) => state.handleCookieFrosting(e)} placeholder="Vanilla Buttercream..." />
+                <Input value={state.cookieFrosting} onChange={(e) => handleFrosting(e)} placeholder="Vanilla Buttercream..." />
             </div>
             {/* FILLING INPUT */}
             <div className="form-item">
                 <span>
                     What <strong>Filling</strong> would you like in your <strong>Cookies</strong>?
                 </span>
-                <Input value={state.cookieFilling} onChange={(e) => state.handleCookieFilling(e)} placeholder="Vanilla Buttercream..." />
+                <Input value={state.cookieFilling} onChange={(e) => handleFilling(e)} placeholder="Vanilla Buttercream..." />
             </div>
 
             {/* FRUIT FILLING  */}
@@ -76,11 +102,7 @@ const CookieOrderForm = () => {
                 <span>
                     Would you like a <strong>Fruit Filling</strong> in your <strong>Cookies</strong>?
                 </span>
-                <Input
-                    placeholder="Strawberries Filling..."
-                    value={state.cookieFruitFilling}
-                    onChange={(e) => state.handleCookieFruitFilling(e)}
-                />
+                <Input placeholder="Strawberries Filling..." value={state.cookieFruitFilling} onChange={(e) => handleFruitFilling(e)} />
             </div>
 
             {/* FRUIT TOPPING  */}
@@ -88,7 +110,7 @@ const CookieOrderForm = () => {
                 <span>
                     Would you like a <strong>Fruit Topping</strong> in your <strong>Cookies</strong>?
                 </span>
-                <Input placeholder="Strawberries..." value={state.cookieFruitTopping} onChange={(e) => state.handleCookieFruitTopping(e)} />
+                <Input placeholder="Strawberries..." value={state.cookieFruitTopping} onChange={(e) => handleFruitTopping(e)} />
             </div>
 
             {/* Cookie Form Submit Button */}

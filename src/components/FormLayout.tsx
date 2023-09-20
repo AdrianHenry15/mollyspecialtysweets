@@ -22,7 +22,7 @@ const OrderOptions = [
 ];
 
 const Home = () => {
-    const { orderType, cakeType, cupcakeType, cookieType } = useOrderTypeStore();
+    const { orderType, cakeType, cupcakeType, cookieType, setCakeType, setCupcakeType, setCookieType } = useOrderTypeStore();
     const { isContactFormSubmitted } = useContactStore();
     const { setOrderModal } = useModalStore();
     const { isCakeFormSubmitted } = useCakeStore();
@@ -44,7 +44,7 @@ const Home = () => {
     };
 
     const renderCupcakeForm = (): JSX.Element => {
-        if (orderType!.some((selected) => selected.value === "cupcakes")) {
+        if (cupcakeType) {
             // if there is a "Cookie Order Form" the order form has not been submitted yet
             return !isCupcakeFormSubmitted ? <CupcakeOrderForm /> : <CupcakeReviewForm />;
         } else {
@@ -53,7 +53,7 @@ const Home = () => {
     };
 
     const renderCookieForm = (): JSX.Element => {
-        if (orderType!.some((selected) => selected.value === "cookies")) {
+        if (cookieType) {
             // if there is a "Cookie Order Form" the order form has not been submitted yet
             return !isCookieFormSubmitted ? <CookieOrderForm /> : <CookieReviewForm />;
         } else {
@@ -71,16 +71,28 @@ const Home = () => {
             <div className="flex flex-col items-center w-full">
                 {/* FORM ITEM 1 */}
                 <div className="form-item w-full">
-                    <span>Create a Specialty Sweet!</span>
+                    <span className="underline">Create a Specialty Sweet!</span>
                     {/* When the 'orderType' gets set, so does the url */}
-                    <div className="flex justify-between w-full mt-10">
-                        <span className="border-2 rounded-xl border-black px-6 py-4 text-center flex items-centercursor-pointer hover:shadow-lg">
+                    <div className="flex justify-between w-full mt-10 px-12">
+                        <span
+                            style={cakeType ? { backgroundColor: "#3caddf" } : {}}
+                            onClick={() => setCakeType(!cakeType)}
+                            className="order-type px-6 py-4 hover:shadow-lg"
+                        >
                             Cake
                         </span>
-                        <span className="border-2 rounded-xl border-black px-6 py-4 text-center flex items-center cursor-pointer hover:shadow-lg">
+                        <span
+                            style={cupcakeType ? { backgroundColor: "#3caddf" } : {}}
+                            onClick={() => setCupcakeType(!cupcakeType)}
+                            className="order-type px-6 py-4 hover:shadow-lg"
+                        >
                             Cupcake
                         </span>
-                        <span className="border-2 rounded-xl border-black px-6 py-4 text-center flex items-center cursor-pointer hover:shadow-lg">
+                        <span
+                            style={cookieType ? { backgroundColor: "#3caddf" } : {}}
+                            onClick={() => setCookieType(!cookieType)}
+                            className="order-type px-6 py-4 hover:shadow-lg"
+                        >
                             Cookie
                         </span>
                     </div>
@@ -91,18 +103,17 @@ const Home = () => {
             </div>
             {!isContactFormSubmitted ? <ContactForm /> : <ContactReviewForm />}
             {/* TODO: IF AN ORDER TYPE HAS NOT BEEN CHOSEN OR A TEMPLATE HAS NOT BEEN CHOSEN YOU CANNOT FINISH THE ORDER */}
-            {orderType!.some((selected) => selected.value !== "none") && (
-                <div className={!isContactFormSubmitted ? "cursor-progress" : ""}>
-                    <button
-                        style={{ backgroundColor: "#d3caac" }}
-                        className={`form-item ${!isContactFormSubmitted ? "pointer-events-none" : ""}`}
-                        type="submit"
-                        onClick={(e) => handleSubmit(e)}
-                    >
-                        Finish Order
-                    </button>
-                </div>
-            )}
+
+            <div className={!isContactFormSubmitted ? "cursor-progress" : ""}>
+                <button
+                    style={{ backgroundColor: "#d3caac" }}
+                    className={`form-item ${!isContactFormSubmitted ? "pointer-events-none" : ""}`}
+                    type="submit"
+                    onClick={(e) => handleSubmit(e)}
+                >
+                    Finish Order
+                </button>
+            </div>
         </main>
     );
 };
