@@ -35,6 +35,15 @@ body {
     font-size: 50px;
 }
 
+.order-type {
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    border: 1px solid black;
+    cursor: pointer;
+    animation: fadeIn 2s;
+}
+
 .form-item {
     display: flex;
     flex-direction: column;
@@ -133,7 +142,7 @@ form {
 
 button {
     display: flex;
-    background-color: var(--btn-color) !important;
+    background-color: var(--btn-color);
     width: 130px;
     justify-content: center;
     align-self: center;
@@ -145,7 +154,7 @@ button {
 }
 
 button:hover {
-    background-color: #2980b9 !important;
+    background-color: #36a0e7 !important;
 }
 
 .review-form {
@@ -174,7 +183,7 @@ button:hover {
 
 #contact-textarea {
     display: flex;
-    margin: 10px 10px 20px 10px;
+    margin: 10px 10px 50px 10px;
     height: 100px;
     border-radius: 10px;
     letter-spacing: 2px;
@@ -211,12 +220,10 @@ button:hover {
     display: flex;
     flex-direction: column;
     background-color: white;
-    justify-content: center;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     width: 500px;
-    height: 200px;
     border: solid 1px black;
 }
 
