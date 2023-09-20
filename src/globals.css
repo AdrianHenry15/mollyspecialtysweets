@@ -1,0 +1,326 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --body-bg-color: #fdf8ea;
+    --footer-bg-color: #dfd9cb;
+    --input-border-color: #e5e7eb;
+    --btn-color: #d3caac;
+    --btn-alt-color: #ffeeb8;
+    --btn-review-color: #ffb8b8;
+    --btn-modal-color: #4681f4;
+    --btn-modal-hover-color: #33b249;
+    --btn-modal-hover-edit-color: #b41414;
+    --input-width-sm: 350px;
+    --input-width-reg: 425px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--body-bg-color);
+    height: 100%;
+    width: 100%;
+}
+
+#navbar {
+    background-color: var(--body-bg-color);
+    z-index: 100;
+}
+
+#app-header-text {
+    font-family: "Indie Flower", cursive;
+    font-family: "Marck Script", cursive;
+    font-size: 50px;
+}
+
+.order-type {
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    border: 1px solid black;
+    cursor: pointer;
+    animation: fadeIn 2s;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 100px;
+    animation: fadeIn 2s;
+    letter-spacing: 2px;
+}
+
+.form-input {
+    width: 100%;
+}
+
+.order-form-submit {
+    align-items: center;
+    border-radius: 30px;
+    background-color: var(--btn-alt-color) !important;
+    font-size: 11px;
+    margin-bottom: 50px;
+    border: 1px solid black;
+}
+.review-form-submit {
+    align-items: center;
+    border-radius: 30px;
+    background-color: var(--btn-review-color) !important;
+    font-size: 11px;
+    border: 1px solid black;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+input {
+    border: var(--input-border-color) solid 1px;
+    padding-left: 10px;
+}
+
+h5 {
+    font-size: 45px;
+    font-weight: 100;
+    letter-spacing: 10px;
+    border-bottom: 1px solid black;
+    width: 500px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+h4 {
+    font-size: 25px;
+    font-weight: 900;
+    letter-spacing: 10px;
+    border-bottom: 1px solid black;
+}
+h3 {
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 10px;
+    border-bottom: 1px solid black;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h2 {
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 150px;
+    width: 75%;
+    padding-left: 20px;
+    font-size: 12px;
+    border-top: 1px solid rgba(128, 128, 128, 0.281);
+    color: gray;
+    bottom: 0;
+    top: auto;
+    position: relative;
+}
+
+hr {
+    width: 100%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    display: flex;
+    background-color: var(--btn-color);
+    width: 130px;
+    justify-content: center;
+    align-self: center;
+    height: 50px;
+    text-align: center;
+    border-radius: 10px;
+    transition: background-color 0.3s ease-in;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #36a0e7 !important;
+}
+
+.review-form {
+    display: flex;
+    border: black 1px solid;
+    margin-top: 20px;
+    margin-bottom: 120px;
+    border-radius: 10px;
+    padding: 20px;
+    width: 500px;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+
+#contact-input {
+    display: flex;
+    margin: 10px;
+    height: 40px;
+    border-radius: 10px;
+    letter-spacing: 2px;
+    width: var(--input-width-reg);
+}
+
+#contact-textarea {
+    display: flex;
+    margin: 10px 10px 50px 10px;
+    height: 100px;
+    border-radius: 10px;
+    letter-spacing: 2px;
+    width: 425px;
+    padding: 5px;
+}
+
+.review-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 100px;
+    margin-bottom: 20px;
+}
+
+/* .review-item i {
+  text-decoration: underline;
+} */
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.137); /* Semi-transparent black overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    border: solid 1px black;
+}
+
+#modal-btn {
+    align-items: center;
+    background-color: var(--btn-modal-color) !important;
+    height: 40px;
+    width: 150px;
+}
+#modal-btn-2 {
+    align-items: center;
+    background-color: var(--btn-modal-color) !important;
+    height: 40px;
+    width: 150px;
+}
+
+#modal-btn:hover {
+    background-color: var(--btn-modal-hover-color) !important;
+}
+
+#modal-btn-2:hover {
+    background-color: var(--btn-modal-hover-edit-color) !important;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.form-btn-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+@media (max-width: 640px) {
+    footer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding: 0;
+    }
+    .form-item {
+        letter-spacing: 0;
+    }
+    .form-input {
+        width: 350px;
+    }
+
+    h5 {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        font-size: 20px;
+        letter-spacing: 7px;
+    }
+
+    .review-form {
+        width: 85%;
+        display: flex;
+        flex-direction: column;
+        border: 0;
+        border-top: 1px black solid;
+        border-bottom: 1px black solid;
+        padding: 25px;
+        /* align-items: center; */
+    }
+
+    .review-item {
+        padding: 0;
+    }
+
+    #contact-input,
+    #contact-textarea {
+        height: 35px;
+        width: var(--input-width-sm);
+    }
+
+    #contact-textarea {
+        height: 200px;
+    }
+
+    .modal {
+        margin: 25px;
+    }
+
+    #modal-btn {
+        width: 125px;
+    }
+
+    #modal-btn-2 {
+        width: 125px;
+    }
+}
