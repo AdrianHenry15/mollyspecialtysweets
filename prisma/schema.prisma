@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("VITE_DATABASE_URL")
 }
 
 model User {
@@ -28,18 +28,76 @@ model Order {
   userId String @unique
 }
 
+// CAKE MODEL
 model Cake {
-  id           String  @id @default(uuid())
-  shape        String
-  tier         String
-  size         String
-  flavor       String
-  frosting     String
-  filling      String
-  fruitFilling String?
-  fruitTopping String?
+  id             String            @id @default(uuid())
+  shape          Shape             @relation(fields: [shapeId], references: [id])
+  shapeId        String
+  tier           Tier              @relation(fields: [tierId], references: [id])
+  tierId         String
+  size           Size              @relation(fields: [sizeId], references: [id])
+  sizeId         String
+  flavor         CakeFlavor        @relation(fields: [flavorId], references: [id])
+  flavorId       String
+  frosting       CakeFrosting      @relation(fields: [frostingId], references: [id])
+  frostingId     String
+  filling        CakeFilling       @relation(fields: [fillingId], references: [id])
+  fillingId      String
+  fruitFilling   CakeFruitFilling? @relation(fields: [fruitFillingId], references: [id])
+  fruitFillingId String?
+  fruitTopping   CakeFruitTopping? @relation(fields: [fruitToppingId], references: [id])
+  fruitToppingId String?
 }
 
+model Shape {
+  id   String @id @default(uuid())
+  name String
+  cake Cake[]
+}
+
+model Tier {
+  id   String @id @default(uuid())
+  name String
+  cake Cake[]
+}
+
+model Size {
+  id   String @id @default(uuid())
+  name String
+  cake Cake[]
+}
+
+model CakeFlavor {
+  id   String @id @default(uuid())
+  name String
+  cake Cake[]
+}
+
+model CakeFrosting {
+  id   String @id @default(uuid())
+  name String
+  cake Cake[]
+}
+
+model CakeFilling {
+  id   String @id @default(uuid())
+  name String
+  cake Cake[]
+}
+
+model CakeFruitFilling {
+  id   String @id @default(uuid())
+  name String
+  cake Cake[]
+}
+
+model CakeFruitTopping {
+  id   String @id @default(uuid())
+  name String
+  cake Cake[]
+}
+
+// CUPCAKE MODEL
 model Cupcake {
   id           String  @id @default(uuid())
   size         String
