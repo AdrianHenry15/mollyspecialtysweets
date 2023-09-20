@@ -136,7 +136,7 @@ const Template = (props: ITemplateProps) => {
                     <div style={{}} onClick={() => closeModal()} className="cursor-pointer">
                         <MdOutlineClose />
                     </div>
-                    <h1 className="flex flex-3 items-center w-full text-center justify-center mr-4">{`Choose a ${props.template} Template`}</h1>
+                    <h1 className="flex flex-3 items-center w-full text-center justify-center mr-4">{`Choose a ${props.template} Flavor Template`}</h1>
                 </div>
                 {/* WELCOME */}
                 <div className="py-6 flex flex-col items-center">{renderHeaderIcon()}</div>
