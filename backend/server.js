@@ -37,7 +37,7 @@ app.use('/assets', express.static('assets'))
 app.use("/api/users", userRoutes)
 // app.use("/api/cart", cartRoutes)
 app.use("/api/products", productRoutes)
-app.use("/api/images", imageRoutes)
+// app.use("/api/images", imageRoutes)
 
 
 app.get("/", (req, res) => res.send("Server is ready"))
