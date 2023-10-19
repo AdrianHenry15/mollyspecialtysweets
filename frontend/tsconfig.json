@@ -3,7 +3,7 @@
         "sourceMap": true,
         "target": "es5",
         "lib": ["dom", "dom.iterable", "esnext", "WebWorker"],
-        "baseUrl": "./",
+        "baseUrl": "/",
         "allowJs": true,
         "skipLibCheck": true,
         "strict": true,
@@ -16,11 +16,9 @@
         "isolatedModules": true,
         "jsx": "preserve",
         "incremental": true,
-        "types": ["node"],
-        "paths": {
-            "@/*": ["./*"]
-        }
+        "types": ["node"]
     },
-    "include": ["**/*.ts", "**/*.tsx", "src/main.jsx"],
-    "exclude": ["node_modules"]
+    "include": ["**/*.ts", "**/*.tsx", "server.js", "src/store/slices/userSlice.ts"],
+    "exclude": ["node_modules", "**/dist/**"],
+    "outDir": "./dist"
 }
