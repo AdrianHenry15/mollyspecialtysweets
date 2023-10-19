@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+node_modueles
 /.pnp
 .pnp.js
 
@@ -11,6 +12,8 @@
 # next.js
 /.next/
 /out/
+
+dev-dist
 
 # production
 /build
@@ -41,3 +44,4 @@ next-env.d.ts
 /test-results/
 /playwright-report/
 /playwright/.cache/
+node_modules
