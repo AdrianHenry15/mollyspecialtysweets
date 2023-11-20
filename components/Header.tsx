@@ -22,9 +22,11 @@ const Header = () => {
                     onClick={openMenuModal}
                 />
                 <div className="pl-10 flex items-center w-full justify-center md:justify-start">
-                    <Image className="mr-4" width={50} src={Logo} alt="logo" />
-                    <Link className="whitespace-nowrap" href={"/"}>
-                        {`Molly's Specialty Sweets`}
+                    <Link className="whitespace-nowrap flex items-center" href={"/"}>
+                        <>
+                            <Image className="mr-4" width={50} src={Logo} alt="logo" />
+                            {`Molly's Specialty Sweets`}
+                        </>
                     </Link>
                 </div>
             </div>

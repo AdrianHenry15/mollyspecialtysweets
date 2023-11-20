@@ -3,6 +3,7 @@ import React from "react";
 import PageBanner from "@/components/page-components/home/PageBanner";
 import RewardsBanner from "@/components/page-components/home/RewardsBanner";
 import Jumbotron from "@/components/page-components/home/Jumbotron";
+import ChoiceBanner from "@/components/page-components/home/ChoiceBanner";
 
 const Home = () => {
     return (
@@ -11,6 +12,7 @@ const Home = () => {
                 <Jumbotron />
                 <PageBanner />
                 <RewardsBanner />
+                <ChoiceBanner />
             </div>
         </div>
     );
