@@ -22,6 +22,9 @@ const config: Config = {
                 },
             },
         },
+        backgroundImage: {
+            hero: "url('/cake-splash.jpg')",
+        },
     },
 
     plugins: [require("@tailwindcss/forms")],
