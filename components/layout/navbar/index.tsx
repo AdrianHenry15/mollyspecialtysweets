@@ -12,12 +12,12 @@ export default async function Navbar() {
             </div>
             {/* TITLE & LINKS  */}
             <div className="flex w-full mt-2">
-                <Link href="/" className="flex w-full justify-center">
+                <Link href="/" className="flex w-full justify-center md:w-auto">
                     {/* TODO: LOGO */}
                     <h5 className="flex uppercase">{`Molly's Specialty Sweets`}</h5>
                 </Link>
                 {/* LINKS  */}
-                <ul className="hidden">
+                <ul className="hidden md:flex">
                     {NavMenuItems.map((item: NavMenu) => (
                         <li key={item.title}>
                             <Link href={item.link} className="">
