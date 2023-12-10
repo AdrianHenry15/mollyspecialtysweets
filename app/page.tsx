@@ -8,7 +8,8 @@ export default function Home() {
     return (
         <div className="flex flex-col justify-between w-full">
             <Navbar />
-            <div className="flex w-full h-screen justify-center items-center">
+            {/* HIDDEN ON SMALL SCREENS */}
+            <div className="w-full h-screen justify-center items-center">
                 <BgImgContainer image={CakeSplash}>
                     <PromoCard
                         titleAlt="Cake"
