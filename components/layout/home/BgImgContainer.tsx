@@ -8,9 +8,11 @@ interface IBgImgContainerProps {
 
 const BgImgContainer = (props: IBgImgContainerProps) => {
     return (
-        <div className="relative">
-            <Image src={props.image} alt="cake-splash" className={`object-cover w-screen h-full`} loading="eager" />
-            <div className="absolute inset-0 flex justify-center items-center">{props.children}</div>
+        <div className="fixed top-0">
+            {/* <div className="w-full h-screen justify-center items-center hidden md:flex"> */}
+
+            <Image src={props.image} alt="cake-splash" className={`w-screen md:object-cover  md:h-screen`} loading="eager" />
+            <div className="flex justify-center items-center md:absolute md:inset-0">{props.children}</div>
         </div>
     );
 };

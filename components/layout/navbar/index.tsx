@@ -5,13 +5,28 @@ import MobileMenu from "./mobile-menu";
 import { NavMenuItems } from "@/lib/constants";
 import { NavMenu } from "@/lib/types";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
     const pathname = usePathname();
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollTop = window.scrollY;
+            const isTop = scrollTop < 50;
+
+            setIsScrolled(!isTop);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
     return (
-        <nav className="flex p-2 w-full sticky top-0 z-50 bg-white/75">
+        <nav className={`bg-white flex pt-2 pb-4 w-10/12 self-center rounded-b-lg sticky top-0 z-50`}>
             {/* MOBILE CONTAINER */}
-            <div className="fixed md:hidden">
+            <div className="fixed lg:hidden">
                 <MobileMenu />
             </div>
             {/* TITLE & LINKS  */}
@@ -21,7 +36,7 @@ export default function Navbar() {
                     <h5 className="flex uppercase">{`Molly's Specialty Sweets`}</h5>
                 </Link>
                 {/* LINKS  */}
-                <ul className="hidden md:flex">
+                <ul className="hidden lg:flex">
                     {NavMenuItems.map((item: NavMenu) => (
                         <li
                             className={`mx-2 hover:text-zinc-500 hover:underline ${pathname === item.link ? "underline" : ""}`}
