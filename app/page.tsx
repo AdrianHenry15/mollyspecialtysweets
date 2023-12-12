@@ -1,5 +1,4 @@
-import BgImgContainer from "@/components/layout/home/BgImgContainer";
-import PromoCard from "@/components/layout/home/PromoCard";
+import ImageTextOverlay from "@/components/layout/home/img-text-overlay";
 import Navbar from "@/components/layout/navbar";
 
 import CakeSplash from "@/public/cake-splash.jpg";
@@ -10,15 +9,7 @@ export default function Home() {
             <Navbar />
             {/* HIDDEN ON SMALL SCREENS */}
             <div className="w-full h-screen justify-center items-center">
-                <BgImgContainer image={CakeSplash}>
-                    <PromoCard
-                        titleAlt="Cake"
-                        title="is always the answer"
-                        description="We can always answer any of your questions with a cake."
-                        link="/order"
-                        linkText="Order Now"
-                    />
-                </BgImgContainer>
+                <ImageTextOverlay image={CakeSplash} />
             </div>
         </div>
     );
