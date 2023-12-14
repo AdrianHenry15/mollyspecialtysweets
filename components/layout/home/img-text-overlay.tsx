@@ -7,11 +7,11 @@ interface IImageTextOverlayProps {
 
 const ImageTextOverlay = (props: IImageTextOverlayProps) => {
     return (
-        <div className="md:h-1/2 bg-black">
+        <div className="bg-black">
             <Image
                 src={props.image}
                 alt="cake-splash"
-                className={`w-screen object-top md:opacity-75 md:object-cover md:h-full`}
+                className={`w-screen object-top md:opacity-75 md:object-top md:h-{100}`}
                 loading="eager"
             />
 
