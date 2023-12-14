@@ -1,3 +1,4 @@
+import IconsRow from "@/components/layout/icons-row";
 import ImageTextOverlay from "@/components/layout/home/img-text-overlay";
 import Navbar from "@/components/layout/navbar";
 
@@ -7,9 +8,11 @@ export default function Home() {
     return (
         <div className="flex flex-col justify-between w-full">
             <Navbar />
-            {/* HIDDEN ON SMALL SCREENS */}
-            <div className="w-full h-screen justify-center items-center">
+            <div className="w-full justify-center items-center relative">
                 <ImageTextOverlay image={CakeSplash} />
+            </div>
+            <div className="">
+                <IconsRow />
             </div>
         </div>
     );
