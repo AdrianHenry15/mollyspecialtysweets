@@ -8,12 +8,8 @@ export default function Home() {
     return (
         <div className="flex flex-col justify-between w-full">
             <Navbar />
-            <div className="w-full justify-center items-center relative">
-                <ImageTextOverlay image={CakeSplash} />
-            </div>
-            <div className="">
-                <IconsRow />
-            </div>
+            <ImageTextOverlay />
+            <IconsRow />
         </div>
     );
 }

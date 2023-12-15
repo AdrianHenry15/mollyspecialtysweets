@@ -8,7 +8,7 @@ import IconsSection from "./icons-section";
 
 const IconsRow = () => {
     return (
-        <section className="bg-black flex flex-col justify-center items-center text-center py-14 px-10 md:px-48 lg:flex-row lg:px-36">
+        <section className="bg-black flex flex-col justify-center items-center text-center py-4 px-10 md:px-48 lg:flex-row lg:px-36">
             <IconsSection src={Cookie} name="Cookies" description="Expertly crafted artisinal cookies for a joyous indulgence" />
             <IconsSection
                 src={Cake}

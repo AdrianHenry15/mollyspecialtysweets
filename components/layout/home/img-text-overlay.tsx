@@ -2,21 +2,14 @@ import Image from "next/image";
 import React from "react";
 
 interface IImageTextOverlayProps {
-    image: any;
+    image?: any;
 }
 
-const ImageTextOverlay = (props: IImageTextOverlayProps) => {
+const ImageTextOverlay = () => {
     return (
-        <div className="bg-black">
-            <Image
-                src={props.image}
-                alt="cake-splash"
-                className={`w-screen object-top md:opacity-75 md:object-top md:h-{100}`}
-                loading="eager"
-            />
-
-            <h5 className="hidden justify-center absolute inset-0 font-semibold text-white text-2xl md:flex md:items-center md:text-6xl">{`Molly's Specialty Sweets`}</h5>
-        </div>
+        <div
+            className={`flex w-full items-center justify-center relative bg-cover bg-[url('/cake-splash.jpg')] h-80 md:h-[80vh] lg:h-[50vh]`}
+        ></div>
     );
 };
 
