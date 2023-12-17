@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
     const session = await getServerSession();
     return (
-        <html lang="en">
+        <html lang="en" className="!scroll-smooth">
             <body className={inter.variable}>
                 <Toaster />
                 <Suspense fallback="Loading...">
