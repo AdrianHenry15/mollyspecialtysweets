@@ -10,7 +10,6 @@ import ImageText from "@/components/layout/image-text";
 export default function Home() {
     return (
         <div className="flex flex-col justify-between w-full">
-            <Navbar />
             <ImgLinkOverlay />
             <IconsRow
                 iconSection1={{
