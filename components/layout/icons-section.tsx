@@ -2,13 +2,17 @@
 
 import Image from "next/image";
 import React from "react";
+import Link from "next/link";
 
 import useScrollAnimation from "hooks/useScrollAnimation";
+import { ChevronRightIcon } from "@heroicons/react/24/outline";
 
 interface IIconsSectionProps {
+    href: string;
     src: any;
     name: string;
     description: string;
+    linkText: string;
 }
 
 const IconsSection = (props: IIconsSectionProps) => {
@@ -18,6 +22,13 @@ const IconsSection = (props: IIconsSectionProps) => {
             <Image src={props.src} alt="cookie-icon" width={75} height={75} />
             <h5 className="text-white my-4 font-semibold text-2xl">{props.name}</h5>
             <p className="text-white font-light">{props.description}</p>
+            <Link
+                href={props.href}
+                className="text-pink-500 flex items-center justify-center pt-10 transition-colors duration-500 hover:text-blue-400"
+            >
+                <aside className="mr-2">{props.linkText}</aside>
+                <ChevronRightIcon width={15} />
+            </Link>
         </article>
     );
 };
