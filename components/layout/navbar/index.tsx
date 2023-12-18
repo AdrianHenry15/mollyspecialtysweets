@@ -12,7 +12,7 @@ export default function Navbar() {
     const pathname = usePathname();
 
     return (
-        <nav className={`flex pt-2 pb-4 w-10/12 self-center rounded-b-lg sticky top-0 z-50`}>
+        <nav className={`bg-white flex pt-2 pb-4 w-10/12 self-center rounded-b-lg sticky top-0 z-50`}>
             {/* MOBILE CONTAINER */}
             <div className="fixed lg:hidden">
                 <MobileMenu />

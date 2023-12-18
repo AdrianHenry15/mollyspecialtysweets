@@ -1,24 +1,44 @@
 import React from "react";
 
-import Cookie from "@/public/cookie.png";
-import Cake from "@/public/birthday-cake.png";
-import Cupcake from "@/public/muffin.png";
-
 import IconsSection from "./icons-section";
 
-const IconsRow = () => {
+type IconSection = {
+    href: string;
+    src: any;
+    name: string;
+    description: string;
+    linkText: string;
+};
+
+interface IIconsRowProps {
+    iconSection1: IconSection;
+    iconSection2: IconSection;
+    iconSection3: IconSection;
+}
+
+const IconsRow = (props: IIconsRowProps) => {
     return (
         <section className="bg-black flex flex-col justify-center items-center text-center py-4 px-10 md:px-48 lg:flex-row lg:px-36">
-            <IconsSection src={Cookie} name="Cookies" description="Expertly crafted artisinal cookies for a joyous indulgence" />
             <IconsSection
-                src={Cake}
-                name="Cakes"
-                description="Save the perfection of Molly's cakes—a delightful blend of quality and flavor in every bite"
+                linkText={props.iconSection1.linkText}
+                href={props.iconSection1.href}
+                src={props.iconSection1.src}
+                name={props.iconSection1.name}
+                description={props.iconSection1.description}
             />
             <IconsSection
-                src={Cupcake}
-                name="Cupcakes"
-                description="Sweeten up your day with Molly's Cupcakery—where tiny treats bring big joy"
+                linkText={props.iconSection2.linkText}
+                href={props.iconSection2.href}
+                src={props.iconSection2.src}
+                name={props.iconSection2.name}
+                description={props.iconSection2.description}
+            />
+            <IconsSection
+                linkText={props.iconSection3.linkText}
+                href={props.iconSection3.href}
+                src={props.iconSection3.src}
+                name={props.iconSection3.name}
+                description={props.iconSection3.description}
             />
         </section>
     );
