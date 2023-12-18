@@ -8,6 +8,8 @@ import SessionProvider from "@/providers/auth-session-provider";
 
 import "@/styles/globals.css";
 import AuthStatus from "@/components/auth-status";
+import Navbar from "@/components/layout/navbar";
+import Footer from "@/components/layout/footer";
 
 const inter = Inter({
     variable: "--font-inter",
@@ -37,7 +39,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 <Suspense fallback="Loading...">
                     <AuthStatus />
                 </Suspense>
-                <SessionProvider>{children}</SessionProvider>
+                <SessionProvider>
+                    <div className="flex flex-col">
+                        <Navbar />
+                        {children}
+                        <Footer />
+                    </div>
+                </SessionProvider>
             </body>
         </html>
     );
