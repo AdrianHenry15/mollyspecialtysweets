@@ -6,6 +6,7 @@ import Cookie from "@/public/cookie-icon.png";
 import Cake from "@/public/cake-icon.png";
 import Cupcake from "@/public/cupcake-icon.png";
 import ImageText from "@/components/layout/image-text";
+import ContactFormContainer from "@/components/contact-form-container";
 
 export default function Home() {
     return (
@@ -35,6 +36,7 @@ export default function Home() {
                 }}
             />
             <ImageText />
+            <ContactFormContainer />
         </div>
     );
 }

@@ -18,8 +18,12 @@ export const NavMenuItems: NavMenu[] = [
         link: "/create-a-cake",
     },
     {
-        title: "Order",
-        link: "/order",
+        title: "Order Cupcakes",
+        link: "/order-cupcakes",
+    },
+    {
+        title: "Order Cookies",
+        link: "/order-cookies",
     },
     {
         title: "My Story",

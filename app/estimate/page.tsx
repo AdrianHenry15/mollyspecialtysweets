@@ -1,7 +1,7 @@
 import React from "react";
 
-const Column = () => {
+const Estimate = () => {
     return <div></div>;
 };
 
-export default Column;
+export default Estimate;

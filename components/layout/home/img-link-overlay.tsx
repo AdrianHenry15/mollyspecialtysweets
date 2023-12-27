@@ -1,4 +1,4 @@
-import CurtainBtn from "@/components/curtain-btn";
+import CurtainBtn from "@/components/buttons/curtain-btn";
 import Link from "next/link";
 import React from "react";
 
