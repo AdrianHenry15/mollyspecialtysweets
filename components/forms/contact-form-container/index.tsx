@@ -5,21 +5,15 @@ import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { usePathname } from "next/navigation";
 import emailjs from "@emailjs/browser";
-import { Theme, useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Chip from "@mui/material/Chip";
 
 import Logo from "@/public/mollys-logo-black.png";
 
-import Button from "./buttons/button";
-import ConfirmationModal from "./modals/ConfirmationModal";
-import SuccessModal from "./modals/SuccessModal";
-import { Loader } from "./loader";
+import Button from "../../buttons/button";
+import ConfirmationModal from "../../modals/ConfirmationModal";
+import SuccessModal from "../../modals/SuccessModal";
+import { Loader } from "../../loader";
+import DeliveryMethod from "./delivery-method";
+import Order from "./order";
 
 const orders = [{ name: "Cake" }, { name: "Cookies" }, { name: "Cupcakes" }];
 
@@ -34,14 +28,9 @@ const MenuProps = {
     },
 };
 
-const names = ["Cakes", "Cookies", "Cupcakes"];
-
 const ContactFormContainer = () => {
     // SWITCH BETWEEN CONTACT AND ESTIMATE FORM | BOTH FORMS DO THE SAME THING FOR NOW
     const pathname = usePathname();
-
-    const theme = useTheme();
-    const [orderName, setOrderName] = React.useState<string[]>([]);
 
     const [inputClicked, setInputClicked] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -110,22 +99,6 @@ const ContactFormContainer = () => {
         deliveryAddress: getValues("deliveryAddress"),
         orders: getValues(["orders"]),
         comment: getValues("comment"),
-    };
-
-    function getStyles(name: string, personName: readonly string[], theme: Theme) {
-        return {
-            fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
-        };
-    }
-
-    const handleChange = (event: SelectChangeEvent<typeof orderName>) => {
-        const {
-            target: { value },
-        } = event;
-        setOrderName(
-            // On autofill we get a stringified value.
-            typeof value === "string" ? value.split(",") : value
-        );
     };
 
     return (
@@ -202,38 +175,7 @@ const ContactFormContainer = () => {
                     </div>
                     {/* DELIVERY METHOD */}
                     <label className="font-semibold text-lg mb-2 underline">Delivery Method:</label>
-                    <Controller
-                        name="deliveryMethod"
-                        control={control}
-                        defaultValue={"pickup"}
-                        rules={{ required: "Please select a delivery method" }}
-                        render={({ field }) => (
-                            <div className="py-4 flex justify-evenly">
-                                <div className="flex items-center">
-                                    <input
-                                        className="mr-2"
-                                        {...field}
-                                        type="radio"
-                                        name="deliveryMethod"
-                                        value={"delivery"}
-                                        id="deliveryMethod"
-                                    />
-                                    <label htmlFor="delivery">Delivery</label>
-                                </div>
-                                <div className="flex items-center">
-                                    <input
-                                        className="mr-2"
-                                        {...field}
-                                        type="radio"
-                                        value={"pickup"}
-                                        name="deliveryMethod"
-                                        id="deliveryMethod"
-                                    />
-                                    <label htmlFor="pickup">Pickup</label>
-                                </div>
-                            </div>
-                        )}
-                    ></Controller>
+                    <DeliveryMethod control={control} />
                     {errors.deliveryMethod && errors.deliveryMethod.type === "required" && (
                         <p className="text-sm text-red-600 ml-4">Delivery Method is required.</p>
                     )}
@@ -262,8 +204,8 @@ const ContactFormContainer = () => {
                     ) : null}
                     {/* ORDER */}
                     <div className="py-2 w-full">
-                        <label className="font-semibold text-lg mb-2 underline">Choose Service:</label>
-                        <Controller
+                        <label className="font-semibold text-lg mb-2 underline">Choose Order(s):</label>
+                        {/* <Controller
                             name="orders"
                             control={control}
                             defaultValue={[]}
@@ -298,46 +240,8 @@ const ContactFormContainer = () => {
                                     </Select>
                                 </FormControl>
                             )}
-                        />
-                        {/* <Controller
-                            name="orders"
-                            control={control}
-                            render={({ field }) => (
-                                // <select multiple className={`${InputClass} py-4`} {...field} onClick={() => setInputClicked(true)}>
-                                //     {services.map((service) => (
-                                //         <option key={service.name} value={service.name} onClick={() => setInputClicked(true)}>
-                                //             {service.name}
-                                //         </option>
-                                //     ))}
-                                // </select>
-                                <FormControl className="w-full my-4">
-                                    <InputLabel id="demo-multiple-chip-label">Order</InputLabel>
-                                    <Select
-                                        labelId="demo-multiple-chip-label"
-                                        id="demo-multiple-chip"
-                                        multiple
-                                        {...field}
-                                        value={orderName}
-                                        onChange={handleChange}
-                                        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-                                        renderValue={(selected) => (
-                                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                                                {selected.map((value) => (
-                                                    <Chip key={value} label={value} />
-                                                ))}
-                                            </Box>
-                                        )}
-                                        MenuProps={MenuProps}
-                                    >
-                                        {names.map((name) => (
-                                            <MenuItem key={name} value={name} style={getStyles(name, orderName, theme)}>
-                                                {name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            )}
                         /> */}
+                        <Order control={control} />
                         {errors.service && errors.service.type === "required" && (
                             <p className="text-sm text-red-600 ml-4">Service is required.</p>
                         )}
