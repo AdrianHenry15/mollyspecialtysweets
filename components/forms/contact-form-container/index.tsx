@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { usePathname } from "next/navigation";
 import emailjs from "@emailjs/browser";
@@ -12,21 +12,9 @@ import Button from "../../buttons/button";
 import ConfirmationModal from "../../modals/ConfirmationModal";
 import SuccessModal from "../../modals/SuccessModal";
 import { Loader } from "../../loader";
-import DeliveryMethod from "./delivery-method";
+import DeliveryMethod from "../delivery-method";
 import Order from "./order";
-
-const orders = [{ name: "Cake" }, { name: "Cookies" }, { name: "Cupcakes" }];
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-        },
-    },
-};
+import Input from "../input";
 
 const ContactFormContainer = () => {
     // SWITCH BETWEEN CONTACT AND ESTIMATE FORM | BOTH FORMS DO THE SAME THING FOR NOW
@@ -118,33 +106,42 @@ const ContactFormContainer = () => {
                 </div>
                 {/* FORM */}
                 <form className="self-center w-full md:w-2/3" onSubmit={handleSubmit(onSubmit)}>
+                    {/* FIRST NAME */}
                     <div>
-                        {/* FIRST NAME */}
+                        <label className="text-xs absolute ml-2 bg-white transition-all duration-300 ease-in-out" htmlFor="email">
+                            First Name
+                        </label>
                         <input
                             className={InputClass}
                             onClick={() => setInputClicked(true)}
                             type="text"
-                            placeholder="First Name"
+                            // placeholder="First Name"
                             {...register("firstName", { required: false })}
                         />
                     </div>
+                    {/* LAST NAME */}
                     <div>
-                        {/* LAST NAME */}
+                        <label className="text-xs absolute ml-2 bg-white transition-all duration-300 ease-in-out" htmlFor="email">
+                            Last Name
+                        </label>
                         <input
                             className={InputClass}
                             onClick={() => setInputClicked(true)}
                             type="text"
-                            placeholder="Last Name"
+                            // placeholder="Last Name"
                             {...register("lastName", { required: false })}
                         />
                     </div>
+                    {/* PHONE NUMBER */}
                     <div>
-                        {/* PHONE NUMBER */}
+                        <label className="text-xs absolute ml-2 bg-white transition-all duration-300 ease-in-out" htmlFor="email">
+                            Phone Number
+                        </label>
                         <input
                             className={InputClass}
                             onClick={() => setInputClicked(true)}
                             type="tel"
-                            placeholder="Phone Number"
+                            // placeholder="Phone Number"
                             {...register("phoneNumber", {
                                 required: false,
                                 pattern: /^[0-9]{10}$/,
@@ -156,11 +153,14 @@ const ContactFormContainer = () => {
                     </div>
                     {/* EMAIL */}
                     <div>
+                        <label className="text-xs absolute ml-2 bg-white transition-all duration-300 ease-in-out" htmlFor="email">
+                            Email*
+                        </label>
                         <input
                             className={InputClass}
                             onClick={() => setInputClicked(true)}
                             type="text"
-                            placeholder="Email*"
+                            // placeholder="Email*"
                             {...register("email", {
                                 required: true,
                                 pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
@@ -175,21 +175,22 @@ const ContactFormContainer = () => {
                     </div>
                     {/* DELIVERY METHOD */}
                     <label className="font-semibold text-lg mb-2 underline">Delivery Method:</label>
-                    <DeliveryMethod control={control} />
+                    <DeliveryMethod onClick={() => setInputClicked(true)} control={control} />
                     {errors.deliveryMethod && errors.deliveryMethod.type === "required" && (
                         <p className="text-sm text-red-600 ml-4">Delivery Method is required.</p>
                     )}
                     {/* DELIVERY ADDRESS */}
+                    {/* IF THERE IS A DELIVERY METHOD CHOSEN THAN SHOW THIS */}
                     {watch("deliveryMethod") === "delivery" ? (
                         <div>
                             <label className="font-semibold text-lg mb-2 underline" htmlFor="deliveryAddress">
-                                Delivery Address
+                                Delivery Address*
                             </label>
                             <input
                                 className={InputClass}
                                 onClick={() => setInputClicked(true)}
                                 type="text"
-                                placeholder="Delivery Address*"
+                                // placeholder="Delivery Address*"
                                 {...register("deliveryAddress", {
                                     required: watch("deliveryMethod") === "delivery" ? true : false,
                                 })}
@@ -205,52 +206,19 @@ const ContactFormContainer = () => {
                     {/* ORDER */}
                     <div className="py-2 w-full">
                         <label className="font-semibold text-lg mb-2 underline">Choose Order(s):</label>
-                        {/* <Controller
-                            name="orders"
-                            control={control}
-                            defaultValue={[]}
-                            render={({ field }) => (
-                                <FormControl className="w-full my-4">
-                                    <InputLabel id="demo-multiple-chip-label">Order</InputLabel>
-                                    <Select
-                                        labelId="demo-multiple-chip-label"
-                                        id="demo-multiple-chip"
-                                        multiple
-                                        {...field}
-                                        value={field.value}
-                                        onChange={(e) => {
-                                            setValue("orders", e.target.value);
-                                            handleChange(e);
-                                        }}
-                                        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-                                        renderValue={(selected) => (
-                                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                                                {selected.map((value: any) => (
-                                                    <Chip key={value} label={value} />
-                                                ))}
-                                            </Box>
-                                        )}
-                                        MenuProps={MenuProps}
-                                    >
-                                        {names.map((name) => (
-                                            <MenuItem key={name} value={name} style={getStyles(name, orderName, theme)}>
-                                                {name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            )}
-                        /> */}
-                        <Order control={control} />
+                        <Order onClick={() => setInputClicked(true)} control={control} />
                         {errors.service && errors.service.type === "required" && (
                             <p className="text-sm text-red-600 ml-4">Service is required.</p>
                         )}
                     </div>
                     {/* COMMENT */}
                     <div>
+                        <label className="text-xs absolute ml-2 bg-white transition-all duration-300 ease-in-out" htmlFor="email">
+                            Comment
+                        </label>
                         <textarea
                             className="border-2 border-gray-400 my-2 p-2 w-full h-40"
-                            placeholder="Comment"
+                            // placeholder="Comment"
                             {...register("comment", { required: false })}
                             onClick={() => setInputClicked(true)}
                         />

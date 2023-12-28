@@ -3,6 +3,7 @@ import { Controller } from "react-hook-form";
 
 interface IDeliveryMethodProps {
     control: any;
+    onClick: () => void;
 }
 
 const DeliveryMethod = (props: IDeliveryMethodProps) => {
