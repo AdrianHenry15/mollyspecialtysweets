@@ -1,15 +1,13 @@
 // These styles apply to every route in the application
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Toaster } from "react-hot-toast";
 import { Suspense } from "react";
-
-import SessionProvider from "@/providers/auth-session-provider";
+import { ClerkProvider } from "@clerk/nextjs";
 
 import "@/styles/globals.css";
-import AuthStatus from "@/components/auth-status";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
+import { Loader } from "@/components/loader";
 
 const inter = Inter({
     variable: "--font-inter",
@@ -31,23 +29,17 @@ export const metadata: Metadata = {
     themeColor: "#FFF",
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function MainLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" className="!scroll-smooth">
-            <link rel="icon" href="/mollys-logo-pink-favicon.png" sizes="16x16" className="w-[16px] h-[16px]" />
-            <body className={inter.variable}>
-                <Toaster />
-                <Suspense fallback="Loading...">
-                    <AuthStatus />
-                </Suspense>
-                <SessionProvider>
-                    <div className="flex flex-col">
-                        <Navbar />
-                        {children}
-                        <Footer />
+        <ClerkProvider>
+            <html lang="en" className="!scroll-smooth">
+                <link rel="icon" href="/mollys-logo-pink-favicon.png" sizes="16x16" className="w-[16px] h-[16px]" />
+                <body className={inter.variable}>
+                    <div className="flex flex-col justify-center items-center w-full">
+                        <Suspense fallback={<Loader />}>{children}</Suspense>
                     </div>
-                </SessionProvider>
-            </body>
-        </html>
+                </body>
+            </html>
+        </ClerkProvider>
     );
 }

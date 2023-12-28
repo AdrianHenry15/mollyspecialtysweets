@@ -34,3 +34,13 @@ export const NavMenuItems: NavMenu[] = [
     //     link: "/rewards",
     // },
 ];
+export const NavMenuAltItems: NavMenu[] = [
+    {
+        title: "Contact Us",
+        link: "/contact-us",
+    },
+    {
+        title: "Get Your Free Estimate",
+        link: "/estimate",
+    },
+];

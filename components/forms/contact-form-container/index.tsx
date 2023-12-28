@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import emailjs from "@emailjs/browser";
 
@@ -24,6 +25,8 @@ const ContactFormContainer = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const { isSignedIn, user, isLoaded } = useUser();
 
     const InputClass = "border-2 border-gray-400 my-2 p-2 rounded-sm w-full shadow-md";
 
