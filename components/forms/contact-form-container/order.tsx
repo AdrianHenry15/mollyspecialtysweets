@@ -26,6 +26,7 @@ const names = ["Cakes", "Cookies", "Cupcakes"];
 
 interface IOrderProps {
     control: any;
+    onClick: () => void;
 }
 
 const Order = (props: IOrderProps) => {

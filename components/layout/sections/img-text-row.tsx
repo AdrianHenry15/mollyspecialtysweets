@@ -14,6 +14,7 @@ interface IImgTextRowProps {
     link: string;
     title: string;
     description: string;
+    btnName: string;
 }
 
 const ImgTextRow = (props: IImgTextRowProps) => {
@@ -45,8 +46,8 @@ const ImgTextRow = (props: IImgTextRowProps) => {
             <div className="self-center md:h-[350px] md:w-[1200px] md:flex">
                 {/* IMAGE */}
                 {props.imgLeft || props.imgTopOnMobile ? (
-                    <div className="shadow-inner md:flex md:flex-1">
-                        <Image priority loading="eager" src={props.src} alt={props.title} />
+                    <div className="md:flex md:flex-1">
+                        <Image className="rounded-sm" loading="eager" src={props.src} alt={props.title} />
                     </div>
                 ) : null}
                 {/* TEXT */}
@@ -57,14 +58,14 @@ const ImgTextRow = (props: IImgTextRowProps) => {
                 >
                     <h5 className="font-semibold py-6 text-2xl">{props.title}</h5>
                     <p className="text-light text-sm text-zinc-950 px-4 md:max-w-md lg:max-w-lg">{props.description}</p>
-                    <Link href={"/estimate"}>
-                        <Button className={`${props.textLeft ? "ml-4" : "mr-4"} animate-pulse mt-4`} name={"Get Your Free Estimate Now"} />
+                    <Link href={props.link}>
+                        <Button className={`${props.textLeft ? "ml-4" : "mr-4"} animate-pulse mt-4`} name={props.btnName} />
                     </Link>
                 </div>
                 {/* IMAGE */}
                 {!props.imgLeft ? (
                     <div className="md:flex md:flex-1">
-                        <Image priority loading="eager" src={props.src} alt={props.title} />
+                        <Image className="rounded-sm" loading="eager" src={props.src} alt={props.title} />
                     </div>
                 ) : null}
             </div>

@@ -1,41 +1,79 @@
 import IconsRow from "@/components/layout/icons-row";
-import ImgLinkOverlay from "@/components/layout/home/img-link-overlay";
-import Navbar from "@/components/layout/navbar";
 
 import Cookie from "@/public/cookie-icon.png";
 import Cake from "@/public/cake-icon.png";
 import Cupcake from "@/public/cupcake-icon.png";
-import ImageText from "@/components/layout/image-text";
+
+import CakeImg from "@/public/cake-img.jpg";
+import CupcakeImg from "@/public/cupcakes-img.jpg";
+import CookieImg from "@/public/cookies-img.jpg";
+
+import CakeSplash from "@/public/cake-splash.jpg";
+
+import ImgTextRow from "@/components/layout/sections/img-text-row";
 import ContactFormContainer from "@/components/forms/contact-form-container";
+import ImgTextOverlay from "@/components/layout/sections/img-text-overlay";
 
 export default function Home() {
     return (
         <div className="flex flex-col justify-between w-full">
-            <ImgLinkOverlay />
+            {/* JUMBOTRON */}
+            <ImgTextOverlay src={CakeSplash} name={"Molly's Specialty Sweets"} />
+            {/* ICON BANNER */}
             <IconsRow
-                iconSection1={{
-                    linkText: "Order Cookies Now",
-                    href: "/cookies",
-                    src: Cookie,
-                    name: "Cookies",
-                    description: "Expertly crafted artisinal cookies for a joyous indulgence",
-                }}
-                iconSection2={{
+                iconItem1={{
                     linkText: "Create A Cake",
                     href: "/cakes",
                     src: Cake,
                     name: "Cakes",
                     description: "Save the perfection of Molly's cakes—a delightful blend of quality and flavor in every bite",
                 }}
-                iconSection3={{
+                iconItem2={{
                     linkText: "Order Cupcakes Now",
                     href: "/cupcakes",
                     src: Cupcake,
                     name: "Cupcakes",
                     description: "Sweeten up your day with Molly's Cupcakery—where tiny treats bring big joy",
                 }}
+                iconItem3={{
+                    linkText: "Order Cookies Now",
+                    href: "/cookies",
+                    src: Cookie,
+                    name: "Cookies",
+                    description: "Expertly crafted artisinal cookies for a joyous indulgence",
+                }}
             />
-            <ImageText />
+            {/* IMG TEXT ROWS */}
+            <ImgTextRow
+                imgLeft
+                src={CakeImg}
+                link={"/create-a-cake"}
+                btnName="Get Free Cake Estimate"
+                title={"Cake"}
+                description={
+                    "Indulge in delectable treats crafted with precision, delivering a burst of irresistible flavor in every bite. Elevate your dessert experience with our uniquely designed cakes, a celebration of sweetness"
+                }
+            />
+            <ImgTextRow
+                textLeft
+                src={CupcakeImg}
+                link={"/cupcakes"}
+                btnName="Get Free Cupcake Estimate"
+                title={"Cupcakes"}
+                description={
+                    "Indulge in delectable treats crafted with precision, delivering a burst of irresistible flavor in every bite. Elevate your dessert experience with our uniquely designed cakes, a celebration of sweetness"
+                }
+            />
+            <ImgTextRow
+                imgLeft
+                src={CookieImg}
+                link={"/cookies"}
+                btnName="Get Free Cookie Estimate"
+                title={"Cookies"}
+                description={
+                    "Indulge in delectable treats crafted with precision, delivering a burst of irresistible flavor in every bite. Elevate your dessert experience with our uniquely designed cakes, a celebration of sweetness"
+                }
+            />
             <ContactFormContainer />
         </div>
     );

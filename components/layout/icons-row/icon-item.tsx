@@ -7,7 +7,7 @@ import Link from "next/link";
 import useScrollAnimation from "hooks/useScrollAnimation";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 
-interface IIconsSectionProps {
+interface IIconItemProps {
     href: string;
     src: any;
     name: string;
@@ -15,7 +15,7 @@ interface IIconsSectionProps {
     linkText: string;
 }
 
-const IconsSection = (props: IIconsSectionProps) => {
+const IconItem = (props: IIconItemProps) => {
     const { ref, animationClass } = useScrollAnimation();
     return (
         <article ref={ref} className={`${animationClass} flex flex-col px-4 py-10 justify-center items-center flex-1 md:mx-10`}>
@@ -33,4 +33,4 @@ const IconsSection = (props: IIconsSectionProps) => {
     );
 };
 
-export default IconsSection;
+export default IconItem;

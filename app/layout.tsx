@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en" className="!scroll-smooth">
-            <link rel="icon" href="/mollys-logo-pink.png" sizes="100" />
+            <link rel="icon" href="/mollys-logo-pink-favicon.png" sizes="16x16" className="w-[16px] h-[16px]" />
             <body className={inter.variable}>
                 <Toaster />
                 <Suspense fallback="Loading...">
