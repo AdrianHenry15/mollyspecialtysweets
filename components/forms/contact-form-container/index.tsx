@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import emailjs from "@emailjs/browser";
@@ -22,7 +22,7 @@ const ContactFormContainer = () => {
     const pathname = usePathname();
 
     const [inputClicked, setInputClicked] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -45,9 +45,21 @@ const ContactFormContainer = () => {
         formState: { errors },
     } = useForm();
 
+    //EMAIL JS
+    const templateParams = {
+        firstName: getValues("firstName"),
+        lastName: getValues("lastName"),
+        phone: getValues("phone"),
+        email: getValues("email"),
+        deliveryMethod: getValues("deliveryMethod"),
+        deliveryAddress: getValues("deliveryAddress"),
+        orders: getValues(["orders"]),
+        comment: getValues("comment"),
+    };
+
     const onSubmit = (data: any) => {
         // open confirmation modal
-        setIsOpen(true);
+        setIsConfirmationModalOpen(true);
         console.log(data);
     };
 
@@ -62,7 +74,7 @@ const ContactFormContainer = () => {
             }
         );
         // close modal
-        setIsOpen(false);
+        setIsConfirmationModalOpen(false);
         setTimeout(() => {
             // open success modal
             setEstimateSuccess(true);
@@ -80,21 +92,15 @@ const ContactFormContainer = () => {
         setValue("address", address); // Update the address value in the form
     };
 
-    //EMAIL JS
-    const templateParams = {
-        firstName: getValues("firstName"),
-        lastName: getValues("lastName"),
-        phone: getValues("phone"),
-        email: getValues("email"),
-        deliveryMethod: getValues("deliveryMethod"),
-        deliveryAddress: getValues("deliveryAddress"),
-        orders: getValues(["orders"]),
-        comment: getValues("comment"),
-    };
-
     return (
         <section className="flex flex-col items-center px-4 py-20 shadow-inner relative w-full">
-            {isOpen && <ConfirmationModal confirmEstimate={confirmEstimate} isOpen={isOpen} closeModal={() => setIsOpen(false)} />}
+            {isConfirmationModalOpen && (
+                <ConfirmationModal
+                    confirmEstimate={confirmEstimate}
+                    isOpen={isConfirmationModalOpen}
+                    closeModal={() => setIsConfirmationModalOpen(false)}
+                />
+            )}
             {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
             {loading ? <Loader /> : null}
             {/* TITLE */}
