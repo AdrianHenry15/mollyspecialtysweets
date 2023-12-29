@@ -41,7 +41,8 @@ const CakeForm = () => {
 
     //EMAIL JS
     const templateParams = {
-        cakeTier: getValues("cakeTier"),
+        singleTier: getValues("singleTier"),
+        multipleTier: getValues("multipleTier"),
         cakeSize: getValues("cakeSize"),
         cakeShape: getValues("cakeShape"),
         cakeFlavor: getValues("cakeFlavor"),
@@ -78,9 +79,9 @@ const CakeForm = () => {
     };
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="py-10 px-4">
-            <CakeTier control={control} isSingleTier={isSingleTier} setSingleTier={setIsSingleTier} />
-            <CakeSize />
-            <CakeShape />
+            <CakeShape control={control} />
+            <CakeTier cakeShape={watch("cakeShape")} control={control} isSingleTier={isSingleTier} setSingleTier={setIsSingleTier} />
+            <CakeSize cakeShape={watch("cakeShape")} control={control} />
             <CakeFlavor />
             <CakeFrosting />
             <CakeFilling />
