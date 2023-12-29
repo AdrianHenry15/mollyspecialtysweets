@@ -16,6 +16,7 @@ import { Loader } from "../../loader";
 import DeliveryMethod from "../delivery-method";
 import Order from "./order";
 import Input from "../input";
+import Textarea from "../textarea";
 
 const ContactFormContainer = () => {
     // SWITCH BETWEEN CONTACT AND ESTIMATE FORM | BOTH FORMS DO THE SAME THING FOR NOW
@@ -214,24 +215,14 @@ const ContactFormContainer = () => {
                     ) : null}
                     {/* ORDER */}
                     <div className="py-2 w-full">
-                        <label className="font-semibold text-lg mb-2 underline">Choose Order(s):</label>
+                        <label className="font-semibold text-lg pb-4 underline">Choose Order(s):</label>
                         <Order onClick={() => setInputClicked(true)} control={control} />
                         {errors.service && errors.service.type === "required" && (
                             <p className="text-sm text-red-600 ml-4">Service is required.</p>
                         )}
                     </div>
                     {/* COMMENT */}
-                    <div>
-                        <label className="text-xs absolute ml-2 bg-white transition-all duration-300 ease-in-out" htmlFor="email">
-                            Comment
-                        </label>
-                        <textarea
-                            className="border-2 border-gray-400 my-2 p-2 w-full h-40"
-                            // placeholder="Comment"
-                            {...register("comment", { required: false })}
-                            onClick={() => setInputClicked(true)}
-                        />
-                    </div>
+                    <Textarea control={control} name="comment" setInputClicked={setInputClicked} label={"Comment"} />
                     <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
                         <Button
                             onClick={() => {}}

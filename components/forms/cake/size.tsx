@@ -1,5 +1,6 @@
 import React from "react";
 import { Controller } from "react-hook-form";
+import FormContainer from "../form-container";
 
 type CakeSize = {
     value: string;
@@ -47,35 +48,33 @@ const SheetCakeSizes: CakeSize[] = [
 interface ICakeSizeProps {
     control: any;
     cakeShape: string;
+    className?: string;
 }
 
 const CakeSize = (props: ICakeSizeProps) => {
     return (
-        <div className="flex flex-col ">
-            <h5 className="flex font-semibold text-xl w-full justify-start">Choose Cake Size:</h5>
-            <div className="flex justify-evenly py-10">
-                {/* SIZE */}
-                <Controller
-                    name="cakeSize"
-                    control={props.control}
-                    render={({ field }) => (
-                        <select className="w-full" {...field}>
-                            {props.cakeShape === "rectangle"
-                                ? SheetCakeSizes.map((item: CakeSize) => (
-                                      <option key={item.value} value={item.value}>
-                                          {item.label}
-                                      </option>
-                                  ))
-                                : CakeSizes.map((item: CakeSize) => (
-                                      <option key={item.value} value={item.value}>
-                                          {item.label}
-                                      </option>
-                                  ))}
-                        </select>
-                    )}
-                />
-            </div>
-        </div>
+        <FormContainer inputLabel="Cake Size" title="Cake Size">
+            {/* SIZE */}
+            <Controller
+                name="cakeSize"
+                control={props.control}
+                render={({ field }) => (
+                    <select className={`${props.className}`} {...field}>
+                        {props.cakeShape === "rectangle"
+                            ? SheetCakeSizes.map((item: CakeSize) => (
+                                  <option key={item.value} value={item.value}>
+                                      {item.label}
+                                  </option>
+                              ))
+                            : CakeSizes.map((item: CakeSize) => (
+                                  <option key={item.value} value={item.value}>
+                                      {item.label}
+                                  </option>
+                              ))}
+                    </select>
+                )}
+            />
+        </FormContainer>
     );
 };
 

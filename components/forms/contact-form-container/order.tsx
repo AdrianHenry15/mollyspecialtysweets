@@ -22,7 +22,7 @@ const MenuProps = {
     },
 };
 
-const names = ["Cakes", "Cookies", "Cupcakes"];
+const categories = ["Cakes", "Cookies", "Cupcakes"];
 
 interface IOrderProps {
     control: any;
@@ -37,9 +37,9 @@ const Order = (props: IOrderProps) => {
 
     const { setValue } = useForm();
 
-    function getStyles(name: string, personName: readonly string[], theme: Theme) {
+    function getStyles(name: string, orderName: readonly string[], theme: Theme) {
         return {
-            fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
+            fontWeight: orderName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
         };
     }
 
@@ -53,42 +53,43 @@ const Order = (props: IOrderProps) => {
         );
     };
     return (
-        <Controller
-            name="orders"
-            control={props.control}
-            defaultValue={[]}
-            render={({ field }) => (
-                <FormControl className="w-full my-4">
-                    <InputLabel id="demo-multiple-chip-label">Order</InputLabel>
-                    <Select
-                        labelId="demo-multiple-chip-label"
-                        id="demo-multiple-chip"
-                        multiple
-                        {...field}
-                        value={field.value}
-                        onChange={(e) => {
-                            setValue("orders", e.target.value);
-                            handleChange(e);
-                        }}
-                        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-                        renderValue={(selected) => (
-                            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                                {selected.map((value: any) => (
-                                    <Chip key={value} label={value} />
-                                ))}
-                            </Box>
-                        )}
-                        MenuProps={MenuProps}
-                    >
-                        {names.map((name) => (
-                            <MenuItem key={name} value={name} style={getStyles(name, orderName, theme)}>
-                                {name}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-            )}
-        />
+        <div className="relative mt-2">
+            <Controller
+                name="orders"
+                control={props.control}
+                render={({ field }) => (
+                    <FormControl className="w-full my-4">
+                        <InputLabel id="demo-multiple-chip-label">Order</InputLabel>
+                        <Select
+                            labelId="demo-multiple-chip-label"
+                            id="demo-multiple-chip"
+                            multiple
+                            {...field}
+                            value={field.value || []}
+                            onChange={(e) => {
+                                field.onChange(e);
+                                handleChange(e);
+                            }}
+                            input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                            renderValue={(selected) => (
+                                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                                    {selected.map((value: any) => (
+                                        <Chip key={value} label={value} />
+                                    ))}
+                                </Box>
+                            )}
+                            MenuProps={MenuProps}
+                        >
+                            {categories.map((name) => (
+                                <MenuItem key={name} value={name} style={getStyles(name, orderName, theme)}>
+                                    {name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                )}
+            />
+        </div>
     );
 };
 

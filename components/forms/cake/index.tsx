@@ -17,7 +17,9 @@ import CakeTopping from "./topping";
 
 const CakeForm = () => {
     const pathname = usePathname();
+    const InputClass = "w-full border-gray-300 rounded-md py-4";
 
+    // STATE
     const [isSingleTier, setIsSingleTier] = useState(false);
     const [inputClicked, setInputClicked] = useState(false);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
@@ -48,7 +50,7 @@ const CakeForm = () => {
         cakeFlavor: getValues("cakeFlavor"),
         cakeFrosting: getValues("cakeFrosting"),
         cakeFilling: getValues("cakeFilling"),
-        cakeTopping: getValues(["cakeTopping"]),
+        cakeTopping: getValues("cakeTopping"),
     };
 
     const onSubmit = (data: any) => {
@@ -79,13 +81,25 @@ const CakeForm = () => {
     };
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="py-10 px-4">
-            <CakeShape control={control} />
+            <CakeShape className={InputClass} control={control} />
             <CakeTier cakeShape={watch("cakeShape")} control={control} isSingleTier={isSingleTier} setSingleTier={setIsSingleTier} />
-            <CakeSize cakeShape={watch("cakeShape")} control={control} />
-            <CakeFlavor />
-            <CakeFrosting />
-            <CakeFilling />
-            <CakeTopping />
+            <CakeSize className={InputClass} cakeShape={watch("cakeShape")} control={control} />
+            <CakeFlavor control={control} />
+            {errors.cakeFlavor && errors.cakeFlavor.type === "required" && (
+                <p className="text-sm text-red-600 ml-4">Cake Flavor is required.</p>
+            )}
+            <CakeFrosting control={control} />
+            {errors.cakeFrosting && errors.cakeFrosting.type === "required" && (
+                <p className="text-sm text-red-600 ml-4">Cake Frosting is required.</p>
+            )}
+            <CakeFilling control={control} />
+            {errors.cakeFilling && errors.cakeFilling.type === "required" && (
+                <p className="text-sm text-red-600 ml-4">Cake Filling is required.</p>
+            )}
+            <CakeTopping control={control} />
+            {errors.cakeTopping && errors.cakeTopping.type === "required" && (
+                <p className="text-sm text-red-600 ml-4">Cake Topping is required.</p>
+            )}
         </form>
     );
 };
