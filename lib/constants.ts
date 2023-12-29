@@ -15,15 +15,15 @@ export const NavMenuItems: NavMenu[] = [
     // },
     {
         title: "Create A Cake",
-        link: "/create-a-cake",
+        link: "/order/cakes",
     },
     {
         title: "Order Cupcakes",
-        link: "/order-cupcakes",
+        link: "/order/cupcakes",
     },
     {
         title: "Order Cookies",
-        link: "/order-cookies",
+        link: "/order/cookies",
     },
     {
         title: "My Story",

@@ -5,8 +5,6 @@ import { Suspense } from "react";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import "@/styles/globals.css";
-import Navbar from "@/components/layout/navbar";
-import Footer from "@/components/layout/footer";
 import { Loader } from "@/components/loader";
 
 const inter = Inter({
@@ -33,9 +31,9 @@ export default async function MainLayout({ children }: { children: React.ReactNo
     return (
         <ClerkProvider>
             <html lang="en" className="!scroll-smooth">
-                <link rel="icon" href="/mollys-logo-pink-favicon.png" sizes="16x16" className="w-[16px] h-[16px]" />
+                <link rel="icon" href="/birthday-cake.png" sizes="" />
                 <body className={inter.variable}>
-                    <div className="flex flex-col justify-center items-center w-full">
+                    <div className="flex flex-col">
                         <Suspense fallback={<Loader />}>{children}</Suspense>
                     </div>
                 </body>

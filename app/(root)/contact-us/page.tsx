@@ -1,7 +1,7 @@
 import ContactFormContainer from "@/components/forms/contact-form-container";
 import React from "react";
 
-const Estimate = () => {
+const ContactUsPage = () => {
     return (
         <div>
             <ContactFormContainer />
@@ -9,4 +9,4 @@ const Estimate = () => {
     );
 };
 
-export default Estimate;
+export default ContactUsPage;

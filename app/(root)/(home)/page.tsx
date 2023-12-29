@@ -13,8 +13,9 @@ import CakeSplash from "@/public/cake-splash.jpg";
 import ImgTextRow from "@/components/layout/sections/img-text-row";
 import ContactFormContainer from "@/components/forms/contact-form-container";
 import ImgTextOverlay from "@/components/layout/sections/img-text-overlay";
+import MobileImgText from "@/components/layout/sections/mobile-img-text";
 
-export default function Home() {
+export default function HomePage() {
     return (
         <div className="flex flex-col justify-between w-full">
             {/* JUMBOTRON */}
@@ -69,6 +70,33 @@ export default function Home() {
                 src={CookieImg}
                 link={"/cookies"}
                 btnName="Get Free Cookie Estimate"
+                title={"Cookies"}
+                description={
+                    "Indulge in delectable treats crafted with precision, delivering a burst of irresistible flavor in every bite. Elevate your dessert experience with our uniquely designed cakes, a celebration of sweetness"
+                }
+            />
+            {/* MOBILE TEXT ROWS */}
+            <MobileImgText
+                textLeft
+                src={CakeImg}
+                link={"/cakes"}
+                title={"Cakes"}
+                description={
+                    "Indulge in delectable treats crafted with precision, delivering a burst of irresistible flavor in every bite. Elevate your dessert experience with our uniquely designed cakes, a celebration of sweetness"
+                }
+            />
+            <MobileImgText
+                src={CupcakeImg}
+                link={"/cupcakes"}
+                title={"Cupcakes"}
+                description={
+                    "Indulge in delectable treats crafted with precision, delivering a burst of irresistible flavor in every bite. Elevate your dessert experience with our uniquely designed cakes, a celebration of sweetness"
+                }
+            />
+            <MobileImgText
+                textLeft
+                src={CookieImg}
+                link={"/cookies"}
                 title={"Cookies"}
                 description={
                     "Indulge in delectable treats crafted with precision, delivering a burst of irresistible flavor in every bite. Elevate your dessert experience with our uniquely designed cakes, a celebration of sweetness"
