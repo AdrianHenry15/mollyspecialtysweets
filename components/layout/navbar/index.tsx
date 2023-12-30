@@ -9,6 +9,7 @@ import logo from "@/public/mollys-logo-black.png";
 import { NavMenuItems } from "@/lib/constants";
 import { NavMenu } from "@/lib/types";
 import Button from "@/components/buttons/button";
+import UserIcon from "./user-icon";
 
 export default function Navbar() {
     const pathname = usePathname();
@@ -51,6 +52,10 @@ export default function Navbar() {
                         <Button className="animate-pulse" roundedFull name="Get Your Free Estimate" />
                     </Link>
                 </ul>
+                {/* USER ICON */}
+                <div className="hidden lg:flex lg:items-center">
+                    <UserIcon />
+                </div>
             </div>
         </nav>
     );

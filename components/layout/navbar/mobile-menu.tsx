@@ -9,12 +9,17 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { NavMenuItems } from "../../../lib/constants";
 import { NavMenu } from "../../../lib/types";
 import Button from "@/components/buttons/button";
+import UserIcon from "./user-icon";
 
 export default function MobileMenu() {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const openMobileMenu = () => setIsOpen(true);
     const closeMobileMenu = () => setIsOpen(false);
+
+    useEffect(() => {
+        closeMobileMenu();
+    }, [pathname]);
 
     return (
         <div className="relative">
@@ -49,13 +54,18 @@ export default function MobileMenu() {
                     >
                         <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full flex-col bg-white pb-6 w-full">
                             <div className="p-4">
-                                <button
-                                    className="mb-4 flex h-11 w-11 items-center justify-center rounded-md text-black transition-colors"
-                                    onClick={closeMobileMenu}
-                                    aria-label="Close mobile menu"
-                                >
-                                    <XMarkIcon className="h-6" />
-                                </button>
+                                <div className="flex items-center justify-between">
+                                    <button
+                                        className="flex h-11 w-11 items-center justify-center rounded-md text-black transition-colors"
+                                        onClick={closeMobileMenu}
+                                        aria-label="Close mobile menu"
+                                    >
+                                        <XMarkIcon className="h-6" />
+                                    </button>
+                                    <div>
+                                        <UserIcon />
+                                    </div>
+                                </div>
 
                                 <ul className="flex w-full flex-col h-full">
                                     {NavMenuItems.map((item: NavMenu) => (
