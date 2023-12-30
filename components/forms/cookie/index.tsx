@@ -16,7 +16,7 @@ const CookieForm = () => {
     const InputClass = "w-full border-gray-300 rounded-md py-4";
 
     // STATE
-    const [isSingleTier, setIsSingleTier] = useState(false);
+    const [isMini, setMini] = useState(false);
     const [inputClicked, setInputClicked] = useState(false);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
@@ -76,7 +76,7 @@ const CookieForm = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="py-10 px-4">
             <CookieAmount className={InputClass} control={control} />
-            <CookieSize />
+            <CookieSize setMini={setMini} isMini={false} control={control} />
             <CookieFlavor control={control} />
             {errors.cookieFlavor && errors.cookieFlavor.type === "required" && (
                 <p className="text-sm text-red-600 ml-4">Cookie Flavor is required.</p>

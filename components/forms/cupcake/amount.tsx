@@ -4,17 +4,17 @@ import FormContainer from "../form-container";
 import { Controller } from "react-hook-form";
 import { Amounts } from "@/lib/constants";
 
-interface ICookieAmountProps {
+interface ICupcakeAmountProps {
     control: any;
     className?: string;
 }
 
-const CookieAmount = (props: ICookieAmountProps) => {
+const CupcakeAmount = (props: ICupcakeAmountProps) => {
     return (
-        <FormContainer inputLabel="Cookie Amount" title="Cookie Amount">
+        <FormContainer inputLabel="Cupcake Amount" title="Cupcake Amount">
             {/* SHAPE */}
             <Controller
-                name="cookieAmount"
+                name="cupcakeAmount"
                 control={props.control}
                 render={({ field }) => (
                     <select className={props.className} {...field}>
@@ -32,4 +32,4 @@ const CookieAmount = (props: ICookieAmountProps) => {
     );
 };
 
-export default CookieAmount;
+export default CupcakeAmount;

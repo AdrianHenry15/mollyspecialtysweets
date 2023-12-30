@@ -45,6 +45,8 @@ export const NavMenuAltItems: NavMenu[] = [
     },
 ];
 
+export const Amounts = ["4", "6", "12", "18", "24", "30", "36", "42", "48"];
+
 export const CakeFlavors = [
     // VANILLA
     "Classic Vanilla",
@@ -290,6 +292,7 @@ export const CakeFlavors = [
 ];
 
 export const CakeFrostings = [
+    "None",
     "Buttercream Frosting",
     "Cream Cheese Frosting",
     "Chocolate Ganache",
@@ -424,6 +427,7 @@ export const CookieFlavors = [
     "Other",
 ];
 export const CookieFrostings = [
+    "None",
     "Buttercream Frosting",
     "Royal Icing",
     "Glaze Icing",
@@ -447,6 +451,7 @@ export const CookieFrostings = [
     "Other",
 ];
 export const CookieFillings = [
+    "None",
     "Chocolate Ganache",
     "Fruit Jam (e.g., Raspberry, Strawberry)",
     "Lemon Curd",
@@ -491,6 +496,7 @@ export const CookieFillings = [
     "Other",
 ];
 export const CookieToppings = [
+    "None",
     "Powdered Sugar",
     "Sprinkles",
     "Chopped Nuts",
@@ -558,6 +564,7 @@ export const CupcakeFlavors = [
     "Other",
 ];
 export const CupcakeFrostings = [
+    "None",
     "Buttercream Frosting",
     "Cream Cheese Frosting",
     "Chocolate Ganache",
@@ -581,6 +588,7 @@ export const CupcakeFrostings = [
     "Other",
 ];
 export const CupcakeFillings = [
+    "None",
     "Chocolate Ganache Filling",
     "Fruit Jam Filling (e.g., Raspberry, Strawberry)",
     "Cream Cheese Filling",
@@ -625,6 +633,7 @@ export const CupcakeFillings = [
     "Other",
 ];
 export const CupcakeToppings = [
+    "None",
     "Sprinkles",
     "Chopped Nuts",
     "Shredded Coconut",

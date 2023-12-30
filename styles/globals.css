@@ -14,3 +14,26 @@ h6 {
 p {
     color: gray;
 }
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+}
+/* Add the following to create a stagger effect based on index */
+.fade-in:nth-child(1) {
+    transition-delay: 0.111s;
+}
+
+.fade-in:nth-child(2) {
+    transition-delay: 0.153s;
+}
+
+.fade-in:nth-child(3) {
+    transition-delay: 0.185s;
+}
+
+.fade-in.show {
+    opacity: 1;
+    transform: translateY(0);
+}

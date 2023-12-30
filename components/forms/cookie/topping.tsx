@@ -10,8 +10,8 @@ interface ICookieToppingProps {
 const CookieTopping = (props: ICookieToppingProps) => {
     return (
         <AutocompleteFormInput
-            title="Cookie Filling"
-            name="cookieFilling"
+            title="Cookie Topping"
+            name="cookieTopping"
             options={CookieToppings}
             label="Cookie Topping"
             control={props.control}
