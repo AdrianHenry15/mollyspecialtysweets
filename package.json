@@ -3,8 +3,8 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "dev": "prisma generate && next dev",
-        "build": "prisma generate && prisma db push && next build",
+        "dev": "next dev",
+        "build": "next build",
         "start": "next start",
         "lint": "next lint"
     },
