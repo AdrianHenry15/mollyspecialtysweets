@@ -31,7 +31,9 @@ export default async function MainLayout({ children }: { children: React.ReactNo
     return (
         <ClerkProvider>
             <html lang="en" className="!scroll-smooth">
-                <link rel="icon" href="/birthday-cake.png" sizes="" />
+                <link rel="icon" href="/favicons/cake-icon-96.png" sizes="96x96" />
+                <link rel="icon" href="/favicons/cake-icon-32.png" sizes="32x32" />
+                <link rel="icon" href="/favicons/cake-icon-16.png" sizes="16x16" />
                 <body className={inter.variable}>
                     <div className="flex flex-col">
                         <Suspense fallback={<Loader />}>{children}</Suspense>
