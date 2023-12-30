@@ -1,7 +1,13 @@
 import React from "react";
 
+import CupcakeForm from "@/components/forms/cupcake";
+
 const OrderCupcakes = () => {
-    return <div>OrderCupcakes</div>;
+    return (
+        <div>
+            <CupcakeForm />
+        </div>
+    );
 };
 
 export default OrderCupcakes;

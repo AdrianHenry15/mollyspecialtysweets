@@ -1,7 +1,23 @@
 import React from "react";
 
-const CupcakeFrosting = () => {
-    return <div>CupcakeFrosting</div>;
+import AutocompleteFormInput from "../autocomplete-form-input";
+import { CupcakeFrostings } from "@/lib/constants";
+
+interface ICupcakeFrostingProps {
+    control: any;
+    className?: string;
+}
+
+const CupcakeFrosting = (props: ICupcakeFrostingProps) => {
+    return (
+        <AutocompleteFormInput
+            title="Cupcake Frosting"
+            name="CupcakeFrosting"
+            options={CupcakeFrostings}
+            label="Cupcake Frosting"
+            control={props.control}
+        />
+    );
 };
 
 export default CupcakeFrosting;

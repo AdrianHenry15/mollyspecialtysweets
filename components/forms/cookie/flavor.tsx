@@ -10,8 +10,8 @@ interface ICookieFlavorProps {
 const CookieFlavor = (props: ICookieFlavorProps) => {
     return (
         <AutocompleteFormInput
-            title="Cookie Filling"
-            name="cookieFilling"
+            title="Cookie Flavor"
+            name="cookieFlavor"
             options={CookieFlavors}
             label="Cookie Flavor"
             control={props.control}
