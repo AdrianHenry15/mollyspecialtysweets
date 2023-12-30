@@ -1,23 +1,22 @@
 import React from "react";
-
 import AutocompleteFormInput from "../autocomplete-form-input";
-import { CookieFrostings } from "@/lib/constants";
+import { CookieToppings } from "@/lib/constants";
 
-interface ICookieFrostingProps {
+interface ICookieToppingProps {
     control: any;
     className?: string;
 }
 
-const CookieFrosting = (props: ICookieFrostingProps) => {
+const CookieTopping = (props: ICookieToppingProps) => {
     return (
         <AutocompleteFormInput
             title="Cookie Filling"
             name="cookieFilling"
-            options={CookieFrostings}
-            label="Cookie Flavor"
+            options={CookieToppings}
+            label="Cookie Topping"
             control={props.control}
         />
     );
 };
 
-export default CookieFrosting;
+export default CookieTopping;

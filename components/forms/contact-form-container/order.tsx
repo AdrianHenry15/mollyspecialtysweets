@@ -89,6 +89,9 @@ const Order = (props: IOrderProps) => {
                     </FormControl>
                 )}
             />
+            {/* {props.errors.orders && props.errors.orders.type === "required" && (
+                <p className="text-sm text-red-600 ml-4">Order is required.</p>
+            )} */}
         </div>
     );
 };

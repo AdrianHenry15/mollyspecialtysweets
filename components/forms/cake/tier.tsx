@@ -13,7 +13,7 @@ interface ICakeTierProps {
 }
 
 const CakeTier = (props: ICakeTierProps) => {
-    const TierClass = "border-black border-2 p-2 rounded-xl shadow-md shadow-pink-100 transition-color duration-300 ease-in-out";
+    const TierClass = "border-black border-2 p-6 rounded-xl shadow-md shadow-pink-100 transition-color duration-300 ease-in-out";
     return (
         <FormContainer title="Cake Tier">
             {/* SINGLE */}
@@ -26,7 +26,7 @@ const CakeTier = (props: ICakeTierProps) => {
                             className={`${
                                 props.isSingleTier || props.cakeShape === "rectangle" ? "bg-pink-300" : "bg-transparent"
                             } ${TierClass}`}
-                            size={75}
+                            size={150}
                         />
                         <p className="text-xs mt-2">Single Tier</p>
                     </div>
@@ -42,7 +42,7 @@ const CakeTier = (props: ICakeTierProps) => {
                             className={`${
                                 !props.isSingleTier && props.cakeShape !== "rectangle" ? "bg-pink-300" : "bg-transparent"
                             } ${TierClass}`}
-                            size={75}
+                            size={150}
                         />
                         <p className="text-xs mt-2">Multiple Tier</p>
                     </div>

@@ -14,6 +14,7 @@ import CakeFlavor from "./flavor";
 import CakeFrosting from "./frosting";
 import CakeFilling from "./filling";
 import CakeTopping from "./topping";
+import Textarea from "../textarea";
 
 const CakeForm = () => {
     const pathname = usePathname();
@@ -100,6 +101,7 @@ const CakeForm = () => {
             {errors.cakeTopping && errors.cakeTopping.type === "required" && (
                 <p className="text-sm text-red-600 ml-4">Cake Topping is required.</p>
             )}
+            <Textarea setInputClicked={setInputClicked} name={"comment"} label={"Comment"} control={control} />
         </form>
     );
 };
