@@ -8,7 +8,9 @@ interface ICakeFlavorProps {
 }
 
 const CakeFlavor = (props: ICakeFlavorProps) => {
-    return <AutocompleteFormInput title="Cake Flavor" name="cakeFlavor" options={CakeFlavors} label="Flavor" control={props.control} />;
+    return (
+        <AutocompleteFormInput title="Cake Flavor" name="cakeFlavor" options={CakeFlavors} label="Cake Flavor" control={props.control} />
+    );
 };
 
 export default CakeFlavor;

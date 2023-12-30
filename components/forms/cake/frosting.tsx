@@ -9,7 +9,13 @@ interface ICakeFrostingProps {
 
 const CakeFrosting = (props: ICakeFrostingProps) => {
     return (
-        <AutocompleteFormInput title="Cake Frosting" name="cakeFrosting" options={CakeFrostings} label="Frosting" control={props.control} />
+        <AutocompleteFormInput
+            title="Cake Frosting"
+            name="cakeFrosting"
+            options={CakeFrostings}
+            label="Cake Frosting"
+            control={props.control}
+        />
     );
 };
 

@@ -8,7 +8,15 @@ interface ICakeFillingProps {
 }
 
 const CakeFilling = (props: ICakeFillingProps) => {
-    return <AutocompleteFormInput title="Cake Filling" name="cakeFilling" options={CakeFillings} label="Filling" control={props.control} />;
+    return (
+        <AutocompleteFormInput
+            title="Cake Filling"
+            name="cakeFilling"
+            options={CakeFillings}
+            label="Cake Filling"
+            control={props.control}
+        />
+    );
 };
 
 export default CakeFilling;
