@@ -45,6 +45,8 @@ export const NavMenuAltItems: NavMenu[] = [
     },
 ];
 
+export const CakeTiers = ["Single", "Multiple"];
+
 export const Amounts = ["4", "6", "12", "18", "24", "30", "36", "42", "48"];
 
 export const CakeFlavors = [
@@ -136,7 +138,6 @@ export const CakeFlavors = [
     "Carrot Chocolate Cake",
     // POUND CAKE
     "Classic Pound Cake",
-    "Lemon Pound Cake",
     "Chocolate Pound Cake",
     "Vanilla Pound Cake",
     "Almond Pound Cake",
@@ -151,7 +152,6 @@ export const CakeFlavors = [
     "Cherry Almond Pound Cake",
     "Key Lime Pound Cake",
     "Espresso Pound Cake",
-    "Cinnamon Swirl Pound Cake",
     "Chocolate Chip Pound Cake",
     "Lemon Poppy Seed Pound Cake",
     "Brown Butter Pound Cake",
@@ -267,7 +267,6 @@ export const CakeFlavors = [
     "Banana Split Cake",
     "Banana Pudding Cake",
     // CINNAMON
-    "Cinnamon Swirl Coffee Cake",
     "Cinnamon Roll Cake",
     "Apple Cinnamon Cake",
     "Cinnamon Spice Cake",

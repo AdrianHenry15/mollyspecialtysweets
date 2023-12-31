@@ -21,6 +21,7 @@ const CakeFilling = (props: ICakeFillingProps) => {
         //     control={props.control}
         // />
         <FormItem
+            hasFruit
             freeSolo
             autocomplete
             control={props.control}

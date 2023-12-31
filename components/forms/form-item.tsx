@@ -12,10 +12,9 @@ interface IAutocompleteFormInputProps {
     label: string;
     required?: boolean;
     autocomplete?: boolean;
-    textInput?: boolean;
-    textarea?: boolean;
     errors?: FieldErrors;
     freeSolo?: boolean;
+    hasFruit?: boolean;
 }
 
 const FormItem: React.FC<IAutocompleteFormInputProps> = ({
@@ -24,10 +23,11 @@ const FormItem: React.FC<IAutocompleteFormInputProps> = ({
     name,
     options,
     label,
-    required = false,
-    autocomplete = false,
+    required,
+    autocomplete,
     errors,
-    freeSolo = false,
+    freeSolo,
+    hasFruit,
 }: IAutocompleteFormInputProps) => {
     return (
         <FormContainer className="flex-col pb-10" title={title}>
@@ -43,18 +43,18 @@ const FormItem: React.FC<IAutocompleteFormInputProps> = ({
                                     className="w-full"
                                     disablePortal
                                     freeSolo={freeSolo}
-                                    options={options || []}
-                                    renderInput={(params) => <TextField {...field} {...params} label={label} />}
+                                    value={field.value || null}
+                                    onChange={(event, newValue) => field.onChange(newValue)}
+                                    options={options}
+                                    renderInput={(params) => <TextField {...params} label={label} />}
                                 />
                             </div>
                         )}
                     </div>
                 )}
             />
-            <p className="italic text-xs text-zinc-500 pl-2">Fruit is an upcharge $</p>
-            {errors && errors[name] && errors[name]!.type && errors[name]!.type === "required" && (
-                <p className="text-sm text-red-600 ml-4">{label} is required.</p>
-            )}
+            {hasFruit && <p className="italic text-xs text-zinc-500 pl-2">Fruit is an upcharge $</p>}
+            {errors?.[name]?.type === "required" && <p className="text-sm text-red-600 ml-4">{label} is required.</p>}
         </FormContainer>
     );
 };
