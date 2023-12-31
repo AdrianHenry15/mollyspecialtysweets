@@ -14,8 +14,9 @@ const CakeShape = (props: ICakeShapeProps) => {
             <Controller
                 name="cakeShape"
                 control={props.control}
-                render={({ field }) => (
-                    <select className={props.className} {...field}>
+                rules={{ required: true }}
+                render={({ field: { onChange, onBlur, value }, fieldState }) => (
+                    <select onChange={onChange} onBlur={onBlur} value={value} className={props.className}>
                         <option value="square">Square</option>
                         <option value="round">Round</option>
                         <option value="rectangle">Rectangle (Sheet)</option>

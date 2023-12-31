@@ -1,6 +1,6 @@
 import React from "react";
 
-import AutocompleteFormInput from "../autocomplete-form-input";
+import AutocompleteFormInput from "../inputs/autocomplete-form-input";
 import { CupcakeFillings } from "@/lib/constants";
 
 interface ICupcakeFillingProps {

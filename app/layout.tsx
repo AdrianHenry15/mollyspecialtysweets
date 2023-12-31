@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 
 import "@/styles/globals.css";
 import { Loader } from "@/components/loader";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
     variable: "--font-inter",
@@ -35,6 +36,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
                 <link rel="icon" href="/favicons/cake-icon-32.png" sizes="32x32" />
                 <link rel="icon" href="/favicons/cake-icon-16.png" sizes="16x16" />
                 <body className={inter.variable}>
+                    <Toaster />
                     <div className="flex flex-col">
                         <Suspense fallback={<Loader />}>{children}</Suspense>
                     </div>

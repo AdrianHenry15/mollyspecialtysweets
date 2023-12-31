@@ -10,7 +10,12 @@ import CupcakeFrosting from "./frosting";
 import CupcakeFilling from "./filling";
 import CupcakeTopping from "./topping";
 import CupcakeAmount from "./amount";
-import Textarea from "../textarea";
+import Textarea from "../inputs/textarea";
+import toast from "react-hot-toast";
+import ConfirmationModal from "@/components/modals/ConfirmationModal";
+import SuccessModal from "@/components/modals/SuccessModal";
+import { Loader } from "@/components/loader";
+import Button from "@/components/buttons/button";
 
 const CupcakeForm = () => {
     const InputClass = "w-full border-gray-300 rounded-md py-4";
@@ -39,12 +44,12 @@ const CupcakeForm = () => {
 
     //EMAIL JS
     const templateParams = {
-        cookieSize: getValues("cookieSize"),
-        cookieAmount: getValues("cookieAmount"),
-        cookieFlavor: getValues("cookieFlavor"),
-        cookieFrosting: getValues("cookieFrosting"),
-        cookieFilling: getValues("cookieFilling"),
-        cookieTopping: getValues("cookieTopping"),
+        cookieSize: getValues("cupcakeSize"),
+        cookieAmount: getValues("cupcakeAmount"),
+        cookieFlavor: getValues("cupcakeFlavor"),
+        cookieFrosting: getValues("cupcakeFrosting"),
+        cookieFilling: getValues("cupcakeFilling"),
+        cookieTopping: getValues("cupcakeTopping"),
     };
 
     const onSubmit = (data: any) => {
@@ -57,9 +62,11 @@ const CupcakeForm = () => {
         // EMAIL JS
         emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
             function (response) {
+                toast.success("Your cupcake estimate has been submitted successfully!");
                 console.log("SUCCESS!", response.status, response.text);
             },
             function (error) {
+                toast.error("There was an error submitting your cupcake estimate. Please try again.");
                 console.log("FAILED...", error);
             }
         );
@@ -75,25 +82,40 @@ const CupcakeForm = () => {
     };
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="py-10 px-4">
+            <div className="relative">
+                <h5 className="text-center font-semibold text-2xl pb-8">Cupcake Estimate Form</h5>
+            </div>
+            {isConfirmationModalOpen && (
+                <ConfirmationModal
+                    confirmEstimate={confirmEstimate}
+                    isOpen={isConfirmationModalOpen}
+                    closeModal={() => setIsConfirmationModalOpen(false)}
+                />
+            )}
+            {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
+            {loading ? <Loader /> : null}
             <CupcakeAmount className={InputClass} control={control} />
             <CupcakeSize setMini={setMini} isMini={false} control={control} />
             <CupcakeFlavor control={control} />
             {errors.cookieFlavor && errors.cookieFlavor.type === "required" && (
-                <p className="text-sm text-red-600 ml-4">Cookie Flavor is required.</p>
+                <p className="text-sm text-red-600 ml-4">Cupcake Flavor is required.</p>
             )}
             <CupcakeFrosting control={control} />
             {errors.cookieFrosting && errors.cookieFrosting.type === "required" && (
-                <p className="text-sm text-red-600 ml-4">Cookie Frosting is required.</p>
+                <p className="text-sm text-red-600 ml-4">Cupcake Frosting is required.</p>
             )}
             <CupcakeFilling control={control} />
             {errors.cookieFilling && errors.cookieFilling.type === "required" && (
-                <p className="text-sm text-red-600 ml-4">Cookie Filling is required.</p>
+                <p className="text-sm text-red-600 ml-4">Cupcake Filling is required.</p>
             )}
             <CupcakeTopping control={control} className={""} />
             {errors.cookieTopping && errors.cookieTopping.type === "required" && (
-                <p className="text-sm text-red-600 ml-4">Cookie Topping is required.</p>
+                <p className="text-sm text-red-600 ml-4">Cupcake Topping is required.</p>
             )}
             <Textarea setInputClicked={setInputClicked} name={"comment"} label={"Comment"} control={control} />
+            <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
+                <Button submit name={`Submit Cupcake Estimate`} className="w-full justify-center"></Button>
+            </div>
         </form>
     );
 };
