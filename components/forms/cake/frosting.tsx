@@ -20,6 +20,7 @@ const CakeFrosting = (props: ICakeFrostingProps) => {
         //     control={props.control}
         // />
         <FormItem
+            hasFruit
             freeSolo
             autocomplete
             errors={props.errors}

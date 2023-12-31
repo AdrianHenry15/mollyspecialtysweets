@@ -21,6 +21,7 @@ const CakeFlavor = (props: ICakeFlavorProps) => {
         // />
         <FormItem
             freeSolo
+            hasFruit
             autocomplete
             required
             errors={props.errors}

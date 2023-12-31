@@ -18,6 +18,8 @@ import ConfirmationModal from "@/components/modals/ConfirmationModal";
 import SuccessModal from "@/components/modals/SuccessModal";
 import { Loader } from "@/components/loader";
 import FormContainer from "../form-container";
+import FormItem from "../form-item";
+import { CakeTiers } from "@/lib/constants";
 
 const CakeForm = () => {
     const InputClass = "w-full border-gray-300 rounded-md py-4";
@@ -96,8 +98,10 @@ const CakeForm = () => {
             )}
             {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
             {loading ? <Loader /> : null}
+
             {/* CAKE SHAPE */}
             <CakeShape errors={errors} control={control} />
+
             {/* CAKE TIER */}
             <div className="pb-10">
                 <CakeTier cakeShape={watch("cakeShape")} control={control} isSingleTier={isSingleTier} setSingleTier={setIsSingleTier} />
@@ -106,34 +110,31 @@ const CakeForm = () => {
                 )}
             </div>
             {/* CAKE SIZE */}
-            {/* <div className="pb-10"> */}
             <CakeSize errors={errors} cakeShape={watch("cakeShape")} control={control} />
-            {/* {errors.cakeSize && errors.cakeSize.type === "required" && (
-                    <p className="text-sm text-red-600 ml-4">Cake Size is required.</p>
-                )}
-            </div> */}
+
             {/* CAKE FLAVOR */}
-            {/* <div className="pb-10"> */}
             <CakeFlavor errors={errors} control={control} />
-            {/* {errors.cakeFlavor && errors.cakeFlavor.type === "required" && (
-                    <p className="text-sm text-red-600 ml-4">Cake Flavor is required.</p>
-                )}
-            </div> */}
-            {/* <div className="pb-10"> */}
+
+            {/* CAKE FROSTING */}
             <CakeFrosting errors={errors} control={control} />
-            {/* {errors.cakeFrosting && errors.cakeFrosting.type === "required" && (
-                    <p className="text-sm text-red-600 ml-4">Cake Frosting is required.</p>
-                )}
-            </div> */}
-            {/* <div className="pb-10"> */}
+
+            {/* CAKE FILLING */}
             <CakeFilling errors={errors} control={control} />
-            {/* {errors.cakeFilling && errors.cakeFilling.type === "required" && (
-                    <p className="text-sm text-red-600 ml-4">Cake Filling is required.</p>
-                )}
-            </div> */}
-            {/* <div className="pb-10"> */}
+
+            {/* CAKE TOPPING */}
             <CakeTopping control={control} />
-            {/* </div> */}
+
+            {/* DELIVERY METHOD */}
+            <FormItem
+                control={control}
+                title={"Delivery Method"}
+                name={"deliveryMethod"}
+                autocomplete
+                options={CakeTiers as []}
+                label={"Delivery Method"}
+                errors={errors}
+                required
+            />
             <div className="pb-10">
                 <Textarea name={"comment"} label={"Comment"} control={control} />
             </div>

@@ -20,6 +20,7 @@ const CakeTopping = (props: ICakeToppingProps) => {
         // />
         <FormItem
             autocomplete
+            hasFruit
             freeSolo
             control={props.control}
             title={"Cake Toppings"}
