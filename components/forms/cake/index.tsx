@@ -97,12 +97,7 @@ const CakeForm = () => {
             {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
             {loading ? <Loader /> : null}
             {/* CAKE SHAPE */}
-            <div className="pb-10">
-                <CakeShape errors={errors} className={InputClass} control={control} />
-                {/* {errors.cakeShape && errors.cakeShape.type === "required" && (
-                    <p className="text-sm text-red-600 ml-4">Cake Shape is required.</p>
-                )} */}
-            </div>
+            <CakeShape errors={errors} control={control} />
             {/* CAKE TIER */}
             <div className="pb-10">
                 <CakeTier cakeShape={watch("cakeShape")} control={control} isSingleTier={isSingleTier} setSingleTier={setIsSingleTier} />
@@ -111,34 +106,34 @@ const CakeForm = () => {
                 )}
             </div>
             {/* CAKE SIZE */}
-            <div className="pb-10">
-                <CakeSize className={InputClass} cakeShape={watch("cakeShape")} control={control} />
-                {errors.cakeSize && errors.cakeSize.type === "required" && (
+            {/* <div className="pb-10"> */}
+            <CakeSize errors={errors} cakeShape={watch("cakeShape")} control={control} />
+            {/* {errors.cakeSize && errors.cakeSize.type === "required" && (
                     <p className="text-sm text-red-600 ml-4">Cake Size is required.</p>
                 )}
-            </div>
+            </div> */}
             {/* CAKE FLAVOR */}
-            <div className="pb-10">
-                <CakeFlavor control={control} />
-                {errors.cakeFlavor && errors.cakeFlavor.type === "required" && (
+            {/* <div className="pb-10"> */}
+            <CakeFlavor errors={errors} control={control} />
+            {/* {errors.cakeFlavor && errors.cakeFlavor.type === "required" && (
                     <p className="text-sm text-red-600 ml-4">Cake Flavor is required.</p>
                 )}
-            </div>
-            <div className="pb-10">
-                <CakeFrosting control={control} />
-                {errors.cakeFrosting && errors.cakeFrosting.type === "required" && (
+            </div> */}
+            {/* <div className="pb-10"> */}
+            <CakeFrosting errors={errors} control={control} />
+            {/* {errors.cakeFrosting && errors.cakeFrosting.type === "required" && (
                     <p className="text-sm text-red-600 ml-4">Cake Frosting is required.</p>
                 )}
-            </div>
-            <div className="pb-10">
-                <CakeFilling control={control} />
-                {errors.cakeFilling && errors.cakeFilling.type === "required" && (
+            </div> */}
+            {/* <div className="pb-10"> */}
+            <CakeFilling errors={errors} control={control} />
+            {/* {errors.cakeFilling && errors.cakeFilling.type === "required" && (
                     <p className="text-sm text-red-600 ml-4">Cake Filling is required.</p>
                 )}
-            </div>
-            <div className="pb-10">
-                <CakeTopping control={control} />
-            </div>
+            </div> */}
+            {/* <div className="pb-10"> */}
+            <CakeTopping control={control} />
+            {/* </div> */}
             <div className="pb-10">
                 <Textarea name={"comment"} label={"Comment"} control={control} />
             </div>

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, RegisterOptions, UseFormRegisterReturn, useForm } from "react-hook-form";
 import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import emailjs from "@emailjs/browser";
@@ -13,7 +13,7 @@ import Button from "../../buttons/button";
 import ConfirmationModal from "../../modals/ConfirmationModal";
 import SuccessModal from "../../modals/SuccessModal";
 import { Loader } from "../../loader";
-import DeliveryMethod from "../inputs/delivery-method";
+import DeliveryMethod from "../delivery-method";
 import Order from "./order";
 import Textarea from "../inputs/textarea";
 import FormTextInput from "../inputs/form-text-input";
@@ -145,7 +145,7 @@ const ContactFormContainer = () => {
                                     required: watch("deliveryMethod") === "delivery" ? true : false,
                                 })}
                             />
-                            {errors.address && errors.address.type === "required" && (
+                            {errors.deliveryAddress && errors.deliveryAddress.type === "required" && (
                                 <p className="text-sm text-red-600 ml-4">Address is required.</p>
                             )}
                             {errors.address && errors.address.type === "pattern" && (

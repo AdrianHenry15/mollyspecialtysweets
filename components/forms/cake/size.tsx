@@ -1,6 +1,7 @@
 import React from "react";
-import { Controller } from "react-hook-form";
+import { Controller, FieldErrors } from "react-hook-form";
 import FormContainer from "../form-container";
+import FormItem from "../form-item";
 
 type CakeSize = {
     value: string;
@@ -48,38 +49,49 @@ const SheetCakeSizes: CakeSize[] = [
 interface ICakeSizeProps {
     control: any;
     cakeShape: string;
-    className?: string;
+    errors?: FieldErrors;
 }
 
 const CakeSize = (props: ICakeSizeProps) => {
     return (
-        <FormContainer inputLabel="Cake Size" title="Cake Size">
-            {/* SIZE */}
-            <Controller
-                name="cakeSize"
-                control={props.control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                    <select
-                        defaultValue={props.cakeShape === "rectangle" ? SheetCakeSizes[0].value : CakeSizes[0].value}
-                        className={`${props.className}`}
-                        {...field}
-                    >
-                        {props.cakeShape === "rectangle"
-                            ? SheetCakeSizes.map((item: CakeSize) => (
-                                  <option key={item.value} value={item.value}>
-                                      {item.label}
-                                  </option>
-                              ))
-                            : CakeSizes.map((item: CakeSize) => (
-                                  <option key={item.value} value={item.value}>
-                                      {item.label}
-                                  </option>
-                              ))}
-                    </select>
-                )}
-            />
-        </FormContainer>
+        // <FormContainer inputLabel="Cake Size" title="Cake Size">
+        //     {/* SIZE */}
+        //     <Controller
+        //         name="cakeSize"
+        //         control={props.control}
+        //         rules={{ required: true }}
+        //         render={({ field }) => (
+        //             <select
+        //                 defaultValue={props.cakeShape === "rectangle" ? SheetCakeSizes[0].value : CakeSizes[0].value}
+        //                 className={`${props.className}`}
+        //                 {...field}
+        //             >
+        //                 {props.cakeShape === "rectangle"
+        //                     ? SheetCakeSizes.map((item: CakeSize) => (
+        //                           <option key={item.value} value={item.value}>
+        //                               {item.label}
+        //                           </option>
+        //                       ))
+        //                     : CakeSizes.map((item: CakeSize) => (
+        //                           <option key={item.value} value={item.value}>
+        //                               {item.label}
+        //                           </option>
+        //                       ))}
+        //             </select>
+        //         )}
+        //     />
+        // </FormContainer>
+        <FormItem
+            freeSolo={false}
+            autocomplete
+            errors={props.errors}
+            required
+            control={props.control}
+            title={"Cake Size"}
+            name={"cakeSize"}
+            options={props.cakeShape === "rectangle" ? (SheetCakeSizes as []) : (CakeSizes as [])}
+            label={"Cake Size"}
+        />
     );
 };
 
