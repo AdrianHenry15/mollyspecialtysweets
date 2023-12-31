@@ -1,6 +1,6 @@
 import React from "react";
 import FormContainer from "../form-container";
-import { Controller } from "react-hook-form";
+import { Controller, FieldErrors } from "react-hook-form";
 import { Autocomplete, TextField } from "@mui/material";
 
 interface IAutocompleteFormInputProps {
