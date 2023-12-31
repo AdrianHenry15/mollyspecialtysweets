@@ -13,5 +13,5 @@ const override: CSSProperties = {
 };
 
 export const Loader = () => {
-    return <ClimbingBoxLoader color="#1770e4" size={20} cssOverride={override} />;
+    return <ClimbingBoxLoader color="#ed47b0" size={20} cssOverride={override} />;
 };

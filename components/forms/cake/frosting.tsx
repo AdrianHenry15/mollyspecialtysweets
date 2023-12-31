@@ -1,21 +1,34 @@
 import React from "react";
 
-import AutocompleteFormInput from "../inputs/autocomplete-form-input";
 import { CakeFrostings } from "@/lib/constants";
+import FormItem from "../form-item";
+import { FieldErrors } from "react-hook-form";
 
 interface ICakeFrostingProps {
     control: any;
+    errors?: FieldErrors;
 }
 
 const CakeFrosting = (props: ICakeFrostingProps) => {
     return (
-        <AutocompleteFormInput
-            title="Cake Frosting"
-            name="cakeFrosting"
+        // <AutocompleteFormInput
+        //     title="Cake Frosting"
+        //     name="cakeFrosting"
+        //     required
+        //     options={CakeFrostings as []}
+        //     label="Cake Frosting"
+        //     control={props.control}
+        // />
+        <FormItem
+            freeSolo
+            autocomplete
+            errors={props.errors}
             required
-            options={CakeFrostings as []}
-            label="Cake Frosting"
             control={props.control}
+            title={"Cake Frosting"}
+            name={"cakeFrosting"}
+            options={CakeFrostings as []}
+            label={"Cake Frosting"}
         />
     );
 };

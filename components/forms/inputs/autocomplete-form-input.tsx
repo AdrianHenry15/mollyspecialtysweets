@@ -1,6 +1,6 @@
 import React from "react";
 import FormContainer from "../form-container";
-import { Controller, FieldErrors } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { Autocomplete, TextField } from "@mui/material";
 
 interface IAutocompleteFormInputProps {
@@ -25,7 +25,6 @@ const AutocompleteFormInput = (props: IAutocompleteFormInputProps) => {
                             className="w-full"
                             disablePortal
                             freeSolo
-                            id="combo-box-demo"
                             options={props.options || []}
                             renderInput={(params) => <TextField {...field} {...params} label={props.label} />}
                         />
