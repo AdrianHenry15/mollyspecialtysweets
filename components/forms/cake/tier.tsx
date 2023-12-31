@@ -20,6 +20,8 @@ const CakeTier = (props: ICakeTierProps) => {
             <Controller
                 name="singleTier"
                 control={props.control}
+                rules={{ required: true }}
+                defaultValue={props.isSingleTier}
                 render={({ field }) => (
                     <div className="flex flex-col items-center" onClick={() => props.setSingleTier(true)} {...field}>
                         <BsCake2Fill

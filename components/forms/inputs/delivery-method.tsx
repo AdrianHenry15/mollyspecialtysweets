@@ -20,7 +20,15 @@ const DeliveryMethod = (props: IDeliveryMethodProps) => {
                         <label htmlFor="delivery">Delivery</label>
                     </div>
                     <div className="flex items-center">
-                        <input className="mr-2" {...field} type="radio" value={"pickup"} name="deliveryMethod" id="deliveryMethod" />
+                        <input
+                            defaultChecked
+                            className="mr-2"
+                            {...field}
+                            type="radio"
+                            value={"pickup"}
+                            name="deliveryMethod"
+                            id="deliveryMethod"
+                        />
                         <label htmlFor="pickup">Pickup</label>
                     </div>
                 </div>

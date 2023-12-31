@@ -1,5 +1,5 @@
 import React from "react";
-import FormContainer from "./form-container";
+import FormContainer from "../form-container";
 import { Controller } from "react-hook-form";
 import { Autocomplete, TextField } from "@mui/material";
 
@@ -7,14 +7,16 @@ interface IAutocompleteFormInputProps {
     control: any;
     title: string;
     name: string;
-    options: any;
+    options: [];
     label: string;
+    required?: boolean;
 }
 
 const AutocompleteFormInput = (props: IAutocompleteFormInputProps) => {
     return (
         <FormContainer className="flex-col" title={props.title}>
             <Controller
+                rules={{ required: props.required }}
                 name={props.name}
                 control={props.control}
                 render={({ field }) => (
@@ -24,7 +26,7 @@ const AutocompleteFormInput = (props: IAutocompleteFormInputProps) => {
                             disablePortal
                             freeSolo
                             id="combo-box-demo"
-                            options={props.options}
+                            options={props.options || []}
                             renderInput={(params) => <TextField {...field} {...params} label={props.label} />}
                         />
                     </div>

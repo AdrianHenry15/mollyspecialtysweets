@@ -1,7 +1,7 @@
 import React from "react";
 
 import { CakeFlavors } from "@/lib/constants";
-import AutocompleteFormInput from "../autocomplete-form-input";
+import AutocompleteFormInput from "../inputs/autocomplete-form-input";
 
 interface ICakeFlavorProps {
     control: any;
@@ -9,7 +9,14 @@ interface ICakeFlavorProps {
 
 const CakeFlavor = (props: ICakeFlavorProps) => {
     return (
-        <AutocompleteFormInput title="Cake Flavor" name="cakeFlavor" options={CakeFlavors} label="Cake Flavor" control={props.control} />
+        <AutocompleteFormInput
+            title="Cake Flavor"
+            name="cakeFlavor"
+            options={CakeFlavors as []}
+            label="Cake Flavor"
+            required
+            control={props.control}
+        />
     );
 };
 

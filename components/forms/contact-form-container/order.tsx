@@ -24,9 +24,12 @@ const MenuProps = {
 
 const categories = ["Cakes", "Cookies", "Cupcakes"];
 
+type FormValues = {
+    orders: string[];
+};
+
 interface IOrderProps {
     control: any;
-    onClick: () => void;
 }
 
 const Order = (props: IOrderProps) => {
@@ -35,41 +38,27 @@ const Order = (props: IOrderProps) => {
     const theme = useTheme();
     const [orderName, setOrderName] = React.useState<string[]>([]);
 
-    const { setValue } = useForm();
-
     function getStyles(name: string, orderName: readonly string[], theme: Theme) {
         return {
             fontWeight: orderName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
         };
     }
-
-    const handleChange = (event: SelectChangeEvent<typeof orderName>) => {
-        const {
-            target: { value },
-        } = event;
-        setOrderName(
-            // On autofill we get a stringified value.
-            typeof value === "string" ? value.split(",") : value
-        );
-    };
     return (
         <div className="relative mt-2">
             <Controller
                 name="orders"
+                rules={{ required: true }}
                 control={props.control}
-                render={({ field }) => (
+                render={({ field: { onChange, onBlur, value } }) => (
                     <FormControl className="w-full my-4">
                         <InputLabel id="demo-multiple-chip-label">Order</InputLabel>
                         <Select
                             labelId="demo-multiple-chip-label"
                             id="demo-multiple-chip"
                             multiple
-                            {...field}
-                            value={field.value || []}
-                            onChange={(e) => {
-                                field.onChange(e);
-                                handleChange(e);
-                            }}
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value || []}
                             input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
                             renderValue={(selected) => (
                                 <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
@@ -89,9 +78,6 @@ const Order = (props: IOrderProps) => {
                     </FormControl>
                 )}
             />
-            {/* {props.errors.orders && props.errors.orders.type === "required" && (
-                <p className="text-sm text-red-600 ml-4">Order is required.</p>
-            )} */}
         </div>
     );
 };

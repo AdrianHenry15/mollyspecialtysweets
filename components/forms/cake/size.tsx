@@ -58,8 +58,13 @@ const CakeSize = (props: ICakeSizeProps) => {
             <Controller
                 name="cakeSize"
                 control={props.control}
+                rules={{ required: true }}
                 render={({ field }) => (
-                    <select className={`${props.className}`} {...field}>
+                    <select
+                        defaultValue={props.cakeShape === "rectangle" ? SheetCakeSizes[0].value : CakeSizes[0].value}
+                        className={`${props.className}`}
+                        {...field}
+                    >
                         {props.cakeShape === "rectangle"
                             ? SheetCakeSizes.map((item: CakeSize) => (
                                   <option key={item.value} value={item.value}>

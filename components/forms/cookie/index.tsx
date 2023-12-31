@@ -10,7 +10,12 @@ import CookieFlavor from "./flavor";
 import CookieFrosting from "./frosting";
 import CookieFilling from "./filling";
 import CookieTopping from "./topping";
-import Textarea from "../textarea";
+import Textarea from "../inputs/textarea";
+import toast from "react-hot-toast";
+import ConfirmationModal from "@/components/modals/ConfirmationModal";
+import SuccessModal from "@/components/modals/SuccessModal";
+import { Loader } from "@/components/loader";
+import Button from "@/components/buttons/button";
 
 const CookieForm = () => {
     const InputClass = "w-full border-gray-300 rounded-md py-4";
@@ -57,9 +62,11 @@ const CookieForm = () => {
         // EMAIL JS
         emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
             function (response) {
+                toast.success("Your cookie estimate has been submitted successfully!");
                 console.log("SUCCESS!", response.status, response.text);
             },
             function (error) {
+                toast.error("Your cookie estimate failed to submit.");
                 console.log("FAILED...", error);
             }
         );
@@ -75,6 +82,18 @@ const CookieForm = () => {
     };
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="py-10 px-4">
+            <div className="relative">
+                <h5 className="text-center font-semibold text-2xl pb-8">Cookie Estimate Form</h5>
+            </div>
+            {isConfirmationModalOpen && (
+                <ConfirmationModal
+                    confirmEstimate={confirmEstimate}
+                    isOpen={isConfirmationModalOpen}
+                    closeModal={() => setIsConfirmationModalOpen(false)}
+                />
+            )}
+            {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
+            {loading ? <Loader /> : null}
             <CookieAmount className={InputClass} control={control} />
             <CookieSize setMini={setMini} isMini={false} control={control} />
             <CookieFlavor control={control} />
@@ -94,6 +113,9 @@ const CookieForm = () => {
                 <p className="text-sm text-red-600 ml-4">Cookie Topping is required.</p>
             )}
             <Textarea setInputClicked={setInputClicked} name={"comment"} label={"Comment"} control={control} />
+            <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
+                <Button submit name={`Submit Cookie Estimate`} className="w-full justify-center"></Button>
+            </div>
         </form>
     );
 };

@@ -13,10 +13,10 @@ import Button from "../../buttons/button";
 import ConfirmationModal from "../../modals/ConfirmationModal";
 import SuccessModal from "../../modals/SuccessModal";
 import { Loader } from "../../loader";
-import DeliveryMethod from "../delivery-method";
+import DeliveryMethod from "../inputs/delivery-method";
 import Order from "./order";
-import Input from "../input";
-import Textarea from "../textarea";
+import Textarea from "../inputs/textarea";
+import FormTextInput from "../inputs/form-text-input";
 
 const ContactFormContainer = () => {
     // SWITCH BETWEEN CONTACT AND ESTIMATE FORM | BOTH FORMS DO THE SAME THING FOR NOW
@@ -41,7 +41,6 @@ const ContactFormContainer = () => {
         handleSubmit,
         getValues,
         control,
-        setValue,
         watch,
         formState: { errors },
     } = useForm();
@@ -54,7 +53,7 @@ const ContactFormContainer = () => {
         email: getValues("email"),
         deliveryMethod: getValues("deliveryMethod"),
         deliveryAddress: getValues("deliveryAddress"),
-        orders: getValues(["orders"]),
+        orders: getValues("orders"),
         comment: getValues("comment"),
     };
 
@@ -85,14 +84,6 @@ const ContactFormContainer = () => {
         setLoading(true);
     };
 
-    const handleAutocompleteSelect = (address: string, latLng: { lat: number; lng: number }) => {
-        setValue("address", address); // Update the address value in the form
-    };
-
-    const handleUpdateAddressValue = (address: string) => {
-        setValue("address", address); // Update the address value in the form
-    };
-
     return (
         <section className="flex flex-col items-center px-4 py-20 shadow-inner relative w-full">
             {isConfirmationModalOpen && (
@@ -117,72 +108,21 @@ const ContactFormContainer = () => {
                 {/* FORM */}
                 <form className="self-center w-full md:w-2/3" onSubmit={handleSubmit(onSubmit)}>
                     {/* FIRST NAME */}
-                    <div>
-                        <label className="text-xs absolute ml-2 bg-white transition-all duration-300 ease-in-out" htmlFor="email">
-                            First Name
-                        </label>
-                        <input
-                            className={InputClass}
-                            onClick={() => setInputClicked(true)}
-                            type="text"
-                            // placeholder="First Name"
-                            {...register("firstName", { required: false })}
-                        />
-                    </div>
+                    <FormTextInput label={"First Name"} inputClass={InputClass} register={register} name={"firstName"} />
                     {/* LAST NAME */}
-                    <div>
-                        <label className="text-xs absolute ml-2 bg-white transition-all duration-300 ease-in-out" htmlFor="email">
-                            Last Name
-                        </label>
-                        <input
-                            className={InputClass}
-                            onClick={() => setInputClicked(true)}
-                            type="text"
-                            // placeholder="Last Name"
-                            {...register("lastName", { required: false })}
-                        />
-                    </div>
+                    <FormTextInput label={"Last Name"} inputClass={InputClass} register={register} name={"lastName"} />
                     {/* PHONE NUMBER */}
-                    <div>
-                        <label className="text-xs absolute ml-2 bg-white transition-all duration-300 ease-in-out" htmlFor="email">
-                            Phone Number
-                        </label>
-                        <input
-                            className={InputClass}
-                            onClick={() => setInputClicked(true)}
-                            type="tel"
-                            // placeholder="Phone Number"
-                            {...register("phoneNumber", {
-                                required: false,
-                                pattern: /^[0-9]{10}$/,
-                            })}
-                        />
-                        {errors.phoneNumber && errors.phoneNumber.type === "pattern" && (
-                            <p className="text-sm text-red-600 ml-4">Phone Number should be 10 digits.</p>
-                        )}
-                    </div>
+                    <FormTextInput label={"Phone Number"} inputClass={InputClass} register={register} name={"phoneNumber"} />
                     {/* EMAIL */}
-                    <div>
-                        <label className="text-xs absolute ml-2 bg-white transition-all duration-300 ease-in-out" htmlFor="email">
-                            Email*
-                        </label>
-                        <input
-                            className={InputClass}
-                            onClick={() => setInputClicked(true)}
-                            type="text"
-                            // placeholder="Email*"
-                            {...register("email", {
-                                required: true,
-                                pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                            })}
-                        />
-                        {errors.email && errors.email.type === "required" && (
-                            <p className="text-sm text-red-600 ml-4">Email is required.</p>
-                        )}
-                        {errors.email && errors.email.type === "pattern" && (
-                            <p className="text-sm text-red-600 ml-4">Email is not valid.</p>
-                        )}
-                    </div>
+                    <FormTextInput
+                        label={"Email"}
+                        inputClass={InputClass}
+                        register={register}
+                        name={"email"}
+                        errors={errors}
+                        required
+                        pattern={/^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/}
+                    />
                     {/* DELIVERY METHOD */}
                     <label className="font-semibold text-lg mb-2 underline">Delivery Method:</label>
                     <DeliveryMethod onClick={() => setInputClicked(true)} control={control} />
@@ -216,13 +156,14 @@ const ContactFormContainer = () => {
                     {/* ORDER */}
                     <div className="py-2 w-full">
                         <label className="font-semibold text-lg pb-4 underline">Choose Order(s):</label>
-                        <Order onClick={() => setInputClicked(true)} control={control} />
-                        {errors.service && errors.service.type === "required" && (
-                            <p className="text-sm text-red-600 ml-4">Service is required.</p>
+                        <Order control={control} />
+                        {errors.orders && errors.orders.type === "required" && (
+                            <p className="text-sm text-red-600 ml-4">Choosing Order(s) is required.</p>
                         )}
                     </div>
                     {/* COMMENT */}
-                    <Textarea control={control} name="comment" setInputClicked={setInputClicked} label={"Comment"} />
+                    <Textarea control={control} name="comment" label={"Comment"} />
+                    {/* BUTTON */}
                     <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
                         <Button
                             onClick={() => {}}
