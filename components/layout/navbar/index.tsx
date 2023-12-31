@@ -3,13 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 import MobileHeader from "@/components/layout/navbar/mobile-menu";
 import logo from "@/public/mollys-logo-black.png";
 import { NavMenuItems } from "@/lib/constants";
 import { NavMenu } from "@/lib/types";
 import Button from "@/components/buttons/button";
-import UserIcon from "./user-icon";
+
+const UserIcon = dynamic(() => import("@/components/layout/navbar/user-icon"), { ssr: false });
 
 export default function Navbar() {
     const pathname = usePathname();
