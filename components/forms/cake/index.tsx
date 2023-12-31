@@ -98,10 +98,10 @@ const CakeForm = () => {
             {loading ? <Loader /> : null}
             {/* CAKE SHAPE */}
             <div className="pb-10">
-                <CakeShape className={InputClass} control={control} />
-                {errors.cakeShape && errors.cakeShape.type === "required" && (
+                <CakeShape errors={errors} className={InputClass} control={control} />
+                {/* {errors.cakeShape && errors.cakeShape.type === "required" && (
                     <p className="text-sm text-red-600 ml-4">Cake Shape is required.</p>
-                )}
+                )} */}
             </div>
             {/* CAKE TIER */}
             <div className="pb-10">
@@ -140,7 +140,7 @@ const CakeForm = () => {
                 <CakeTopping control={control} />
             </div>
             <div className="pb-10">
-                <Textarea setInputClicked={setInputClicked} name={"comment"} label={"Comment"} control={control} />
+                <Textarea name={"comment"} label={"Comment"} control={control} />
             </div>
             <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
                 <Button submit name={`Submit Cake Estimate`} className="w-full justify-center"></Button>

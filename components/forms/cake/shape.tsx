@@ -1,9 +1,10 @@
 import React from "react";
-import { Controller } from "react-hook-form";
+import { Controller, FieldErrors } from "react-hook-form";
 import FormContainer from "../form-container";
 
 interface ICakeShapeProps {
     control: any;
+    errors: FieldErrors;
     className?: string;
 }
 
@@ -23,6 +24,9 @@ const CakeShape = (props: ICakeShapeProps) => {
                     </select>
                 )}
             />
+            {props.errors.cakeShape && props.errors.cakeShape.type === "required" && (
+                <p className="text-sm text-red-600 ml-4">Cake Shape is required.</p>
+            )}
         </FormContainer>
     );
 };
