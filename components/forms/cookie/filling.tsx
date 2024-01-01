@@ -5,15 +5,15 @@ import { CookieFillings } from "@/lib/constants";
 
 interface ICookieFillingProps {
     control: any;
-    className?: string;
 }
 
 const CookieFilling = (props: ICookieFillingProps) => {
     return (
         <AutocompleteFormInput
+            autocomplete
             title="Cookie Filling"
             name="cookieFilling"
-            options={CookieFillings}
+            options={CookieFillings as []}
             label="Cookie Filling"
             control={props.control}
         />

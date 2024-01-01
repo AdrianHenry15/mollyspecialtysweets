@@ -47,6 +47,8 @@ export const NavMenuAltItems: NavMenu[] = [
 
 export const CakeTiers = ["Single", "Multiple"];
 
+export const DeliveryOptions = ["Pickup", "Delivery"];
+
 export const Amounts = ["4", "6", "12", "18", "24", "30", "36", "42", "48"];
 
 export const CakeFlavors = [

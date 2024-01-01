@@ -94,25 +94,13 @@ const CookieForm = () => {
             )}
             {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
             {loading ? <Loader /> : null}
-            <CookieAmount className={InputClass} control={control} />
+            <CookieAmount errors={errors} control={control} />
             <CookieSize setMini={setMini} isMini={false} control={control} />
-            <CookieFlavor control={control} />
-            {errors.cookieFlavor && errors.cookieFlavor.type === "required" && (
-                <p className="text-sm text-red-600 ml-4">Cookie Flavor is required.</p>
-            )}
+            <CookieFlavor errors={errors} control={control} />
             <CookieFrosting control={control} />
-            {errors.cookieFrosting && errors.cookieFrosting.type === "required" && (
-                <p className="text-sm text-red-600 ml-4">Cookie Frosting is required.</p>
-            )}
             <CookieFilling control={control} />
-            {errors.cookieFilling && errors.cookieFilling.type === "required" && (
-                <p className="text-sm text-red-600 ml-4">Cookie Filling is required.</p>
-            )}
-            <CookieTopping control={control} className={""} />
-            {errors.cookieTopping && errors.cookieTopping.type === "required" && (
-                <p className="text-sm text-red-600 ml-4">Cookie Topping is required.</p>
-            )}
-            <Textarea setInputClicked={setInputClicked} name={"comment"} label={"Comment"} control={control} />
+            <CookieTopping control={control} />
+            <Textarea name={"comment"} label={"Comment"} control={control} />
             <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
                 <Button submit name={`Submit Cookie Estimate`} className="w-full justify-center"></Button>
             </div>

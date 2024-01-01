@@ -1,7 +1,7 @@
 import React from "react";
 import { Controller, FieldErrors } from "react-hook-form";
 import FormContainer from "../form-container";
-import FormItem from "../form-item";
+import FormItem from "../inputs/autocomplete-form-input";
 
 const CakeShapes = [
     { value: "square", label: "Square" },

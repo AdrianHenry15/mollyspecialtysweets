@@ -94,25 +94,27 @@ const CupcakeForm = () => {
             )}
             {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
             {loading ? <Loader /> : null}
-            <CupcakeAmount className={InputClass} control={control} />
+            {/* AMOUNT */}
+            <CupcakeAmount errors={errors} control={control} />
+
+            {/* SIZE */}
             <CupcakeSize setMini={setMini} isMini={false} control={control} />
-            <CupcakeFlavor control={control} />
-            {errors.cookieFlavor && errors.cookieFlavor.type === "required" && (
-                <p className="text-sm text-red-600 ml-4">Cupcake Flavor is required.</p>
-            )}
-            <CupcakeFrosting control={control} />
-            {errors.cookieFrosting && errors.cookieFrosting.type === "required" && (
-                <p className="text-sm text-red-600 ml-4">Cupcake Frosting is required.</p>
-            )}
+
+            {/* FLAVOR */}
+            <CupcakeFlavor errors={errors} control={control} />
+
+            {/* FROSTING */}
+            <CupcakeFrosting errors={errors} control={control} />
+
+            {/* FILLING */}
             <CupcakeFilling control={control} />
-            {errors.cookieFilling && errors.cookieFilling.type === "required" && (
-                <p className="text-sm text-red-600 ml-4">Cupcake Filling is required.</p>
-            )}
+
+            {/* TOPPING */}
             <CupcakeTopping control={control} className={""} />
-            {errors.cookieTopping && errors.cookieTopping.type === "required" && (
-                <p className="text-sm text-red-600 ml-4">Cupcake Topping is required.</p>
-            )}
-            <Textarea setInputClicked={setInputClicked} name={"comment"} label={"Comment"} control={control} />
+
+            {/* COMMENT */}
+            <Textarea name={"comment"} label={"Comment"} control={control} />
+
             <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
                 <Button submit name={`Submit Cupcake Estimate`} className="w-full justify-center"></Button>
             </div>

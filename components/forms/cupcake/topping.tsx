@@ -10,9 +10,10 @@ interface ICupcakeToppingProps {
 const CupcakeTopping = (props: ICupcakeToppingProps) => {
     return (
         <AutocompleteFormInput
+            autocomplete
             title="Cupcake Topping"
             name="CupcakeTopping"
-            options={CupcakeToppings}
+            options={CupcakeToppings as []}
             label="Cupcake Topping"
             control={props.control}
         />

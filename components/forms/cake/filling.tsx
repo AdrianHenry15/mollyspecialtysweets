@@ -3,7 +3,7 @@ import React from "react";
 import AutocompleteFormInput from "../inputs/autocomplete-form-input";
 import { CakeFillings } from "@/lib/constants";
 import { FieldErrors } from "react-hook-form";
-import FormItem from "../form-item";
+import FormItem from "../inputs/autocomplete-form-input";
 
 interface ICakeFillingProps {
     control: any;

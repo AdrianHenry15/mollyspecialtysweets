@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import emailjs from "@emailjs/browser";
+import toast from "react-hot-toast";
 
 import CakeTier from "./tier";
 import CakeSize from "./size";
@@ -11,15 +12,12 @@ import CakeFlavor from "./flavor";
 import CakeFrosting from "./frosting";
 import CakeFilling from "./filling";
 import CakeTopping from "./topping";
-import Textarea from "../inputs/textarea";
-import toast from "react-hot-toast";
 import Button from "@/components/buttons/button";
 import ConfirmationModal from "@/components/modals/ConfirmationModal";
 import SuccessModal from "@/components/modals/SuccessModal";
 import { Loader } from "@/components/loader";
-import FormContainer from "../form-container";
-import FormItem from "../form-item";
-import { CakeTiers } from "@/lib/constants";
+import FormItem from "../inputs/autocomplete-form-input";
+import { DeliveryOptions } from "@/lib/constants";
 
 const CakeForm = () => {
     const InputClass = "w-full border-gray-300 rounded-md py-4";
@@ -54,6 +52,7 @@ const CakeForm = () => {
         cakeFrosting: getValues("cakeFrosting"),
         cakeFilling: getValues("cakeFilling"),
         cakeTopping: getValues("cakeTopping"),
+        comment: getValues("comment"),
     };
 
     const onSubmit = (data: any) => {
@@ -104,7 +103,7 @@ const CakeForm = () => {
 
             {/* CAKE TIER */}
             <div className="pb-10">
-                <CakeTier cakeShape={watch("cakeShape")} control={control} isSingleTier={isSingleTier} setSingleTier={setIsSingleTier} />
+                <CakeTier setSingleTier={setIsSingleTier} isSingleTier={isSingleTier} cakeShape={watch("cakeShape")} control={control} />
                 {errors.cakeTier && errors.cakeTier.type === "required" && (
                     <p className="text-sm text-red-600 ml-4">Cake Tier is required.</p>
                 )}
@@ -130,14 +129,16 @@ const CakeForm = () => {
                 title={"Delivery Method"}
                 name={"deliveryMethod"}
                 autocomplete
-                options={CakeTiers as []}
+                options={DeliveryOptions as []}
                 label={"Delivery Method"}
                 errors={errors}
                 required
             />
-            <div className="pb-10">
+            {/* COMMENT */}
+            <FormItem textarea control={control} title={"Comment"} name={"comment"} label={"Delivery Method"} />
+            {/* <div className="pb-10">
                 <Textarea name={"comment"} label={"Comment"} control={control} />
-            </div>
+            </div> */}
             <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
                 <Button submit name={`Submit Cake Estimate`} className="w-full justify-center"></Button>
             </div>
