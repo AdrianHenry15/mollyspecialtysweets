@@ -150,8 +150,8 @@ const ContactFormContainer = () => {
                         errors={errors}
                     />
                     {/* DETAILS */}
-                    {/* <Textarea control={control} name="details" label={"Details"} /> */}
                     <FormItem textarea control={control} title={"Details"} name={"details"} label={"Details"} />
+
                     {/* BUTTON */}
                     <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
                         <Button
