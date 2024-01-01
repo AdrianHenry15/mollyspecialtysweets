@@ -12,20 +12,12 @@ interface ICakeFillingProps {
 
 const CakeFilling = (props: ICakeFillingProps) => {
     return (
-        // <AutocompleteFormInput
-        //     title="Cake Filling"
-        //     name="cakeFilling"
-        //     required
-        //     options={(CakeFillings as []) || []}
-        //     label="Cake Filling"
-        //     control={props.control}
-        // />
         <FormItem
             hasFruit
             freeSolo
             autocomplete
             control={props.control}
-            title={"Cake Filling"}
+            title={"Choose Cake Filling"}
             name={"cakeFilling"}
             options={CakeFillings as []}
             label={"Cake Filling"}

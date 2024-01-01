@@ -54,40 +54,13 @@ interface ICakeSizeProps {
 
 const CakeSize = (props: ICakeSizeProps) => {
     return (
-        // <FormContainer inputLabel="Cake Size" title="Cake Size">
-        //     {/* SIZE */}
-        //     <Controller
-        //         name="cakeSize"
-        //         control={props.control}
-        //         rules={{ required: true }}
-        //         render={({ field }) => (
-        //             <select
-        //                 defaultValue={props.cakeShape === "rectangle" ? SheetCakeSizes[0].value : CakeSizes[0].value}
-        //                 className={`${props.className}`}
-        //                 {...field}
-        //             >
-        //                 {props.cakeShape === "rectangle"
-        //                     ? SheetCakeSizes.map((item: CakeSize) => (
-        //                           <option key={item.value} value={item.value}>
-        //                               {item.label}
-        //                           </option>
-        //                       ))
-        //                     : CakeSizes.map((item: CakeSize) => (
-        //                           <option key={item.value} value={item.value}>
-        //                               {item.label}
-        //                           </option>
-        //                       ))}
-        //             </select>
-        //         )}
-        //     />
-        // </FormContainer>
         <FormItem
             freeSolo={false}
             autocomplete
             errors={props.errors}
             required
             control={props.control}
-            title={"Cake Size"}
+            title={"Choose Cake Size"}
             name={"cakeSize"}
             options={props.cakeShape === "rectangle" ? (SheetCakeSizes as []) : (CakeSizes as [])}
             label={"Cake Size"}

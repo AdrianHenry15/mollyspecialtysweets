@@ -17,17 +17,7 @@ interface ICakeTierProps {
 const CakeTier = (props: ICakeTierProps) => {
     const TierClass = "border-black border-2 p-6 rounded-xl shadow-md shadow-pink-100 transition-color duration-300 ease-in-out";
     return (
-        // <FormItem
-        //     control={props.control}
-        //     options={props.cakeShape === "rectangle" ? (CakeTiers.slice(0, 0) as []) : (CakeTiers as [])}
-        //     title={"Cake Tier"}
-        //     name={"cakeTier"}
-        //     label={"Cake Tier"}
-        //     autocomplete
-        //     required
-        //     errors={props.errors}
-        // />
-        <FormContainer title="Cake Tier">
+        <FormContainer title="Choose Cake Tier">
             {/* SINGLE */}
             <Controller
                 name="singleTier"

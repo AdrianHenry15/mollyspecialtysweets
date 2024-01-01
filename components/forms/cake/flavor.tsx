@@ -11,14 +11,6 @@ interface ICakeFlavorProps {
 
 const CakeFlavor = (props: ICakeFlavorProps) => {
     return (
-        // <AutocompleteFormInput
-        //     title="Cake Flavor"
-        //     name="cakeFlavor"
-        //     options={CakeFlavors as []}
-        //     label="Cake Flavor"
-        //     required
-        //     control={props.control}
-        // />
         <FormItem
             freeSolo
             hasFruit
@@ -26,7 +18,7 @@ const CakeFlavor = (props: ICakeFlavorProps) => {
             required
             errors={props.errors}
             control={props.control}
-            title={"Cake Flavor"}
+            title={"Choose Cake Flavor"}
             name={"cakeFlavor"}
             options={CakeFlavors as []}
             label={"Cake Flavor"}
