@@ -14,18 +14,18 @@ const FormNav = (props: IFormNavProps) => {
 
     const TextClass = "text-lg font-semibold text-white";
     const IconClass = "text-white p-6";
-    const ContainerClass = "flex justify-evenly w-full lg:w-[50%]";
+    const ContainerClass = "flex flex-col justify-evenly w-full lg:flex-row lg:w-[50%]";
     return (
-        <div className="flex justify-evenly items-center h-64 bg-black">
+        <div className="flex justify-evenly items-center h-[50vh] bg-black">
             {pathname === "/order/cakes" && (
                 <div className={ContainerClass}>
                     {/* CUPCAKE */}
-                    <Link href={"/order/cupcakes"} className="flex flex-col items-center">
+                    <Link href={"/order/cupcakes"} className="flex flex-col items-center my-4">
                         {<GiCupcake className={IconClass} size={125} />}
                         <p className={TextClass}>{"Order Cupcakes"}</p>
                     </Link>
                     {/* COOKIE */}
-                    <Link href={"/order/cookies"} className="flex flex-col items-center">
+                    <Link href={"/order/cookies"} className="flex flex-col items-center my-4">
                         {<SiCookiecutter className={IconClass} size={125} />}
                         <p className={TextClass}>{"Order Cookies"}</p>
                     </Link>
