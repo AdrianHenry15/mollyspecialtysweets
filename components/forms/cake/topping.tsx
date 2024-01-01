@@ -11,19 +11,12 @@ interface ICakeToppingProps {
 
 const CakeTopping = (props: ICakeToppingProps) => {
     return (
-        // <AutocompleteFormInput
-        //     title="Cake Topping"
-        //     name="cakeTopping"
-        //     options={CakeToppings as []}
-        //     label="Topping"
-        //     control={props.control}
-        // />
         <FormItem
             autocomplete
             hasFruit
             freeSolo
             control={props.control}
-            title={"Cake Toppings"}
+            title={"Choose Cake Toppings"}
             name={"cakeTopping"}
             options={CakeToppings as []}
             label={"Cake Topping"}

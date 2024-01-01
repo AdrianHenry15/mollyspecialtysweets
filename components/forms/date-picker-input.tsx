@@ -4,18 +4,19 @@ import { Controller } from "react-hook-form";
 
 interface IDatePickerInputProps {
     control: any;
-    onClick: () => void;
 }
 
 const DatePickerInput = (props: IDatePickerInputProps) => {
     return (
-        <Controller
-            name="deliveryMethod"
-            control={props.control}
-            // defaultValue={"pickup"}
-            rules={{ required: true }}
-            render={({ field }) => <DatePicker {...field} />}
-        />
+        <div className="flex flex-col mb-4">
+            <h5 className="flex font-semibold text-xl w-full justify-start mb-2">Choose Delivery Date</h5>
+            <Controller
+                name="date"
+                control={props.control}
+                rules={{ required: true }}
+                render={({ field }) => <DatePicker className="w-full" {...field} />}
+            />
+        </div>
     );
 };
 

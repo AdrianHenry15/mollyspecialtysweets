@@ -16,8 +16,7 @@ import Button from "@/components/buttons/button";
 import ConfirmationModal from "@/components/modals/ConfirmationModal";
 import SuccessModal from "@/components/modals/SuccessModal";
 import { Loader } from "@/components/loader";
-import FormItem from "../form-item";
-import { DeliveryOptions } from "@/lib/constants";
+import Review from "./review";
 
 const CakeForm = () => {
     const InputClass = "w-full border-gray-300 rounded-md py-4";
@@ -28,6 +27,8 @@ const CakeForm = () => {
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const [formFinished, setFormFinished] = useState(false);
 
     // EMAIL JS
     const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID as string;
@@ -52,7 +53,7 @@ const CakeForm = () => {
         cakeFrosting: getValues("cakeFrosting"),
         cakeFilling: getValues("cakeFilling"),
         cakeTopping: getValues("cakeTopping"),
-        comment: getValues("comment"),
+        details: getValues("details"),
     };
 
     const onSubmit = (data: any) => {
@@ -83,67 +84,62 @@ const CakeForm = () => {
 
         setLoading(true);
     };
-    return (
-        <form onSubmit={handleSubmit(onSubmit)} className="py-10 px-4">
-            <div className="relative">
-                <h5 className="text-center font-semibold text-2xl pb-8">Cake Estimate Form</h5>
-            </div>
-            {isConfirmationModalOpen && (
-                <ConfirmationModal
-                    confirmEstimate={confirmEstimate}
-                    isOpen={isConfirmationModalOpen}
-                    closeModal={() => setIsConfirmationModalOpen(false)}
-                />
-            )}
-            {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
-            {loading ? <Loader /> : null}
-
-            {/* CAKE SHAPE */}
-            <CakeShape errors={errors} control={control} />
-
-            {/* CAKE TIER */}
-            <div className="pb-10">
-                <CakeTier setSingleTier={setIsSingleTier} isSingleTier={isSingleTier} cakeShape={watch("cakeShape")} control={control} />
-                {errors.cakeTier && errors.cakeTier.type === "required" && (
-                    <p className="text-sm text-red-600 ml-4">Cake Tier is required.</p>
+    if (formFinished) {
+        return <Review />;
+    } else {
+        return (
+            <div className="py-10 px-4">
+                <div className="relative">
+                    <h1 className="font-semibold text-4xl underline text-center my-10">Cake Details</h1>
+                </div>
+                {isConfirmationModalOpen && (
+                    <ConfirmationModal
+                        confirmEstimate={confirmEstimate}
+                        isOpen={isConfirmationModalOpen}
+                        closeModal={() => setIsConfirmationModalOpen(false)}
+                    />
                 )}
+                {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
+                {loading ? <Loader /> : null}
+
+                {/* CAKE SHAPE */}
+                <CakeShape errors={errors} control={control} />
+
+                {/* CAKE TIER */}
+                <div className="pb-10">
+                    <CakeTier
+                        setSingleTier={setIsSingleTier}
+                        isSingleTier={isSingleTier}
+                        cakeShape={watch("cakeShape")}
+                        control={control}
+                    />
+                    {errors.cakeTier && errors.cakeTier.type === "required" && (
+                        <p className="text-sm text-red-600 ml-4">Cake Tier is required.</p>
+                    )}
+                </div>
+                {/* CAKE SIZE */}
+                <CakeSize errors={errors} cakeShape={watch("cakeShape")} control={control} />
+
+                {/* CAKE FLAVOR */}
+                <CakeFlavor errors={errors} control={control} />
+
+                {/* CAKE FROSTING */}
+                <CakeFrosting errors={errors} control={control} />
+
+                {/* CAKE FILLING */}
+                <CakeFilling errors={errors} control={control} />
+
+                {/* CAKE TOPPING */}
+                <CakeTopping control={control} />
+
+                {/* COMMENT */}
+                {/* <FormItem title="Details" textarea control={control} name={"details"} /> */}
+                <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
+                    <Button onClick={() => setFormFinished(true)} name={`Finish`} className="w-full justify-center"></Button>
+                </div>
             </div>
-            {/* CAKE SIZE */}
-            <CakeSize errors={errors} cakeShape={watch("cakeShape")} control={control} />
-
-            {/* CAKE FLAVOR */}
-            <CakeFlavor errors={errors} control={control} />
-
-            {/* CAKE FROSTING */}
-            <CakeFrosting errors={errors} control={control} />
-
-            {/* CAKE FILLING */}
-            <CakeFilling errors={errors} control={control} />
-
-            {/* CAKE TOPPING */}
-            <CakeTopping control={control} />
-
-            {/* DELIVERY METHOD */}
-            <FormItem
-                control={control}
-                title={"Delivery Method"}
-                name={"deliveryMethod"}
-                autocomplete
-                options={DeliveryOptions as []}
-                label={"Delivery Method"}
-                errors={errors}
-                required
-            />
-            {/* COMMENT */}
-            <FormItem textarea control={control} title={"Comment"} name={"comment"} label={"Delivery Method"} />
-            {/* <div className="pb-10">
-                <Textarea name={"comment"} label={"Comment"} control={control} />
-            </div> */}
-            <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
-                <Button submit name={`Submit Cake Estimate`} className="w-full justify-center"></Button>
-            </div>
-        </form>
-    );
+        );
+    }
 };
 
 export default CakeForm;

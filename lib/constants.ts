@@ -45,6 +45,37 @@ export const NavMenuAltItems: NavMenu[] = [
     },
 ];
 
+export const Occasions = [
+    "New Year's Day",
+    "Valentine's Day",
+    "Easter",
+    "Independence Day",
+    "Thanksgiving",
+    "Christmas",
+    "Birthdays",
+    "Anniversaries",
+    "Graduations",
+    "Weddings",
+    "Engagements",
+    "International Women's Day",
+    "World Health Day",
+    "Earth Day",
+    "United Nations Day",
+    "Family Reunions",
+    "Baby Showers",
+    "Gender Reveal Parties",
+    "Graduation Ceremonies",
+    "Award Ceremonies",
+    "Super Bowl",
+    "World Cup",
+    "Olympics",
+    "Memorial Day",
+    "Veterans Day",
+    "Groundhog Day",
+    "April Fools' Day",
+    "Labor Day",
+];
+
 export const Categories = ["Cakes", "Cookies", "Cupcakes"];
 
 export const CakeTiers = ["Single", "Multiple"];

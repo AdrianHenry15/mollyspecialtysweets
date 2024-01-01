@@ -15,8 +15,9 @@ import SuccessModal from "../../modals/SuccessModal";
 import { Loader } from "../../loader";
 import DeliveryMethod from "../delivery-method";
 import Textarea from "../inputs/textarea";
-import { Categories } from "@/lib/constants";
+import { Categories, Occasions } from "@/lib/constants";
 import FormItem from "../form-item";
+import DatePickerInput from "../date-picker-input";
 
 const ContactFormContainer = () => {
     // SWITCH BETWEEN CONTACT AND ESTIMATE FORM | BOTH FORMS DO THE SAME THING FOR NOW
@@ -98,18 +99,22 @@ const ContactFormContainer = () => {
             )}
             {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
             {loading ? <Loader /> : null}
+
             {/* TITLE */}
             <h1 className="text-3xl mb-10 font-light animate-bounce">{`${
                 pathname === "/contact-us" ? "Contact Us" : "Get Your Free Estimate!"
             }`}</h1>
+
             {/* FORM CONTAINER */}
-            <div className="flex flex-col w-[350px] p-6 rounded-2xl shadow-pink-500 shadow-lg border-2 md:w-[650px]">
+            <div className="flex flex-col w-[350px] p-6 rounded-2xl shadow-pink-500 shadow-lg border-2 md:w-[650px] lg:w-[1000px]">
                 {/* LOGO */}
                 <div className="flex justify-center pb-4">
                     <Image loading="eager" width={125} src={Logo} alt="Brite Logo" />
                 </div>
+
                 {/* FORM */}
                 <form className="self-center w-full md:w-2/3" onSubmit={handleSubmit(onSubmit)}>
+                    <h1 className="font-semibold text-4xl underline text-center my-10">Contact Details</h1>
                     {/* FIRST NAME */}
                     <FormItem textInput control={control} title={"First Name"} name={"firstName"} />
 
@@ -118,14 +123,15 @@ const ContactFormContainer = () => {
 
                     {/* PHONE NUMBER */}
                     <FormItem textInput control={control} title={"Phone Number"} name={"phoneNumber"} required errors={errors} />
+
                     {/* EMAIL */}
                     <FormItem textInput control={control} title={"Email*"} name={"email"} required errors={errors} />
+
+                    <h1 className="font-semibold text-4xl underline text-center my-10">Order Details</h1>
+
                     {/* DELIVERY METHOD */}
-                    <label className="font-semibold text-lg mb-2 underline">Choose Delivery Method:</label>
-                    <DeliveryMethod onClick={() => setInputClicked(true)} control={control} />
-                    {errors.deliveryMethod && errors.deliveryMethod.type === "required" && (
-                        <p className="text-sm text-red-600 ml-4">Delivery Method is required.</p>
-                    )}
+                    <DeliveryMethod errors={errors} control={control} />
+
                     {/* DELIVERY ADDRESS */}
                     {/* IF THERE IS A DELIVERY METHOD CHOSEN THAN SHOW THIS */}
                     {watch("deliveryMethod") === "delivery" ? (
@@ -149,17 +155,25 @@ const ContactFormContainer = () => {
                         required
                         errors={errors}
                     />
+
+                    {/* DELIVERY DATE */}
+                    <DatePickerInput control={control} />
+
+                    {/* OCCASION */}
+                    <FormItem autocomplete options={Occasions as []} control={control} title={"Occasion"} name={"occasion"} />
+
+                    {/* COLORS */}
+                    <FormItem textInput control={control} title={"Colors"} name={"colors"} />
                     {/* DETAILS */}
-                    <FormItem textarea control={control} title={"Details"} name={"details"} label={"Details"} />
+                    <FormItem textarea control={control} title={"Extra Details"} name={"details"} label={"Details"} />
 
                     {/* BUTTON */}
                     <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
                         <Button
-                            onClick={() => {}}
                             submit
                             name={`${pathname === "/contact-us" ? "Contact Us" : "Get Your Free Estimate"}`}
                             className="w-full justify-center"
-                        ></Button>
+                        />
                     </div>
                 </form>
             </div>

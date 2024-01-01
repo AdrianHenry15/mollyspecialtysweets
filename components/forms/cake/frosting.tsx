@@ -11,14 +11,6 @@ interface ICakeFrostingProps {
 
 const CakeFrosting = (props: ICakeFrostingProps) => {
     return (
-        // <AutocompleteFormInput
-        //     title="Cake Frosting"
-        //     name="cakeFrosting"
-        //     required
-        //     options={CakeFrostings as []}
-        //     label="Cake Frosting"
-        //     control={props.control}
-        // />
         <FormItem
             hasFruit
             freeSolo
@@ -26,7 +18,7 @@ const CakeFrosting = (props: ICakeFrostingProps) => {
             errors={props.errors}
             required
             control={props.control}
-            title={"Cake Frosting"}
+            title={"Choose Cake Frosting"}
             name={"cakeFrosting"}
             options={CakeFrostings as []}
             label={"Cake Frosting"}
