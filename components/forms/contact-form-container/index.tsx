@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-import { FieldValues, RegisterOptions, UseFormRegisterReturn, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import emailjs from "@emailjs/browser";
@@ -14,9 +14,9 @@ import ConfirmationModal from "../../modals/ConfirmationModal";
 import SuccessModal from "../../modals/SuccessModal";
 import { Loader } from "../../loader";
 import DeliveryMethod from "../delivery-method";
-import Order from "./order";
 import Textarea from "../inputs/textarea";
-import FormTextInput from "../inputs/form-text-input";
+import { Categories } from "@/lib/constants";
+import FormItem from "../form-item";
 
 const ContactFormContainer = () => {
     // SWITCH BETWEEN CONTACT AND ESTIMATE FORM | BOTH FORMS DO THE SAME THING FOR NOW
@@ -51,10 +51,13 @@ const ContactFormContainer = () => {
         lastName: getValues("lastName"),
         phone: getValues("phone"),
         email: getValues("email"),
+        date: getValues("date"),
         deliveryMethod: getValues("deliveryMethod"),
         deliveryAddress: getValues("deliveryAddress"),
+        occasion: getValues("occasion"),
+        colors: getValues("colors"),
         orders: getValues("orders"),
-        comment: getValues("comment"),
+        details: getValues("details"),
     };
 
     const onSubmit = (data: any) => {
@@ -108,23 +111,17 @@ const ContactFormContainer = () => {
                 {/* FORM */}
                 <form className="self-center w-full md:w-2/3" onSubmit={handleSubmit(onSubmit)}>
                     {/* FIRST NAME */}
-                    <FormTextInput label={"First Name"} inputClass={InputClass} register={register} name={"firstName"} />
+                    <FormItem textInput control={control} title={"First Name"} name={"firstName"} />
+
                     {/* LAST NAME */}
-                    <FormTextInput label={"Last Name"} inputClass={InputClass} register={register} name={"lastName"} />
+                    <FormItem textInput control={control} title={"Last Name"} name={"lastName"} />
+
                     {/* PHONE NUMBER */}
-                    <FormTextInput label={"Phone Number"} inputClass={InputClass} register={register} name={"phoneNumber"} />
+                    <FormItem textInput control={control} title={"Phone Number"} name={"phoneNumber"} required errors={errors} />
                     {/* EMAIL */}
-                    <FormTextInput
-                        label={"Email"}
-                        inputClass={InputClass}
-                        register={register}
-                        name={"email"}
-                        errors={errors}
-                        required
-                        pattern={/^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/}
-                    />
+                    <FormItem textInput control={control} title={"Email*"} name={"email"} required errors={errors} />
                     {/* DELIVERY METHOD */}
-                    <label className="font-semibold text-lg mb-2 underline">Delivery Method:</label>
+                    <label className="font-semibold text-lg mb-2 underline">Choose Delivery Method:</label>
                     <DeliveryMethod onClick={() => setInputClicked(true)} control={control} />
                     {errors.deliveryMethod && errors.deliveryMethod.type === "required" && (
                         <p className="text-sm text-red-600 ml-4">Delivery Method is required.</p>
@@ -132,37 +129,29 @@ const ContactFormContainer = () => {
                     {/* DELIVERY ADDRESS */}
                     {/* IF THERE IS A DELIVERY METHOD CHOSEN THAN SHOW THIS */}
                     {watch("deliveryMethod") === "delivery" ? (
-                        <div>
-                            <label className="font-semibold text-lg mb-2 underline" htmlFor="deliveryAddress">
-                                Delivery Address*
-                            </label>
-                            <input
-                                className={InputClass}
-                                onClick={() => setInputClicked(true)}
-                                type="text"
-                                // placeholder="Delivery Address*"
-                                {...register("deliveryAddress", {
-                                    required: watch("deliveryMethod") === "delivery" ? true : false,
-                                })}
-                            />
-                            {errors.deliveryAddress && errors.deliveryAddress.type === "required" && (
-                                <p className="text-sm text-red-600 ml-4">Address is required.</p>
-                            )}
-                            {errors.address && errors.address.type === "pattern" && (
-                                <p className="text-sm text-red-600 ml-4">Address is not valid.</p>
-                            )}
-                        </div>
+                        <FormItem
+                            textInput
+                            control={control}
+                            title={"Delivery Address"}
+                            name={"deliveryAddress"}
+                            required={watch("deliveryMethod") === "delivery" ? true : false}
+                            errors={errors}
+                        />
                     ) : null}
                     {/* ORDER */}
-                    <div className="py-2 w-full">
-                        <label className="font-semibold text-lg pb-4 underline">Choose Order(s):</label>
-                        <Order control={control} />
-                        {errors.orders && errors.orders.type === "required" && (
-                            <p className="text-sm text-red-600 ml-4">Choosing Order(s) is required.</p>
-                        )}
-                    </div>
-                    {/* COMMENT */}
-                    <Textarea control={control} name="comment" label={"Comment"} />
+                    <FormItem
+                        control={control}
+                        title={"Choose Orders"}
+                        name={"orders"}
+                        label={"Orders"}
+                        multipleSelect
+                        options={Categories as []}
+                        required
+                        errors={errors}
+                    />
+                    {/* DETAILS */}
+                    {/* <Textarea control={control} name="details" label={"Details"} /> */}
+                    <FormItem textarea control={control} title={"Details"} name={"details"} label={"Details"} />
                     {/* BUTTON */}
                     <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
                         <Button

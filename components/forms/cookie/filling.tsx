@@ -1,6 +1,6 @@
 import React from "react";
 
-import AutocompleteFormInput from "../inputs/autocomplete-form-input";
+import AutocompleteFormInput from "../form-item";
 import { CookieFillings } from "@/lib/constants";
 
 interface ICookieFillingProps {

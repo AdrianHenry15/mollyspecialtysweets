@@ -3,7 +3,7 @@ import React from "react";
 import FormContainer from "../form-container";
 import { Controller, FieldErrors } from "react-hook-form";
 import { Amounts } from "@/lib/constants";
-import AutocompleteFormInput from "../inputs/autocomplete-form-input";
+import AutocompleteFormInput from "../form-item";
 
 interface ICookieAmountProps {
     control: any;

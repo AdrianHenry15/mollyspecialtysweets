@@ -53,8 +53,6 @@ const Order = (props: IOrderProps) => {
                     <FormControl className="w-full my-4">
                         <InputLabel id="demo-multiple-chip-label">Order</InputLabel>
                         <Select
-                            labelId="demo-multiple-chip-label"
-                            id="demo-multiple-chip"
                             multiple
                             onChange={onChange}
                             onBlur={onBlur}

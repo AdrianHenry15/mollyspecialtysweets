@@ -1,7 +1,7 @@
 import React from "react";
 
 import { CookieToppings } from "@/lib/constants";
-import AutocompleteFormInput from "../inputs/autocomplete-form-input";
+import AutocompleteFormInput from "../form-item";
 
 interface ICookieToppingProps {
     control: any;

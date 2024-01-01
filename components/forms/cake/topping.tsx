@@ -1,8 +1,8 @@
 import React from "react";
 
-import AutocompleteFormInput from "../inputs/autocomplete-form-input";
+import AutocompleteFormInput from "../form-item";
 import { CakeToppings } from "@/lib/constants";
-import FormItem from "../inputs/autocomplete-form-input";
+import FormItem from "../form-item";
 import { FieldErrors } from "react-hook-form";
 
 interface ICakeToppingProps {

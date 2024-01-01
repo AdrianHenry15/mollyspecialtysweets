@@ -1,7 +1,7 @@
 import React from "react";
 
 import { CookieFrostings } from "@/lib/constants";
-import AutocompleteFormInput from "../inputs/autocomplete-form-input";
+import AutocompleteFormInput from "../form-item";
 
 interface ICookieFrostingProps {
     control: any;

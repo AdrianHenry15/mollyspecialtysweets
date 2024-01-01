@@ -1,9 +1,9 @@
 import React from "react";
 
-import AutocompleteFormInput from "../inputs/autocomplete-form-input";
+import AutocompleteFormInput from "../form-item";
 import { CakeFillings } from "@/lib/constants";
 import { FieldErrors } from "react-hook-form";
-import FormItem from "../inputs/autocomplete-form-input";
+import FormItem from "../form-item";
 
 interface ICakeFillingProps {
     control: any;

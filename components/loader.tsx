@@ -1,7 +1,7 @@
 "use client";
 
 import { CSSProperties } from "react";
-import { ClimbingBoxLoader } from "react-spinners";
+import { PacmanLoader } from "react-spinners";
 
 const override: CSSProperties = {
     display: "flex",
@@ -13,5 +13,5 @@ const override: CSSProperties = {
 };
 
 export const Loader = () => {
-    return <ClimbingBoxLoader color="#ed47b0" size={20} cssOverride={override} />;
+    return <PacmanLoader color="#ed47b0" size={20} cssOverride={override} />;
 };

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { CakeFrostings } from "@/lib/constants";
-import FormItem from "../inputs/autocomplete-form-input";
+import FormItem from "../form-item";
 import { FieldErrors } from "react-hook-form";
 
 interface ICakeFrostingProps {
