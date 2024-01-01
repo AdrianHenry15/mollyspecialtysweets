@@ -1,13 +1,21 @@
+"use client";
+
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+
 import "@/styles/globals.css";
+
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex flex-col">
-            <Navbar />
-            {children}
-            <Footer />
-        </div>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <div className="flex flex-col">
+                <Navbar />
+                {children}
+                <Footer />
+            </div>
+        </LocalizationProvider>
     );
 }

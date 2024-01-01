@@ -1,5 +1,5 @@
 import React from "react";
-import AutocompleteFormInput from "../inputs/autocomplete-form-input";
+import AutocompleteFormInput from "../form-item";
 import { CupcakeFlavors } from "@/lib/constants";
 import { FieldErrors } from "react-hook-form";
 

@@ -16,7 +16,7 @@ import Button from "@/components/buttons/button";
 import ConfirmationModal from "@/components/modals/ConfirmationModal";
 import SuccessModal from "@/components/modals/SuccessModal";
 import { Loader } from "@/components/loader";
-import FormItem from "../inputs/autocomplete-form-input";
+import FormItem from "../form-item";
 import { DeliveryOptions } from "@/lib/constants";
 
 const CakeForm = () => {

@@ -2,7 +2,7 @@ import React from "react";
 
 import { FieldErrors } from "react-hook-form";
 import { Amounts } from "@/lib/constants";
-import AutocompleteFormInput from "../inputs/autocomplete-form-input";
+import AutocompleteFormInput from "../form-item";
 
 interface ICupcakeAmountProps {
     control: any;

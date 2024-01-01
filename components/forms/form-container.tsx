@@ -11,7 +11,7 @@ interface IFormContainerProps {
 const FormContainer = (props: IFormContainerProps) => {
     return (
         <div className="flex flex-col ">
-            <h5 className="flex font-semibold text-xl w-full justify-start">{`Choose ${props.title}:`}</h5>
+            {props.title !== "" ? <h5 className="flex font-semibold text-xl w-full justify-start">{`${props.title}:`}</h5> : ""}
             <div className="w-full">
                 <label className="absolute text-xs text-gray-400 flex bg-white ml-2" htmlFor={props.inputLabel}>
                     {props.inputLabel}
