@@ -1,10 +1,10 @@
 import React from "react";
-import AutocompleteFormInput from "../inputs/autocomplete-form-input";
+
 import { CookieToppings } from "@/lib/constants";
+import AutocompleteFormInput from "../inputs/autocomplete-form-input";
 
 interface ICookieToppingProps {
     control: any;
-    className?: string;
 }
 
 const CookieTopping = (props: ICookieToppingProps) => {
@@ -12,7 +12,7 @@ const CookieTopping = (props: ICookieToppingProps) => {
         <AutocompleteFormInput
             title="Cookie Topping"
             name="cookieTopping"
-            options={CookieToppings}
+            options={CookieToppings as []}
             label="Cookie Topping"
             control={props.control}
         />

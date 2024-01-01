@@ -1,18 +1,22 @@
 import React from "react";
 import AutocompleteFormInput from "../inputs/autocomplete-form-input";
 import { CookieFlavors } from "@/lib/constants";
+import { FieldErrors } from "react-hook-form";
 
 interface ICookieFlavorProps {
     control: any;
-    className?: string;
+    errors: FieldErrors;
 }
 
 const CookieFlavor = (props: ICookieFlavorProps) => {
     return (
         <AutocompleteFormInput
+            required
+            errors={props.errors}
+            autocomplete
             title="Cookie Flavor"
             name="cookieFlavor"
-            options={CookieFlavors}
+            options={CookieFlavors as []}
             label="Cookie Flavor"
             control={props.control}
         />

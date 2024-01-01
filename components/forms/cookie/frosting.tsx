@@ -1,19 +1,19 @@
 import React from "react";
 
-import AutocompleteFormInput from "../inputs/autocomplete-form-input";
 import { CookieFrostings } from "@/lib/constants";
+import AutocompleteFormInput from "../inputs/autocomplete-form-input";
 
 interface ICookieFrostingProps {
     control: any;
-    className?: string;
 }
 
 const CookieFrosting = (props: ICookieFrostingProps) => {
     return (
         <AutocompleteFormInput
+            autocomplete
             title="Cookie Frosting"
             name="cookieFrosting"
-            options={CookieFrostings}
+            options={CookieFrostings as []}
             label="Cookie Frosting"
             control={props.control}
         />

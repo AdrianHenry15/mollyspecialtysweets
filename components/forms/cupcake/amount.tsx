@@ -1,34 +1,44 @@
 import React from "react";
 
-import FormContainer from "../form-container";
-import { Controller } from "react-hook-form";
+import { FieldErrors } from "react-hook-form";
 import { Amounts } from "@/lib/constants";
+import AutocompleteFormInput from "../inputs/autocomplete-form-input";
 
 interface ICupcakeAmountProps {
     control: any;
-    className?: string;
+    errors: FieldErrors;
 }
 
 const CupcakeAmount = (props: ICupcakeAmountProps) => {
     return (
-        <FormContainer inputLabel="Cupcake Amount" title="Cupcake Amount">
-            {/* SHAPE */}
-            <Controller
-                name="cupcakeAmount"
-                control={props.control}
-                render={({ field }) => (
-                    <select className={props.className} {...field}>
-                        {Amounts.map((amount, index) => {
-                            return (
-                                <option key={index} value={amount}>
-                                    {amount}
-                                </option>
-                            );
-                        })}
-                    </select>
-                )}
-            />
-        </FormContainer>
+        // <FormContainer inputLabel="Cupcake Amount" title="Cupcake Amount">
+        //     {/* SHAPE */}
+        //     <Controller
+        //         name="cupcakeAmount"
+        //         control={props.control}
+        //         render={({ field }) => (
+        //             <select className={props.className} {...field}>
+        //                 {Amounts.map((amount, index) => {
+        //                     return (
+        //                         <option key={index} value={amount}>
+        //                             {amount}
+        //                         </option>
+        //                     );
+        //                 })}
+        //             </select>
+        //         )}
+        //     />
+        // </FormContainer>
+        <AutocompleteFormInput
+            required
+            autocomplete
+            options={Amounts as []}
+            errors={props.errors}
+            control={props.control}
+            title={"Cupcake Amount"}
+            name={"cupcakeAmount"}
+            label={"Cupcake Amount"}
+        />
     );
 };
 
