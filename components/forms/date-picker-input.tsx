@@ -1,9 +1,10 @@
 import { DatePicker } from "@mui/x-date-pickers";
 import React from "react";
-import { Controller } from "react-hook-form";
+import { Controller, FieldErrors } from "react-hook-form";
 
 interface IDatePickerInputProps {
     control: any;
+    errors: FieldErrors;
 }
 
 const DatePickerInput = (props: IDatePickerInputProps) => {
@@ -14,8 +15,9 @@ const DatePickerInput = (props: IDatePickerInputProps) => {
                 name="date"
                 control={props.control}
                 rules={{ required: true }}
-                render={({ field }) => <DatePicker className="w-full" {...field} />}
+                render={({ field }) => (console.log("DatePicker field", field), (<DatePicker className="w-full" {...field} />))}
             />
+            {props.errors?.["date"]?.type === "required" && <p className="text-sm text-red-600 ml-4">Date is required.</p>}
         </div>
     );
 };

@@ -16,13 +16,13 @@ import ConfirmationModal from "@/components/modals/confirmation-modal";
 import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
 import Button from "@/components/buttons/button";
+import ContactDetails from "../contact-details";
+import OrderDetails from "../order-details";
 
 const CupcakeForm = () => {
     const InputClass = "w-full border-gray-300 rounded-md py-4";
 
     // STATE
-    const [isMini, setMini] = useState(false);
-    const [inputClicked, setInputClicked] = useState(false);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -33,12 +33,9 @@ const CupcakeForm = () => {
     const PUBLIC_KEY = process.env.NEXT_PUBLIC_KEY as string;
 
     const {
-        register,
         handleSubmit,
         getValues,
         control,
-        setValue,
-        watch,
         formState: { errors },
     } = useForm();
 
@@ -50,6 +47,16 @@ const CupcakeForm = () => {
         cookieFrosting: getValues("cupcakeFrosting"),
         cookieFilling: getValues("cupcakeFilling"),
         cookieTopping: getValues("cupcakeTopping"),
+        colors: getValues("colors"),
+        date: getValues("date"),
+        deliveryAddress: getValues("deliveryAddress"),
+        deliveryMethod: getValues("deliveryMethod"),
+        details: getValues("details"),
+        email: getValues("email"),
+        firstName: getValues("firstName"),
+        lastName: getValues("lastName"),
+        occasion: getValues("occasion"),
+        phoneNumber: getValues("phoneNumber"),
     };
 
     const onSubmit = (data: any) => {
@@ -98,7 +105,7 @@ const CupcakeForm = () => {
             <CupcakeAmount errors={errors} control={control} />
 
             {/* SIZE */}
-            <CupcakeSize setMini={setMini} isMini={false} control={control} />
+            <CupcakeSize control={control} errors={errors} />
 
             {/* FLAVOR */}
             <CupcakeFlavor errors={errors} control={control} />
@@ -110,12 +117,15 @@ const CupcakeForm = () => {
             <CupcakeFilling control={control} />
 
             {/* TOPPING */}
-            <CupcakeTopping control={control} className={""} />
+            <CupcakeTopping control={control} />
 
-            {/* COMMENT */}
-            <Textarea name={"comment"} label={"Comment"} control={control} />
+            {/* CONTACT DETAILS */}
+            <ContactDetails control={control} errors={errors} />
 
-            <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
+            {/* ORDER DETAILS */}
+            <OrderDetails control={control} errors={errors} />
+
+            <div className={`my-10`}>
                 <Button submit name={`Submit Cupcake Estimate`} className="w-full justify-center"></Button>
             </div>
         </form>

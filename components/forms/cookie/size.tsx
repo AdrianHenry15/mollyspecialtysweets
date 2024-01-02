@@ -1,43 +1,54 @@
+"use client";
+
 import React from "react";
-import { Controller } from "react-hook-form";
+import { Controller, FieldErrors } from "react-hook-form";
 
-import { SiCookiecutter } from "react-icons/si";
-
-import FormContainer from "../form-container";
-
-interface ICookieAmountProps {
-    setMini: (isMini: boolean) => void;
-    isMini: boolean;
+interface ICookieSizeProps {
     control: any;
+    errors: FieldErrors;
 }
 
-const CookieSize = (props: ICookieAmountProps) => {
-    const AmountClass = "border-black border-2 rounded-xl shadow-md shadow-pink-100 transition-color duration-300 ease-in-out";
+const CookieSize = (props: ICookieSizeProps) => {
+    const { errors } = props;
+
     return (
-        <FormContainer title="Cookie Size">
-            {/* SINGLE */}
-            <Controller
-                name="mini"
-                control={props.control}
-                render={({ field }) => (
-                    <div className="flex flex-col items-center" onClick={() => props.setMini(true)} {...field}>
-                        <SiCookiecutter className={`${props.isMini ? "bg-pink-300" : "bg-transparent"} ${AmountClass} p-14`} size={150} />
-                        <p className="text-xs mt-2">Mini</p>
-                    </div>
-                )}
-            />
-            {/* MULTIPLE */}
-            <Controller
-                name="regular"
-                control={props.control}
-                render={({ field }) => (
-                    <div className="flex flex-col items-center" onClick={() => props.setMini(false)} {...field}>
-                        <SiCookiecutter className={`${!props.isMini ? "bg-pink-300" : "bg-transparent"} ${AmountClass} p-6`} size={150} />
-                        <p className="text-xs mt-2">Regular</p>
-                    </div>
-                )}
-            />
-        </FormContainer>
+        <div>
+            <label className="font-semibold text-lg mb-2 underline">Choose Cookie Size:</label>
+            <div className="py-4 flex justify-evenly">
+                <Controller
+                    name="cookieSize"
+                    control={props.control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                        <div className="flex items-center">
+                            <input
+                                defaultChecked
+                                className="mr-2"
+                                {...field}
+                                type="radio"
+                                name="cookieSize"
+                                value={"mini"}
+                                id="cookieSize"
+                            />
+                            <label htmlFor="cookieSize">Mini</label>
+                        </div>
+                    )}
+                />
+                <Controller
+                    name="cookieSize"
+                    control={props.control}
+                    defaultValue={"regular"}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                        <div className="flex items-center">
+                            <input className="mr-2" {...field} type="radio" value={"regular"} name="cookieSize" id="regular" />
+                            <label htmlFor="cookieSize">Regular</label>
+                        </div>
+                    )}
+                />
+            </div>
+            {errors?.["cookieSize"]?.type === "required" && <p className="text-sm text-red-600 ml-4">Cookie Size is required.</p>}
+        </div>
     );
 };
 

@@ -1,11 +1,12 @@
 import CookieForm from "@/components/forms/cookie";
+import PageFormContainer from "@/components/page-form-container";
 import React from "react";
 
 const OrderCookies = () => {
     return (
-        <div>
+        <PageFormContainer>
             <CookieForm />
-        </div>
+        </PageFormContainer>
     );
 };
 

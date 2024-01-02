@@ -4,7 +4,6 @@ import { CupcakeToppings } from "@/lib/constants";
 
 interface ICupcakeToppingProps {
     control: any;
-    className?: string;
 }
 
 const CupcakeTopping = (props: ICupcakeToppingProps) => {
@@ -12,7 +11,7 @@ const CupcakeTopping = (props: ICupcakeToppingProps) => {
         <AutocompleteFormInput
             autocomplete
             title="Cupcake Topping"
-            name="CupcakeTopping"
+            name="cupcakeTopping"
             options={CupcakeToppings as []}
             label="Cupcake Topping"
             control={props.control}
