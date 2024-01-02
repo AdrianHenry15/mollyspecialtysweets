@@ -25,10 +25,10 @@ export const NavMenuItems: NavMenu[] = [
         title: "Order Cookies",
         link: "/order/cookies",
     },
-    {
-        title: "My Story",
-        link: "/my-story",
-    },
+    // {
+    //     title: "My Story",
+    //     link: "/my-story",
+    // },
     // {
     //     title: "Rewards",
     //     link: "/rewards",
