@@ -11,17 +11,24 @@ const DeliveryMethod = (props: IDeliveryMethodProps) => {
     return (
         <div>
             <label className="font-semibold text-lg mb-2 underline">Choose Delivery Method:</label>
-            <Controller
-                name="deliveryMethod"
-                control={props.control}
-                // defaultValue={"pickup"}
-                rules={{ required: "Please select a delivery method" }}
-                render={({ field }) => (
-                    <div className="py-4 flex justify-evenly">
+            <div className="py-4 flex justify-evenly">
+                <Controller
+                    name="deliveryMethod"
+                    control={props.control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
                         <div className="flex items-center">
                             <input className="mr-2" {...field} type="radio" name="deliveryMethod" value={"delivery"} id="deliveryMethod" />
                             <label htmlFor="delivery">Delivery</label>
                         </div>
+                    )}
+                />
+                <Controller
+                    name="deliveryMethod"
+                    control={props.control}
+                    defaultValue={"pickup"}
+                    rules={{ required: true }}
+                    render={({ field }) => (
                         <div className="flex items-center">
                             <input
                                 className="mr-2"
@@ -34,9 +41,9 @@ const DeliveryMethod = (props: IDeliveryMethodProps) => {
                             />
                             <label htmlFor="pickup">Pickup</label>
                         </div>
-                    </div>
-                )}
-            />
+                    )}
+                />
+            </div>
             {errors?.["deliveryMethod"]?.type === "required" && <p className="text-sm text-red-600 ml-4">Delivery Method is required.</p>}
         </div>
     );

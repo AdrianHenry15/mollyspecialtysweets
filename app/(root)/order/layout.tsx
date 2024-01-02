@@ -1,7 +1,9 @@
+"use client";
+
 import FormNav from "@/components/forms/form-nav";
 import "@/styles/globals.css";
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <div className="flex flex-col justify-center">
             <FormNav />
