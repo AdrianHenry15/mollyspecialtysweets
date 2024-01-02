@@ -1,11 +1,12 @@
 import CakeForm from "@/components/forms/cake";
+import PageFormContainer from "@/components/page-form-container";
 import React from "react";
 
 const CakePage = () => {
     return (
-        <div className="border-[1px] border-black shadow-xl shadow-blue-500 my-24 rounded-md">
+        <PageFormContainer>
             <CakeForm />
-        </div>
+        </PageFormContainer>
     );
 };
 

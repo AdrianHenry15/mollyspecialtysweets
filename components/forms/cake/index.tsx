@@ -16,6 +16,8 @@ import Button from "@/components/buttons/button";
 import ConfirmationModal from "@/components/modals/confirmation-modal";
 import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
+import ContactDetails from "../contact-details";
+import OrderDetails from "../order-details";
 
 const CakeForm = () => {
     // STATE
@@ -39,15 +41,23 @@ const CakeForm = () => {
 
     //EMAIL JS
     const templateParams = {
-        singleTier: getValues("singleTier"),
-        multipleTier: getValues("multipleTier"),
-        cakeSize: getValues("cakeSize"),
-        cakeShape: getValues("cakeShape"),
+        cakeFilling: getValues("cakeFilling"),
         cakeFlavor: getValues("cakeFlavor"),
         cakeFrosting: getValues("cakeFrosting"),
-        cakeFilling: getValues("cakeFilling"),
+        cakeShape: getValues("cakeShape"),
+        cakeSize: getValues("cakeSize"),
+        cakeTier: getValues("cakeTier"),
         cakeTopping: getValues("cakeTopping"),
+        colors: getValues("colors"),
+        date: getValues("date"),
+        deliveryAddress: getValues("deliveryAddress"),
+        deliveryMethod: getValues("deliveryMethod"),
         details: getValues("details"),
+        email: getValues("email"),
+        firstName: getValues("firstName"),
+        lastName: getValues("lastName"),
+        occasion: getValues("occasion"),
+        phoneNumber: getValues("phoneNumber"),
     };
 
     const onSubmit = (data: any) => {
@@ -112,6 +122,12 @@ const CakeForm = () => {
 
             {/* CAKE TOPPING */}
             <CakeTopping control={control} />
+
+            {/* CONTACT DETAILS */}
+            <ContactDetails control={control} errors={errors} />
+
+            {/* ORDER DETAILS */}
+            <OrderDetails control={control} errors={errors} />
 
             {/* REVIEW BUTTON */}
             <Button submit name={`Complete Estimate`} className="w-full justify-center my-10" />

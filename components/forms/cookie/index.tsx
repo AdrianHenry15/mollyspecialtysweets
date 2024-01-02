@@ -16,13 +16,13 @@ import ConfirmationModal from "@/components/modals/confirmation-modal";
 import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
 import Button from "@/components/buttons/button";
+import ContactDetails from "../contact-details";
+import OrderDetails from "../order-details";
 
 const CookieForm = () => {
     const InputClass = "w-full border-gray-300 rounded-md py-4";
 
     // STATE
-    const [isMini, setMini] = useState(false);
-    const [inputClicked, setInputClicked] = useState(false);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -33,12 +33,9 @@ const CookieForm = () => {
     const PUBLIC_KEY = process.env.NEXT_PUBLIC_KEY as string;
 
     const {
-        register,
         handleSubmit,
         getValues,
         control,
-        setValue,
-        watch,
         formState: { errors },
     } = useForm();
 
@@ -50,6 +47,16 @@ const CookieForm = () => {
         cookieFrosting: getValues("cookieFrosting"),
         cookieFilling: getValues("cookieFilling"),
         cookieTopping: getValues("cookieTopping"),
+        colors: getValues("colors"),
+        date: getValues("date"),
+        deliveryAddress: getValues("deliveryAddress"),
+        deliveryMethod: getValues("deliveryMethod"),
+        details: getValues("details"),
+        email: getValues("email"),
+        firstName: getValues("firstName"),
+        lastName: getValues("lastName"),
+        occasion: getValues("occasion"),
+        phoneNumber: getValues("phoneNumber"),
     };
 
     const onSubmit = (data: any) => {
@@ -94,14 +101,31 @@ const CookieForm = () => {
             )}
             {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
             {loading ? <Loader /> : null}
+
+            {/* AMOUNT */}
             <CookieAmount errors={errors} control={control} />
-            <CookieSize setMini={setMini} isMini={false} control={control} />
+
+            {/* SIZE */}
+            <CookieSize errors={errors} control={control} />
+
+            {/* FLAVOR */}
             <CookieFlavor errors={errors} control={control} />
+
+            {/* FROSTING */}
             <CookieFrosting control={control} />
+
+            {/* FILLING */}
             <CookieFilling control={control} />
+
+            {/* TOPPING */}
             <CookieTopping control={control} />
-            <Textarea name={"comment"} label={"Comment"} control={control} />
-            <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
+
+            {/* CONTACT DETAILS */}
+            <ContactDetails control={control} errors={errors} />
+            {/* ORDER DETAILS */}
+            <OrderDetails control={control} errors={errors} />
+
+            <div className={`my-10`}>
                 <Button submit name={`Submit Cookie Estimate`} className="w-full justify-center"></Button>
             </div>
         </form>

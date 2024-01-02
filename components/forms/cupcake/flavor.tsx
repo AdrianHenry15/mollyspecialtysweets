@@ -1,7 +1,8 @@
 import React from "react";
-import AutocompleteFormInput from "../form-item";
-import { CupcakeFlavors } from "@/lib/constants";
 import { FieldErrors } from "react-hook-form";
+
+import { CupcakeFlavors } from "@/lib/constants";
+import FormItem from "../form-item";
 
 interface ICupcakeFlavorProps {
     control: any;
@@ -10,12 +11,12 @@ interface ICupcakeFlavorProps {
 
 const CupcakeFlavor = (props: ICupcakeFlavorProps) => {
     return (
-        <AutocompleteFormInput
+        <FormItem
             required
             autocomplete
             errors={props.errors}
             title="Cupcake Flavor"
-            name="CupcakeFlavor"
+            name="cupcakeFlavor"
             options={CupcakeFlavors as []}
             label="Cupcake Flavor"
             control={props.control}
