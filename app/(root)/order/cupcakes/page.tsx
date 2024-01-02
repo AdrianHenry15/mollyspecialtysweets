@@ -1,12 +1,13 @@
 import React from "react";
 
 import CupcakeForm from "@/components/forms/cupcake";
+import PageFormContainer from "@/components/page-form-container";
 
 const OrderCupcakes = () => {
     return (
-        <div>
+        <PageFormContainer>
             <CupcakeForm />
-        </div>
+        </PageFormContainer>
     );
 };
 
