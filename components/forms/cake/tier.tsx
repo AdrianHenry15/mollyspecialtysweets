@@ -1,60 +1,56 @@
-import React from "react";
-import { Controller, FieldErrors } from "react-hook-form";
+"use client";
 
-import { BsCake2Fill } from "react-icons/bs";
-import { BsCakeFill } from "react-icons/bs";
-import FormContainer from "../form-container";
-import FormItem from "../form-item";
-import { CakeTiers } from "@/lib/constants";
+import React from "react";
+import { Controller, FieldErrors, useForm } from "react-hook-form";
 
 interface ICakeTierProps {
-    setSingleTier: (isSingleTier: boolean) => void;
-    isSingleTier: boolean;
     control: any;
-    cakeShape: any;
+    errors: FieldErrors;
 }
 
 const CakeTier = (props: ICakeTierProps) => {
-    const TierClass = "border-black border-2 p-6 rounded-xl shadow-md shadow-pink-100 transition-color duration-300 ease-in-out";
+    const { errors } = props;
+
+    const { watch } = useForm();
+
     return (
-        <FormContainer title="Choose Cake Tier">
-            {/* SINGLE */}
-            <Controller
-                name="singleTier"
-                control={props.control}
-                rules={{ required: true }}
-                defaultValue={props.isSingleTier}
-                render={({ field }) => (
-                    <div className="flex flex-col items-center" onClick={() => props.setSingleTier(true)} {...field}>
-                        <BsCake2Fill
-                            className={`${
-                                props.isSingleTier || props.cakeShape.value === "rectangle" ? "bg-pink-300" : "bg-transparent"
-                            } ${TierClass}`}
-                            size={150}
-                        />
-                        <p className="text-xs mt-2">Single Tier</p>
-                    </div>
-                )}
-            />
-            {/* MULTIPLE */}
-            <Controller
-                name="multipleTier"
-                control={props.control}
-                render={({ field }) => (
-                    <div className="flex flex-col items-center" onClick={() => props.setSingleTier(false)} {...field}>
-                        <BsCakeFill
-                            className={`${
-                                !props.isSingleTier && props.cakeShape.value !== "rectangle"
-                                    ? "bg-pink-300"
-                                    : "bg-transparent pointer-events-none"
-                            } ${TierClass}`}
-                            size={150}
-                        />
-                        <p className="text-xs mt-2">Multiple Tier</p>
-                    </div>
-                )}
-            />
-        </FormContainer>
+        <div>
+            <label className="font-semibold text-lg mb-2 underline">Choose Cake Tier:</label>
+            <div className="py-4 flex justify-evenly">
+                <Controller
+                    name="cakeTier"
+                    control={props.control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                        <div className="flex items-center">
+                            <input
+                                defaultChecked
+                                className="mr-2"
+                                {...field}
+                                type="radio"
+                                name="cakeTier"
+                                value={"singleTier"}
+                                id="cakeTier"
+                            />
+                            <label htmlFor="cakeTier">Single Tier</label>
+                        </div>
+                    )}
+                />
+                <Controller
+                    name="cakeTier"
+                    control={props.control}
+                    defaultValue={"multipleTier"}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                        <div className="flex items-center">
+                            <input className="mr-2" {...field} type="radio" value={"multipleTier"} name="cakeTier" id="cakeTier" />
+                            <label htmlFor="cakeTier">Multiple Tier</label>
+                        </div>
+                    )}
+                />
+            </div>
+            {errors?.["deliveryMethod"]?.type === "required" && <p className="text-sm text-red-600 ml-4">Cake Tier is required.</p>}
+        </div>
     );
 };
 

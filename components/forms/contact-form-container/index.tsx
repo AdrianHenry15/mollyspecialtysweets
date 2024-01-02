@@ -10,8 +10,8 @@ import emailjs from "@emailjs/browser";
 import Logo from "@/public/mollys-logo-black.png";
 
 import Button from "../../buttons/button";
-import ConfirmationModal from "../../modals/ConfirmationModal";
-import SuccessModal from "../../modals/SuccessModal";
+import ConfirmationModal from "../../modals/confirmation-modal";
+import SuccessModal from "../../modals/success-modal";
 import { Loader } from "../../loader";
 import DeliveryMethod from "../delivery-method";
 import Textarea from "../inputs/textarea";

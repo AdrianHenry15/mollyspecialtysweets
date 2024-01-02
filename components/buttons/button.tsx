@@ -7,12 +7,14 @@ interface IButtonProps {
     roundedFull?: boolean;
     altColor?: boolean;
     onClick?: () => void;
+    onSubmit?: () => void;
     submit?: boolean;
 }
 
 const Button = (props: IButtonProps) => {
     return (
         <button
+            onSubmit={props.submit ? props.onSubmit : () => {}}
             type={props.submit ? "submit" : "button"}
             onClick={props.onClick}
             className={`${props.className} ${props.roundedFull ? "rounded-full" : "rounded-lg"} ${

@@ -12,8 +12,8 @@ import CupcakeTopping from "./topping";
 import CupcakeAmount from "./amount";
 import Textarea from "../inputs/textarea";
 import toast from "react-hot-toast";
-import ConfirmationModal from "@/components/modals/ConfirmationModal";
-import SuccessModal from "@/components/modals/SuccessModal";
+import ConfirmationModal from "@/components/modals/confirmation-modal";
+import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
 import Button from "@/components/buttons/button";
 

@@ -13,22 +13,16 @@ import CakeFrosting from "./frosting";
 import CakeFilling from "./filling";
 import CakeTopping from "./topping";
 import Button from "@/components/buttons/button";
-import ConfirmationModal from "@/components/modals/ConfirmationModal";
-import SuccessModal from "@/components/modals/SuccessModal";
+import ConfirmationModal from "@/components/modals/confirmation-modal";
+import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
-import Review from "./review";
 
 const CakeForm = () => {
-    const InputClass = "w-full border-gray-300 rounded-md py-4";
-
     // STATE
     const [isSingleTier, setIsSingleTier] = useState(true);
-    const [inputClicked, setInputClicked] = useState(false);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
-
-    const [formFinished, setFormFinished] = useState(false);
 
     // EMAIL JS
     const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID as string;
@@ -84,62 +78,45 @@ const CakeForm = () => {
 
         setLoading(true);
     };
-    if (formFinished) {
-        return <Review />;
-    } else {
-        return (
-            <div className="py-10 px-4">
-                <div className="relative">
-                    <h1 className="font-semibold text-4xl underline text-center my-10">Cake Details</h1>
-                </div>
-                {isConfirmationModalOpen && (
-                    <ConfirmationModal
-                        confirmEstimate={confirmEstimate}
-                        isOpen={isConfirmationModalOpen}
-                        closeModal={() => setIsConfirmationModalOpen(false)}
-                    />
-                )}
-                {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
-                {loading ? <Loader /> : null}
-
-                {/* CAKE SHAPE */}
-                <CakeShape errors={errors} control={control} />
-
-                {/* CAKE TIER */}
-                <div className="pb-10">
-                    <CakeTier
-                        setSingleTier={setIsSingleTier}
-                        isSingleTier={isSingleTier}
-                        cakeShape={watch("cakeShape")}
-                        control={control}
-                    />
-                    {errors.cakeTier && errors.cakeTier.type === "required" && (
-                        <p className="text-sm text-red-600 ml-4">Cake Tier is required.</p>
-                    )}
-                </div>
-                {/* CAKE SIZE */}
-                <CakeSize errors={errors} cakeShape={watch("cakeShape")} control={control} />
-
-                {/* CAKE FLAVOR */}
-                <CakeFlavor errors={errors} control={control} />
-
-                {/* CAKE FROSTING */}
-                <CakeFrosting errors={errors} control={control} />
-
-                {/* CAKE FILLING */}
-                <CakeFilling errors={errors} control={control} />
-
-                {/* CAKE TOPPING */}
-                <CakeTopping control={control} />
-
-                {/* COMMENT */}
-                {/* <FormItem title="Details" textarea control={control} name={"details"} /> */}
-                <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
-                    <Button onClick={() => setFormFinished(true)} name={`Finish`} className="w-full justify-center"></Button>
-                </div>
+    return (
+        <form onSubmit={handleSubmit(onSubmit)} className="py-10 px-4">
+            <div className="relative">
+                <h1 className="font-semibold text-4xl underline text-center my-10">Cake Details</h1>
             </div>
-        );
-    }
+            {isConfirmationModalOpen && (
+                <ConfirmationModal
+                    confirmEstimate={confirmEstimate}
+                    isOpen={isConfirmationModalOpen}
+                    closeModal={() => setIsConfirmationModalOpen(false)}
+                />
+            )}
+            {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
+            {loading ? <Loader /> : null}
+
+            {/* CAKE SHAPE */}
+            <CakeShape errors={errors} control={control} />
+
+            {/* CAKE TIER */}
+            <CakeTier errors={errors} control={control} />
+            {/* CAKE SIZE */}
+            <CakeSize errors={errors} cakeShape={watch("cakeShape")} control={control} />
+
+            {/* CAKE FLAVOR */}
+            <CakeFlavor errors={errors} control={control} />
+
+            {/* CAKE FROSTING */}
+            <CakeFrosting errors={errors} control={control} />
+
+            {/* CAKE FILLING */}
+            <CakeFilling errors={errors} control={control} />
+
+            {/* CAKE TOPPING */}
+            <CakeTopping control={control} />
+
+            {/* REVIEW BUTTON */}
+            <Button submit name={`Complete Estimate`} className="w-full justify-center my-10" />
+        </form>
+    );
 };
 
 export default CakeForm;
