@@ -5,10 +5,11 @@ import SocialsCard from "./socials-card";
 import FooterMenu from "./footer-menu";
 import LogoCard from "./logo-card";
 
-import { MdOutlineCopyright } from "react-icons/md";
 import Image from "next/image";
 
 import Logo from "@/public/mollys-logo-pink.png";
+import ThirdGen from "@/public/thirdgenstudios-logo.png";
+import Link from "next/link";
 
 const Footer = () => {
     return (
@@ -29,9 +30,12 @@ const Footer = () => {
                 <div className="w-64 pb-10">
                     <Image loading="eager" src={Logo} alt="logo" />
                 </div>
-                <div className="flex pt-4">
-                    <p className="mx-2">Created by</p>
-                    <h5 className="text-white">3rdGen</h5>
+                <div className="flex flex-col pt-4 items-center">
+                    <p className="mb-2">Created by</p>
+                    {/* <h5 className="text-white">Third Generation Studios</h5> */}
+                    <Link href={"thirdgenerationstudios.com"}>
+                        <Image className="w-36" src={ThirdGen} alt="third-gen-logo" />
+                    </Link>
                 </div>
             </div>
         </footer>
