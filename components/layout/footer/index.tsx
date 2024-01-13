@@ -25,14 +25,15 @@ const Footer = () => {
             </div>
             {/* SOCIALS  */}
             <SocialsCard />
+            {/* CREATED BY */}
             <div className="flex flex-col items-center justify-center text-center self-center w-full border-t-[1px] py-14 text-xs border-zinc-500">
-                {/* <h5 className="text-white ml-2">{"Molly's Specialty Sweets"}</h5> */}
+                {/* MOLLY LOGO */}
                 <div className="w-64 pb-10">
                     <Image loading="eager" src={Logo} alt="logo" />
                 </div>
+                {/* THIRDGEN LOGO */}
                 <div className="flex flex-col pt-4 items-center">
                     <p className="mb-2">Created by</p>
-                    {/* <h5 className="text-white">Third Generation Studios</h5> */}
                     <Link href={"thirdgenerationstudios.com"}>
                         <Image className="w-36" src={ThirdGen} alt="third-gen-logo" />
                     </Link>
