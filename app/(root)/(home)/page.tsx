@@ -8,23 +8,19 @@ import CakeImg from "@/public/cake-img.jpg";
 import CupcakeImg from "@/public/cupcakes-img.jpg";
 import CookieImg from "@/public/cookies-img.jpg";
 
-import { BsCake } from "react-icons/bs";
-import { GiCupcake } from "react-icons/gi";
-import { SiCookiecutter } from "react-icons/si";
-
 import CakeSplash from "@/public/cake-splash.jpg";
 
 import ImgTextRow from "@/components/layout/sections/img-text-row";
 import ContactFormContainer from "@/components/forms/contact-form-container";
-import ImgTextOverlay from "@/components/layout/sections/img-text-overlay";
 import MobileImgText from "@/components/layout/sections/mobile-img-text";
-import IconBanner from "@/components/icon-banner/IconBanner";
+import Splash from "@/components/splash";
 
 export default function HomePage() {
     return (
-        <div className="flex flex-col justify-between w-full">
+        <div className="flex flex-col justify-between w-full bg-black">
             {/* JUMBOTRON */}
-            <ImgTextOverlay src={CakeSplash} name={"Molly's Specialty Sweets"} />
+            {/* <ImgTextOverlay src={CakeSplash} name={"Molly's Specialty Sweets"} /> */}
+            <Splash img={CakeSplash} title="Molly's Specialty Sweets" release_date="2024" />
             {/* ICON BANNER */}
 
             <IconsRow
