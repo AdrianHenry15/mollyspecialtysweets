@@ -17,7 +17,7 @@ import Splash from "@/components/splash";
 
 export default function HomePage() {
     return (
-        <div className="flex flex-col justify-between w-full bg-black">
+        <div className="flex flex-col justify-between w-full">
             {/* JUMBOTRON */}
             {/* <ImgTextOverlay src={CakeSplash} name={"Molly's Specialty Sweets"} /> */}
             <Splash img={CakeSplash} title="Molly's Specialty Sweets" release_date="2024" />
