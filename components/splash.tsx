@@ -11,6 +11,10 @@ interface ISplashProps {
     img: any;
     title: string;
     release_date: string;
+    link1: string;
+    link2: string;
+    link_title_1: string;
+    link_title_2: string;
 }
 
 const Splash = (props: ISplashProps) => {
@@ -47,11 +51,11 @@ const Splash = (props: ISplashProps) => {
                     <Image src={Logo} alt="logo" className="w-24 py-2" />
                     <h1 className="text-white text-3x1 md:text-5xl">{props.title}</h1>
                     <div className="my-4">
-                        <Link href={"/contact-us"} className="border bg-gray-300 text-black border-gray-300 py-2 px-5">
-                            Contact Us
+                        <Link href={props.link1} className="border bg-gray-300 text-black border-gray-300 py-2 px-5">
+                            {props.link_title_1}
                         </Link>
-                        <Link href={"/estimate"} className="border  text-white border-gray-300 py-2 px-5 ml-4">
-                            Get Estimate
+                        <Link href={props.link2} className="border  text-white border-gray-300 py-2 px-5 ml-4">
+                            {props.link_title_2}
                         </Link>
                     </div>
                     <p className="text-gray-400 text-sm">Released: {props.release_date}</p>

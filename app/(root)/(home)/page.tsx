@@ -20,7 +20,15 @@ export default function HomePage() {
         <div className="flex flex-col justify-between w-full">
             {/* JUMBOTRON */}
             {/* <ImgTextOverlay src={CakeSplash} name={"Molly's Specialty Sweets"} /> */}
-            <Splash img={CakeSplash} title="Molly's Specialty Sweets" release_date="2024" />
+            <Splash
+                link1="/order/contact-us"
+                link_title_1="Contact Us"
+                link2="/order/estimate"
+                link_title_2="Estimate"
+                img={CakeSplash}
+                title="Molly's Specialty Sweets"
+                release_date="2024"
+            />
             {/* ICON BANNER */}
 
             <IconsRow
