@@ -4,9 +4,9 @@ import Splash from "@/components/splash";
 import "@/styles/globals.css";
 import { usePathname } from "next/navigation";
 
-import Cake from "@/public/cake-img.jpg";
-import Cupcake from "@/public/cupcakes-img.jpg";
-import Cookies from "@/public/cookies-img.jpg";
+import Cake from "@/public/flowers.jpg";
+import Cupcake from "@/public/mellows.jpg";
+import Cookies from "@/public/roons.jpg";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
