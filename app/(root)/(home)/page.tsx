@@ -21,9 +21,9 @@ export default function HomePage() {
             {/* JUMBOTRON */}
             {/* <ImgTextOverlay src={CakeSplash} name={"Molly's Specialty Sweets"} /> */}
             <Splash
-                link1="/order/contact-us"
+                link1="/contact-us"
                 link_title_1="Contact Us"
-                link2="/order/estimate"
+                link2="/estimate"
                 link_title_2="Estimate"
                 img={CakeSplash}
                 title="Molly's Specialty Sweets"
