@@ -46,7 +46,7 @@ const Splash = (props: ISplashProps) => {
         <div ref={containerRef} className="fade-in w-full h-[750px] text-white bg-black">
             <div className="w-full h-full">
                 <div className="absolute w-full h-full bg-gradient-to-r from-black"></div>
-                <Image width={1000} height={1000} className="w-full h-full object-cover object-top" src={props.img} alt={props.title} />
+                <Image className="w-full h-full object-cover object-top" src={props.img} alt={props.title} />
                 <div className="absolute w-full top-[30%] p-4 md:p-8">
                     <Image src={Logo} alt="logo" className="w-24 py-2" />
                     <h1 className="text-white text-3x1 md:text-5xl">{props.title}</h1>
