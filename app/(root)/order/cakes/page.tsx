@@ -1,12 +1,18 @@
+import React from "react";
+
 import CakeForm from "@/components/forms/cake";
 import PageFormContainer from "@/components/page-form-container";
-import React from "react";
+import Splash from "@/components/splash";
+
+import Cake from "@/public/cake-img.jpg";
 
 const CakePage = () => {
     return (
-        <PageFormContainer>
-            <CakeForm />
-        </PageFormContainer>
+        <div>
+            <PageFormContainer>
+                <CakeForm />
+            </PageFormContainer>
+        </div>
     );
 };
 
