@@ -10,7 +10,6 @@ import Link from "next/link";
 interface ISplashProps {
     img: any;
     title: string;
-    release_date: string;
     link1: string;
     link2: string;
     link_title_1: string;
@@ -58,10 +57,6 @@ const Splash = (props: ISplashProps) => {
                             {props.link_title_2}
                         </Link>
                     </div>
-                    <p className="text-gray-400 text-sm">Released: {props.release_date}</p>
-                    {/* <p className="w-full md:max-w-[70%] lg:max-w-[50%] xl:max-w-[35%] text-gray-200">
-                        {truncateString(movie?.overview, 150)}
-                    </p> */}
                 </div>
             </div>
         </div>
