@@ -1,32 +1,25 @@
+import CakeSplash from "@/public/cake-splash.jpg";
+import ContactFormContainer from "@/components/forms/contact-form-container";
 import IconsRow from "@/components/layout/icons-row";
 
 import Cookie from "@/public/cookie-icon.png";
 import Cake from "@/public/cake-icon.png";
 import Cupcake from "@/public/cupcake-icon.png";
-
-import CakeImg from "@/public/cake-img.jpg";
-import CupcakeImg from "@/public/cupcakes-img.jpg";
-import CookieImg from "@/public/cookies-img.jpg";
-
-import { BsCake } from "react-icons/bs";
-import { GiCupcake } from "react-icons/gi";
-import { SiCookiecutter } from "react-icons/si";
-
-import CakeSplash from "@/public/cake-splash.jpg";
-
-import ImgTextRow from "@/components/layout/sections/img-text-row";
-import ContactFormContainer from "@/components/forms/contact-form-container";
-import ImgTextOverlay from "@/components/layout/sections/img-text-overlay";
-import MobileImgText from "@/components/layout/sections/mobile-img-text";
-import IconBanner from "@/components/icon-banner/IconBanner";
+import Splash from "@/components/splash";
 
 export default function HomePage() {
     return (
         <div className="flex flex-col justify-between w-full">
             {/* JUMBOTRON */}
-            <ImgTextOverlay src={CakeSplash} name={"Molly's Specialty Sweets"} />
+            <Splash
+                link1="/contact-us"
+                link_title_1="Contact Us"
+                link2="/estimate"
+                link_title_2="Estimate"
+                img={CakeSplash}
+                title="Molly's Specialty Sweets"
+            />
             {/* ICON BANNER */}
-
             <IconsRow
                 iconItem1={{
                     linkText: "Create A Cake",
