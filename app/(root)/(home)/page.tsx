@@ -50,64 +50,6 @@ export default function HomePage() {
                     description: "Expertly crafted artisinal cookies for a joyous indulgence",
                 }}
             />
-            {/* IMG TEXT ROWS */}
-            <ImgTextRow
-                imgLeft
-                src={CakeImg}
-                link={"/create-a-cake"}
-                btnName="Get Free Cake Estimate"
-                title={"Cake"}
-                description={
-                    "Indulge in delectable treats crafted with precision, delivering a burst of irresistible flavor in every bite. Elevate your dessert experience with our uniquely designed cakes, a celebration of sweetness"
-                }
-            />
-            <ImgTextRow
-                textLeft
-                src={CupcakeImg}
-                link={"/cupcakes"}
-                btnName="Get Free Cupcake Estimate"
-                title={"Cupcakes"}
-                description={
-                    "Indulge in delectable treats crafted with precision, delivering a burst of irresistible flavor in every bite. Elevate your dessert experience with our uniquely designed cakes, a celebration of sweetness"
-                }
-            />
-            <ImgTextRow
-                imgLeft
-                src={CookieImg}
-                link={"/cookies"}
-                btnName="Get Free Cookie Estimate"
-                title={"Cookies"}
-                description={
-                    "Indulge in delectable treats crafted with precision, delivering a burst of irresistible flavor in every bite. Elevate your dessert experience with our uniquely designed cakes, a celebration of sweetness"
-                }
-            />
-            {/* MOBILE TEXT ROWS */}
-            <MobileImgText
-                textLeft
-                src={CakeImg}
-                link={"/cakes"}
-                title={"Cakes"}
-                description={
-                    "Indulge in delectable treats crafted with precision, delivering a burst of irresistible flavor in every bite. Elevate your dessert experience with our uniquely designed cakes, a celebration of sweetness"
-                }
-            />
-            <MobileImgText
-                src={CupcakeImg}
-                link={"/cupcakes"}
-                title={"Cupcakes"}
-                description={
-                    "Indulge in delectable treats crafted with precision, delivering a burst of irresistible flavor in every bite. Elevate your dessert experience with our uniquely designed cakes, a celebration of sweetness"
-                }
-            />
-            <MobileImgText
-                textLeft
-                src={CookieImg}
-                link={"/cookies"}
-                title={"Cookies"}
-                description={
-                    "Indulge in delectable treats crafted with precision, delivering a burst of irresistible flavor in every bite. Elevate your dessert experience with our uniquely designed cakes, a celebration of sweetness"
-                }
-            />
             <ContactFormContainer />
         </div>
     );
