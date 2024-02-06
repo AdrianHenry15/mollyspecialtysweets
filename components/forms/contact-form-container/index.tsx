@@ -30,15 +30,12 @@ const ContactFormContainer = () => {
 
     const { isSignedIn, user, isLoaded } = useUser();
 
-    const InputClass = "border-2 border-gray-400 my-2 p-2 rounded-sm w-full shadow-md";
-
     // EMAIL JS
     const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID as string;
     const TEMPLATE_ID = process.env.NEXT_PUBLIC_TEMPLATE_ID as string;
     const PUBLIC_KEY = process.env.NEXT_PUBLIC_KEY as string;
 
     const {
-        register,
         handleSubmit,
         getValues,
         control,
@@ -157,7 +154,7 @@ const ContactFormContainer = () => {
                     />
 
                     {/* DELIVERY DATE */}
-                    <DatePickerInput control={control} />
+                    <DatePickerInput control={control} errors={errors} />
 
                     {/* OCCASION */}
                     <FormItem autocomplete options={Occasions as []} control={control} title={"Occasion"} name={"occasion"} />

@@ -7,7 +7,6 @@ import LogoCard from "./logo-card";
 
 import Image from "next/image";
 
-import Logo from "@/public/mollys-logo-pink.png";
 import ThirdGen from "@/public/thirdgenstudios-logo.png";
 import Link from "next/link";
 
@@ -27,15 +26,11 @@ const Footer = () => {
             <SocialsCard />
             {/* CREATED BY */}
             <div className="flex flex-col items-center justify-center text-center self-center w-full border-t-[1px] py-14 text-xs border-zinc-500">
-                {/* MOLLY LOGO */}
-                <div className="w-64 pb-10">
-                    <Image loading="eager" src={Logo} alt="logo" />
-                </div>
                 {/* THIRDGEN LOGO */}
                 <div className="flex flex-col pt-4 items-center">
-                    <p className="mb-2">Created by</p>
+                    <p className="mb-2 text-xs">Created by</p>
                     <Link href={"thirdgenerationstudios.com"}>
-                        <Image className="w-36" src={ThirdGen} alt="third-gen-logo" />
+                        <Image className="w-32" src={ThirdGen} alt="third-gen-logo" />
                     </Link>
                 </div>
             </div>
