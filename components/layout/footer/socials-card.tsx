@@ -10,7 +10,7 @@ const SocialsCard = () => {
                 <AiFillFacebook size={35} />
             </Link> */}
             <Link target="_blank" href="">
-                <AiOutlineInstagram size={35} />
+                <AiOutlineInstagram className="hover:scale-125 transition-all duration-300 ease-in-out" size={25} />
             </Link>
         </div>
     );
