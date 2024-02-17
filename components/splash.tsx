@@ -42,12 +42,17 @@ const Splash = (props: ISplashProps) => {
     }, []);
 
     return (
-        <div ref={containerRef} className="fade-in w-full h-[750px] text-white bg-black">
+        <div ref={containerRef} className="fade-in w-full text-white bg-black md:h-[750px]">
             <div className="w-full h-full">
-                <div className="absolute w-full h-full bg-gradient-to-r from-black"></div>
-                <Image className="w-full h-full object-cover object-top" src={props.img} alt={props.title} />
-                <div className="absolute w-full top-[30%] p-4 md:p-8">
-                    <Image src={Logo} alt="logo" className="w-24 py-2" />
+                <div className="absolute w-full h-full bg-gradient-to-r from-black hidden md:flex"></div>
+                <span>
+                    <Image className="w-full h-full object-cover object-top" src={props.img} alt={props.title} />
+                </span>
+                {/* TEXT CONTAINER */}
+                <div className="flex flex-col w-full top-[30%] p-4 md:absolute md:p-8">
+                    <span>
+                        <Image src={Logo} alt="logo" className="w-24 py-2" />
+                    </span>
                     <h1 className="text-white text-3x1 md:text-5xl">{props.title}</h1>
                     <div className="my-4">
                         <Link href={props.link1} className="border bg-gray-300 text-black border-gray-300 py-2 px-5">
