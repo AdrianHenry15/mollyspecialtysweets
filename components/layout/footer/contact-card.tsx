@@ -9,15 +9,18 @@ const ContactCard = () => {
                     Contact Us
                 </Link>
                 <div className="w-full">
-                    <address className="text-gray-400 pb-4">2211 Allen Lane Orlando, FL 32792</address>
                     <div className="flex flex-col text-gray-400">
                         <span className="pb-4">
-                            <label>Office: </label>
-                            <Link href="tel:7049445574">(407) 242-4468</Link>
+                            <label className="text-white">Office: </label>
+                            <Link className="hover:underline underline-offset-2" href="tel:4072424468">
+                                (407) 242-4468
+                            </Link>
                         </span>
                         <span className="pb-4">
-                            <label>Email: </label>
-                            <Link href="email:info@britellc.net">mollyspecialtysweets@gmail.com</Link>
+                            <label className="text-white">Email: </label>
+                            <Link className="hover:underline underline-offset-2" href="email:info@britellc.net">
+                                mollyspecialtysweets@gmail.com
+                            </Link>
                         </span>
                     </div>
                 </div>
