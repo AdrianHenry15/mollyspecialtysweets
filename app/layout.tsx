@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { Suspense } from "react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "@/styles/globals.css";
 import { Loader } from "@/components/loader";
@@ -17,6 +19,7 @@ const description = "Bakery specializing in custom cakes, cupcakes, cookies, and
 
 export const metadata: Metadata = {
     title,
+    description,
 };
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
