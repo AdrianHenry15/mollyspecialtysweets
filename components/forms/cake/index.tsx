@@ -27,14 +27,13 @@ const CakeForm = () => {
     const [loading, setLoading] = useState(false);
     // CAKE STATE
     const [confirmations, setConfirmations] = useState({
-        filling: false,
-        flavor: false,
-        frosting: false,
-        shape: false,
-        size: false,
-        tier: false,
-        topping: false,
-        colors: false,
+        cakeFilling: false,
+        cakeFlavor: false,
+        cakeFrosting: false,
+        cakeShape: false,
+        cakeSize: false,
+        cakeTier: false,
+        cakeTopping: false,
     });
     const {
         handleSubmit,
@@ -45,13 +44,13 @@ const CakeForm = () => {
     } = useForm();
 
     // CONFIRMATIONS
-    const ShapeConfirmation = confirmations.shape && getValues("cakeShape");
-    const FlavorConfirmation = confirmations.flavor && getValues("cakeFlavor");
-    const FrostingConfirmation = confirmations.frosting && getValues("cakeFrosting");
-    const FillingConfirmation = confirmations.filling && getValues("cakeFilling");
-    const SizeConfirmation = confirmations.size && getValues("cakeSize");
-    const TierConfirmation = confirmations.tier && getValues("cakeTier");
-    const ToppingConfirmation = confirmations.tier && getValues("cakeTopping");
+    const ShapeConfirmation = confirmations.cakeShape && getValues("cakeShape");
+    const FlavorConfirmation = confirmations.cakeFlavor && getValues("cakeFlavor");
+    const FrostingConfirmation = confirmations.cakeFrosting && getValues("cakeFrosting");
+    const FillingConfirmation = confirmations.cakeFilling && getValues("cakeFilling");
+    const SizeConfirmation = confirmations.cakeSize && getValues("cakeSize");
+    const TierConfirmation = confirmations.cakeTier && getValues("cakeTier");
+    const ToppingConfirmation = confirmations.cakeTopping && getValues("cakeTopping");
 
     // EMAIL JS
     const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID as string;
@@ -108,49 +107,20 @@ const CakeForm = () => {
         setLoading(true);
     };
 
-    const onFillingConfirmClick = () => {
-        // FILLING ISNT REQUIRED
-        setConfirmations({ ...confirmations, filling: true });
+    // Function to check if all confirmations are completed
+    const allConfirmationsCompleted = () => {
+        return Object.values(confirmations).every((value) => value === true);
     };
 
-    const onFlavorConfirmClick = () => {
+    // Function to handle confirmation click
+    const onConfirmationClick = (key: keyof typeof confirmations) => {
         // REQUIRED
-        if (getValues("cakeFlavor")) {
-            setConfirmations({ ...confirmations, flavor: true });
-        }
-    };
-
-    const onFrostingConfirmClick = () => {
-        // REQUIRED
-        if (getValues("cakeFrosting")) {
-            setConfirmations({ ...confirmations, frosting: true });
-        }
-    };
-
-    const onShapeConfirmClick = () => {
-        // REQUIRED
-        if (getValues("cakeShape")) {
-            setConfirmations({ ...confirmations, shape: true });
-        }
-    };
-
-    const onTierConfirmClick = () => {
-        // REQUIRED
-        if (getValues("cakeTier")) {
-            setConfirmations({ ...confirmations, tier: true });
-        }
-    };
-
-    const onSizeConfirmClick = () => {
-        // REQUIRED
-        if (getValues("cakeSize")) {
-            setConfirmations({ ...confirmations, size: true });
-        }
-    };
-
-    const onToppingConfirmClick = () => {
-        if (getValues("cakeTopping")) {
-            setConfirmations({ ...confirmations, topping: true });
+        if (key === "cakeTopping") {
+            setConfirmations({ ...confirmations, [key]: true });
+        } else {
+            if (getValues(key)) {
+                setConfirmations({ ...confirmations, [key]: true });
+            }
         }
     };
 
@@ -171,7 +141,7 @@ const CakeForm = () => {
 
             {/* CAKE SHAPE */}
             {!ShapeConfirmation && (
-                <InputContainer setState={() => onShapeConfirmClick()}>
+                <InputContainer setState={() => onConfirmationClick("cakeShape")}>
                     <CakeShape errors={errors} control={control} />
                 </InputContainer>
             )}
@@ -179,9 +149,9 @@ const CakeForm = () => {
             {/* CAKE TIER */}
             {ShapeConfirmation && !TierConfirmation && (
                 <InputContainer
-                    setBackBtnState={() => setConfirmations({ ...confirmations, shape: false })}
+                    setBackBtnState={() => setConfirmations({ ...confirmations, cakeShape: false })}
                     backBtn
-                    setState={() => onTierConfirmClick()}
+                    setState={() => onConfirmationClick("cakeTier")}
                 >
                     <CakeTier errors={errors} control={control} />
                 </InputContainer>
@@ -190,9 +160,9 @@ const CakeForm = () => {
             {/* CAKE SIZE */}
             {ShapeConfirmation && TierConfirmation && !SizeConfirmation && (
                 <InputContainer
-                    setBackBtnState={() => setConfirmations({ ...confirmations, tier: false })}
+                    setBackBtnState={() => setConfirmations({ ...confirmations, cakeTier: false })}
                     backBtn
-                    setState={() => onSizeConfirmClick()}
+                    setState={() => onConfirmationClick("cakeSize")}
                 >
                     <CakeSize errors={errors} cakeShape={watch("cakeShape")} control={control} />
                 </InputContainer>
@@ -201,9 +171,9 @@ const CakeForm = () => {
             {/* CAKE FLAVOR */}
             {ShapeConfirmation && TierConfirmation && SizeConfirmation && !FlavorConfirmation && (
                 <InputContainer
-                    setBackBtnState={() => setConfirmations({ ...confirmations, size: false })}
+                    setBackBtnState={() => setConfirmations({ ...confirmations, cakeSize: false })}
                     backBtn
-                    setState={() => onFlavorConfirmClick()}
+                    setState={() => onConfirmationClick("cakeFlavor")}
                 >
                     <CakeFlavor errors={errors} control={control} />
                 </InputContainer>
@@ -212,9 +182,9 @@ const CakeForm = () => {
             {/* CAKE FROSTING */}
             {ShapeConfirmation && TierConfirmation && SizeConfirmation && FlavorConfirmation && !FrostingConfirmation && (
                 <InputContainer
-                    setBackBtnState={() => setConfirmations({ ...confirmations, flavor: false })}
+                    setBackBtnState={() => setConfirmations({ ...confirmations, cakeFlavor: false })}
                     backBtn
-                    setState={() => onFrostingConfirmClick()}
+                    setState={() => onConfirmationClick("cakeFrosting")}
                 >
                     <CakeFrosting errors={errors} control={control} />
                 </InputContainer>
@@ -228,9 +198,9 @@ const CakeForm = () => {
                 FrostingConfirmation &&
                 !FillingConfirmation && (
                     <InputContainer
-                        setBackBtnState={() => setConfirmations({ ...confirmations, frosting: false })}
+                        setBackBtnState={() => setConfirmations({ ...confirmations, cakeFrosting: false })}
                         backBtn
-                        setState={() => onFillingConfirmClick()}
+                        setState={() => onConfirmationClick("cakeFilling")}
                     >
                         <CakeFilling errors={errors} control={control} />
                     </InputContainer>
@@ -245,9 +215,9 @@ const CakeForm = () => {
                 FillingConfirmation &&
                 !ToppingConfirmation && (
                     <InputContainer
-                        setBackBtnState={() => setConfirmations({ ...confirmations, filling: false })}
+                        setBackBtnState={() => setConfirmations({ ...confirmations, cakeFilling: false })}
                         backBtn
-                        setState={() => onToppingConfirmClick()}
+                        setState={() => onConfirmationClick("cakeTopping")}
                     >
                         <CakeTopping control={control} />
                     </InputContainer>
