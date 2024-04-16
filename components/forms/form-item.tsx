@@ -62,7 +62,7 @@ const FormItem: React.FC<IFormItemProps> = ({
                 name={name}
                 control={control}
                 render={({ field }) => (
-                    <div>
+                    <div className="flex flex-col w-full">
                         {/* AUTOCOMPLETE SEARCH AND DROPDOWN */}
                         {autocomplete && (
                             <div className="flex flex-col w-full">

@@ -14,12 +14,9 @@ const inter = Inter({
     subsets: ["latin"],
 });
 
-const title = "Molly's Specialty Sweets";
-const description = "Bakery specializing in custom cakes, cupcakes, cookies, and more!";
-
 export const metadata: Metadata = {
-    title,
-    description,
+    title: "Molly's Specialty Sweets",
+    description: "Cakes Cookies and Cupcakes",
 };
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {

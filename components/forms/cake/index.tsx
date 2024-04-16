@@ -18,19 +18,24 @@ import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
 import ContactDetails from "../contact-details";
 import OrderDetails from "../order-details";
+import InputContainer from "../inputs/input-container";
 
 const CakeForm = () => {
     // STATE
-    const [isSingleTier, setIsSingleTier] = useState(true);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
-
-    // EMAIL JS
-    const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID as string;
-    const TEMPLATE_ID = process.env.NEXT_PUBLIC_TEMPLATE_ID as string;
-    const PUBLIC_KEY = process.env.NEXT_PUBLIC_KEY as string;
-
+    // CAKE STATE
+    const [confirmations, setConfirmations] = useState({
+        filling: false,
+        flavor: false,
+        frosting: false,
+        shape: false,
+        size: false,
+        tier: false,
+        topping: false,
+        colors: false,
+    });
     const {
         handleSubmit,
         getValues,
@@ -38,6 +43,20 @@ const CakeForm = () => {
         watch,
         formState: { errors },
     } = useForm();
+
+    // CONFIRMATIONS
+    const ShapeConfirmation = confirmations.shape && getValues("cakeShape");
+    const FlavorConfirmation = confirmations.flavor && getValues("cakeFlavor");
+    const FrostingConfirmation = confirmations.frosting && getValues("cakeFrosting");
+    const FillingConfirmation = confirmations.filling && getValues("cakeFilling");
+    const SizeConfirmation = confirmations.size && getValues("cakeSize");
+    const TierConfirmation = confirmations.tier && getValues("cakeTier");
+    const ToppingConfirmation = confirmations.tier && getValues("cakeTopping");
+
+    // EMAIL JS
+    const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID as string;
+    const TEMPLATE_ID = process.env.NEXT_PUBLIC_TEMPLATE_ID as string;
+    const PUBLIC_KEY = process.env.NEXT_PUBLIC_KEY as string;
 
     //EMAIL JS
     const templateParams = {
@@ -88,6 +107,53 @@ const CakeForm = () => {
 
         setLoading(true);
     };
+
+    const onFillingConfirmClick = () => {
+        // FILLING ISNT REQUIRED
+        setConfirmations({ ...confirmations, filling: true });
+    };
+
+    const onFlavorConfirmClick = () => {
+        // REQUIRED
+        if (getValues("cakeFlavor")) {
+            setConfirmations({ ...confirmations, flavor: true });
+        }
+    };
+
+    const onFrostingConfirmClick = () => {
+        // REQUIRED
+        if (getValues("cakeFrosting")) {
+            setConfirmations({ ...confirmations, frosting: true });
+        }
+    };
+
+    const onShapeConfirmClick = () => {
+        // REQUIRED
+        if (getValues("cakeShape")) {
+            setConfirmations({ ...confirmations, shape: true });
+        }
+    };
+
+    const onTierConfirmClick = () => {
+        // REQUIRED
+        if (getValues("cakeTier")) {
+            setConfirmations({ ...confirmations, tier: true });
+        }
+    };
+
+    const onSizeConfirmClick = () => {
+        // REQUIRED
+        if (getValues("cakeSize")) {
+            setConfirmations({ ...confirmations, size: true });
+        }
+    };
+
+    const onToppingConfirmClick = () => {
+        if (getValues("cakeTopping")) {
+            setConfirmations({ ...confirmations, topping: true });
+        }
+    };
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="py-10 px-4">
             <div className="relative">
@@ -104,27 +170,97 @@ const CakeForm = () => {
             {loading ? <Loader /> : null}
 
             {/* CAKE SHAPE */}
-            <CakeShape errors={errors} control={control} />
+            {!ShapeConfirmation && (
+                <InputContainer setState={() => onShapeConfirmClick()}>
+                    <CakeShape errors={errors} control={control} />
+                </InputContainer>
+            )}
 
             {/* CAKE TIER */}
-            <CakeTier errors={errors} control={control} />
+            {ShapeConfirmation && !TierConfirmation && (
+                <InputContainer
+                    setBackBtnState={() => setConfirmations({ ...confirmations, shape: false })}
+                    backBtn
+                    setState={() => onTierConfirmClick()}
+                >
+                    <CakeTier errors={errors} control={control} />
+                </InputContainer>
+            )}
+
             {/* CAKE SIZE */}
-            <CakeSize errors={errors} cakeShape={watch("cakeShape")} control={control} />
+            {ShapeConfirmation && TierConfirmation && !SizeConfirmation && (
+                <InputContainer
+                    setBackBtnState={() => setConfirmations({ ...confirmations, tier: false })}
+                    backBtn
+                    setState={() => onSizeConfirmClick()}
+                >
+                    <CakeSize errors={errors} cakeShape={watch("cakeShape")} control={control} />
+                </InputContainer>
+            )}
 
             {/* CAKE FLAVOR */}
-            <CakeFlavor errors={errors} control={control} />
+            {ShapeConfirmation && TierConfirmation && SizeConfirmation && !FlavorConfirmation && (
+                <InputContainer
+                    setBackBtnState={() => setConfirmations({ ...confirmations, size: false })}
+                    backBtn
+                    setState={() => onFlavorConfirmClick()}
+                >
+                    <CakeFlavor errors={errors} control={control} />
+                </InputContainer>
+            )}
 
             {/* CAKE FROSTING */}
-            <CakeFrosting errors={errors} control={control} />
+            {ShapeConfirmation && TierConfirmation && SizeConfirmation && FlavorConfirmation && !FrostingConfirmation && (
+                <InputContainer
+                    setBackBtnState={() => setConfirmations({ ...confirmations, flavor: false })}
+                    backBtn
+                    setState={() => onFrostingConfirmClick()}
+                >
+                    <CakeFrosting errors={errors} control={control} />
+                </InputContainer>
+            )}
 
             {/* CAKE FILLING */}
-            <CakeFilling errors={errors} control={control} />
+            {ShapeConfirmation &&
+                TierConfirmation &&
+                SizeConfirmation &&
+                FlavorConfirmation &&
+                FrostingConfirmation &&
+                !FillingConfirmation && (
+                    <InputContainer
+                        setBackBtnState={() => setConfirmations({ ...confirmations, frosting: false })}
+                        backBtn
+                        setState={() => onFillingConfirmClick()}
+                    >
+                        <CakeFilling errors={errors} control={control} />
+                    </InputContainer>
+                )}
 
             {/* CAKE TOPPING */}
-            <CakeTopping control={control} />
+            {ShapeConfirmation &&
+                TierConfirmation &&
+                SizeConfirmation &&
+                FlavorConfirmation &&
+                FrostingConfirmation &&
+                FillingConfirmation &&
+                !ToppingConfirmation && (
+                    <InputContainer
+                        setBackBtnState={() => setConfirmations({ ...confirmations, filling: false })}
+                        backBtn
+                        setState={() => onToppingConfirmClick()}
+                    >
+                        <CakeTopping control={control} />
+                    </InputContainer>
+                )}
 
             {/* CONTACT DETAILS */}
-            <ContactDetails control={control} errors={errors} />
+            {ShapeConfirmation &&
+                TierConfirmation &&
+                SizeConfirmation &&
+                FlavorConfirmation &&
+                FrostingConfirmation &&
+                FillingConfirmation &&
+                ToppingConfirmation && <ContactDetails control={control} errors={errors} />}
 
             {/* ORDER DETAILS */}
             <OrderDetails control={control} errors={errors} />

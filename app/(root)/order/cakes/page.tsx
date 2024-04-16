@@ -1,10 +1,13 @@
 import React from "react";
+import { Metadata } from "next";
 
 import CakeForm from "@/components/forms/cake";
 import PageFormContainer from "@/components/page-form-container";
-import Splash from "@/components/splash";
 
-import Cake from "@/public/cake-img.jpg";
+export const metadata: Metadata = {
+    title: "Molly's Cakes",
+    description: "Create a Cake",
+};
 
 const CakePage = () => {
     return (

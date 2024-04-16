@@ -11,18 +11,17 @@ interface ICakeTierProps {
 const CakeTier = (props: ICakeTierProps) => {
     const { errors } = props;
 
-    const { watch } = useForm();
-
     return (
-        <div>
+        <div className="flex w-full flex-col items-center">
             <label className="font-semibold text-lg mb-2 underline">Choose Cake Tier:</label>
-            <div className="py-4 flex justify-evenly">
+            <div className="py-4 flex w-full">
                 <Controller
                     name="cakeTier"
                     control={props.control}
                     rules={{ required: true }}
                     render={({ field }) => (
-                        <div className="flex items-center">
+                        // SINGLE TIER
+                        <div className="flex w-full flex-1 justify-center items-center">
                             <input
                                 defaultChecked
                                 className="mr-2"
@@ -42,7 +41,8 @@ const CakeTier = (props: ICakeTierProps) => {
                     defaultValue={"multipleTier"}
                     rules={{ required: true }}
                     render={({ field }) => (
-                        <div className="flex items-center">
+                        // MULTIPLE TIER
+                        <div className="flex flex-1 justify-center items-center">
                             <input className="mr-2" {...field} type="radio" value={"multipleTier"} name="cakeTier" id="cakeTier" />
                             <label htmlFor="cakeTier">Multiple Tier</label>
                         </div>
