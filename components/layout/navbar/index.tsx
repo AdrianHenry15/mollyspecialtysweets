@@ -55,9 +55,9 @@ export default function Navbar() {
                     </Link>
                 </ul>
                 {/* USER ICON */}
-                <div className="hidden lg:flex lg:items-center">
+                {/* <div className="hidden lg:flex lg:items-center">
                     <UserIcon />
-                </div>
+                </div> */}
             </div>
         </nav>
     );
