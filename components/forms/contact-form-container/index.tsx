@@ -157,7 +157,7 @@ const ContactFormContainer = () => {
                     />
 
                     {/* DELIVERY DATE */}
-                    <DatePickerInput control={control} />
+                    <DatePickerInput control={control} errors={errors} />
 
                     {/* OCCASION */}
                     <FormItem autocomplete options={Occasions as []} control={control} title={"Occasion"} name={"occasion"} />
