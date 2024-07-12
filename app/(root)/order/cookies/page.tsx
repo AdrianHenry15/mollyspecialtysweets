@@ -1,6 +1,13 @@
+import { Metadata } from "next";
+import React from "react";
+
 import CookieForm from "@/components/forms/cookie";
 import PageFormContainer from "@/components/page-form-container";
-import React from "react";
+
+export const metadata: Metadata = {
+    title: "Order Cookies",
+    description: "Order Cookies With Our Pre-Selected Frostings, Fillings, and Flavors",
+};
 
 const OrderCookies = () => {
     return (
