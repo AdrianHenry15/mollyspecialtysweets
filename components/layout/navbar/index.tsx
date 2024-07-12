@@ -53,6 +53,9 @@ export default function Navbar() {
                     <Link href={"/estimate"}>
                         <Button className="animate-pulse" roundedFull name="Get Your Free Estimate" />
                     </Link>
+                    {/* <div className="mx-4">
+                        <UserIcon />
+                    </div> */}
                 </ul>
                 {/* USER ICON */}
                 {/* <div className="hidden lg:flex lg:items-center">

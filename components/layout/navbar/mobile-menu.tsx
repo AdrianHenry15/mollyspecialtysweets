@@ -62,9 +62,9 @@ export default function MobileMenu() {
                                     >
                                         <XMarkIcon className="h-6" />
                                     </button>
-                                    <div>
+                                    {/* <div>
                                         <UserIcon />
-                                    </div>
+                                    </div> */}
                                 </div>
 
                                 <ul className="flex w-full flex-col h-full">
