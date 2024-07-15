@@ -54,7 +54,7 @@ const ContactFormContainer = () => {
         deliveryAddress: getValues("deliveryAddress"),
         occasion: getValues("occasion"),
         colors: getValues("colors"),
-        orders: getValues("orders"),
+        orders: getValues("orderTypes"),
         details: getValues("details"),
     };
 
@@ -72,7 +72,7 @@ const ContactFormContainer = () => {
             },
             function (error) {
                 console.log("FAILED...", error);
-            }
+            },
         );
         // close modal
         setIsConfirmationModalOpen(false);
@@ -144,9 +144,9 @@ const ContactFormContainer = () => {
                     {/* ORDER */}
                     <FormItem
                         control={control}
-                        title={"Choose Orders"}
-                        name={"orders"}
-                        label={"Orders"}
+                        title={"Choose Order Type"}
+                        name={"orderTypes"}
+                        label={"Order Type"}
                         multipleSelect
                         options={Categories as []}
                         required

@@ -1,0 +1,33 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  name           String
+  email          String   @unique
+  phone          String   @unique
+  savedAddresses String   @unique
+  favoriteColors String?
+  createdAt      DateTime @default(now())
+}
+
+model Receipt {
+  id        Int      @id @default(autoincrement())
+  name      String
+  confirmed Boolean
+  createdAt DateTime @default(now())
+}
+
+model Estimate {
+  id        Int      @id @default(autoincrement())
+  cake      String?
+  cupcake   String?
+  cookie    String?
+  createdAt DateTime @default(now())
+}

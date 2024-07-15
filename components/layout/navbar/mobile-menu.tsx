@@ -1,109 +1,100 @@
 "use client";
 
-import { Dialog, Transition } from "@headlessui/react";
+import React, { Fragment } from "react";
+import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
-import { Fragment, useEffect, useState } from "react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
-import { NavMenuItems } from "../../../lib/constants";
-import { NavMenu } from "../../../lib/types";
-import Button from "@/components/buttons/button";
-import UserIcon from "./user-icon";
+import { Bars3Icon } from "@heroicons/react/24/outline";
+import { BsCake } from "react-icons/bs";
+import { GiCupcake } from "react-icons/gi";
 
-export default function MobileMenu() {
-    const pathname = usePathname();
-    const [isOpen, setIsOpen] = useState(false);
-    const openMobileMenu = () => setIsOpen(true);
-    const closeMobileMenu = () => setIsOpen(false);
+import PopoverPanelItem from "./popover-panel-item";
+import { FaCookieBite } from "react-icons/fa6";
+import UserIcon from "./user-icon/user-icon";
 
-    useEffect(() => {
-        closeMobileMenu();
-    }, [pathname]);
-
+const MobileMenu = () => {
     return (
-        <div className="relative">
-            <button
-                onClick={openMobileMenu}
-                aria-label="Open mobile menu"
-                className="flex h-11 w-11 items-center justify-center rounded-full text-black transition-colors overflow-hidden lg:hidden"
-            >
-                <Bars3Icon className="h-6 text-black" />
-            </button>
-            <Transition show={isOpen}>
-                <Dialog onClose={closeMobileMenu} className="relative z-50">
-                    <Transition.Child
-                        as={Fragment}
-                        enter="transition-all ease-in-out duration-300"
-                        enterFrom="opacity-0 backdrop-blur-none"
-                        enterTo="opacity-100 backdrop-blur-[.5px]"
-                        leave="transition-all ease-in-out duration-200"
-                        leaveFrom="opacity-100 backdrop-blur-[.5px]"
-                        leaveTo="opacity-0 backdrop-blur-none"
-                    >
-                        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-                    </Transition.Child>
-                    <Transition.Child
-                        as={Fragment}
-                        enter="transition-all ease-in-out duration-300"
-                        enterFrom="translate-x-[100%]"
-                        enterTo="translate-x-[0%]"
-                        leave="transition-all ease-in-out duration-300"
-                        leaveFrom="translate-x-0"
-                        leaveTo="translate-x-[-100%]"
-                    >
-                        <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full flex-col bg-white pb-6 w-full">
-                            <div className="p-4">
-                                <div className="flex items-center justify-between">
-                                    <button
-                                        className="flex h-11 w-11 items-center justify-center rounded-md text-black transition-colors"
-                                        onClick={closeMobileMenu}
-                                        aria-label="Close mobile menu"
-                                    >
-                                        <XMarkIcon className="h-6" />
-                                    </button>
-                                    <div>
+        <div className="top-16 w-full max-w-sm px-4">
+            <Popover className="relative">
+                {({ open, close }) => (
+                    <>
+                        <Popover.Button
+                            className={`
+                    ${open ? "text-white" : "text-white/90"}
+                    group inline-flex items-center px-3 py-2 text-base font-medium hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
+                        >
+                            <Bars3Icon className="h-6 text-black" />
+                        </Popover.Button>
+                        <Transition
+                            as={Fragment}
+                            enter="transition ease-out duration-200"
+                            enterFrom="opacity-0 translate-y-1"
+                            enterTo="opacity-100 translate-y-0"
+                            leave="transition ease-in duration-150"
+                            leaveFrom="opacity-100 translate-y-0"
+                            leaveTo="opacity-0 translate-y-1"
+                        >
+                            <Popover.Panel className="absolute z-10 mt-1 w-screen max-w-sm -translate-x-[351px] translate-y-[30px] transform ml-7">
+                                <div className="flex flex-col relative shadow-lg rounded-lg bg-zinc-200 pt-4">
+                                    <div className="flex justify-end me-2">
                                         <UserIcon />
                                     </div>
-                                </div>
-
-                                <ul className="flex w-full flex-col h-full">
-                                    {NavMenuItems.map((item: NavMenu) => (
+                                    <div className="flex flex-col border-y-2 bg-gray-100 border-white pt-2 mt-4">
+                                        <PopoverPanelItem
+                                            onClick={close}
+                                            icon={<BsCake size={25} />}
+                                            page={{
+                                                title: "Create A Cake",
+                                                link: "/order/cakes",
+                                            }}
+                                            description={"Your Custom Cakes"}
+                                        />
+                                        <PopoverPanelItem
+                                            onClick={close}
+                                            icon={<GiCupcake size={25} />}
+                                            page={{
+                                                title: "Order Cupcakes",
+                                                link: "/order/cupcakes",
+                                            }}
+                                            description={"Order Cupcakes Here"}
+                                        />
+                                        <PopoverPanelItem
+                                            onClick={close}
+                                            icon={<FaCookieBite size={25} />}
+                                            page={{
+                                                title: "Order Cookies",
+                                                link: "/order/cookies",
+                                            }}
+                                            description={"Order Cookies Here"}
+                                        />
+                                    </div>
+                                    {/* POPOVER FOOTER */}
+                                    <div className="px-4 py-6  rounded-b-lg flex justify-evenly">
+                                        {/* CONTACT US BUTTON */}
                                         <Link
-                                            key={item.title}
-                                            href={item.link}
-                                            onClick={closeMobileMenu}
-                                            className={`${pathname === item.link ? "underline" : ""}`}
+                                            onClick={close}
+                                            className="bg-pink-500/90 px-10 py-2 rounded-full hover:bg-red-600 transition-all duration-300 ease-in-out"
+                                            href={"/contact-us"}
                                         >
-                                            <li className={`py-4 text-xl text-black transition-colors hover:text-neutral-500`}>
-                                                {item.title}
-                                            </li>
+                                            <h5 className="hover:text-white transition-colors duration-300 ease-in-out">Contact Us</h5>
                                         </Link>
-                                    ))}
-                                </ul>
-                            </div>
-                            {/* NAV BUTTONS */}
-                            <ul className="bottom-0 mb-36 fixed flex flex-col self-center w-full">
-                                <Link onClick={closeMobileMenu} className="w-full px-10 flex justify-center" href={"/contact-us"}>
-                                    <Button
-                                        roundedFull
-                                        className="mb-4 w-full py-4 flex justify-center md:w-1/2"
-                                        name="Contact Us"
-                                        altColor
-                                    />
-                                </Link>
-                                <Link onClick={closeMobileMenu} className="w-full px-10 flex justify-center" href={"/estimate"}>
-                                    <Button
-                                        roundedFull
-                                        className="mb-4 w-full py-4 flex justify-center md:w-1/2"
-                                        name="Get Your Free Estimate"
-                                    />
-                                </Link>
-                            </ul>
-                        </Dialog.Panel>
-                    </Transition.Child>
-                </Dialog>
-            </Transition>
+                                        {/* ESTIMATE BUTTON */}
+                                        <Link
+                                            onClick={close}
+                                            className="bg-pink-500/90 px-10 py-2 rounded-full hover:bg-red-600 transition-all duration-300 ease-in-out"
+                                            href={"/estimate"}
+                                        >
+                                            <h5 className="hover:text-white transition-colors duration-300 ease-in-out">Estimate</h5>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </Popover.Panel>
+                        </Transition>
+                    </>
+                )}
+            </Popover>
         </div>
     );
-}
+};
+
+export default MobileMenu;
