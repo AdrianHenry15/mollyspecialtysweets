@@ -47,14 +47,26 @@ export type OrderDetailsType = {
 };
 
 export type EstimateType = {
+    id: string;
+    name: string;
     cake?: CakeType;
     cupcake?: CupcakeType;
     cookie?: CookieType;
+    userId: string;
+    userName?: string;
+    email?: string;
+    phone?: string;
     date: string;
 };
 
 export type ReceiptType = {
+    id: string;
+    price: string;
+    userId: string;
+    userName?: string;
     name: string;
+    email?: string;
+    phone?: string;
     date: string;
-    confirmed: boolean;
+    verified: boolean;
 };

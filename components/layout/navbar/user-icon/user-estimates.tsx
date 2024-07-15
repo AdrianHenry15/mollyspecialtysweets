@@ -1,4 +1,6 @@
-import React from "react";
+import { EstimateType } from "@/lib/types";
+import { useUser } from "@clerk/nextjs";
+import React, { useEffect, useState } from "react";
 
 const getContentItem = (title: string, content: string) => {
     return (
@@ -10,6 +12,38 @@ const getContentItem = (title: string, content: string) => {
 };
 
 const UserEstimates = () => {
+    const { user } = useUser();
+    const [estimates, setEstimates] = useState<EstimateType[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchEstimates = async () => {
+            try {
+                const response = await fetch("/api/estimates");
+                if (!response.ok) {
+                    throw new Error("Failed to fetch estimates");
+                }
+                const data = await response.json();
+                setEstimates(data);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchEstimates();
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (estimates.length === 0) {
+        return <div>No estimates found.</div>;
+    }
+
+    const isAdmin = user?.publicMetadata?.role === "admin";
     return (
         <div className="flex flex-col border-b-[1px] border-zinc-400">
             <div className="flex flex-col border-b-[1px] border-zinc-300">
@@ -18,12 +52,18 @@ const UserEstimates = () => {
             </div>
             {/* CONTENT */}
             <div className="flex text-sm flex-col my-2">
-                {getContentItem("Estimate ID: ", "378298")}
-                {getContentItem("Name: ", "Demo Title")}
-                {getContentItem("Delivery Method: ", "Delivery")}
-                {getContentItem("Delivery Date: ", "02/02/2020")}
-                {getContentItem("Occasion: ", "Birthday Party")}
-                {getContentItem("Colors: ", "Black and Yellow")}
+                {estimates.map((item, index) => {
+                    return (
+                        <div key={index}>
+                            {getContentItem("Estimate ID: ", "378298")}
+                            {getContentItem("Name: ", "Demo Title")}
+                            {getContentItem("Delivery Method: ", "Delivery")}
+                            {getContentItem("Delivery Date: ", "02/02/2020")}
+                            {getContentItem("Occasion: ", "Birthday Party")}
+                            {getContentItem("Colors: ", "Black and Yellow")}
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );
