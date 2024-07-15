@@ -7,6 +7,11 @@ import { BsReceipt } from "react-icons/bs";
 import { FaMoneyBill } from "react-icons/fa6";
 import UserEstimates from "./user-estimates";
 import UserReceipts from "./user-receipts";
+import { ReceiptType } from "@/lib/types";
+
+interface IUserIconProps {
+    receipts: ReceiptType[];
+}
 
 const UserIcon = () => {
     return (
