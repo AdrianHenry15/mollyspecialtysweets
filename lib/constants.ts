@@ -1,6 +1,6 @@
-import { NavMenu } from "./types";
+import { NavMenuType } from "./types";
 
-export const NavMenuItems: NavMenu[] = [
+export const NavMenuItems: NavMenuType[] = [
     {
         title: "Home",
         link: "/",
@@ -34,7 +34,7 @@ export const NavMenuItems: NavMenu[] = [
     //     link: "/rewards",
     // },
 ];
-export const NavMenuAltItems: NavMenu[] = [
+export const NavMenuAltItems: NavMenuType[] = [
     {
         title: "Contact Us",
         link: "/contact-us",

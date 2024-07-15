@@ -8,10 +8,10 @@ import dynamic from "next/dynamic";
 import MobileHeader from "@/components/layout/navbar/mobile-menu";
 import logo from "@/public/mollys-logo-black.png";
 import { NavMenuItems } from "@/lib/constants";
-import { NavMenu } from "@/lib/types";
+import { NavMenuType } from "@/lib/types";
 import Button from "@/components/buttons/button";
 
-const UserIcon = dynamic(() => import("@/components/layout/navbar/user-icon"), { ssr: false });
+const UserIcon = dynamic(() => import("@/components/layout/navbar/user-icon/user-icon"), { ssr: false });
 
 export default function Navbar() {
     const pathname = usePathname();
@@ -31,7 +31,7 @@ export default function Navbar() {
                     </Link>
                     {/* LINKS  */}
                     <ul className="hidden text-gray-600 items-center lg:flex">
-                        {NavMenuItems.map((item: NavMenu) => (
+                        {NavMenuItems.map((item: NavMenuType) => (
                             <li
                                 className={`mx-2 transition-all duration-300 ease-in-out hover:text-blue-700 hover:underline ${
                                     pathname === item.link ? "underline" : ""
@@ -53,6 +53,9 @@ export default function Navbar() {
                     <Link href={"/estimate"}>
                         <Button className="animate-pulse" roundedFull name="Get Your Free Estimate" />
                     </Link>
+                    <div className="mx-4">
+                        <UserIcon />
+                    </div>
                 </ul>
                 {/* USER ICON */}
                 {/* <div className="hidden lg:flex lg:items-center">
