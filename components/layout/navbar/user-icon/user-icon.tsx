@@ -1,17 +1,14 @@
 "use client";
 
 import React from "react";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { Protect, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
-import { BsReceipt } from "react-icons/bs";
+
+import { BsReceipt, BsReceiptCutoff } from "react-icons/bs";
 import { FaMoneyBill } from "react-icons/fa6";
+
 import UserEstimates from "./user-estimates";
 import UserReceipts from "./user-receipts";
-import { ReceiptType } from "@/lib/types";
-
-interface IUserIconProps {
-    receipts: ReceiptType[];
-}
 
 const UserIcon = () => {
     return (
@@ -29,6 +26,12 @@ const UserIcon = () => {
                         <UserButton.UserProfilePage label="Receipts" url="receipts" labelIcon={<BsReceipt />}>
                             <UserReceipts />
                         </UserButton.UserProfilePage>
+                        {/* CREATE RECEIPTS */}
+                        <Protect>
+                            <UserButton.UserProfilePage label="Create Receipt" url="create-receipt" labelIcon={<BsReceiptCutoff />}>
+                                <p>stuff</p>
+                            </UserButton.UserProfilePage>
+                        </Protect>
                     </UserButton>
                 </div>
             </SignedIn>

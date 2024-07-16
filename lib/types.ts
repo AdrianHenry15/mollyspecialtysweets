@@ -48,10 +48,7 @@ export type OrderDetailsType = {
 
 export type EstimateType = {
     id: string;
-    name: string;
-    cake?: CakeType;
-    cupcake?: CupcakeType;
-    cookie?: CookieType;
+    itemName: string;
     userId: string;
     userName?: string;
     email?: string;
@@ -61,6 +58,7 @@ export type EstimateType = {
 
 export type ReceiptType = {
     id: string;
+    itemName: string;
     price: string;
     userId: string;
     userName?: string;

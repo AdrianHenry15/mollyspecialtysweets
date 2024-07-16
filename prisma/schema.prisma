@@ -1,5 +1,5 @@
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
@@ -7,27 +7,24 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id             Int      @id @default(autoincrement())
-  name           String
-  email          String   @unique
-  phone          String   @unique
-  savedAddresses String   @unique
-  favoriteColors String?
-  createdAt      DateTime @default(now())
-}
-
-model Receipt {
-  id        Int      @id @default(autoincrement())
-  name      String
-  confirmed Boolean
+model Estimate {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  itemName  String
+  userId    String
+  userName  String?
+  email     String?
+  phone     String?
   createdAt DateTime @default(now())
 }
 
-model Estimate {
-  id        Int      @id @default(autoincrement())
-  cake      String?
-  cupcake   String?
-  cookie    String?
+model Receipt {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  itemName  String
+  price     String
+  userId    String
+  userName  String?
+  email     String?
+  phone     String?
+  verified  Boolean
   createdAt DateTime @default(now())
 }

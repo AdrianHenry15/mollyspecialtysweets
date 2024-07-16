@@ -61,7 +61,7 @@ const UserReceipts = () => {
                     return (
                         <div key={index}>
                             {getContentItem("Receipt ID: ", item.id)}
-                            {getContentItem("Name: ", item.name)}
+                            {getContentItem("Name: ", item.itemName)}
                             {isAdmin && (
                                 <>
                                     {getContentItem("User Name", item.userName!)}
@@ -70,7 +70,7 @@ const UserReceipts = () => {
                                 </>
                             )}
                             {getContentItem("Price: ", item.price)}
-                            {getContentItem("Created At: ", item.date)}
+                            {getContentItem("Date Created: ", item.date)}
                             {getContentItem("Verified: ", item.verified ? <BsCheck2Circle /> : <BsXCircle />)}
                         </div>
                     );
