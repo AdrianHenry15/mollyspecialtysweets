@@ -1,16 +1,33 @@
 "use client";
 
 import React from "react";
-import { Protect, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import {
+    OrganizationProfile,
+    OrganizationSwitcher,
+    Protect,
+    SignedIn,
+    SignedOut,
+    SignInButton,
+    useOrganizationList,
+    UserButton,
+    useUser,
+} from "@clerk/nextjs";
 import Link from "next/link";
 
-import { BsReceipt, BsReceiptCutoff } from "react-icons/bs";
-import { FaMoneyBill } from "react-icons/fa6";
+import { BsReceipt } from "react-icons/bs";
+import { FaMoneyBill, FaTowerBroadcast } from "react-icons/fa6";
 
 import UserEstimates from "./user-estimates";
-import UserReceipts from "./user-receipts";
+import UserReceipts from "./user-receipts/user-receipts";
 
 const UserIcon = () => {
+    const { user } = useUser();
+    const { organizationList } = useOrganizationList();
+
+    // Replace this with the ID of the organization you are checking roles for
+    const specifiedOrganizationId = "your-organization-id";
+
+    const isAdmin = organizationList?.some((org) => org.organization.id === specifiedOrganizationId && org.membership.role === "org:admin");
     return (
         <div>
             <SignedIn>
@@ -26,13 +43,15 @@ const UserIcon = () => {
                         <UserButton.UserProfilePage label="Receipts" url="receipts" labelIcon={<BsReceipt />}>
                             <UserReceipts />
                         </UserButton.UserProfilePage>
-                        {/* CREATE RECEIPTS */}
-                        <Protect>
-                            <UserButton.UserProfilePage label="Create Receipt" url="create-receipt" labelIcon={<BsReceiptCutoff />}>
-                                <p>stuff</p>
-                            </UserButton.UserProfilePage>
-                        </Protect>
+                        {/* REWARDS */}
+                        {/* <UserButton.UserProfilePage label="Rewards" url="rewards" labelIcon={<GiWantedReward />}>
+                            <p>stuff</p>
+                        </UserButton.UserProfilePage> */}
                     </UserButton>
+                    {/* ORG OPTION */}
+                    <div className="ml-4">
+                        <OrganizationSwitcher />
+                    </div>
                 </div>
             </SignedIn>
             <SignedOut>
