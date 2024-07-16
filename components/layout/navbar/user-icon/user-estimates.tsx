@@ -55,12 +55,16 @@ const UserEstimates = () => {
                 {estimates.map((item, index) => {
                     return (
                         <div key={index}>
-                            {getContentItem("Estimate ID: ", "378298")}
-                            {getContentItem("Name: ", "Demo Title")}
-                            {getContentItem("Delivery Method: ", "Delivery")}
-                            {getContentItem("Delivery Date: ", "02/02/2020")}
-                            {getContentItem("Occasion: ", "Birthday Party")}
-                            {getContentItem("Colors: ", "Black and Yellow")}
+                            {getContentItem("Estimate ID: ", item.id)}
+                            {getContentItem("Name: ", item.itemName)}
+                            {getContentItem("Date Created: ", item.date)}
+                            {isAdmin && (
+                                <>
+                                    {getContentItem("User Name", item.userName!)}
+                                    {getContentItem("Email Address", item.email!)}
+                                    {getContentItem("Phone Number", item.phone!)}
+                                </>
+                            )}
                         </div>
                     );
                 })}
