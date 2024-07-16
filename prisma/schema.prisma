@@ -21,7 +21,6 @@ model Receipt {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   itemName  String
   price     String
-  userId    String
   userName  String?
   email     String?
   phone     String?
