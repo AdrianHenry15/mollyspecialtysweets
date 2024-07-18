@@ -52,36 +52,6 @@ const UserReceipts = () => {
         );
     }
 
-    // IF THERE ARE NO RECEIPTS...
-    if (receipts.length === 0) {
-        // IF newReceipts IS TRUE, AND USER IS ADMIN RENDER THE CREATE RECEIPTS COMPONENT ELSE JUST RENDER NO RECEIPTS FOUND
-        return newReceipt ? (
-            <Protect role="org:admin">
-                <CreateReceipt newReceipt={newReceipt} closeReceiptForm={() => setNewReceipt(false)} />
-            </Protect>
-        ) : (
-            <div>
-                <p>No Receipts Found.</p>
-
-                {/* BUTTON TO CREATE NEW RECEIPTS */}
-                <Protect role="org:admin">
-                    <div
-                        onClick={() => setNewReceipt(true)}
-                        className="flex w-full items-center text-sm text-blue-800 p-2 cursor-pointer rounded-md hover:bg-blue-300 ease-in-out duration-300 transition-colors"
-                    >
-                        <div className="flex items-center w-full justify-start">
-                            <FaPlus size={11} />
-                            <p className="text-blue-800 ml-1">Add New Receipt</p>
-                        </div>
-                        <div className="flex justify-end w-full">
-                            <BsArrowRight size={15} color="white" />
-                        </div>
-                    </div>
-                </Protect>
-            </div>
-        );
-    }
-
     const getContentItem = (title: string, content: string | React.ReactNode) => {
         return (
             <div className="flex flex-1 justify-between my-1">
@@ -91,70 +61,61 @@ const UserReceipts = () => {
         );
     };
 
-    const getUsersReceiptInfo = (image: string, name: string, email: string, phoneNumber: string) => {
-        // Find the receipt where the userId matches the current user's ID
-        const receipt = receipts.find((item) => item.user.id === user?.id);
-
-        // If a matching receipt is found, render the user information
-        if (receipt) {
-            return (
-                <div className="flex items-start py-10 border-b-[1px] border-zinc-300">
-                    {/* PIC */}
-                    <Image className="rounded-full" src={user?.hasImage ? user.imageUrl : ""} alt="profile-pic" width={60} height={60} />
-                    {/* NAME/INFO */}
-                    <div className="flex flex-col justify-start items-start text-zinc-900 text-xs ml-4">
-                        {/* FIRST NAME/LAST NAME */}
-                        <h5 className="text-xl font-semibold text-black">{user?.fullName}</h5>
-                        {/* MEMBER/GUEST */}
-                        <p className="text-zinc-400">{user?.id === null ? "Guest" : "Member"}</p>
-                        {/* EMAIL */}
-                        <p>{user?.primaryEmailAddress?.emailAddress}</p>
-                        {/* PHONE NUMBER */}
-                        <p>{user?.primaryPhoneNumber?.phoneNumber}</p>
+    const renderCreateReceiptButton = () => {
+        return (
+            <Protect role="org:admin">
+                <div
+                    onClick={() => setNewReceipt(true)}
+                    className="flex w-full items-center text-sm text-blue-800 p-2 cursor-pointer rounded-md hover:bg-blue-300 ease-in-out duration-300 transition-colors"
+                >
+                    <div className="flex items-center w-full justify-start">
+                        <FaPlus size={11} />
+                        <p className="text-blue-800 ml-1">Add New Receipt</p>
+                    </div>
+                    <div className="flex justify-end w-full">
+                        <BsArrowRight size={15} color="white" />
                     </div>
                 </div>
-            );
-        }
-
-        // If no matching receipt is found, return null or an appropriate message
-        return <p>No matching receipt found for the user.</p>;
+            </Protect>
+        );
     };
 
+    // IF THERE ARE NO RECEIPTS...
+    if (receipts.length === 0) {
+        <div>
+            <p>No Receipts Found.</p>
+            {renderCreateReceiptButton()}
+        </div>;
+    }
+
+    // RENDER CREATE RECEIPTS COMPONENT
+    if (newReceipt) {
+        return (
+            <Protect role="org:admin">
+                <CreateReceipt newReceipt={newReceipt} closeReceiptForm={() => setNewReceipt(false)} />
+            </Protect>
+        );
+    }
+
     return (
-        <div className="flex flex-col border-b-[1px] border-zinc-400">
+        <div className="flex flex-col">
             <div className="flex flex-col border-b-[1px] border-zinc-300">
                 <h3 className="text-xl">Receipts</h3>
                 <aside className="text-zinc-400 text-sm">A list of your completed order receipts</aside>
             </div>
-            {/* PROFILE PIC/NAME/INFO */}
-            {/* <div className="flex items-start py-10 border-b-[1px] border-zinc-300"> */}
-            {/* PIC */}
-            {/* <Image className="rounded-full" src={user?.hasImage ? user.imageUrl : ""} alt="profile-pic" width={60} height={60} /> */}
-            {/* NAME/INFO */}
-            {/* <div className="flex flex-col justify-start items-start text-zinc-900 text-xs ml-4"> */}
-            {/* FIRST NAME/LAST NAME */}
-            {/* <h5 className="text-xl font-semibold text-black">{user?.fullName}</h5> */}
-            {/* MEMBER/GUEST */}
-            {/* <p className="text-zinc-400">{user?.id === null ? "Guest" : "Member"}</p> */}
-            {/* EMAIL */}
-            {/* <p>{user?.primaryEmailAddress?.emailAddress}</p> */}
-            {/* PHONE NUMBER */}
-            {/* <p>{user?.primaryPhoneNumber?.phoneNumber}</p> */}
-            {/* </div> */}
-            {/* </div> */}
             {/* CONTENT */}
-            <div className="flex text-sm flex-col my-2">
+            <div className="flex text-sm flex-col my-2 border-b-[1px] border-zinc-300">
                 {receipts.map((item, index) => {
                     // TODO: IF USER IS ADMIN RENDER USER INFO; IF USER IS NOT ADMIN DO NOT RENDER USER INFO
                     return (
                         <div key={index}>
                             {getContentItem("Receipt ID: ", item.id)}
-                            {getContentItem("Item Name: ", item.name)}
-                            {getContentItem("User Name", item.user.name!)}
-                            {getContentItem("Email Address", item.user.email!)}
-                            {getContentItem("Phone Number", item.user.phone!)}
-                            {getContentItem("Price: ", `$${parseInt(item.price).toPrecision(3)}`)}
-                            {getContentItem("Date Created: ", item.date)}
+                            {getContentItem("Item Name: ", item.itemName)}
+                            {getContentItem("User Name: ", item.username || "N/A")}
+                            {getContentItem("Email Address", item.email || "N/A")}
+                            {getContentItem("Phone Number", item.phoneNumber || "N/A")}
+                            {getContentItem("Price: ", `$${parseFloat(item.price).toFixed(2)}`)}
+                            {getContentItem("Date Created: ", new Date(item.createdAt!).toLocaleString())}
                             {getContentItem(
                                 "Verified: ",
                                 item.verified ? (
@@ -167,6 +128,8 @@ const UserReceipts = () => {
                     );
                 })}
             </div>
+            {/* BUTTON TO CREATE NEW RECEIPTS */}
+            {renderCreateReceiptButton()}
         </div>
     );
 };
