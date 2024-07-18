@@ -46,25 +46,28 @@ export type OrderDetailsType = {
     details?: string;
 };
 
-export type User = {
-    id: string;
-    name: string;
-    email?: string;
-    phone?: string;
-};
-
 export type EstimateType = {
     id: string;
-    name: string;
-    user: User;
-    date: string;
+    itemName: string;
+    username: string;
+    userId?: string;
+    image?: string;
+    email?: string;
+    phoneNumber?: string;
+    createdAt?: string;
+    updatedAt?: string;
 };
 
 export type ReceiptType = {
     id: string;
-    name: string;
+    itemName: string;
     price: string;
-    user: User;
-    date: string;
+    username: string;
+    userId?: string;
+    image?: string;
+    email?: string;
+    phoneNumber?: string;
     verified: boolean;
+    createdAt?: string;
+    updatedAt?: string;
 };

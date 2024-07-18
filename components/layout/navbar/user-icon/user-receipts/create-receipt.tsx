@@ -1,3 +1,5 @@
+import { ReceiptType } from "@/lib/types";
+import { useUser } from "@clerk/nextjs";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { BsReceipt } from "react-icons/bs";
 
@@ -6,34 +8,43 @@ interface ICreateReceiptProps {
     closeReceiptForm: () => void;
 }
 
-interface Receipt {
-    id: string;
-    itemName: string;
-    price: string;
-    userName?: string;
-    email?: string;
-    phone?: string;
-    verified: boolean;
-    createdAt: Date;
-}
-
 const CreateReceipt = (props: ICreateReceiptProps) => {
+    // CLERK
+    const { user } = useUser();
+
+    // PROPS
     const { newReceipt, closeReceiptForm } = props;
+
+    // STATE
     const [itemName, setItemName] = useState<string>("");
     const [price, setPrice] = useState<string>("$");
-    const [userName, setUserName] = useState<string>("");
+    const [username, setUsername] = useState<string>("");
+    const [userId, setUserId] = useState("");
     const [email, setEmail] = useState<string>("");
-    const [phone, setPhone] = useState<string>("");
+    const [phoneNumber, setPhoneNumber] = useState<string>("");
+    const [image, setImage] = useState("");
+
+    const getUserInfo = () => {
+        if (user?.fullName === username) {
+            setUserId(user.id);
+            setEmail(user.primaryEmailAddress?.emailAddress || "");
+            setPhoneNumber(user.primaryPhoneNumber?.phoneNumber || "");
+            setImage(user.imageUrl);
+        }
+    };
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        const newReceipt: Omit<Receipt, "id" | "createdAt"> = {
+        getUserInfo();
+        const newReceipt: Omit<ReceiptType, "id" | "createdAt" | "updatedAt"> = {
             itemName,
             price,
-            userName,
+            userId,
+            image,
+            username,
             email,
-            phone,
+            phoneNumber,
             verified: true,
         };
 
@@ -52,11 +63,14 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
                 console.log("Receipt created:", result);
                 // Clear the form
                 setItemName("");
-                setPrice("");
-                setUserName("");
+                setPrice("$");
+                setUsername("");
                 setEmail("");
-                setPhone("");
+                setPhoneNumber("");
+                setUserId("");
+                setImage("");
 
+                // close the form
                 closeReceiptForm();
             } else {
                 // Handle error
@@ -71,6 +85,9 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
         <div className="flex flex-col my-4">
             <label className="text-xs font-semibold mb-1">{label}</label>
             <input type={type} value={value} onChange={onChange} />
+            {!value && (label === "Item Name" || label === "Price" || label === "User Name") && (
+                <span className="text-red-500 text-xs mt-1">This value is needed for this form.</span>
+            )}
         </div>
     );
 
@@ -93,15 +110,9 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
                     <form onSubmit={handleSubmit}>
                         {renderInput("Item Name", itemName, (e) => setItemName(e.target.value))}
                         {renderInput("Price", price, (e) => setPrice(e.target.value))}
-                        {renderInput("User Name", userName, (e) => setUserName(e.target.value))}
+                        {renderInput("User Name", username, (e) => setUsername(e.target.value))}
                         {renderInput("Email", email, (e) => setEmail(e.target.value), "email")}
-                        {renderInput("Phone", phone, (e) => setPhone(e.target.value))}
-                        {/* <div className="flex flex-col">
-                            <div className="flex items-center">
-                                <input type="checkbox" checked={verified} onChange={(e) => setVerified(e.target.checked)} />
-                                <label className="ml-2">Verified</label>
-                            </div>
-                        </div> */}
+                        {renderInput("Phone", phoneNumber, (e) => setPhoneNumber(e.target.value))}
                         <div className="flex items-center justify-end">
                             <button
                                 className="flex text-xs py-2 px-4 items-center rounded-md justify-center text-blue-600 hover:bg-blue-400/50 transition-colors ease-in-out duration-300"
