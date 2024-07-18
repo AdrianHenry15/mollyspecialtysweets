@@ -1,17 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-    OrganizationProfile,
-    OrganizationSwitcher,
-    Protect,
-    SignedIn,
-    SignedOut,
-    SignInButton,
-    useOrganizationList,
-    UserButton,
-    useUser,
-} from "@clerk/nextjs";
+import { OrganizationSwitcher, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 
 import { BsReceipt } from "react-icons/bs";
@@ -21,13 +11,6 @@ import UserEstimates from "./user-estimates";
 import UserReceipts from "./user-receipts/user-receipts";
 
 const UserIcon = () => {
-    const { user } = useUser();
-    const { organizationList } = useOrganizationList();
-
-    // Replace this with the ID of the organization you are checking roles for
-    const specifiedOrganizationId = "your-organization-id";
-
-    const isAdmin = organizationList?.some((org) => org.organization.id === specifiedOrganizationId && org.membership.role === "org:admin");
     return (
         <div>
             <SignedIn>
