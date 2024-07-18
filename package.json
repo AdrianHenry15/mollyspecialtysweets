@@ -6,7 +6,10 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "prisma:migrate": "prisma migrate dev --name init",
+        "prisma:reset": "prisma migrate reset --force --skip-seed",
+        "prisma:validate": "prisma validate"
     },
     "dependencies": {
         "@clerk/clerk-js": "^4.68.5",

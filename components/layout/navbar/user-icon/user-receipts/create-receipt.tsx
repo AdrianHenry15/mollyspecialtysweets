@@ -80,9 +80,11 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
                 <div className="flex flex-col">
                     {/* BREADCRUMBS */}
                     <div className="flex items-center text-sm">
-                        <BsReceipt />
-                        <p className="ml-2">Receipts</p>
-                        <p className="mx-3">/</p>
+                        <BsReceipt color="gray" />
+                        <button onClick={closeReceiptForm} className="ml-2 text-gray-500 hover:underline underline-offset-2">
+                            Receipts
+                        </button>
+                        <p className="mx-3 text-gray-500">/</p>
                         <p className="text-black">Create new receipt</p>
                     </div>
                     {/* TITLE */}

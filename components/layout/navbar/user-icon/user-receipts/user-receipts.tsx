@@ -6,17 +6,24 @@ import React, { useEffect, useState } from "react";
 
 import { BsArrowRight, BsCheck2Circle, BsXCircle } from "react-icons/bs";
 import CreateReceipt from "./create-receipt";
-import { FaPlus } from "react-icons/fa6";
+import { FaPlus, FaUser } from "react-icons/fa6";
+import { Loader } from "@/components/loader";
+import Image from "next/image";
 
 const UserReceipts = () => {
+    // VARIABLES
     const { user } = useUser();
-    const isAdmin = user?.publicMetadata?.role === "admin";
+
+    // STATE
     const [receipts, setReceipts] = useState<ReceiptType[]>([]);
     const [newReceipt, setNewReceipt] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    // This useEffect hook fetches receipts data from the server when the component mounts.
     useEffect(() => {
+        // It defines an asynchronous function `fetchReceipts` that makes a GET request to "/api/receipts".
         const fetchReceipts = async () => {
+            // If the request is successful, it parses the response JSON and updates the `receipts` state.
             try {
                 const response = await fetch("/api/receipts");
                 if (!response.ok) {
@@ -24,9 +31,11 @@ const UserReceipts = () => {
                 }
                 const data = await response.json();
                 setReceipts(data);
+                // If an error occurs during the fetch operation, it logs the error to the console.
             } catch (error) {
                 console.error(error);
             } finally {
+                // The `setLoading` state is updated to `false` once the fetch operation is complete, whether successful or not.
                 setLoading(false);
             }
         };
@@ -35,7 +44,12 @@ const UserReceipts = () => {
     }, []);
 
     if (loading) {
-        return <p>Loading...</p>;
+        return (
+            <div>
+                <p>Loading...</p>
+                <Loader />
+            </div>
+        );
     }
 
     // IF THERE ARE NO RECEIPTS...
@@ -77,12 +91,57 @@ const UserReceipts = () => {
         );
     };
 
+    const getUsersReceiptInfo = (image: string, name: string, email: string, phoneNumber: string) => {
+        // Find the receipt where the userId matches the current user's ID
+        const receipt = receipts.find((item) => item.user.id === user?.id);
+
+        // If a matching receipt is found, render the user information
+        if (receipt) {
+            return (
+                <div className="flex items-start py-10 border-b-[1px] border-zinc-300">
+                    {/* PIC */}
+                    <Image className="rounded-full" src={user?.hasImage ? user.imageUrl : ""} alt="profile-pic" width={60} height={60} />
+                    {/* NAME/INFO */}
+                    <div className="flex flex-col justify-start items-start text-zinc-900 text-xs ml-4">
+                        {/* FIRST NAME/LAST NAME */}
+                        <h5 className="text-xl font-semibold text-black">{user?.fullName}</h5>
+                        {/* MEMBER/GUEST */}
+                        <p className="text-zinc-400">{user?.id === null ? "Guest" : "Member"}</p>
+                        {/* EMAIL */}
+                        <p>{user?.primaryEmailAddress?.emailAddress}</p>
+                        {/* PHONE NUMBER */}
+                        <p>{user?.primaryPhoneNumber?.phoneNumber}</p>
+                    </div>
+                </div>
+            );
+        }
+
+        // If no matching receipt is found, return null or an appropriate message
+        return <p>No matching receipt found for the user.</p>;
+    };
+
     return (
         <div className="flex flex-col border-b-[1px] border-zinc-400">
             <div className="flex flex-col border-b-[1px] border-zinc-300">
                 <h3 className="text-xl">Receipts</h3>
                 <aside className="text-zinc-400 text-sm">A list of your completed order receipts</aside>
             </div>
+            {/* PROFILE PIC/NAME/INFO */}
+            {/* <div className="flex items-start py-10 border-b-[1px] border-zinc-300"> */}
+            {/* PIC */}
+            {/* <Image className="rounded-full" src={user?.hasImage ? user.imageUrl : ""} alt="profile-pic" width={60} height={60} /> */}
+            {/* NAME/INFO */}
+            {/* <div className="flex flex-col justify-start items-start text-zinc-900 text-xs ml-4"> */}
+            {/* FIRST NAME/LAST NAME */}
+            {/* <h5 className="text-xl font-semibold text-black">{user?.fullName}</h5> */}
+            {/* MEMBER/GUEST */}
+            {/* <p className="text-zinc-400">{user?.id === null ? "Guest" : "Member"}</p> */}
+            {/* EMAIL */}
+            {/* <p>{user?.primaryEmailAddress?.emailAddress}</p> */}
+            {/* PHONE NUMBER */}
+            {/* <p>{user?.primaryPhoneNumber?.phoneNumber}</p> */}
+            {/* </div> */}
+            {/* </div> */}
             {/* CONTENT */}
             <div className="flex text-sm flex-col my-2">
                 {receipts.map((item, index) => {
@@ -90,17 +149,20 @@ const UserReceipts = () => {
                     return (
                         <div key={index}>
                             {getContentItem("Receipt ID: ", item.id)}
-                            {getContentItem("Name: ", item.itemName)}
-                            {isAdmin && (
-                                <Protect role="org:admin">
-                                    {getContentItem("User Name", item.userName!)}
-                                    {getContentItem("Email Address", item.email!)}
-                                    {getContentItem("Phone Number", item.phone!)}
-                                </Protect>
-                            )}
-                            {getContentItem("Price: ", item.price)}
+                            {getContentItem("Item Name: ", item.name)}
+                            {getContentItem("User Name", item.user.name!)}
+                            {getContentItem("Email Address", item.user.email!)}
+                            {getContentItem("Phone Number", item.user.phone!)}
+                            {getContentItem("Price: ", `$${parseInt(item.price).toPrecision(3)}`)}
                             {getContentItem("Date Created: ", item.date)}
-                            {getContentItem("Verified: ", item.verified ? <BsCheck2Circle /> : <BsXCircle />)}
+                            {getContentItem(
+                                "Verified: ",
+                                item.verified ? (
+                                    <BsCheck2Circle fontWeight={900} size={18} color="green" />
+                                ) : (
+                                    <BsXCircle fontWeight={900} size={18} color="red" />
+                                ),
+                            )}
                         </div>
                     );
                 })}
