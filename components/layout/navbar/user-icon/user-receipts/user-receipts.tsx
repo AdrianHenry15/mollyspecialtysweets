@@ -24,7 +24,6 @@ const UserReceipts = () => {
 
     // CREATING RECEIPT STATE
     const [isCreatingReceipt, setIsCreatingReceipt] = useState(false);
-    const [newReceipt, setNewReceipt] = useState<ReceiptType | null>(null); // holds specific receipt to update
 
     // DELETING RECEIPT AND MODALS
     const [modalVisible, setModalVisible] = useState(false);
@@ -151,7 +150,7 @@ const UserReceipts = () => {
     if (isCreatingReceipt) {
         return (
             <Protect role="org:admin">
-                <CreateReceipt newReceipt={newReceipt} closeReceiptForm={() => setIsCreatingReceipt(false)} />
+                <CreateReceipt closeReceiptForm={() => setIsCreatingReceipt(false)} />
             </Protect>
         );
     }
@@ -179,10 +178,10 @@ const UserReceipts = () => {
                         <div className="border-b-[1px] border-zinc-300" key={index}>
                             {getContentItem("Receipt ID: ", item.id)}
                             {getContentItem("Item Name: ", item.itemName)}
+                            {getContentItem("Price: ", `$${item.price}`)}
                             {getContentItem("User Name: ", item.username || "N/A")}
                             {getContentItem("Email Address", item.email || "N/A")}
                             {getContentItem("Phone Number", item.phoneNumber || "N/A")}
-                            {getContentItem("Price: ", `${item.price}`)}
                             {getContentItem("Date Created: ", new Date(item.createdAt!).toLocaleString())}
                             {getContentItem(
                                 "Verified: ",

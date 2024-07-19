@@ -1,4 +1,5 @@
-import { fetchAllReceipts, updateReceipt } from "@/lib/api";
+"use client";
+
 import { ReceiptType } from "@/lib/types";
 import { useUser } from "@clerk/nextjs";
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
@@ -72,9 +73,6 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
                 setPhoneNumber("");
                 setUserId("");
                 setImage("");
-
-                // refetch receipts
-                await fetchAllReceipts();
 
                 // Toast
                 toast.success("You have successfully updated this receipt");
