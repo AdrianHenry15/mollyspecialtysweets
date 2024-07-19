@@ -1,5 +1,5 @@
-import { fetchAllReceipts } from "@/lib/api";
-import { fetchReceipts } from "@/lib/receipts";
+"use client";
+
 import { ReceiptType } from "@/lib/types";
 import { useUser } from "@clerk/nextjs";
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import { BsReceipt } from "react-icons/bs";
 
 interface ICreateReceiptProps {
-    newReceipt: ReceiptType | null;
     closeReceiptForm: () => void;
 }
 
@@ -16,11 +15,11 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
     const { user } = useUser();
 
     // PROPS
-    const { newReceipt, closeReceiptForm } = props;
+    const { closeReceiptForm } = props;
 
     // STATE
     const [itemName, setItemName] = useState<string>("");
-    const [price, setPrice] = useState<string>("$");
+    const [price, setPrice] = useState<string>("");
     const [username, setUsername] = useState<string>("");
     const [userId, setUserId] = useState("");
     const [email, setEmail] = useState<string>("");
