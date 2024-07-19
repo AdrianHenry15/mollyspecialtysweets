@@ -1,20 +1,34 @@
-import { ReceiptType } from "./types";
+import { ReceiptType } from "@/lib/types";
 
-// fetchReceipts.ts
 export const fetchAllReceipts = async (): Promise<ReceiptType[]> => {
-    try {
-        const response = await fetch("/api/receipts", {
-            method: "GET",
-        });
+    const response = await fetch("/api/receipts");
+    return response.json();
+};
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch receipts");
-        }
+export const createReceipt = async (receipt: Omit<ReceiptType, "id" | "createdAt" | "updatedAt">): Promise<ReceiptType> => {
+    const response = await fetch("/api/receipts", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(receipt),
+    });
+    return response.json();
+};
 
-        const data: ReceiptType[] = await response.json();
-        return data;
-    } catch (error) {
-        console.error("Error fetching receipts:", error);
-        return []; // Return an empty array in case of an error
-    }
+export const updateReceipt = async (id: string, receipt: Partial<ReceiptType>): Promise<ReceiptType> => {
+    const response = await fetch(`/api/receipts/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(receipt),
+    });
+    return response.json();
+};
+
+export const deleteReceipt = async (id: string): Promise<void> => {
+    await fetch(`/api/receipts/${id}`, {
+        method: "DELETE",
+    });
 };

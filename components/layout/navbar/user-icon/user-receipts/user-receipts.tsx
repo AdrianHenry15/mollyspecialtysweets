@@ -16,12 +16,15 @@ const UserReceipts = () => {
     const { user } = useUser();
     // STATE
     const [receipts, setReceipts] = useState<ReceiptType[]>([]);
-    const [newReceipt, setNewReceipt] = useState(false);
     const [loading, setLoading] = useState(true);
 
     // UPDATING STATE
     const [isUpdatingReceipt, setIsUpdatingReceipt] = useState(false);
     const [updatedReceipt, setUpdatedReceipt] = useState<ReceiptType | null>(null); // holds specific receipt to update
+
+    // CREATING RECEIPT STATE
+    const [isCreatingReceipt, setIsCreatingReceipt] = useState(false);
+    const [newReceipt, setNewReceipt] = useState<ReceiptType | null>(null); // holds specific receipt to update
 
     // DELETING RECEIPT AND MODALS
     const [modalVisible, setModalVisible] = useState(false);
@@ -58,7 +61,7 @@ const UserReceipts = () => {
         };
 
         fetchReceipts();
-    }, []);
+    }, [user, receipts]);
 
     if (loading) {
         return (
@@ -68,6 +71,10 @@ const UserReceipts = () => {
             </div>
         );
     }
+
+    const addReceipt = (receipt: ReceiptType) => {
+        setReceipts((prevReceipts) => [...prevReceipts, receipt]);
+    };
 
     const getContentItem = (title: string, content: string | React.ReactNode) => {
         return (
@@ -82,7 +89,7 @@ const UserReceipts = () => {
         return (
             <Protect role="org:admin">
                 <div
-                    onClick={() => setNewReceipt(true)}
+                    onClick={() => setIsCreatingReceipt(true)}
                     className="flex w-full items-center text-sm text-blue-800 p-2 cursor-pointer rounded-md hover:bg-blue-300 ease-in-out duration-300 transition-colors"
                 >
                     <div className="flex items-center w-full justify-start">
@@ -116,7 +123,7 @@ const UserReceipts = () => {
                 throw new Error("Failed to delete receipt");
             }
             // Update the receipts state after deletion
-            setReceipts((prevReceipts) => prevReceipts.filter((receipt) => receipt.id !== id));
+            setReceipts((prevReceipts) => prevReceipts.filter((receipt) => receipt.id === id));
             // Toast at top of screen
             toast.success("You have successfully deleted this receipt");
         } catch (error) {
@@ -141,10 +148,10 @@ const UserReceipts = () => {
     }
 
     // RENDER CREATE RECEIPTS COMPONENT
-    if (newReceipt) {
+    if (isCreatingReceipt) {
         return (
             <Protect role="org:admin">
-                <CreateReceipt newReceipt={newReceipt} closeReceiptForm={() => setNewReceipt(false)} />
+                <CreateReceipt newReceipt={newReceipt} closeReceiptForm={() => setIsCreatingReceipt(false)} />
             </Protect>
         );
     }
@@ -153,11 +160,7 @@ const UserReceipts = () => {
     if (isUpdatingReceipt && updatedReceipt) {
         return (
             <Protect role="org:admin">
-                <UpdateReceipt
-                    receipt={updatedReceipt}
-                    isUpdatingReceipt={isUpdatingReceipt}
-                    closeUpdatedReceiptForm={() => setIsUpdatingReceipt(false)}
-                />
+                <UpdateReceipt newReceipt={updatedReceipt} closeUpdatedReceiptForm={() => setIsUpdatingReceipt(false)} />
             </Protect>
         );
     }
