@@ -10,13 +10,32 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     return NextResponse.json(invoice);
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
-    const data = await request.json();
-    const updatedInvoice = await prisma.invoice.update({
-        where: { id: params.id },
-        data,
-    });
-    return NextResponse.json(updatedInvoice);
+export async function PUT(request: Request) {
+    try {
+        const { id, itemName, price, userId, image, username, email, phoneNumber, verified, createdAt, updatedAt } = await request.json();
+
+        const updatedReceipt = await prisma.invoice.update({
+            where: {
+                id: id,
+            },
+            data: {
+                itemName,
+                price,
+                userId,
+                image,
+                username,
+                email,
+                phoneNumber,
+                verified,
+                // createdAt and updatedAt are managed by Prisma, so you don't need to set them manually.
+            },
+        });
+
+        return NextResponse.json(updatedReceipt);
+    } catch (error) {
+        console.error(error);
+        return NextResponse.error();
+    }
 }
 
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {

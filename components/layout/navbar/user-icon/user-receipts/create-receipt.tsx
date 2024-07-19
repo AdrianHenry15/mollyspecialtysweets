@@ -1,6 +1,8 @@
+import { fetchAllReceipts } from "@/lib/api";
 import { ReceiptType } from "@/lib/types";
 import { useUser } from "@clerk/nextjs";
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import toast from "react-hot-toast";
 import { BsReceipt } from "react-icons/bs";
 
 interface ICreateReceiptProps {
@@ -70,11 +72,19 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
                 setUserId("");
                 setImage("");
 
+                // Toast
+                toast.success("You have successfully created a receipt");
+
+                //refetch receipts
+                await fetchAllReceipts();
+
                 // close the form
                 closeReceiptForm();
             } else {
                 // Handle error
                 console.error("Failed to create receipt");
+                // Toast
+                toast.error("Can not create a receipt");
             }
         } catch (error) {
             console.error("Error:", error);
@@ -112,7 +122,7 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
                         {renderInput("Price", price, (e) => setPrice(e.target.value))}
                         {renderInput("User Name", username, (e) => setUsername(e.target.value))}
                         {renderInput("Email", email, (e) => setEmail(e.target.value), "email")}
-                        {renderInput("Phone", phoneNumber, (e) => setPhoneNumber(e.target.value))}
+                        {renderInput("Phone", phoneNumber, (e) => setPhoneNumber(e.target.value), "tel")}
                         <div className="flex items-center justify-end">
                             <button
                                 className="flex text-xs py-2 px-4 items-center rounded-md justify-center text-blue-600 hover:bg-blue-400/50 transition-colors ease-in-out duration-300"

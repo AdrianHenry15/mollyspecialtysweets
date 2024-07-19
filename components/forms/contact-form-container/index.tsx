@@ -14,7 +14,6 @@ import ConfirmationModal from "../../modals/confirmation-modal";
 import SuccessModal from "../../modals/success-modal";
 import { Loader } from "../../loader";
 import DeliveryMethod from "../delivery-method";
-import Textarea from "../inputs/textarea";
 import { Categories, Occasions } from "@/lib/constants";
 import FormItem from "../form-item";
 import DatePickerInput from "../date-picker-input";
@@ -89,7 +88,11 @@ const ContactFormContainer = () => {
         <section className="flex flex-col items-center px-4 py-20 shadow-inner relative w-full">
             {isConfirmationModalOpen && (
                 <ConfirmationModal
-                    confirmEstimate={confirmEstimate}
+                    title="Confirm Your Estimate Request"
+                    message="Confirm your Estimate Request and someone from our team will
+                                    be in touch with you about your project"
+                    buttonText="Get Your Free Estimate"
+                    confirm={confirmEstimate}
                     isOpen={isConfirmationModalOpen}
                     closeModal={() => setIsConfirmationModalOpen(false)}
                 />

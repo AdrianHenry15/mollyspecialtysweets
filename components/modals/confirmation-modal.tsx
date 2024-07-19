@@ -4,13 +4,17 @@ import { Fragment, useState } from "react";
 interface IConfirmationModalProps {
     isOpen: boolean;
     closeModal: () => void;
-    confirmEstimate: () => void;
+    confirm: () => void;
+    title: string;
+    message: string;
+    buttonText: string;
 }
 
 const ConfirmationModal = (props: IConfirmationModalProps) => {
+    const { isOpen, closeModal, confirm, title, message, buttonText } = props;
     return (
-        <Transition appear show={props.isOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={props.closeModal}>
+        <Transition appear show={isOpen} as={Fragment}>
+            <Dialog as="div" className="relative z-[900000]" onClose={closeModal}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -35,31 +39,25 @@ const ConfirmationModal = (props: IConfirmationModalProps) => {
                             leaveTo="opacity-0 scale-95"
                         >
                             <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-center align-middle shadow-xl transition-all">
-                                <Dialog.Title
-                                    as="h3"
-                                    className="text-lg font-medium leading-6 text-gray-900 border-b-[1px] pb-2"
-                                >
-                                    Confirm Your Estimate Request
+                                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900 border-b-[1px] pb-2">
+                                    {title}
                                 </Dialog.Title>
                                 <div className="my-4">
-                                    <p className="text-sm text-gray-500">
-                                        Confirm your Estimate Request and someone from our team will
-                                        be in touch with you about your project
-                                    </p>
+                                    <p className="text-sm text-gray-500">{message}</p>
                                 </div>
 
                                 <div className="mt-4 justify-center">
                                     <button
                                         type="button"
                                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 mr-4 mt-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                        onClick={props.confirmEstimate}
+                                        onClick={confirm}
                                     >
-                                        Get Your Free Estimate
+                                        {buttonText}
                                     </button>
                                     <button
                                         type="button"
                                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                        onClick={props.closeModal}
+                                        onClick={closeModal}
                                     >
                                         Cancel
                                     </button>
