@@ -6,18 +6,26 @@ import React, { useEffect, useState } from "react";
 
 import { BsArrowRight, BsCheck2Circle, BsXCircle } from "react-icons/bs";
 import CreateReceipt from "./create-receipt";
-import { FaPlus, FaUser } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa6";
 import { Loader } from "@/components/loader";
-import Image from "next/image";
+import UpdateReceipt from "./update-receipt";
+import ConfirmationModal from "@/components/modals/confirmation-modal";
+import toast from "react-hot-toast";
 
 const UserReceipts = () => {
-    // VARIABLES
     const { user } = useUser();
-
     // STATE
     const [receipts, setReceipts] = useState<ReceiptType[]>([]);
     const [newReceipt, setNewReceipt] = useState(false);
     const [loading, setLoading] = useState(true);
+
+    // UPDATING STATE
+    const [isUpdatingReceipt, setIsUpdatingReceipt] = useState(false);
+    const [updatedReceipt, setUpdatedReceipt] = useState<ReceiptType | null>(null); // holds specific receipt to update
+
+    // DELETING RECEIPT AND MODALS
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedReceiptId, setSelectedReceiptId] = useState<string | null>(null);
 
     // This useEffect hook fetches receipts data from the server when the component mounts.
     useEffect(() => {
@@ -25,12 +33,21 @@ const UserReceipts = () => {
         const fetchReceipts = async () => {
             // If the request is successful, it parses the response JSON and updates the `receipts` state.
             try {
-                const response = await fetch("/api/receipts");
+                const response = await fetch("/api/receipts", {
+                    method: "GET",
+                });
                 if (!response.ok) {
                     throw new Error("Failed to fetch receipts");
                 }
-                const data = await response.json();
-                setReceipts(data);
+
+                if (
+                    user?.fullName === receipts.find((item) => item.username) ||
+                    user?.primaryEmailAddress?.emailAddress === "adrianhenry2115@gmail.com" ||
+                    user?.primaryEmailAddress?.emailAddress === "mollyspecialtysweets@gmail.com"
+                ) {
+                    const data = await response.json();
+                    setReceipts(data);
+                }
                 // If an error occurs during the fetch operation, it logs the error to the console.
             } catch (error) {
                 console.error(error);
@@ -80,6 +97,41 @@ const UserReceipts = () => {
         );
     };
 
+    // function to update a receipt
+    const handleUpdate = (receipt: ReceiptType) => {
+        setIsUpdatingReceipt(true);
+        setUpdatedReceipt(receipt);
+    };
+
+    // Function to delete a receipt
+    const handleDelete = async (id: string) => {
+        if (!selectedReceiptId) return;
+
+        try {
+            const response = await fetch(`/api/receipts/${id}`, {
+                method: "DELETE",
+            });
+            if (!response.ok) {
+                toast.error("Can not delete this receipt");
+                throw new Error("Failed to delete receipt");
+            }
+            // Update the receipts state after deletion
+            setReceipts((prevReceipts) => prevReceipts.filter((receipt) => receipt.id !== id));
+            // Toast at top of screen
+            toast.success("You have successfully deleted this receipt");
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setModalVisible(false);
+            setSelectedReceiptId(null);
+        }
+    };
+
+    const confirmDelete = (id: string) => {
+        setSelectedReceiptId(id);
+        setModalVisible(true);
+    };
+
     // IF THERE ARE NO RECEIPTS...
     if (receipts.length === 0) {
         <div>
@@ -97,6 +149,19 @@ const UserReceipts = () => {
         );
     }
 
+    // RENDER UPDATE RECEIPT COMPONENT
+    if (isUpdatingReceipt && updatedReceipt) {
+        return (
+            <Protect role="org:admin">
+                <UpdateReceipt
+                    receipt={updatedReceipt}
+                    isUpdatingReceipt={isUpdatingReceipt}
+                    closeUpdatedReceiptForm={() => setIsUpdatingReceipt(false)}
+                />
+            </Protect>
+        );
+    }
+
     return (
         <div className="flex flex-col">
             <div className="flex flex-col border-b-[1px] border-zinc-300">
@@ -104,17 +169,17 @@ const UserReceipts = () => {
                 <aside className="text-zinc-400 text-sm">A list of your completed order receipts</aside>
             </div>
             {/* CONTENT */}
-            <div className="flex text-sm flex-col my-2 border-b-[1px] border-zinc-300">
+            <div className="flex text-sm flex-col my-2">
                 {receipts.map((item, index) => {
                     // TODO: IF USER IS ADMIN RENDER USER INFO; IF USER IS NOT ADMIN DO NOT RENDER USER INFO
                     return (
-                        <div key={index}>
+                        <div className="border-b-[1px] border-zinc-300" key={index}>
                             {getContentItem("Receipt ID: ", item.id)}
                             {getContentItem("Item Name: ", item.itemName)}
                             {getContentItem("User Name: ", item.username || "N/A")}
                             {getContentItem("Email Address", item.email || "N/A")}
                             {getContentItem("Phone Number", item.phoneNumber || "N/A")}
-                            {getContentItem("Price: ", `$${parseFloat(item.price).toFixed(2)}`)}
+                            {getContentItem("Price: ", `${item.price}`)}
                             {getContentItem("Date Created: ", new Date(item.createdAt!).toLocaleString())}
                             {getContentItem(
                                 "Verified: ",
@@ -124,6 +189,30 @@ const UserReceipts = () => {
                                     <BsXCircle fontWeight={900} size={18} color="red" />
                                 ),
                             )}
+                            {/* DELETE/UPDATE BUTTONS */}
+                            <div className="flex items-center justify-end mb-2">
+                                <button
+                                    onClick={() => handleUpdate(item)}
+                                    className="flex items-center justify-center text-yellow-500 mx-2 hover:underline transition-all duration-300 ease-in-out underline-offset-2"
+                                >
+                                    Update
+                                </button>
+                                <button
+                                    onClick={() => confirmDelete(item.id)}
+                                    className="flex items-center justify-center text-red-500 hover:underline transition-all duration-300 ease-in-out underline-offset-2"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                            {/* CONFIRMATION MODAL */}
+                            <ConfirmationModal
+                                isOpen={modalVisible}
+                                closeModal={() => setModalVisible(false)}
+                                confirm={() => handleDelete(item.id)}
+                                title={"Confirm deleting this receipt"}
+                                message={"Are you sure you want to delete this receipt?"}
+                                buttonText={"Delete Receipt"}
+                            />
                         </div>
                     );
                 })}

@@ -10,7 +10,6 @@ import CupcakeFrosting from "./frosting";
 import CupcakeFilling from "./filling";
 import CupcakeTopping from "./topping";
 import CupcakeAmount from "./amount";
-import Textarea from "../inputs/textarea";
 import toast from "react-hot-toast";
 import ConfirmationModal from "@/components/modals/confirmation-modal";
 import SuccessModal from "@/components/modals/success-modal";
@@ -75,7 +74,7 @@ const CupcakeForm = () => {
             function (error) {
                 toast.error("There was an error submitting your cupcake estimate. Please try again.");
                 console.log("FAILED...", error);
-            }
+            },
         );
         // close modal
         setIsConfirmationModalOpen(false);
@@ -94,7 +93,11 @@ const CupcakeForm = () => {
             </div>
             {isConfirmationModalOpen && (
                 <ConfirmationModal
-                    confirmEstimate={confirmEstimate}
+                    title="Confirm Your Estimate Request"
+                    message="Confirm your Estimate Request and someone from our team will
+                                    be in touch with you about your project"
+                    buttonText="Get Your Free Estimate"
+                    confirm={confirmEstimate}
                     isOpen={isConfirmationModalOpen}
                     closeModal={() => setIsConfirmationModalOpen(false)}
                 />

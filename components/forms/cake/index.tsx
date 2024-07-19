@@ -76,7 +76,7 @@ const CakeForm = () => {
             function (error) {
                 toast.error("There was an error submitting your cake estimate. Please try again.");
                 console.log("FAILED...", error);
-            }
+            },
         );
         // close modal
         setIsConfirmationModalOpen(false);
@@ -95,7 +95,11 @@ const CakeForm = () => {
             </div>
             {isConfirmationModalOpen && (
                 <ConfirmationModal
-                    confirmEstimate={confirmEstimate}
+                    title="Confirm Your Estimate Request"
+                    message="Confirm your Estimate Request and someone from our team will
+                                        be in touch with you about your project"
+                    buttonText="Get Your Free Estimate"
+                    confirm={confirmEstimate}
                     isOpen={isConfirmationModalOpen}
                     closeModal={() => setIsConfirmationModalOpen(false)}
                 />
