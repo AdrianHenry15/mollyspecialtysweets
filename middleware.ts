@@ -12,6 +12,8 @@ export default authMiddleware({
                 return NextResponse.redirect(redirectUrl);
             } else {
                 // console.log("AUTH.ORG.SLUG:", auth.orgRole);
+                const redirect = "/";
+                return NextResponse.redirect(redirect);
             }
         }
     },
