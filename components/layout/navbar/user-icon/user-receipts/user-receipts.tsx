@@ -43,7 +43,8 @@ const UserReceipts = () => {
                 }
 
                 if (
-                    user?.fullName === receipts.find((item) => item.username) ||
+                    (user?.fullName === receipts.find((item) => item.username) &&
+                        user?.primaryEmailAddress?.emailAddress === receipts.find((item) => item.email)) ||
                     user?.primaryEmailAddress?.emailAddress === "adrianhenry2115@gmail.com" ||
                     user?.primaryEmailAddress?.emailAddress === "mollyspecialtysweets@gmail.com"
                 ) {
@@ -70,10 +71,6 @@ const UserReceipts = () => {
             </div>
         );
     }
-
-    const addReceipt = (receipt: ReceiptType) => {
-        setReceipts((prevReceipts) => [...prevReceipts, receipt]);
-    };
 
     const getContentItem = (title: string, content: string | React.ReactNode) => {
         return (

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { OrganizationSwitcher, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { OrganizationSwitcher, Protect, SignedIn, SignedOut, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 
 import { BsReceipt } from "react-icons/bs";
@@ -11,6 +11,9 @@ import UserEstimates from "./user-estimates";
 import UserReceipts from "./user-receipts/user-receipts";
 
 const UserIcon = () => {
+    const { user } = useUser();
+    const userEmail = user?.primaryEmailAddress?.emailAddress;
+
     return (
         <div>
             <SignedIn>
@@ -32,9 +35,11 @@ const UserIcon = () => {
                         </UserButton.UserProfilePage> */}
                     </UserButton>
                     {/* ORG OPTION */}
-                    <div className="ml-4">
-                        <OrganizationSwitcher />
-                    </div>
+                    {userEmail === "adrianhenry2115@gmail.com" || userEmail === "mollyspecialtysweets@gmail.com" ? (
+                        <div className="ml-4">
+                            <OrganizationSwitcher />
+                        </div>
+                    ) : null}
                 </div>
             </SignedIn>
             <SignedOut>
