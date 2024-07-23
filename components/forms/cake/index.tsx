@@ -18,13 +18,16 @@ import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
 import ContactDetails from "../contact-details";
 import OrderDetails from "../order-details";
+import { useUser } from "@clerk/nextjs";
 
 const CakeForm = () => {
     // STATE
-    const [isSingleTier, setIsSingleTier] = useState(true);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    // CLERK
+    const { user } = useUser();
 
     // EMAIL JS
     const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID as string;
@@ -60,10 +63,40 @@ const CakeForm = () => {
         phoneNumber: getValues("phoneNumber"),
     };
 
+    const fetchCakeEstimate = () => {
+        // Prepare the request body for the Estimate model
+        const estimate = {
+            itemName: `${getValues("cakeSize").toString()} ${getValues("cakeShape")} ${getValues("cakeTier")} ${getValues("colors")} ${getValues("cakeFlavor")} ${getValues("cakeFrosting")} ${getValues("cakeFilling")} ${getValues("cakeTopping")} Cake`,
+            userId: user?.id,
+            image: user?.imageUrl,
+            username: `${getValues("firstName")} ${getValues("lastName")}}`,
+            email: `${getValues("email")}`,
+            phoneNumber: `${getValues("phoneNumber")}`,
+        };
+
+        // POST request to api/estimates
+        fetch("/api/estimates", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(estimate),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("POST request successful", data);
+            })
+            .catch((error) => {
+                console.error("Error with POST request", error);
+            });
+    };
+
     const onSubmit = (data: any) => {
         // open confirmation modal
         setIsConfirmationModalOpen(true);
         console.log(data);
+
+        fetchCakeEstimate();
     };
 
     const confirmEstimate = () => {
@@ -78,6 +111,8 @@ const CakeForm = () => {
                 console.log("FAILED...", error);
             },
         );
+        // POST REQUEST
+        fetchCakeEstimate();
         // close modal
         setIsConfirmationModalOpen(false);
         setTimeout(() => {

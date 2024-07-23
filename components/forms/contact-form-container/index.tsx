@@ -63,6 +63,34 @@ const ContactFormContainer = () => {
         console.log(data);
     };
 
+    const fetchContactEstimate = () => {
+        // Prepare the request body for the Estimate model
+        const estimate = {
+            itemName: `${getValues("colors")} ${getValues("orderTypes")}`,
+            userId: user?.id,
+            image: user?.imageUrl,
+            username: `${getValues("firstName")} ${getValues("lastName")}}`,
+            email: `${getValues("email")}`,
+            phoneNumber: `${getValues("phoneNumber")}`,
+        };
+
+        // POST request to api/estimates
+        fetch("/api/estimates", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(estimate),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("POST request successful", data);
+            })
+            .catch((error) => {
+                console.error("Error with POST request", error);
+            });
+    };
+
     const confirmEstimate = () => {
         // EMAIL JS
         emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
@@ -73,6 +101,9 @@ const ContactFormContainer = () => {
                 console.log("FAILED...", error);
             },
         );
+
+        // POST CONTACT ESTIMATE
+        fetchContactEstimate();
         // close modal
         setIsConfirmationModalOpen(false);
         setTimeout(() => {
@@ -116,16 +147,32 @@ const ContactFormContainer = () => {
                 <form className="self-center w-full md:w-2/3" onSubmit={handleSubmit(onSubmit)}>
                     <h1 className="font-semibold text-4xl underline text-center my-10">Contact Details</h1>
                     {/* FIRST NAME */}
-                    <FormItem textInput control={control} title={"First Name"} name={"firstName"} />
+                    <FormItem defaultValue={user?.firstName || ""} textInput control={control} title={"First Name"} name={"firstName"} />
 
                     {/* LAST NAME */}
-                    <FormItem textInput control={control} title={"Last Name"} name={"lastName"} />
+                    <FormItem defaultValue={user?.lastName || ""} textInput control={control} title={"Last Name"} name={"lastName"} />
 
                     {/* PHONE NUMBER */}
-                    <FormItem textInput control={control} title={"Phone Number"} name={"phoneNumber"} required errors={errors} />
+                    <FormItem
+                        defaultValue={user?.primaryPhoneNumber?.phoneNumber || ""}
+                        textInput
+                        control={control}
+                        title={"Phone Number"}
+                        name={"phoneNumber"}
+                        required
+                        errors={errors}
+                    />
 
                     {/* EMAIL */}
-                    <FormItem textInput control={control} title={"Email*"} name={"email"} required errors={errors} />
+                    <FormItem
+                        defaultValue={user?.primaryEmailAddress?.emailAddress || ""}
+                        textInput
+                        control={control}
+                        title={"Email*"}
+                        name={"email"}
+                        required
+                        errors={errors}
+                    />
 
                     <h1 className="font-semibold text-4xl underline text-center my-10">Order Details</h1>
 

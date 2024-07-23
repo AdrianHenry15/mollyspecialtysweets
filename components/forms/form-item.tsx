@@ -24,6 +24,7 @@ interface IFormItemProps {
     label?: string;
     required?: boolean;
     autocomplete?: boolean;
+    defaultValue?: string;
     errors?: FieldErrors;
     freeSolo?: boolean;
     hasFruit?: boolean;
@@ -40,6 +41,7 @@ const FormItem: React.FC<IFormItemProps> = ({
     label,
     required,
     autocomplete,
+    defaultValue,
     errors,
     freeSolo,
     hasFruit,
@@ -60,6 +62,7 @@ const FormItem: React.FC<IFormItemProps> = ({
             <Controller
                 rules={{ required: required }}
                 name={name}
+                defaultValue={defaultValue}
                 control={control}
                 render={({ field }) => (
                     <div>
