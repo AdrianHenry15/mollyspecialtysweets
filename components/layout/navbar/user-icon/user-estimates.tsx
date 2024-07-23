@@ -43,9 +43,15 @@ const UserEstimates = () => {
         return <div>No estimates found.</div>;
     }
 
+    const renderEstimates = () => {
+        // TODO:RENDER USER PROFILE
+        // TODO:RENDER FIRST ESTIMATE UNDER USER PROFILE
+        // TODO:RENDER REST OF ESTIMATES UNDER FIRST ESTIMATE
+    };
+
     const isAdmin = user?.publicMetadata?.role === "admin";
     return (
-        <div className="flex flex-col border-b-[1px] border-zinc-400">
+        <div className="flex flex-col ">
             <div className="flex flex-col border-b-[1px] border-zinc-300">
                 <h3 className="text-xl">Estimates</h3>
                 <aside className="text-zinc-400 text-sm">A list of your fufilled estimates</aside>
@@ -54,17 +60,13 @@ const UserEstimates = () => {
             <div className="flex text-sm flex-col my-2">
                 {estimates.map((item, index) => {
                     return (
-                        <div key={index}>
+                        <div className="border-b-[1px] border-zinc-300" key={index}>
+                            {getContentItem("User Name", item.username!)}
+                            {getContentItem("Email Address", item.email!)}
+                            {getContentItem("Phone Number", item.phoneNumber!)}
                             {getContentItem("Estimate ID: ", item.id)}
-                            {getContentItem("Name: ", item.itemName)}
-                            {getContentItem("Date Created: ", item.date)}
-                            {isAdmin && (
-                                <>
-                                    {getContentItem("User Name", item.userName!)}
-                                    {getContentItem("Email Address", item.email!)}
-                                    {getContentItem("Phone Number", item.phone!)}
-                                </>
-                            )}
+                            {getContentItem("Item Name: ", item.itemName)}
+                            {getContentItem("Date Created: ", item.createdAt!)}
                         </div>
                     );
                 })}
