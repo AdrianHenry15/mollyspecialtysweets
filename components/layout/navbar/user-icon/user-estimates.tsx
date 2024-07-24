@@ -43,11 +43,11 @@ const UserEstimates = () => {
         return <div>No estimates found.</div>;
     }
 
-    const renderEstimates = () => {
-        // TODO:RENDER USER PROFILE
-        // TODO:RENDER FIRST ESTIMATE UNDER USER PROFILE
-        // TODO:RENDER REST OF ESTIMATES UNDER FIRST ESTIMATE
+    const renderAdminEstimates = () => {
+        // TODO: needs user db object to compare with estimate obbject property userId
     };
+
+    const renderUserEstimates = () => {};
 
     const isAdmin = user?.publicMetadata?.role === "admin";
     return (

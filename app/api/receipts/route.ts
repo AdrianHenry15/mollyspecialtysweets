@@ -7,7 +7,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-    const { itemName, price, userId, image, username, email, phoneNumber, verified } = await request.json();
-    const newInvoice = await prisma.invoice.create({ data: { itemName, price, userId, image, username, email, phoneNumber, verified } });
+    const data = await request.json();
+    const newInvoice = await prisma.invoice.create({ data });
     return NextResponse.json(newInvoice);
 }
