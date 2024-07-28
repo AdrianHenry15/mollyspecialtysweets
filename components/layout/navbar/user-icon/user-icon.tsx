@@ -1,18 +1,21 @@
 "use client";
 
 import React from "react";
-import { OrganizationSwitcher, Protect, SignedIn, SignedOut, SignInButton, UserButton, useUser } from "@clerk/nextjs";
+import { OrganizationSwitcher, SignedIn, SignedOut, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 
 import { BsReceipt } from "react-icons/bs";
-import { FaMoneyBill, FaTowerBroadcast } from "react-icons/fa6";
+import { FaMoneyBill, FaUser } from "react-icons/fa6";
 
-import UserEstimates from "./user-estimates";
-import UserReceipts from "./user-receipts/user-receipts";
+import UserEstimates from "./estimates/user-estimates";
+import UserReceipts from "./receipts/user-receipts";
+import UserProfiles from "./user-profiles";
 
 const UserIcon = () => {
     const { user } = useUser();
-    const userEmail = user?.primaryEmailAddress?.emailAddress;
+    const isAdmin =
+        user?.primaryEmailAddress?.emailAddress === "adrianhenry2115@gmail.com" ||
+        user?.primaryEmailAddress?.emailAddress === "mollyspecialtysweets@gmail.com";
 
     return (
         <div>
@@ -20,22 +23,31 @@ const UserIcon = () => {
                 {/* Mount the UserButton component */}
                 <div className="flex relative items-center cursor-pointer">
                     {/* USER IMAGE */}
-                    <UserButton>
-                        {/* ESTIMATES */}
-                        <UserButton.UserProfilePage label="Estimates" url="estimates" labelIcon={<FaMoneyBill />}>
-                            <UserEstimates />
-                        </UserButton.UserProfilePage>
-                        {/* RECEIPTS */}
-                        <UserButton.UserProfilePage label="Receipts" url="receipts" labelIcon={<BsReceipt />}>
-                            <UserReceipts />
-                        </UserButton.UserProfilePage>
-                        {/* REWARDS */}
-                        {/* <UserButton.UserProfilePage label="Rewards" url="rewards" labelIcon={<GiWantedReward />}>
+                    {isAdmin ? (
+                        <UserButton>
+                            {/* USERS */}
+                            <UserButton.UserProfilePage label="Users" url="users" labelIcon={<FaUser />}>
+                                <UserProfiles />
+                            </UserButton.UserProfilePage>
+                        </UserButton>
+                    ) : (
+                        <UserButton>
+                            {/* ESTIMATES */}
+                            <UserButton.UserProfilePage label="Estimates" url="estimates" labelIcon={<FaMoneyBill />}>
+                                <UserEstimates />
+                            </UserButton.UserProfilePage>
+                            {/* RECEIPTS */}
+                            <UserButton.UserProfilePage label="Receipts" url="receipts" labelIcon={<BsReceipt />}>
+                                <UserReceipts />
+                            </UserButton.UserProfilePage>
+                            {/* REWARDS */}
+                            {/* <UserButton.UserProfilePage label="Rewards" url="rewards" labelIcon={<GiWantedReward />}>
                             <p>stuff</p>
                         </UserButton.UserProfilePage> */}
-                    </UserButton>
+                        </UserButton>
+                    )}
                     {/* ORG OPTION */}
-                    {userEmail === "adrianhenry2115@gmail.com" || userEmail === "mollyspecialtysweets@gmail.com" ? (
+                    {isAdmin ? (
                         <div className="ml-4">
                             <OrganizationSwitcher />
                         </div>

@@ -22,7 +22,7 @@ model Invoice {
   price     String
   verified  Boolean  @default(false)
   userId    String   @unique
-  user      User?    @relation(fields: [userId], references: [clerkId])
+  user      User     @relation(fields: [userId], references: [clerkId])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

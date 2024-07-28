@@ -1,6 +1,6 @@
 "use client";
 
-import { ReceiptType } from "@/lib/types";
+import { ReceiptType, UserType } from "@/lib/types";
 import { useUser } from "@clerk/nextjs";
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import toast from "react-hot-toast";
@@ -21,21 +21,22 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
     // STATE
     const [itemName, setItemName] = useState<string>(newReceipt.itemName || "");
     const [price, setPrice] = useState<string>(newReceipt.price || "$");
-    const [username, setUsername] = useState<string>(newReceipt.username || "");
-    const [userId, setUserId] = useState<string>(newReceipt.userId || "");
-    const [email, setEmail] = useState<string>(newReceipt.email || "");
-    const [phoneNumber, setPhoneNumber] = useState<string>(newReceipt.phoneNumber || "");
-    const [image, setImage] = useState<string>(newReceipt.image || "");
+    const [username, setUsername] = useState<string>(newReceipt.user?.name || "");
+    const [users, setUsers] = useState<UserType[]>([]);
+    const [phoneNumber, setPhoneNumber] = useState<string>(newReceipt.user?.phoneNumber || "");
+    const [email, setEmail] = useState<string>(newReceipt.user?.email || "");
+    const [image, setImage] = useState<string>(newReceipt.user.image || "");
 
     // Populate user info if username matches
     useEffect(() => {
-        if (user?.fullName === username) {
-            setUserId(user.id);
-            setEmail(user.primaryEmailAddress?.emailAddress || "");
-            setPhoneNumber(user.primaryPhoneNumber?.phoneNumber || "");
-            setImage(user.imageUrl);
+        const foundUser = users.find((u) => u.email === user?.primaryEmailAddress?.emailAddress);
+        if (foundUser) {
+            setUsername(foundUser.name);
+            setEmail(foundUser.email);
+            setPhoneNumber(foundUser.phoneNumber || "");
+            setImage(foundUser.image);
         }
-    }, [username, user]);
+    }, [users, user]);
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -44,11 +45,13 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
             ...newReceipt,
             itemName,
             price,
-            userId,
-            image,
-            username,
-            email,
-            phoneNumber,
+            user: {
+                ...newReceipt.user,
+                name: username,
+                email,
+                phoneNumber,
+                image,
+            },
             verified: true,
         };
 
@@ -71,7 +74,6 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
                 setUsername("");
                 setEmail("");
                 setPhoneNumber("");
-                setUserId("");
                 setImage("");
 
                 // Toast

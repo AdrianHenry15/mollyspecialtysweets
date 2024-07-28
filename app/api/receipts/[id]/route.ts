@@ -12,7 +12,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 
 export async function PUT(request: Request) {
     try {
-        const { id, itemName, price, userId, image, username, email, phoneNumber, verified, createdAt, updatedAt } = await request.json();
+        const { id, itemName, price, user, verified } = await request.json();
 
         const updatedReceipt = await prisma.invoice.update({
             where: {
@@ -21,11 +21,7 @@ export async function PUT(request: Request) {
             data: {
                 itemName,
                 price,
-                userId,
-                image,
-                username,
-                email,
-                phoneNumber,
+                user,
                 verified,
                 // createdAt and updatedAt are managed by Prisma, so you don't need to set them manually.
             },
