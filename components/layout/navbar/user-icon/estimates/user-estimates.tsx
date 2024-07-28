@@ -8,19 +8,18 @@ import EstimateItem from "./estimate-item";
 
 const UserEstimates = () => {
     const { user } = useUser();
-    const [estimates, setEstimates] = useState<EstimateType[]>([]);
     const [users, setUsers] = useState<UserType>();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchEstimates = async () => {
+        const fetchUsers = async () => {
             try {
-                const response = await fetch("/api/estimates");
+                const response = await fetch("/api/users/[id]");
                 if (!response.ok) {
-                    throw new Error("Failed to fetch estimates");
+                    throw new Error("Failed to fetch users");
                 }
                 const data = await response.json();
-                setEstimates(data);
+                setUsers(data);
             } catch (error) {
                 console.error(error);
             } finally {
@@ -28,14 +27,14 @@ const UserEstimates = () => {
             }
         };
 
-        fetchEstimates();
+        fetchUsers();
     }, []);
 
     if (loading) {
         return <div>Loading...</div>;
     }
 
-    if (estimates.length === 0) {
+    if (users?.estimates.length === 0) {
         return <div>No estimates found.</div>;
     }
 
@@ -45,9 +44,9 @@ const UserEstimates = () => {
                 <h3 className="text-xl">Estimates</h3>
                 <aside className="text-zinc-400 text-sm">A list of your fufilled estimates</aside>
             </div>
-            {estimates.find((item) => item.user.clerkId === user?.id) &&
-                estimates.map((item, index) => {
-                    return <EstimateItem user={users!} estimates={item} key={index} />;
+            {users?.estimates.find((item) => item.user.clerkId === user?.id) &&
+                users?.estimates.map((item, index) => {
+                    return <EstimateItem user={users} estimates={item} key={index} />;
                 })}
         </div>
     );

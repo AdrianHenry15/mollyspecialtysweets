@@ -192,18 +192,7 @@ const UserProfiles = () => {
                         {openReceipts &&
                             (item.receipts ? (
                                 item.receipts.map((receipt, index) => {
-                                    return (
-                                        <ReceiptItem
-                                            key={index}
-                                            receipts={receipt}
-                                            handleUpdate={handleUpdate}
-                                            confirmDelete={confirmDelete}
-                                            //   setIsCreatingReceipt={setIsCreatingReceipt}
-                                            modalVisible={modalVisible}
-                                            setModalVisible={() => setModalVisible(true)}
-                                            handleDelete={() => {}}
-                                        />
-                                    );
+                                    return <ReceiptItem key={index} receipts={receipt} users={item} />;
                                 })
                             ) : (
                                 // <p className="text-sm text-zinc-300 ml-4">No receipts found.</p>
