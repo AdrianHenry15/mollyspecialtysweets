@@ -1,5 +1,5 @@
 import ConfirmationModal from "@/components/modals/confirmation-modal";
-import { ReceiptType } from "@/lib/types";
+import { ReceiptType, UserType } from "@/lib/types";
 import { Protect, useUser } from "@clerk/nextjs";
 import React, { useState } from "react";
 import { BsArrowRight, BsCheck2Circle, BsXCircle } from "react-icons/bs";
@@ -8,17 +8,12 @@ import CreateReceipt from "./create-receipt";
 import UpdateReceipt from "./update-receipt";
 
 interface IReceiptItemProps {
+    users: UserType;
     receipts: ReceiptType;
-    handleUpdate?: (item: ReceiptType) => void;
-    confirmDelete?: (item: string) => void;
-    setIsCreatingReceipt?: () => void;
-    modalVisible?: boolean;
-    setModalVisible?: () => void;
-    handleDelete?: (item: string) => void;
 }
 
 const ReceiptItem = (props: IReceiptItemProps) => {
-    const { receipts, handleUpdate, confirmDelete, setIsCreatingReceipt, modalVisible, setModalVisible, handleDelete } = props;
+    const { receipts, users } = props;
     const { user } = useUser();
     const isAdmin =
         user?.primaryEmailAddress?.emailAddress === "adrianhenry2115@gmail.com" ||
@@ -37,7 +32,7 @@ const ReceiptItem = (props: IReceiptItemProps) => {
         return (
             <Protect role="org:admin">
                 <div
-                    onClick={setIsCreatingReceipt}
+                    // onClick={setIsCreatingReceipt}
                     className="flex w-full items-center text-sm text-blue-800 p-2 cursor-pointer rounded-md hover:bg-blue-300 ease-in-out duration-300 transition-colors"
                 >
                     <div className="flex items-center w-full justify-start">
@@ -76,13 +71,13 @@ const ReceiptItem = (props: IReceiptItemProps) => {
                     {isAdmin && (
                         <div className="flex items-center justify-end mb-2">
                             <button
-                                onClick={() => handleUpdate!(receipts)}
+                                // onClick={() => handleUpdate!(receipts)}
                                 className="flex items-center justify-center text-yellow-500 mx-2 hover:underline transition-all duration-300 ease-in-out underline-offset-2"
                             >
                                 Update
                             </button>
                             <button
-                                onClick={() => confirmDelete!(receipts.id)}
+                                // onClick={() => confirmDelete!(receipts.id)}
                                 className="flex items-center justify-center text-red-500 hover:underline transition-all duration-300 ease-in-out underline-offset-2"
                             >
                                 Delete
@@ -91,9 +86,12 @@ const ReceiptItem = (props: IReceiptItemProps) => {
                     )}
                     {/* CONFIRMATION MODAL */}
                     <ConfirmationModal
-                        isOpen={modalVisible!}
-                        closeModal={setModalVisible!}
-                        confirm={() => handleDelete!(receipts.id)}
+                        // isOpen={modalVisible!}
+                        isOpen
+                        // closeModal={setModalVisible!}
+                        closeModal={() => {}}
+                        // confirm={() => handleDelete!(receipts.id)}
+                        confirm={() => {}}
                         title={"Confirm deleting this receipt"}
                         message={"Are you sure you want to delete this receipt?"}
                         buttonText={"Delete Receipt"}

@@ -1,6 +1,6 @@
 "use client";
 
-import { ReceiptType } from "@/lib/types";
+import { ReceiptType, UserType } from "@/lib/types";
 import { Protect, useUser } from "@clerk/nextjs";
 import React, { useEffect, useState } from "react";
 
@@ -16,8 +16,8 @@ import ReceiptItem from "./receipt-item";
 const UserReceipts = () => {
     const { user } = useUser();
     // STATE
-    const [receipts, setReceipts] = useState<ReceiptType[]>([]);
     const [loading, setLoading] = useState(true);
+    const [users, setUsers] = useState<UserType>();
 
     // UPDATING STATE
     const [isUpdatingReceipt, setIsUpdatingReceipt] = useState(false);
@@ -33,24 +33,24 @@ const UserReceipts = () => {
     // This useEffect hook fetches receipts data from the server when the component mounts.
     useEffect(() => {
         // It defines an asynchronous function `fetchReceipts` that makes a GET request to "/api/receipts".
-        const fetchReceipts = async () => {
+        const fetchUsers = async () => {
             // If the request is successful, it parses the response JSON and updates the `receipts` state.
             try {
-                const response = await fetch("/api/receipts", {
+                const response = await fetch("/api/users/[id]", {
                     method: "GET",
                 });
                 if (!response.ok) {
-                    throw new Error("Failed to fetch receipts");
+                    throw new Error("Failed to fetch user");
                 }
 
                 if (
-                    (user?.fullName === receipts.find((item) => item.user.name) &&
-                        user?.primaryEmailAddress?.emailAddress === receipts.find((item) => item.user.email)) ||
+                    (user?.fullName === users?.receipts.find((item) => item.user.name) &&
+                        user?.primaryEmailAddress?.emailAddress === users?.receipts.find((item) => item.user.email)) ||
                     user?.primaryEmailAddress?.emailAddress === "adrianhenry2115@gmail.com" ||
                     user?.primaryEmailAddress?.emailAddress === "mollyspecialtysweets@gmail.com"
                 ) {
                     const data = await response.json();
-                    setReceipts(data);
+                    setUsers(data);
                 }
                 // If an error occurs during the fetch operation, it logs the error to the console.
             } catch (error) {
@@ -61,8 +61,8 @@ const UserReceipts = () => {
             }
         };
 
-        fetchReceipts();
-    }, [user, receipts]);
+        fetchUsers();
+    }, []);
 
     if (loading) {
         return (
@@ -137,7 +137,7 @@ const UserReceipts = () => {
     // };
 
     // IF THERE ARE NO RECEIPTS...
-    if (receipts.length === 0) {
+    if (users?.receipts.length === 0) {
         <div>
             <p>No Receipts Found.</p>
             {renderCreateReceiptButton()}
@@ -151,9 +151,9 @@ const UserReceipts = () => {
                 <aside className="text-zinc-400 text-sm">A list of your completed order receipts</aside>
             </div>
             {/* CONTENT */}
-            {receipts.find((item) => item.user.id === user?.id) &&
-                receipts.map((item, index) => {
-                    return <ReceiptItem receipts={item} key={index} />;
+            {users?.receipts.find((item) => item.user.id === user?.id) &&
+                users?.receipts.map((item, index) => {
+                    return <ReceiptItem users={users} receipts={item} key={index} />;
                 })}
             {/* BUTTON TO CREATE NEW RECEIPTS */}
             {renderCreateReceiptButton()}
