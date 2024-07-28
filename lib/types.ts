@@ -46,14 +46,21 @@ export type OrderDetailsType = {
     details?: string;
 };
 
+export type UserType = {
+    id: string;
+    clerkId: string;
+    name: string;
+    email: string;
+    phoneNumber?: string;
+    image: string;
+    estimates: EstimateType[];
+    receipts: ReceiptType[];
+};
+
 export type EstimateType = {
     id: string;
     itemName: string;
-    username: string;
-    userId?: string;
-    image?: string;
-    email?: string;
-    phoneNumber?: string;
+    user: UserType;
     createdAt?: string;
     updatedAt?: string;
 };
@@ -62,11 +69,7 @@ export type ReceiptType = {
     id: string;
     itemName: string;
     price: string;
-    username: string;
-    userId?: string;
-    image?: string;
-    email?: string;
-    phoneNumber?: string;
+    user: UserType;
     verified: boolean;
     createdAt?: string;
     updatedAt?: string;
