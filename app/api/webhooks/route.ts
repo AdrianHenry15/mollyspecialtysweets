@@ -1,25 +1,22 @@
 import { Webhook } from "svix";
-import { headers } from "next/headers";
-import { WebhookEvent } from "@clerk/nextjs/server";
+import { WebhookEvent, UserJSON } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
-import { createClerkClient } from "@clerk/backend";
-import fetchAndSyncUsers from "@/lib/sync-users";
-
-const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
+import { createUser, updateUser } from "@/lib/users";
+import { User } from "@prisma/client";
 
 export async function POST(req: Request) {
     // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
-    const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
+    const WEBHOOK_SECRET = process.env.NODE_ENV === "production" ? process.env.WEBHOOK_PROD_SECRET : process.env.WEBHOOK_DEV_SECRET;
 
     if (!WEBHOOK_SECRET) {
         throw new Error("Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local");
     }
 
     // Get the headers
-    const headerPayload = headers();
-    const svix_id = headerPayload.get("svix-id");
-    const svix_timestamp = headerPayload.get("svix-timestamp");
-    const svix_signature = headerPayload.get("svix-signature");
+    // const headerPayload = headers();
+    const svix_id = req.headers.get("svix-id");
+    const svix_timestamp = req.headers.get("svix-timestamp");
+    const svix_signature = req.headers.get("svix-signature");
 
     // If there are no headers, error out
     if (!svix_id || !svix_timestamp || !svix_signature) {
@@ -39,7 +36,6 @@ export async function POST(req: Request) {
 
     // Verify the payload with the headers
     try {
-        await fetchAndSyncUsers();
         evt = wh.verify(body, {
             "svix-id": svix_id,
             "svix-timestamp": svix_timestamp,
@@ -53,61 +49,50 @@ export async function POST(req: Request) {
     }
 
     // Do something with the payload
-    const { id, object } = evt.data;
+    // For this guide, you simply log the payload to the console
+    const { id } = evt.data;
+    console.log(`Webhook with and ID of ${id} and type of ${evt.type}`);
+    console.log("Webhook body:", body);
 
-    if (object === "user.deleted") {
-        try {
+    try {
+        if (evt.type === "user.created") {
+            const { id, email_addresses, first_name, last_name, image_url, phone_numbers } = evt.data;
+            console.log("User Name:", `${first_name} ${last_name}`);
+            const user = {
+                clerkId: id,
+                firstName: first_name,
+                lastName: last_name,
+                email: email_addresses[0].email_address,
+                phoneNumber: phone_numbers[0].phone_number,
+                imageUrl: image_url,
+            };
+
+            await createUser(user as User);
+        } else if (evt.type === "user.updated") {
+            const { id, email_addresses, first_name, last_name, image_url, phone_numbers } = evt.data;
+            console.log("User Name:", `${first_name} ${last_name}`);
+            const user = {
+                clerkId: id,
+                firstName: first_name || "",
+                lastName: last_name || "",
+                email: email_addresses[0].email_address,
+                phoneNumber: phone_numbers[0].phone_number,
+                imageUrl: image_url,
+            };
+
+            await updateUser(id, user as User);
+        } else if (evt.type === "user.deleted") {
+            console.log("userId:", id);
             await prisma.user.delete({
                 where: { clerkId: id },
             });
-            console.log(`User with ID ${id} deleted successfully`);
-        } catch (error) {
-            console.error("Error deleting user:", error);
-            return new Response("Error occurred while deleting user", {
-                status: 500,
-            });
         }
-    } else if (object === "user.updated" || object === "user.created") {
-        let clerkUser;
-        try {
-            clerkUser = await clerk.users.getUser(id!);
-        } catch (error) {
-            console.error("Error fetching user from Clerk:", error);
-            return new Response("Error occurred while fetching user from Clerk", {
-                status: 500,
-            });
-        }
-
-        const { fullName, primaryEmailAddress, imageUrl, primaryPhoneNumber } = clerkUser;
-        const email = primaryEmailAddress?.emailAddress;
-        const phoneNumber = primaryPhoneNumber?.phoneNumber || null;
-
-        try {
-            await prisma.user.upsert({
-                where: { clerkId: id! }, // Check if user with this ID exists
-                update: {
-                    name: fullName || "",
-                    email: email || "",
-                    phoneNumber: phoneNumber,
-                    image: imageUrl || "",
-                },
-                create: {
-                    clerkId: id!,
-                    name: fullName || "",
-                    email: email || "",
-                    phoneNumber: phoneNumber,
-                    image: imageUrl || "",
-                },
-            });
-        } catch (error) {
-            console.error("Error creating user:", error);
-            return new Response("Error occurred while creating user", {
-                status: 500,
-            });
-        }
+    } catch (err) {
+        console.error("Error updating the database:", err);
+        return new Response("Error occurred while updating the database", {
+            status: 500,
+        });
     }
-
-    console.log(`User with ID ${id} created successfully`);
 
     return new Response("", { status: 200 });
 }

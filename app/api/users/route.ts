@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export async function GET() {
@@ -8,10 +8,11 @@ export async function GET() {
             by: ["clerkId"],
             _min: {
                 id: true, // Include any additional fields you need
-                name: true,
+                firstName: true,
+                lastName: true,
                 email: true,
                 phoneNumber: true,
-                image: true,
+                imageUrl: true,
                 createdAt: true,
             },
         });
@@ -20,10 +21,11 @@ export async function GET() {
         const users = uniqueUsers.map((user) => ({
             id: user._min.id,
             clerkId: user.clerkId,
-            name: user._min.name,
+            firstName: user._min.firstName,
+            lastName: user._min.lastName,
             email: user._min.email,
             phoneNumber: user._min.phoneNumber,
-            image: user._min.image,
+            imageUrl: user._min.imageUrl,
             createdAt: user._min.createdAt,
         }));
 
@@ -31,5 +33,39 @@ export async function GET() {
     } catch (error) {
         console.error("Error fetching users:", error);
         return NextResponse.json({ error: "Error fetching users" }, { status: 500 });
+    }
+}
+
+export async function POST(request: NextRequest) {
+    try {
+        const data = await request.json();
+        const { clerkId, email, firstName, lastName, imageUrl, phoneNumber } = data;
+
+        // Check if user already exists
+        const existingUser = await prisma.user.findUnique({
+            where: { clerkId },
+        });
+
+        if (existingUser) {
+            // If the user already exists, return the existing user
+            return NextResponse.json({ user: existingUser, message: "User already exists" });
+        }
+
+        // If user does not exist, create new user
+
+        const newUser = await prisma.user.create({
+            data: {
+                clerkId,
+                email,
+                firstName,
+                lastName,
+                imageUrl,
+                phoneNumber,
+            },
+        });
+        return NextResponse.json(newUser);
+    } catch (error) {
+        console.error("Error creating user:", error);
+        return NextResponse.json({ error: "Error creating user" }, { status: 500 });
     }
 }
