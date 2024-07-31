@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { BsReceipt } from "react-icons/bs";
 
 interface IUpdateReceiptProps {
-    newReceipt: ReceiptType;
+    receipt: ReceiptType;
     closeUpdatedReceiptForm: () => void;
 }
 
@@ -16,37 +16,25 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
     const { user } = useUser();
 
     // PROPS
-    const { newReceipt, closeUpdatedReceiptForm } = props;
+    const { receipt, closeUpdatedReceiptForm } = props;
 
     // STATE
-    const [itemName, setItemName] = useState<string>(newReceipt.itemName || "");
-    const [price, setPrice] = useState<string>(newReceipt.price || "$");
-    const [username, setUsername] = useState<string>(newReceipt.user?.name || "");
-    const [users, setUsers] = useState<UserType[]>([]);
-    const [phoneNumber, setPhoneNumber] = useState<string>(newReceipt.user?.phoneNumber || "");
-    const [email, setEmail] = useState<string>(newReceipt.user?.email || "");
-    const [image, setImage] = useState<string>(newReceipt.user.image || "");
-
-    // Populate user info if username matches
-    useEffect(() => {
-        const foundUser = users.find((u) => u.email === user?.primaryEmailAddress?.emailAddress);
-        if (foundUser) {
-            setUsername(foundUser.name);
-            setEmail(foundUser.email);
-            setPhoneNumber(foundUser.phoneNumber || "");
-            setImage(foundUser.image);
-        }
-    }, [users, user]);
+    const [itemName, setItemName] = useState<string>(receipt.itemName || "");
+    const [price, setPrice] = useState<string>(receipt.price || "$");
+    const [username, setUsername] = useState<string>(receipt.user?.name || "");
+    const [phoneNumber, setPhoneNumber] = useState<string>(receipt.user?.phoneNumber || "");
+    const [email, setEmail] = useState<string>(receipt.user?.email || "");
+    const [image, setImage] = useState<string>(receipt.user.image || "");
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        const updatedReceipt: Omit<ReceiptType, "createdAt" | "updatedAt"> = {
-            ...newReceipt,
+        const updatedReceipt: Omit<ReceiptType, "id" | "createdAt" | "updatedAt"> = {
+            ...receipt,
             itemName,
             price,
             user: {
-                ...newReceipt.user,
+                ...receipt.user,
                 name: username,
                 email,
                 phoneNumber,
@@ -56,7 +44,7 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
         };
 
         try {
-            const response = await fetch(`/api/receipts/${updatedReceipt.id}`, {
+            const response = await fetch(`/api/receipts/${user?.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

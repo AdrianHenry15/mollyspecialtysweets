@@ -1,5 +1,6 @@
 "use client";
 
+import { createReceipt } from "@/lib/receipt-crud-operations";
 import { ReceiptType, UserType } from "@/lib/types";
 import { useUser } from "@clerk/nextjs";
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
@@ -7,7 +8,7 @@ import toast from "react-hot-toast";
 import { BsReceipt } from "react-icons/bs";
 
 interface ICreateReceiptProps {
-    newReceipt: ReceiptType;
+    receipt: ReceiptType;
     closeReceiptForm: () => void;
 }
 
@@ -16,30 +17,18 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
     const { user } = useUser();
 
     // PROPS
-    const { newReceipt, closeReceiptForm } = props;
+    const { receipt, closeReceiptForm } = props;
 
     // STATE
     const [itemName, setItemName] = useState<string>("");
     const [price, setPrice] = useState<string>("");
-    const [users, setUsers] = useState<UserType[]>([]);
     const [username, setUsername] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [image, setImage] = useState("");
 
-    // Populate user info if email matches
-    useEffect(() => {
-        const foundUser = users.find((u) => u.email === user?.primaryEmailAddress?.emailAddress);
-        if (foundUser) {
-            setUsername(foundUser.name);
-            setEmail(foundUser.email);
-            setPhoneNumber(foundUser.phoneNumber || "");
-            setImage(foundUser.image);
-        }
-    }, [users, user]);
-
     const getUserInfo = () => {
-        if (users.find((item) => item.email === user?.primaryEmailAddress?.emailAddress)) {
+        if (receipt.user.email === user?.primaryEmailAddress?.emailAddress) {
             setEmail(user?.primaryEmailAddress?.emailAddress || "");
             setPhoneNumber(user?.primaryPhoneNumber?.phoneNumber || "");
             setImage(user?.imageUrl!);
@@ -50,26 +39,22 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
         e.preventDefault();
 
         getUserInfo();
-        const updatedReceipt: Omit<ReceiptType, "createdAt" | "updatedAt"> = {
-            ...newReceipt,
+        const updatedReceipt: Omit<ReceiptType, "id" | "createdAt" | "updatedAt"> = {
             itemName,
             price,
             user: {
-                ...newReceipt.user,
-                id: newReceipt.user?.id || "",
-                clerkId: user?.id || "",
+                ...receipt.user,
                 name: username || user?.fullName || "",
                 email: email || user?.primaryEmailAddress?.emailAddress || "",
                 phoneNumber: phoneNumber || user?.primaryPhoneNumber?.phoneNumber,
-                image: image || user?.imageUrl || "",
-                estimates: newReceipt.user?.estimates || [],
-                receipts: newReceipt.user?.receipts || [],
+                clerkId: user!.id,
             },
+            userId: receipt.user.id,
             verified: true,
         };
 
         try {
-            const response = await fetch(`/api/receipts`, {
+            const response = await fetch(`api/receipts`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

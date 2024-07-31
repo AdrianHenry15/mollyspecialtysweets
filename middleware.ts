@@ -17,9 +17,28 @@ export default authMiddleware({
             }
         }
     },
-    publicRoutes: ["/", "/order/cakes", "/estimate", "/contact-us", "/my-story", "/order/cookies", "/order/cupcakes", "/create-a-cake"],
+    publicRoutes: [
+        "/",
+        "/order/cakes",
+        "/estimate",
+        "/contact-us",
+        "/my-story",
+        "/order/cookies",
+        "/order/cupcakes",
+        "/create-a-cake",
+        "/api/users(.*)",
+    ],
 });
 
 export const config = {
-    matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+    matcher: [
+        // This regex matches any string that does not end with a file extension or contain "_next".
+        "/((?!.+\\.[\\w]+$|_next).*)",
+        // Skip Next.js internals and all static files, unless found in search params
+        "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+        // Home
+        "/",
+        // Always run for API routes
+        "/(api|trpc)(.*)",
+    ],
 };

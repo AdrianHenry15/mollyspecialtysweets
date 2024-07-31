@@ -10,26 +10,22 @@ import ReceiptItem from "./receipts/receipt-item";
 import CreateReceipt from "./receipts/create-receipt";
 import UpdateReceipt from "./receipts/update-receipt";
 import toast from "react-hot-toast";
-import { BsChevronDown, BsChevronUp } from "react-icons/bs";
+import { BsArrowRight, BsChevronDown, BsChevronUp } from "react-icons/bs";
+import { FaPlus } from "react-icons/fa6";
 
 const UserProfiles = () => {
+    // CONSTANTS
     const { user } = useUser();
     const [users, setUsers] = useState<UserType[]>([]);
     const [loading, setLoading] = useState(true);
+    const isAdmin =
+        user?.primaryEmailAddress?.emailAddress === "adrianhenry2115@gmail.com" ||
+        user?.primaryEmailAddress?.emailAddress === "mollyspecialtysweets@gmail.com";
 
-    // DROPDOWNS
+    // ======================= STATE =======================
+    // DROPDOWN STATE
     const [openEstimates, setOpenEstimates] = useState(false);
     const [openReceipts, setOpenReceipts] = useState(false);
-    // UPDATING STATE
-    const [isUpdatingReceipt, setIsUpdatingReceipt] = useState(false);
-    const [updatedReceipt, setUpdatedReceipt] = useState<ReceiptType | null>(null); // holds specific receipt to update
-
-    // CREATING RECEIPT STATE
-    const [isCreatingReceipt, setIsCreatingReceipt] = useState(false);
-
-    // DELETING RECEIPT AND MODALS
-    const [modalVisible, setModalVisible] = useState(false);
-    const [selectedReceiptId, setSelectedReceiptId] = useState<string | null>(null);
 
     const toggleEstimateDropdown = () => {
         setOpenEstimates(!openEstimates);
@@ -75,41 +71,6 @@ const UserProfiles = () => {
         );
     }
 
-    // function to update a receipt
-    const handleUpdate = (receipt: ReceiptType) => {
-        setIsUpdatingReceipt(true);
-        setUpdatedReceipt(receipt);
-    };
-
-    // Function to delete a receipt
-    // const handleDelete = async (id: string) => {
-    //     if (!selectedReceiptId) return;
-
-    //     try {
-    //         const response = await fetch(`/api/receipts/${id}`, {
-    //             method: "DELETE",
-    //         });
-    //         if (!response.ok) {
-    //             toast.error("Can not delete this receipt");
-    //             throw new Error("Failed to delete receipt");
-    //         }
-    //         // Update the receipts state after deletion
-    //         setReceipts((prevReceipts) => prevReceipts.filter((receipt) => receipt.id === id));
-    //         // Toast at top of screen
-    //         toast.success("You have successfully deleted this receipt");
-    //     } catch (error) {
-    //         console.error(error);
-    //     } finally {
-    //         setModalVisible(false);
-    //         setSelectedReceiptId(null);
-    //     }
-    // };
-
-    const confirmDelete = (id: string) => {
-        setSelectedReceiptId(id);
-        setModalVisible(true);
-    };
-
     const renderUserProfile = (img: string, name: string, email: string, phoneNumber: string) => {
         return (
             <div className="flex justify-center py-14">
@@ -141,26 +102,29 @@ const UserProfiles = () => {
         );
     };
 
+    const renderCreateReceiptButton = () => {
+        if (isAdmin) {
+            return (
+                // <Protect role="org:admin">
+                <div
+                    // onClick={() => setIsCreatingReceipt(true)}
+                    className="flex w-full items-center text-sm text-blue-800 p-2 cursor-pointer rounded-md hover:bg-blue-300 ease-in-out duration-300 transition-colors"
+                >
+                    <div className="flex items-center w-full justify-start">
+                        <FaPlus size={11} />
+                        <p className="text-blue-800 ml-1">Add New Receipt</p>
+                    </div>
+                    <div className="flex justify-end w-full">
+                        <BsArrowRight size={15} color="white" />
+                    </div>
+                </div>
+                // </Protect>
+            );
+        }
+    };
+
     if (users.length === 0) {
         return <div>No users found.</div>;
-    }
-
-    // RENDER CREATE RECEIPTS COMPONENT
-    if (isCreatingReceipt) {
-        return (
-            <Protect role="org:admin">
-                <CreateReceipt newReceipt={updatedReceipt!} closeReceiptForm={() => setIsCreatingReceipt(false)} />
-            </Protect>
-        );
-    }
-
-    // RENDER UPDATE RECEIPT COMPONENT
-    if (isUpdatingReceipt && updatedReceipt) {
-        return (
-            <Protect role="org:admin">
-                <UpdateReceipt newReceipt={updatedReceipt} closeUpdatedReceiptForm={() => setIsUpdatingReceipt(false)} />
-            </Protect>
-        );
     }
 
     return (
