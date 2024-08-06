@@ -9,7 +9,7 @@ import EstimateItem from "./estimates/estimate-item";
 import ReceiptItem from "./receipts/receipt-item";
 import { BsArrowRight, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa6";
-import UserPic from "@/public/user-solid.svg";
+import axios from "axios";
 
 const UserProfiles = () => {
     // CONSTANTS
@@ -22,26 +22,25 @@ const UserProfiles = () => {
 
     // ======================= STATE =======================
     // DROPDOWN STATE
-    const [openEstimates, setOpenEstimates] = useState(false);
-    const [openReceipts, setOpenReceipts] = useState(false);
+    const [openEstimates, setOpenEstimates] = useState<{ [key: string]: boolean }>({});
+    const [openReceipts, setOpenReceipts] = useState<{ [key: string]: boolean }>({});
 
-    const toggleEstimateDropdown = () => {
-        setOpenEstimates(!openEstimates);
+    const toggleEstimateDropdown = (userId: string) => {
+        setOpenEstimates((prevState) => ({ ...prevState, [userId]: !prevState[userId] }));
+        setOpenReceipts((prevState) => ({ ...prevState, [userId]: false })); // Close receipts dropdown if open
     };
-    const toggleReceiptDropdown = () => {
-        setOpenReceipts(!openReceipts);
+
+    const toggleReceiptDropdown = (userId: string) => {
+        setOpenReceipts((prevState) => ({ ...prevState, [userId]: !prevState[userId] }));
+        setOpenEstimates((prevState) => ({ ...prevState, [userId]: false })); // Close estimates dropdown if open
     };
 
     const fetchUsers = useCallback(async () => {
         try {
-            const response = await fetch("/api/users");
-            if (!response.ok) {
-                throw new Error("Failed to fetch users");
-            }
-            const data = await response.json();
-            setUsers(data);
+            const response = await axios.get("/api/users");
+            setUsers(response.data);
         } catch (error) {
-            console.error(error);
+            console.error("Failed to fetch users", error);
         } finally {
             setLoading(false);
         }
@@ -60,20 +59,11 @@ const UserProfiles = () => {
         );
     }
 
-    if (loading) {
-        return (
-            <div>
-                <p>Loading...</p>
-                <Loader />
-            </div>
-        );
-    }
-
     const renderUserProfile = (img: string, name: string, email: string, phoneNumber: string) => {
         return (
             <div className="flex justify-center py-14 bg-gray-100/50">
                 <Image className="rounded-full mr-4" width={50} height={50} src={img || ""} alt="user-img" />
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-start justify-center">
                     <p className="font-bold text-black">{name}</p>
                     <p className="text-sm">{email}</p>
                     <p className="text-sm">{phoneNumber}</p>
@@ -83,19 +73,43 @@ const UserProfiles = () => {
     };
 
     const renderNotFoundText = (text: string) => {
-        return <p className="text-sm text-zinc-300 ml-4">No {text} found.</p>;
+        return <p className="text-sm text-zinc-300 ml-4">{text} not found.</p>;
     };
 
-    const renderDropdownElement = (toggleDropdown: () => void, dropdownState: boolean, title: string) => {
+    const renderDropdownElement = (toggleDropdown: () => void, isOpen: boolean, title: string, item: UserType) => {
         return (
-            <div
-                onClick={toggleDropdown}
-                className="flex items-center justify-between rounded-lg py-2 px-4 my-2 cursor-pointer hover:bg-gray-100 transition-colors duration-300 ease-in-out"
-            >
-                <h5>{title}</h5>
-                <div className="text-zinc-500">
-                    {dropdownState ? <BsChevronUp size={12} fontWeight={900} /> : <BsChevronDown size={12} fontWeight={900} />}
+            <div>
+                <div
+                    onClick={toggleDropdown}
+                    className="flex items-center justify-between rounded-lg py-2 px-4 my-2 cursor-pointer hover:bg-gray-100 transition-colors duration-300 ease-in-out"
+                >
+                    <h5>{title}</h5>
+                    <div className="text-zinc-500">
+                        {isOpen ? <BsChevronUp size={12} fontWeight={900} /> : <BsChevronDown size={12} fontWeight={900} />}
+                    </div>
                 </div>
+                {isOpen && (
+                    <div>
+                        {title === "Estimates" ? (
+                            item.estimates && item.estimates.length > 0 ? (
+                                item.estimates.map((estimate, index) => <EstimateItem key={index} user={item} estimates={estimate} />)
+                            ) : (
+                                <div>{renderNotFoundText("Estimates")}</div>
+                            )
+                        ) : title === "Receipts" ? (
+                            <>
+                                {item.receipts && item.receipts.length > 0 ? (
+                                    item.receipts.map((receipt, index) => <ReceiptItem key={index} users={item} receipts={receipt} />)
+                                ) : (
+                                    <div>{renderNotFoundText("Receipts")}</div>
+                                )}
+                                {renderCreateReceiptButton()} {/* Display button under receipts */}
+                            </>
+                        ) : (
+                            <div className="mb-4">{renderNotFoundText(title)}</div>
+                        )}
+                    </div>
+                )}
             </div>
         );
     };
@@ -103,11 +117,7 @@ const UserProfiles = () => {
     const renderCreateReceiptButton = () => {
         if (isAdmin) {
             return (
-                // <Protect role="org:admin">
-                <div
-                    // onClick={() => setIsCreatingReceipt(true)}
-                    className="flex w-full items-center text-sm text-blue-800 p-2 cursor-pointer rounded-md hover:bg-blue-300 ease-in-out duration-300 transition-colors"
-                >
+                <div className="flex w-full items-center text-xs text-blue-600 p-2 mb-2 ml-4 cursor-pointer rounded-md hover:bg-blue-300 ease-in-out duration-300 transition-colors">
                     <div className="flex items-center w-full justify-start">
                         <FaPlus size={11} />
                         <p className="text-blue-800 ml-1">Add New Receipt</p>
@@ -116,8 +126,9 @@ const UserProfiles = () => {
                         <BsArrowRight size={15} color="white" />
                     </div>
                 </div>
-                // </Protect>
             );
+        } else {
+            return null;
         }
     };
 
@@ -132,34 +143,30 @@ const UserProfiles = () => {
                 <h3 className="text-xl">Users</h3>
                 <p className="text-zinc-400 text-sm">Find all of the users here</p>
             </div>
-            {users.map((item, index) => {
+            {users.map((item) => {
+                const userId = item.id; // Assuming each user has a unique 'id'
                 return (
-                    <div key={index}>
+                    <div key={userId}>
                         {/* USER PROFILE */}
-                        {renderUserProfile(item.image || UserPic, item.name, item.email, item.phoneNumber!)}
+                        {renderUserProfile(item.image, item.fullName, item.email, item.phoneNumber!)}
                         {/* TOGGLE ESTIMATE DROPDOWN */}
-                        {renderDropdownElement(toggleEstimateDropdown, openEstimates, "Estimates")}
+                        {renderDropdownElement(() => toggleEstimateDropdown(userId), openEstimates[userId] || false, "Estimates", item)}
                         {/* USER ESTIMATES */}
-                        {openEstimates &&
+                        {/* {openEstimates[userId] &&
                             (item.estimates ? (
-                                item.estimates.map((estimate, index) => {
-                                    return <EstimateItem key={index} user={item} estimates={estimate} />;
-                                })
+                                item.estimates.map((estimate, index) => <EstimateItem key={index} user={item} estimates={estimate} />)
                             ) : (
                                 <div>{renderNotFoundText("estimates")}</div>
-                            ))}
+                            ))} */}
                         {/* TOGGLE RECEIPT DROPDOWN */}
-                        {renderDropdownElement(toggleReceiptDropdown, openReceipts, "Receipts")}
+                        {renderDropdownElement(() => toggleReceiptDropdown(userId), openReceipts[userId] || false, "Receipts", item)}
                         {/* USER RECEIPTS */}
-                        {openReceipts &&
+                        {/* {openReceipts[userId] &&
                             (item.receipts ? (
-                                item.receipts.map((receipt, index) => {
-                                    return <ReceiptItem key={index} receipts={receipt} users={item} />;
-                                })
+                                item.receipts.map((receipt, index) => <ReceiptItem key={index} receipts={receipt} users={item} />)
                             ) : (
-                                // <p className="text-sm text-zinc-300 ml-4">No receipts found.</p>
-                                <div>{renderNotFoundText("receipts")}</div>
-                            ))}
+                                <div>{renderNotFoundText()}</div>
+                            ))} */}
                     </div>
                 );
             })}

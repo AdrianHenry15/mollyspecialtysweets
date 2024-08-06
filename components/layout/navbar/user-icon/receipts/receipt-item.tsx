@@ -146,7 +146,7 @@ const ReceiptItem = (props: IReceiptItemProps) => {
                         {getContentItem("Receipt ID: ", receipts.id)}
                         {getContentItem("Item Name: ", receipts.itemName)}
                         {getContentItem("Price: ", `$${receipts.price}`)}
-                        {getContentItem("User Name: ", receipts.user.name || "N/A")}
+                        {getContentItem("User Name: ", receipts.user.fullName || "N/A")}
                         {getContentItem("Email Address", receipts.user.email || "N/A")}
                         {getContentItem("Phone Number", receipts.user.phoneNumber! || "N/A")}
                         {getContentItem("Date Created: ", new Date(receipts.createdAt!).toLocaleString())}

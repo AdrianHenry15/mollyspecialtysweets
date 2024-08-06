@@ -1,70 +1,40 @@
-// import { NextResponse, NextRequest } from "next/server";
-// import prisma from "@/lib/prisma";
+// app/api/users/[id]/route.ts
+import { NextResponse } from "next/server";
+import { createClerkClient } from "@clerk/backend";
 
-// export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
+
+export async function GET(request: Request, { params }: { params: { id: string } }) {
+    const { id } = params;
+    try {
+        const user = await clerk.users.getUser(id);
+        if (!user) {
+            return NextResponse.json({ error: "User not found" }, { status: 404 });
+        }
+
+        const userData = {
+            id: user.id,
+            fullName: user.fullName,
+            email: user.emailAddresses[0].emailAddress,
+            phoneNumber: user.phoneNumbers[0]?.phoneNumber || null,
+            image: user.imageUrl,
+            publicMetadata: user.publicMetadata,
+        };
+
+        return NextResponse.json(userData);
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        return NextResponse.error();
+    }
+}
+
+// export async function DELETE(request: Request, { params }: { params: { id: string } }) {
 //     const { id } = params;
-
 //     try {
-//         // Find the user with the given clerkId
-//         const user = await prisma.user.findUnique({
-//             where: { clerkId: id },
-//         });
-
-//         if (!user) {
-//             return NextResponse.json({ error: "User not found" }, { status: 404 });
-//         }
-
-//         return NextResponse.json(user);
-//     } catch (error) {
-//         console.error("Error fetching user:", error);
-//         return NextResponse.json({ error: "Error fetching user" }, { status: 500 });
-//     }
-// }
-
-// export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-//     const { id } = params;
-
-//     try {
-//         // Parse the request body to get the updated user data
-//         const data = await req.json();
-
-//         // Update user wth given clerkId
-//         const updatedUser = await prisma.user.update({
-//             where: { clerkId: id },
-//             data,
-//         });
-
-//         return NextResponse.json(updatedUser);
-//     } catch (error) {
-//         console.error("Error updating user:", error);
-//         return NextResponse.json({ error: "Error updating user" }, { status: 500 });
-//     }
-// }
-
-// export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-//     const { id } = params;
-//     if (!id || typeof id !== "string") {
-//         return NextResponse.json({ error: "Invalid or missing clerkId" }, { status: 400 });
-//     }
-
-//     try {
-//         // Find the user with the given clerkId
-//         const user = await prisma.user.findUnique({
-//             where: { clerkId: id },
-//         });
-
-//         if (!user) {
-//             return NextResponse.json({ error: "User not found" }, { status: 404 });
-//         }
-
-//         // Delete the user with the given clerkId
-//         await prisma.user.delete({
-//             where: { clerkId: id },
-//         });
-
-//         return NextResponse.json({ message: `Deleted user with clerkId ${id}` });
+//         await clerk.users.deleteUser(id);
+//         return NextResponse.json({ message: "User deleted successfully" }, { status: 200 });
 //     } catch (error) {
 //         console.error("Error deleting user:", error);
-//         return NextResponse.json({ error: "Error deleting user" }, { status: 500 });
+//         return NextResponse.error();
 //     }
 // }
