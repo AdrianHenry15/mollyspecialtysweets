@@ -61,7 +61,7 @@ const UserReceipts = () => {
         );
     }
 
-    if (!users || users.receipts.length === 0) {
+    if (!users || !users.receipts || users.receipts.length === 0) {
         return (
             <div>
                 <p>No Receipts Found.</p>
