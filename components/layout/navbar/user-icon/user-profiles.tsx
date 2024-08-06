@@ -1,17 +1,15 @@
 "use client";
 
 import { Loader } from "@/components/loader";
-import { ReceiptType, UserType } from "@/lib/types";
-import { Protect, useUser } from "@clerk/nextjs";
+import { UserType } from "@/lib/types";
+import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
 import EstimateItem from "./estimates/estimate-item";
 import ReceiptItem from "./receipts/receipt-item";
-import CreateReceipt from "./receipts/create-receipt";
-import UpdateReceipt from "./receipts/update-receipt";
-import toast from "react-hot-toast";
 import { BsArrowRight, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa6";
+import UserPic from "@/public/user-solid.svg";
 
 const UserProfiles = () => {
     // CONSTANTS
@@ -73,9 +71,9 @@ const UserProfiles = () => {
 
     const renderUserProfile = (img: string, name: string, email: string, phoneNumber: string) => {
         return (
-            <div className="flex justify-center py-14">
-                <Image className="rounded-full mr-2" width={50} height={50} src={img} alt="user-img" />
-                <div className="flex flex-col items-start">
+            <div className="flex justify-center py-14 bg-gray-100/50">
+                <Image className="rounded-full mr-4" width={50} height={50} src={img || ""} alt="user-img" />
+                <div className="flex flex-col items-center justify-center">
                     <p className="font-bold text-black">{name}</p>
                     <p className="text-sm">{email}</p>
                     <p className="text-sm">{phoneNumber}</p>
@@ -138,7 +136,7 @@ const UserProfiles = () => {
                 return (
                     <div key={index}>
                         {/* USER PROFILE */}
-                        {renderUserProfile(item.image, item.name, item.email, item.phoneNumber!)}
+                        {renderUserProfile(item.image || UserPic, item.name, item.email, item.phoneNumber!)}
                         {/* TOGGLE ESTIMATE DROPDOWN */}
                         {renderDropdownElement(toggleEstimateDropdown, openEstimates, "Estimates")}
                         {/* USER ESTIMATES */}

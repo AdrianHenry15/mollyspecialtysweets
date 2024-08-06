@@ -19,7 +19,7 @@ const UserEstimates = () => {
         const fetchUsers = async () => {
             try {
                 console.log(`Fetching user data for user ID: ${user?.id}`); // Log the user ID
-                const response = await fetch(`/api/users/${user!.id}`, {
+                const response = await fetch(`/api/users/${user?.id}`, {
                     method: "GET",
                 });
                 if (!response.ok) {
@@ -54,7 +54,7 @@ const UserEstimates = () => {
         return <div>Loading...</div>;
     }
 
-    if (!users || users.estimates.length === 0) {
+    if (!users || !users.estimates || users!.estimates.length === 0) {
         return (
             <div>
                 <p>No Estimates Found.</p>
@@ -68,7 +68,9 @@ const UserEstimates = () => {
                 <h3 className="text-xl">Estimates</h3>
                 <aside className="text-zinc-400 text-sm">A list of your fufilled estimates</aside>
             </div>
-            {users?.estimates.map((item, index) => <EstimateItem user={users} estimates={item} key={index} />)}
+            {users!.estimates.map((item, index) => (
+                <EstimateItem user={users} estimates={item} key={index} />
+            ))}
         </div>
     );
 };
