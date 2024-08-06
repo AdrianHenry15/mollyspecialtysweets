@@ -49,7 +49,7 @@ export type OrderDetailsType = {
 export type UserType = {
     id: string;
     clerkId: string;
-    name: string;
+    fullName: string;
     email: string;
     phoneNumber?: string;
     image: string;
