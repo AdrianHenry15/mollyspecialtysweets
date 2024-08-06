@@ -113,7 +113,7 @@ const ReceiptItem = (props: IReceiptItemProps) => {
 
     // CREATE RECEIPT
     if (openCreater) {
-        return <CreateReceipt receipt={receipts} closeReceiptForm={() => setOpenCreater(false)} />;
+        return <CreateReceipt users={users} closeReceiptForm={() => setOpenCreater(false)} />;
     }
 
     // UPDATE RECEIPT

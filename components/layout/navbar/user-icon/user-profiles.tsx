@@ -10,12 +10,15 @@ import ReceiptItem from "./receipts/receipt-item";
 import { BsArrowRight, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa6";
 import axios from "axios";
+import CreateReceipt from "./receipts/create-receipt";
 
 const UserProfiles = () => {
     // CONSTANTS
     const { user } = useUser();
     const [users, setUsers] = useState<UserType[]>([]);
     const [loading, setLoading] = useState(true);
+    const [createReceiptForUserId, setCreateReceiptForUserId] = useState<string | null>(null);
+
     const isAdmin =
         user?.primaryEmailAddress?.emailAddress === "adrianhenry2115@gmail.com" ||
         user?.primaryEmailAddress?.emailAddress === "mollyspecialtysweets@gmail.com";
@@ -103,7 +106,7 @@ const UserProfiles = () => {
                                 ) : (
                                     <div>{renderNotFoundText("Receipts")}</div>
                                 )}
-                                {renderCreateReceiptButton()} {/* Display button under receipts */}
+                                {renderCreateReceiptButton(item.id)} {/* Display button under receipts */}
                             </>
                         ) : (
                             <div className="mb-4">{renderNotFoundText(title)}</div>
@@ -114,10 +117,13 @@ const UserProfiles = () => {
         );
     };
 
-    const renderCreateReceiptButton = () => {
+    const renderCreateReceiptButton = (userId: string) => {
         if (isAdmin) {
             return (
-                <div className="flex w-full items-center text-xs text-blue-600 p-2 mb-2 ml-4 cursor-pointer rounded-md hover:bg-blue-300 ease-in-out duration-300 transition-colors">
+                <div
+                    onClick={() => setCreateReceiptForUserId(userId)}
+                    className="flex w-full items-center text-xs text-blue-600 p-2 mb-2 ml-4 cursor-pointer rounded-md hover:bg-blue-300 ease-in-out duration-300 transition-colors"
+                >
                     <div className="flex items-center w-full justify-start">
                         <FaPlus size={11} />
                         <p className="text-blue-800 ml-1">Add New Receipt</p>
@@ -136,40 +142,44 @@ const UserProfiles = () => {
         return <div>No users found.</div>;
     }
 
+    const selectedUser = users.find((item) => item.id === createReceiptForUserId) || null;
+
     return (
         <div>
-            {/* HEADER */}
-            <div className="flex flex-col items-start border-b-[1px] border-zinc-300">
-                <h3 className="text-xl">Users</h3>
-                <p className="text-zinc-400 text-sm">Find all of the users here</p>
-            </div>
-            {users.map((item) => {
-                const userId = item.id; // Assuming each user has a unique 'id'
-                return (
-                    <div key={userId}>
-                        {/* USER PROFILE */}
-                        {renderUserProfile(item.image, item.fullName, item.email, item.phoneNumber!)}
-                        {/* TOGGLE ESTIMATE DROPDOWN */}
-                        {renderDropdownElement(() => toggleEstimateDropdown(userId), openEstimates[userId] || false, "Estimates", item)}
-                        {/* USER ESTIMATES */}
-                        {/* {openEstimates[userId] &&
-                            (item.estimates ? (
-                                item.estimates.map((estimate, index) => <EstimateItem key={index} user={item} estimates={estimate} />)
-                            ) : (
-                                <div>{renderNotFoundText("estimates")}</div>
-                            ))} */}
-                        {/* TOGGLE RECEIPT DROPDOWN */}
-                        {renderDropdownElement(() => toggleReceiptDropdown(userId), openReceipts[userId] || false, "Receipts", item)}
-                        {/* USER RECEIPTS */}
-                        {/* {openReceipts[userId] &&
-                            (item.receipts ? (
-                                item.receipts.map((receipt, index) => <ReceiptItem key={index} receipts={receipt} users={item} />)
-                            ) : (
-                                <div>{renderNotFoundText()}</div>
-                            ))} */}
+            {createReceiptForUserId && selectedUser ? (
+                <CreateReceipt users={selectedUser} closeReceiptForm={() => setCreateReceiptForUserId(null)} />
+            ) : (
+                <div>
+                    <div className="flex flex-col items-start border-b-[1px] border-zinc-300">
+                        {/* HEADER */}
+                        <h3 className="text-xl">Users</h3>
+                        <p className="text-zinc-400 text-sm">Find all of the users here</p>
                     </div>
-                );
-            })}
+                    {users.map((item) => {
+                        const userId = item.id; // Assuming each user has a unique 'id'
+                        return (
+                            <div key={userId}>
+                                {/* USER PROFILE */}
+                                {renderUserProfile(item.image, item.fullName, item.email, item.phoneNumber!)}
+                                {/* TOGGLE ESTIMATE DROPDOWN */}
+                                {renderDropdownElement(
+                                    () => toggleEstimateDropdown(userId),
+                                    openEstimates[userId] || false,
+                                    "Estimates",
+                                    item,
+                                )}
+                                {/* TOGGLE RECEIPT DROPDOWN */}
+                                {renderDropdownElement(
+                                    () => toggleReceiptDropdown(userId),
+                                    openReceipts[userId] || false,
+                                    "Receipts",
+                                    item,
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
         </div>
     );
 };

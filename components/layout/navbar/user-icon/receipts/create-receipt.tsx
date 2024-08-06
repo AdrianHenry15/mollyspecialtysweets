@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { BsReceipt } from "react-icons/bs";
 
 interface ICreateReceiptProps {
-    receipt: ReceiptType;
+    users: UserType;
     closeReceiptForm: () => void;
 }
 
@@ -17,21 +17,19 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
     const { user } = useUser();
 
     // PROPS
-    const { receipt, closeReceiptForm } = props;
+    const { users, closeReceiptForm } = props;
 
     // STATE
     const [itemName, setItemName] = useState<string>("");
     const [price, setPrice] = useState<string>("");
-    const [username, setUsername] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [phoneNumber, setPhoneNumber] = useState<string>("");
-    const [image, setImage] = useState("");
+    const [username, setUsername] = useState<string>(users.fullName);
+    const [email, setEmail] = useState<string>(users.email);
+    const [phoneNumber, setPhoneNumber] = useState<string>(users.phoneNumber!);
 
     const getUserInfo = () => {
-        if (receipt.user.email === user?.primaryEmailAddress?.emailAddress) {
+        if (users.email === user?.primaryEmailAddress?.emailAddress) {
             setEmail(user?.primaryEmailAddress?.emailAddress || "");
             setPhoneNumber(user?.primaryPhoneNumber?.phoneNumber || "");
-            setImage(user?.imageUrl!);
         }
     };
 
@@ -41,15 +39,9 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
         getUserInfo();
         const updatedReceipt: Omit<ReceiptType, "id" | "createdAt" | "updatedAt"> = {
             itemName,
+            user: users,
             price,
-            user: {
-                ...receipt.user,
-                name: username || user?.fullName || "",
-                email: email || user?.primaryEmailAddress?.emailAddress || "",
-                phoneNumber: phoneNumber || user?.primaryPhoneNumber?.phoneNumber,
-                clerkId: user!.id,
-            },
-            userId: receipt.user.id,
+            userId: users.id,
             verified: true,
         };
 
@@ -72,7 +64,6 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
                 setUsername("");
                 setEmail("");
                 setPhoneNumber("");
-                setImage("");
 
                 // Toast
                 toast.success("You have successfully created a receipt");
