@@ -8,18 +8,6 @@ import { UserResource } from "@clerk/types";
 // See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
 export default authMiddleware({
     async afterAuth(auth, req, evt) {
-        console.log("afterAuth is working");
-        const user = auth.user as UserResource | null;
-        console.log("User object:", user);
-        if (user) {
-            try {
-                console.log("Calling handleUser function with user:", user);
-                await handleUser(user);
-            } catch (error) {
-                console.error("Unexpected error:", error);
-            }
-        }
-
         if (req.nextUrl.pathname.startsWith("/admin")) {
             if (!(auth.orgRole === "org:admin")) {
                 const redirectUrl = `${req.nextUrl.origin}/`;
