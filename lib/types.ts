@@ -53,8 +53,10 @@ export type UserType = {
     email: string;
     phoneNumber?: string;
     image: string;
-    estimates: EstimateType[];
-    receipts: ReceiptType[];
+    publicMetadata: {
+        estimates: EstimateType[];
+        receipts: ReceiptType[];
+    };
 };
 
 export type EstimateType = {

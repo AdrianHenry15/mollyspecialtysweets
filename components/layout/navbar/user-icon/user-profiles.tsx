@@ -94,15 +94,19 @@ const UserProfiles = () => {
                 {isOpen && (
                     <div>
                         {title === "Estimates" ? (
-                            item.estimates && item.estimates.length > 0 ? (
-                                item.estimates.map((estimate, index) => <EstimateItem key={index} user={item} estimates={estimate} />)
+                            item.publicMetadata.estimates && item.publicMetadata.estimates.length > 0 ? (
+                                item.publicMetadata.estimates.map((estimate, index) => (
+                                    <EstimateItem key={index} user={item} estimates={estimate} />
+                                ))
                             ) : (
                                 <div>{renderNotFoundText("Estimates")}</div>
                             )
                         ) : title === "Receipts" ? (
                             <>
-                                {item.receipts && item.receipts.length > 0 ? (
-                                    item.receipts.map((receipt, index) => <ReceiptItem key={index} users={item} receipts={receipt} />)
+                                {item.publicMetadata.receipts && item.publicMetadata.receipts.length > 0 ? (
+                                    item.publicMetadata.receipts.map((receipt, index) => (
+                                        <ReceiptItem key={index} users={item} receipts={receipt} />
+                                    ))
                                 ) : (
                                     <div>{renderNotFoundText("Receipts")}</div>
                                 )}

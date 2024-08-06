@@ -21,7 +21,6 @@ export async function PUT(request: Request) {
             data: {
                 itemName,
                 price,
-                user,
                 verified,
                 // createdAt and updatedAt are managed by Prisma, so you don't need to set them manually.
             },

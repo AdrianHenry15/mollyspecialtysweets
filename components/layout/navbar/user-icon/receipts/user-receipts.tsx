@@ -20,7 +20,7 @@ const UserReceipts = () => {
         let didCancel = false;
         const fetchUsers = async () => {
             try {
-                const response = await fetch(`/api/users/${user?.id}`, {
+                const response = await fetch(`/api/public-metadata/${user?.id}`, {
                     method: "GET",
                 });
                 if (!response.ok) {
@@ -61,7 +61,7 @@ const UserReceipts = () => {
         );
     }
 
-    if (!users || !users.receipts || users.receipts.length === 0) {
+    if (!users || !users.publicMetadata["receipts"] || users.publicMetadata["receipts"].length === 0) {
         return (
             <div>
                 <p>No Receipts Found.</p>
@@ -76,7 +76,7 @@ const UserReceipts = () => {
                 <aside className="text-zinc-400 text-sm">A list of your completed order receipts</aside>
             </div>
             {/* CONTENT */}
-            {users?.receipts.map((item, index) => <ReceiptItem users={users} receipts={item} key={index} />)}
+            {users?.publicMetadata["receipts"].map((item, index) => <ReceiptItem users={users} receipts={item} key={index} />)}
         </div>
     );
 };
