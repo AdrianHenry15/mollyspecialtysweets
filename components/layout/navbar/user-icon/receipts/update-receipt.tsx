@@ -1,10 +1,9 @@
-"use client";
-
-import { ReceiptType, UserType } from "@/lib/types";
 import { useUser } from "@clerk/nextjs";
-import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { ReceiptType } from "@/lib/types";
 import toast from "react-hot-toast";
 import { BsReceipt } from "react-icons/bs";
+import { useUserStore } from "@/stores/useUserStore"; // Import Zustand store
 
 interface IUpdateReceiptProps {
     receipt: ReceiptType;
@@ -12,19 +11,19 @@ interface IUpdateReceiptProps {
 }
 
 const UpdateReceipt = (props: IUpdateReceiptProps) => {
-    // CLERK
     const { user } = useUser();
-
-    // PROPS
     const { receipt, closeUpdatedReceiptForm } = props;
 
-    // STATE
+    // Extract `updateReceipt` from Zustand store
+    const { updateReceipt } = useUserStore((state) => ({
+        updateReceipt: state.updateReceipt,
+    }));
+
     const [itemName, setItemName] = useState<string>(receipt.itemName || "");
     const [price, setPrice] = useState<string>(receipt.price || "$");
-    const [username, setUsername] = useState<string>(receipt.user?.name || "");
-    const [phoneNumber, setPhoneNumber] = useState<string>(receipt.user?.phoneNumber || "");
-    const [email, setEmail] = useState<string>(receipt.user?.email || "");
-    const [image, setImage] = useState<string>(receipt.user.image || "");
+    const [username, setUsername] = useState<string>(receipt.fullName || "");
+    const [phoneNumber, setPhoneNumber] = useState<string>(receipt.primaryPhoneNumber || "");
+    const [email, setEmail] = useState<string>(receipt.primaryEmailAddress || "");
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -33,18 +32,14 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
             ...receipt,
             itemName,
             price,
-            user: {
-                ...receipt.user,
-                name: username,
-                email,
-                phoneNumber,
-                image,
-            },
+            fullName: username,
+            primaryEmailAddress: email,
+            primaryPhoneNumber: phoneNumber,
             verified: true,
         };
 
         try {
-            const response = await fetch(`/api/receipts/${user?.id}`, {
+            const response = await fetch(`/api/receipts/${receipt.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -53,27 +48,26 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
             });
 
             if (response.ok) {
-                // Handle success
                 const result = await response.json();
                 console.log("Receipt updated:", result);
-                // Clear the form
+
                 setItemName("");
                 setPrice("$");
                 setUsername("");
                 setEmail("");
                 setPhoneNumber("");
-                setImage("");
 
-                // Toast
+                // Update the receipt in the Zustand store
+                if (user?.id) {
+                    updateReceipt(user.id, receipt.id, updatedReceipt);
+                }
+
                 toast.success("You have successfully updated this receipt");
 
-                // Close the form
                 closeUpdatedReceiptForm();
             } else {
-                // Handle error
                 console.error("Failed to update receipt");
-                // toast
-                toast.error("Can not update this receipt");
+                toast.error("Cannot update this receipt");
             }
         } catch (error) {
             console.error("Error:", error);
@@ -89,9 +83,9 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
             )}
         </div>
     );
+
     return (
         <div className="flex flex-col">
-            {/* BREADCRUMBS */}
             <div className="flex items-center text-sm">
                 <BsReceipt color="gray" />
                 <button onClick={closeUpdatedReceiptForm} className="ml-2 text-gray-500 hover:underline underline-offset-2">
@@ -100,13 +94,11 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
                 <p className="mx-3 text-gray-500">/</p>
                 <p className="text-black">Update Receipt</p>
             </div>
-            {/* TITLE */}
             <h5 className="text-4xl font-semibold my-6">Update Receipt</h5>
-            {/* INPUT FORM */}
             <form onSubmit={handleSubmit}>
                 {renderInput("Item Name", itemName, (e) => setItemName(e.target.value))}
                 {renderInput("Price", price, (e) => setPrice(e.target.value))}
-                {renderInput("User Name", username, (e) => setUsername(e.target.value))}
+                {renderInput("Full Name", username, (e) => setUsername(e.target.value))}
                 {renderInput("Email", email, (e) => setEmail(e.target.value), "email")}
                 {renderInput("Phone", phoneNumber, (e) => setPhoneNumber(e.target.value), "tel")}
                 <div className="flex items-center justify-end">

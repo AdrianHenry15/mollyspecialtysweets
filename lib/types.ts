@@ -63,7 +63,9 @@ export type EstimateType = {
     id: string;
     itemName: string;
     userId: string;
-    user: UserType;
+    fullName: string;
+    primaryEmailAddress: string;
+    primaryPhoneNumber?: string;
     createdAt?: string;
     updatedAt?: string;
 };
@@ -73,7 +75,9 @@ export type ReceiptType = {
     itemName: string;
     price: string;
     userId: string;
-    user: UserType;
+    fullName: string;
+    primaryEmailAddress: string;
+    primaryPhoneNumber?: string;
     verified: boolean;
     createdAt?: string;
     updatedAt?: string;

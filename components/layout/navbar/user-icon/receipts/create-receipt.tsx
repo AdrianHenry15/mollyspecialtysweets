@@ -22,9 +22,9 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
     // STATE
     const [itemName, setItemName] = useState<string>("");
     const [price, setPrice] = useState<string>("");
-    const [username, setUsername] = useState<string>(users.fullName);
-    const [email, setEmail] = useState<string>(users.email);
-    const [phoneNumber, setPhoneNumber] = useState<string>(users.phoneNumber!);
+    const [username, setUsername] = useState<string>(users.fullName || "");
+    const [email, setEmail] = useState<string>(users.email || "");
+    const [phoneNumber, setPhoneNumber] = useState<string>(users.phoneNumber! || "");
 
     const getUserInfo = () => {
         if (users.email === user?.primaryEmailAddress?.emailAddress) {
@@ -39,7 +39,9 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
         getUserInfo();
         const updatedReceipt: Omit<ReceiptType, "id" | "createdAt" | "updatedAt"> = {
             itemName,
-            user: users,
+            fullName: username,
+            primaryEmailAddress: email,
+            primaryPhoneNumber: phoneNumber,
             price,
             userId: users.id,
             verified: true,
