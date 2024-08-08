@@ -5,30 +5,25 @@ import { useUser } from "@clerk/nextjs";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { BsReceipt } from "react-icons/bs";
-import { useUserStore } from "@/stores/useUserStore"; // Import Zustand store
+import axios from "axios";
 
 interface ICreateReceiptProps {
-    users: UserType;
+    selectedUserForCreate: UserType;
     closeReceiptForm: () => void;
 }
 
 const CreateReceipt = (props: ICreateReceiptProps) => {
     const { user } = useUser();
-    const { users, closeReceiptForm } = props;
-
-    // Extract `createReceipt` from Zustand store
-    const { createReceipt } = useUserStore((state) => ({
-        createReceipt: state.createReceipt,
-    }));
+    const { selectedUserForCreate, closeReceiptForm } = props;
 
     const [itemName, setItemName] = useState<string>("");
     const [price, setPrice] = useState<string>("");
-    const [username, setUsername] = useState<string>(users.fullName || "");
-    const [email, setEmail] = useState<string>(users.email || "");
-    const [phoneNumber, setPhoneNumber] = useState<string>(users.phoneNumber || "");
+    const [username, setUsername] = useState<string>(selectedUserForCreate.fullName || "");
+    const [email, setEmail] = useState<string>(selectedUserForCreate.email || "");
+    const [phoneNumber, setPhoneNumber] = useState<string>(selectedUserForCreate.phoneNumber || "");
 
     const getUserInfo = () => {
-        if (users.email === user?.primaryEmailAddress?.emailAddress) {
+        if (selectedUserForCreate.email === user?.primaryEmailAddress?.emailAddress) {
             setEmail(user?.primaryEmailAddress?.emailAddress || "");
             setPhoneNumber(user?.primaryPhoneNumber?.phoneNumber || "");
         }
@@ -45,13 +40,13 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
             primaryEmailAddress: email,
             primaryPhoneNumber: phoneNumber,
             price,
-            userId: users.id,
+            userId: selectedUserForCreate.id,
             verified: true,
         };
 
         try {
-            // Create the receipt using Zustand store
-            await createReceipt(users.id, newReceipt); // Pass the additional argument
+            // Send POST request to your API to create the receipt
+            await axios.post(`/api/users/${selectedUserForCreate.id}/receipts`, newReceipt);
 
             // Clear the form
             setItemName("");

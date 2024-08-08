@@ -11,17 +11,11 @@ import { BsArrowRight, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa6";
 import axios from "axios";
 import CreateReceipt from "./receipts/create-receipt";
-import UpdateReceipt from "./receipts/update-receipt"; // Import the UpdateReceipt component
-import { useUserStore } from "@/stores/useUserStore"; // Import the Zustand store
+import UpdateReceipt from "./receipts/update-receipt";
 
 const UserProfiles = () => {
     const { user } = useUser();
-    const { users, setUsers, updateReceipt, createReceipt } = useUserStore((state) => ({
-        users: state.users,
-        setUsers: state.setUsers,
-        updateReceipt: state.updateReceipt,
-        createReceipt: state.createReceipt,
-    }));
+    const [users, setUsers] = useState<UserType[]>([]);
     const [loading, setLoading] = useState(true);
     const [createReceiptForUserId, setCreateReceiptForUserId] = useState<string | null>(null);
     const [updateReceiptForUserId, setUpdateReceiptForUserId] = useState<string | null>(null);
@@ -52,20 +46,20 @@ const UserProfiles = () => {
         } finally {
             setLoading(false);
         }
-    }, [setUsers]);
+    }, []);
 
     useEffect(() => {
         fetchUsers();
     }, [fetchUsers]);
 
-    if (loading) {
-        return (
-            <div>
-                <p>Loading...</p>
-                <Loader />
-            </div>
-        );
-    }
+    const handleReceiptUpdated = async (updatedReceipt: ReceiptType) => {
+        try {
+            await axios.put(`/api/users/${updatedReceipt.userId}/receipts/${updatedReceipt.id}`, updatedReceipt);
+            fetchUsers(); // Refresh the list of users after update
+        } catch (error) {
+            console.error("Failed to update receipt", error);
+        }
+    };
 
     const renderUserProfile = (img: string, name: string, email: string, phoneNumber: string) => {
         return (
@@ -82,10 +76,6 @@ const UserProfiles = () => {
 
     const renderNotFoundText = (text: string) => {
         return <p className="text-sm text-zinc-300 ml-4">{text} not found.</p>;
-    };
-
-    const handleReceiptUpdated = (updatedReceipt: ReceiptType) => {
-        updateReceipt(updatedReceipt.userId, updatedReceipt.id, updatedReceipt);
     };
 
     const renderDropdownElement = (toggleDropdown: () => void, isOpen: boolean, title: string, item: UserType) => {
@@ -113,7 +103,13 @@ const UserProfiles = () => {
                         ) : title === "Receipts" ? (
                             <div className="mr-4">
                                 {item.publicMetadata.receipts && item.publicMetadata.receipts.length > 0 ? (
-                                    item.publicMetadata.receipts.map((receipt, index) => <ReceiptItem key={index} receipts={receipt} />)
+                                    item.publicMetadata.receipts.map((receipt, index) => (
+                                        <ReceiptItem
+                                            key={index}
+                                            receipts={receipt}
+                                            onUpdate={() => setUpdateReceiptForUserId(receipt.id)}
+                                        />
+                                    ))
                                 ) : (
                                     <div>{renderNotFoundText("Receipts")}</div>
                                 )}
@@ -149,21 +145,35 @@ const UserProfiles = () => {
         }
     };
 
+    if (loading) {
+        return (
+            <div>
+                <p>Loading...</p>
+                <Loader />
+            </div>
+        );
+    }
+
     if (users.length === 0) {
         return <div>No users found.</div>;
     }
 
-    const selectedUserForCreate = users.find((item) => item.id === createReceiptForUserId) || null;
-    const selectedUserForUpdate = users.find((item) => item.id === updateReceiptForUserId) || null;
+    const selectedUserForCreate = users ? users.find((item) => item.id === createReceiptForUserId) : null;
+
+    const selectedUserForUpdate = users
+        ? users.find((item) => item.publicMetadata?.receipts?.some((r) => r.id === updateReceiptForUserId))
+        : null;
 
     return (
         <div>
             {createReceiptForUserId && selectedUserForCreate ? (
-                <CreateReceipt users={selectedUserForCreate} closeReceiptForm={() => setCreateReceiptForUserId(null)} />
+                <CreateReceipt selectedUserForCreate={selectedUserForCreate} closeReceiptForm={() => setCreateReceiptForUserId(null)} />
             ) : updateReceiptForUserId && selectedUserForUpdate ? (
                 <UpdateReceipt
+                    users={selectedUserForUpdate}
                     receipt={selectedUserForUpdate.publicMetadata.receipts.find((item) => item.id === updateReceiptForUserId)!}
                     closeUpdatedReceiptForm={() => setUpdateReceiptForUserId(null)}
+                    onReceiptUpdated={handleReceiptUpdated} // Pass the update handler
                 />
             ) : (
                 <div>

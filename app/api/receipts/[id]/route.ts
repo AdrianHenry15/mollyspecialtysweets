@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { Clerk } from "@clerk/clerk-sdk-node";
 import { createClerkClient } from "@clerk/backend";
+import { clerkClient } from "@clerk/nextjs";
 
 const prisma = new PrismaClient();
 const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
