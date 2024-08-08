@@ -1,11 +1,11 @@
 "use client";
 
-import { createReceipt } from "@/lib/receipt-crud-operations";
 import { ReceiptType, UserType } from "@/lib/types";
 import { useUser } from "@clerk/nextjs";
-import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { BsReceipt } from "react-icons/bs";
+import { useUserStore } from "@/stores/useUserStore"; // Import Zustand store
 
 interface ICreateReceiptProps {
     users: UserType;
@@ -13,18 +13,19 @@ interface ICreateReceiptProps {
 }
 
 const CreateReceipt = (props: ICreateReceiptProps) => {
-    // CLERK
     const { user } = useUser();
-
-    // PROPS
     const { users, closeReceiptForm } = props;
 
-    // STATE
+    // Extract `createReceipt` from Zustand store
+    const { createReceipt } = useUserStore((state) => ({
+        createReceipt: state.createReceipt,
+    }));
+
     const [itemName, setItemName] = useState<string>("");
     const [price, setPrice] = useState<string>("");
     const [username, setUsername] = useState<string>(users.fullName || "");
     const [email, setEmail] = useState<string>(users.email || "");
-    const [phoneNumber, setPhoneNumber] = useState<string>(users.phoneNumber! || "");
+    const [phoneNumber, setPhoneNumber] = useState<string>(users.phoneNumber || "");
 
     const getUserInfo = () => {
         if (users.email === user?.primaryEmailAddress?.emailAddress) {
@@ -37,7 +38,8 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
         e.preventDefault();
 
         getUserInfo();
-        const updatedReceipt: Omit<ReceiptType, "id" | "createdAt" | "updatedAt"> = {
+
+        const newReceipt: Omit<ReceiptType, "id" | "createdAt" | "updatedAt"> = {
             itemName,
             fullName: username,
             primaryEmailAddress: email,
@@ -48,38 +50,24 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
         };
 
         try {
-            const response = await fetch(`api/receipts`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(updatedReceipt),
-            });
+            // Create the receipt using Zustand store
+            await createReceipt(users.id, newReceipt); // Pass the additional argument
 
-            if (response.ok) {
-                // Handle success
-                const result = await response.json();
-                console.log("Receipt created:", result);
-                // Clear the form
-                setItemName("");
-                setPrice("$");
-                setUsername("");
-                setEmail("");
-                setPhoneNumber("");
+            // Clear the form
+            setItemName("");
+            setPrice("");
+            setUsername("");
+            setEmail("");
+            setPhoneNumber("");
 
-                // Toast
-                toast.success("You have successfully created a receipt");
+            // Toast
+            toast.success("You have successfully created a receipt");
 
-                // close the form
-                closeReceiptForm();
-            } else {
-                // Handle error
-                console.error("Failed to create receipt");
-                // Toast
-                toast.error("Can not create a receipt");
-            }
+            // Close the form
+            closeReceiptForm();
         } catch (error) {
             console.error("Error:", error);
+            toast.error("Cannot create a receipt");
         }
     };
 
@@ -93,45 +81,43 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
         </div>
     );
 
-    {
-        return (
-            <div className="flex flex-col">
-                {/* BREADCRUMBS */}
-                <div className="flex items-center text-sm">
-                    <BsReceipt color="gray" />
-                    <button onClick={closeReceiptForm} className="ml-2 text-gray-500 hover:underline underline-offset-2">
-                        Receipts
-                    </button>
-                    <p className="mx-3 text-gray-500">/</p>
-                    <p className="text-black">Create new receipt</p>
-                </div>
-                {/* TITLE */}
-                <h5 className="text-4xl font-semibold my-6">Create New Receipt</h5>
-                {/* INPUT FORM */}
-                <form onSubmit={handleSubmit}>
-                    {renderInput("Item Name", itemName, (e) => setItemName(e.target.value))}
-                    {renderInput("Price", price, (e) => setPrice(e.target.value))}
-                    {renderInput("User Name", username, (e) => setUsername(e.target.value))}
-                    {renderInput("Email", email, (e) => setEmail(e.target.value), "email")}
-                    {renderInput("Phone", phoneNumber, (e) => setPhoneNumber(e.target.value), "tel")}
-                    <div className="flex items-center justify-end">
-                        <button
-                            className="flex text-xs py-2 px-4 items-center rounded-md justify-center text-blue-600 hover:bg-blue-400/50 transition-colors ease-in-out duration-300"
-                            onClick={closeReceiptForm}
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            className="mx-4 py-2 px-4 rounded-md text-xs flex items-center justify-center bg-blue-600 text-white hover:bg-blue-800 transition-colors ease-in-out duration-300"
-                            type="submit"
-                        >
-                            Create Receipt
-                        </button>
-                    </div>
-                </form>
+    return (
+        <div className="flex flex-col">
+            {/* BREADCRUMBS */}
+            <div className="flex items-center text-sm">
+                <BsReceipt color="gray" />
+                <button onClick={closeReceiptForm} className="ml-2 text-gray-500 hover:underline underline-offset-2">
+                    Receipts
+                </button>
+                <p className="mx-3 text-gray-500">/</p>
+                <p className="text-black">Create new receipt</p>
             </div>
-        );
-    }
+            {/* TITLE */}
+            <h5 className="text-4xl font-semibold my-6">Create New Receipt</h5>
+            {/* INPUT FORM */}
+            <form onSubmit={handleSubmit}>
+                {renderInput("Item Name", itemName, (e) => setItemName(e.target.value))}
+                {renderInput("Price", price, (e) => setPrice(e.target.value))}
+                {renderInput("User Name", username, (e) => setUsername(e.target.value))}
+                {renderInput("Email", email, (e) => setEmail(e.target.value), "email")}
+                {renderInput("Phone", phoneNumber, (e) => setPhoneNumber(e.target.value), "tel")}
+                <div className="flex items-center justify-end">
+                    <button
+                        className="flex text-xs py-2 px-4 items-center rounded-md justify-center text-blue-600 hover:bg-blue-400/50 transition-colors ease-in-out duration-300"
+                        onClick={closeReceiptForm}
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        className="mx-4 py-2 px-4 rounded-md text-xs flex items-center justify-center bg-blue-600 text-white hover:bg-blue-800 transition-colors ease-in-out duration-300"
+                        type="submit"
+                    >
+                        Create Receipt
+                    </button>
+                </div>
+            </form>
+        </div>
+    );
 };
 
 export default CreateReceipt;
