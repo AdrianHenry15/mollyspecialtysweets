@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader } from "@/components/loader";
-import { UserType } from "@/lib/types";
+import { ReceiptType, UserType } from "@/lib/types";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
@@ -11,31 +11,36 @@ import { BsArrowRight, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa6";
 import axios from "axios";
 import CreateReceipt from "./receipts/create-receipt";
+import UpdateReceipt from "./receipts/update-receipt"; // Import the UpdateReceipt component
+import { useUserStore } from "@/stores/useUserStore"; // Import the Zustand store
 
 const UserProfiles = () => {
-    // CONSTANTS
     const { user } = useUser();
-    const [users, setUsers] = useState<UserType[]>([]);
+    const { users, setUsers, updateReceipt, createReceipt } = useUserStore((state) => ({
+        users: state.users,
+        setUsers: state.setUsers,
+        updateReceipt: state.updateReceipt,
+        createReceipt: state.createReceipt,
+    }));
     const [loading, setLoading] = useState(true);
     const [createReceiptForUserId, setCreateReceiptForUserId] = useState<string | null>(null);
+    const [updateReceiptForUserId, setUpdateReceiptForUserId] = useState<string | null>(null);
 
     const isAdmin =
         user?.primaryEmailAddress?.emailAddress === "adrianhenry2115@gmail.com" ||
         user?.primaryEmailAddress?.emailAddress === "mollyspecialtysweets@gmail.com";
 
-    // ======================= STATE =======================
-    // DROPDOWN STATE
     const [openEstimates, setOpenEstimates] = useState<{ [key: string]: boolean }>({});
     const [openReceipts, setOpenReceipts] = useState<{ [key: string]: boolean }>({});
 
     const toggleEstimateDropdown = (userId: string) => {
         setOpenEstimates((prevState) => ({ ...prevState, [userId]: !prevState[userId] }));
-        setOpenReceipts((prevState) => ({ ...prevState, [userId]: false })); // Close receipts dropdown if open
+        setOpenReceipts((prevState) => ({ ...prevState, [userId]: false }));
     };
 
     const toggleReceiptDropdown = (userId: string) => {
         setOpenReceipts((prevState) => ({ ...prevState, [userId]: !prevState[userId] }));
-        setOpenEstimates((prevState) => ({ ...prevState, [userId]: false })); // Close estimates dropdown if open
+        setOpenEstimates((prevState) => ({ ...prevState, [userId]: false }));
     };
 
     const fetchUsers = useCallback(async () => {
@@ -47,7 +52,7 @@ const UserProfiles = () => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [setUsers]);
 
     useEffect(() => {
         fetchUsers();
@@ -79,6 +84,10 @@ const UserProfiles = () => {
         return <p className="text-sm text-zinc-300 ml-4">{text} not found.</p>;
     };
 
+    const handleReceiptUpdated = (updatedReceipt: ReceiptType) => {
+        updateReceipt(updatedReceipt.userId, updatedReceipt.id, updatedReceipt);
+    };
+
     const renderDropdownElement = (toggleDropdown: () => void, isOpen: boolean, title: string, item: UserType) => {
         return (
             <div>
@@ -102,16 +111,14 @@ const UserProfiles = () => {
                                 <div>{renderNotFoundText("Estimates")}</div>
                             )
                         ) : title === "Receipts" ? (
-                            <>
+                            <div className="mr-4">
                                 {item.publicMetadata.receipts && item.publicMetadata.receipts.length > 0 ? (
-                                    item.publicMetadata.receipts.map((receipt, index) => (
-                                        <ReceiptItem key={index} users={item} receipts={receipt} />
-                                    ))
+                                    item.publicMetadata.receipts.map((receipt, index) => <ReceiptItem key={index} receipts={receipt} />)
                                 ) : (
                                     <div>{renderNotFoundText("Receipts")}</div>
                                 )}
-                                {renderCreateReceiptButton(item.id)} {/* Display button under receipts */}
-                            </>
+                                {renderCreateReceiptButton(item.id)}
+                            </div>
                         ) : (
                             <div className="mb-4">{renderNotFoundText(title)}</div>
                         )}
@@ -126,7 +133,7 @@ const UserProfiles = () => {
             return (
                 <div
                     onClick={() => setCreateReceiptForUserId(userId)}
-                    className="flex w-full items-center text-xs text-blue-600 p-2 mb-2 ml-4 cursor-pointer rounded-md hover:bg-blue-300 ease-in-out duration-300 transition-colors"
+                    className="flex w-full items-center text-xs text-blue-600 p-2 m-4 cursor-pointer rounded-md hover:bg-blue-300 ease-in-out duration-300 transition-colors"
                 >
                     <div className="flex items-center w-full justify-start">
                         <FaPlus size={11} />
@@ -146,33 +153,35 @@ const UserProfiles = () => {
         return <div>No users found.</div>;
     }
 
-    const selectedUser = users.find((item) => item.id === createReceiptForUserId) || null;
+    const selectedUserForCreate = users.find((item) => item.id === createReceiptForUserId) || null;
+    const selectedUserForUpdate = users.find((item) => item.id === updateReceiptForUserId) || null;
 
     return (
         <div>
-            {createReceiptForUserId && selectedUser ? (
-                <CreateReceipt users={selectedUser} closeReceiptForm={() => setCreateReceiptForUserId(null)} />
+            {createReceiptForUserId && selectedUserForCreate ? (
+                <CreateReceipt users={selectedUserForCreate} closeReceiptForm={() => setCreateReceiptForUserId(null)} />
+            ) : updateReceiptForUserId && selectedUserForUpdate ? (
+                <UpdateReceipt
+                    receipt={selectedUserForUpdate.publicMetadata.receipts.find((item) => item.id === updateReceiptForUserId)!}
+                    closeUpdatedReceiptForm={() => setUpdateReceiptForUserId(null)}
+                />
             ) : (
                 <div>
                     <div className="flex flex-col items-start border-b-[1px] border-zinc-300">
-                        {/* HEADER */}
                         <h3 className="text-xl">Users</h3>
                         <p className="text-zinc-400 text-sm">Find all of the users here</p>
                     </div>
                     {users.map((item) => {
-                        const userId = item.id; // Assuming each user has a unique 'id'
+                        const userId = item.id;
                         return (
                             <div key={userId}>
-                                {/* USER PROFILE */}
                                 {renderUserProfile(item.image, item.fullName, item.email, item.phoneNumber!)}
-                                {/* TOGGLE ESTIMATE DROPDOWN */}
                                 {renderDropdownElement(
                                     () => toggleEstimateDropdown(userId),
                                     openEstimates[userId] || false,
                                     "Estimates",
                                     item,
                                 )}
-                                {/* TOGGLE RECEIPT DROPDOWN */}
                                 {renderDropdownElement(
                                     () => toggleReceiptDropdown(userId),
                                     openReceipts[userId] || false,

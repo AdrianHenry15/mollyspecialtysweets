@@ -1,56 +1,48 @@
 "use client";
 
-import { UserType } from "@/lib/types";
+import { UserType, ReceiptType } from "@/lib/types";
 import { useUser } from "@clerk/nextjs";
-import React, { useEffect, useState } from "react";
-
+import React from "react";
 import { Loader } from "@/components/loader";
 import ReceiptItem from "./receipt-item";
+import { useUserStore } from "@/stores/useUserStore";
 
 const UserReceipts = () => {
     const { user } = useUser();
-    // STATE
-    const [loading, setLoading] = useState(true);
-    const [users, setUsers] = useState<UserType | null>(null);
+    const { users, setUsers } = useUserStore((state) => ({
+        users: state.users,
+        setUsers: state.setUsers,
+    }));
+    const [loading, setLoading] = React.useState(true);
 
-    // This useEffect hook fetches users data from the server when the component mounts.
-    useEffect(() => {
+    const publicMetadata = user?.publicMetadata;
+    const receipts = publicMetadata?.receipts as ReceiptType[];
+
+    React.useEffect(() => {
         if (!user?.id) return;
 
-        let didCancel = false;
         const fetchUsers = async () => {
+            setLoading(true);
             try {
-                const response = await fetch(`/api/public-metadata/${user?.id}`, {
+                const response = await fetch(`/api/users`, {
                     method: "GET",
                 });
                 if (!response.ok) {
                     const errorText = await response.text();
                     console.error(`Error response text: ${errorText}`);
-                    throw new Error("Failed to fetch user");
+                    throw new Error("Failed to fetch users");
                 }
-                const data: UserType = await response.json();
-                if (didCancel) {
-                    setUsers(data);
-                }
-                // If an error occurs during the fetch operation, it logs the error to the console.
+                const data: UserType[] = await response.json();
+                setUsers(data); // Update Zustand store
             } catch (error) {
-                if (!didCancel) {
-                    console.error(error);
-                }
+                console.error(error);
             } finally {
-                if (!didCancel) {
-                    // The `setLoading` state is updated to `false` once the fetch operation is complete, whether successful or not.
-                    setLoading(false);
-                }
+                setLoading(false);
             }
         };
 
         fetchUsers();
-
-        return () => {
-            didCancel = true;
-        };
-    }, [user]);
+    }, [user, setUsers]);
 
     if (loading) {
         return (
@@ -61,7 +53,10 @@ const UserReceipts = () => {
         );
     }
 
-    if (!users || !users.publicMetadata["receipts"] || users.publicMetadata["receipts"].length === 0) {
+    // Check if the receipts are available from Zustand store
+    const userReceipts = users?.find((u) => u.id === user?.id)?.publicMetadata?.receipts || [];
+
+    if (userReceipts.length === 0) {
         return (
             <div>
                 <p>No Receipts Found.</p>
@@ -75,8 +70,9 @@ const UserReceipts = () => {
                 <h3 className="text-xl">Receipts</h3>
                 <aside className="text-zinc-400 text-sm">A list of your completed order receipts</aside>
             </div>
-            {/* CONTENT */}
-            {users?.publicMetadata["receipts"].map((item, index) => <ReceiptItem users={users} receipts={item} key={index} />)}
+            {userReceipts.map((item: ReceiptType, index: number) => (
+                <ReceiptItem receipts={item} key={index} />
+            ))}
         </div>
     );
 };
