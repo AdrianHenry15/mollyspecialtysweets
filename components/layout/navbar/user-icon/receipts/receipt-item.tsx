@@ -6,11 +6,11 @@ import { BsArrowRight, BsCheck2Circle, BsXCircle } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa6";
 import CreateReceipt from "./create-receipt";
 import UpdateReceipt from "./update-receipt";
-import { useUserStore } from "@/stores/useUserStore"; // Import Zustand store
 import toast from "react-hot-toast";
 
 interface IReceiptItemProps {
     receipts: ReceiptType;
+    onUpdate: () => void;
 }
 
 const ReceiptItem = (props: IReceiptItemProps) => {
@@ -21,43 +21,11 @@ const ReceiptItem = (props: IReceiptItemProps) => {
         user?.primaryEmailAddress?.emailAddress === "adrianhenry2115@gmail.com" ||
         user?.primaryEmailAddress?.emailAddress === "mollyspecialtysweets@gmail.com";
 
-    // STATE
-    const { deleteReceipt, updateReceipt } = useUserStore((state) => ({
-        deleteReceipt: state.deleteReceipt,
-        updateReceipt: state.updateReceipt,
-    }));
-
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [openUpdater, setOpenUpdater] = useState(false);
 
     const openDeleteModal = () => {
         setDeleteModalOpen(true);
-    };
-
-    const handleUpdateReceipt = async () => {
-        try {
-            await updateReceipt(receipts.userId, receipts.id, {
-                itemName: receipts.itemName,
-                price: receipts.price,
-                verified: true,
-            });
-            toast.success("Receipt updated successfully");
-        } catch (error) {
-            console.error(error);
-            toast.error("Failed to update receipt");
-        }
-    };
-
-    const handleDelete = async () => {
-        try {
-            await deleteReceipt(receipts.userId, receipts.id);
-            toast.success("You have successfully deleted this receipt");
-        } catch (error) {
-            console.error(error);
-            toast.error("Failed to delete receipt");
-        } finally {
-            setDeleteModalOpen(false);
-        }
     };
 
     // DELETE RECEIPT
@@ -66,7 +34,7 @@ const ReceiptItem = (props: IReceiptItemProps) => {
             <ConfirmationModal
                 isOpen={deleteModalOpen}
                 closeModal={() => setDeleteModalOpen(false)}
-                confirm={handleDelete}
+                confirm={() => {}}
                 title={"Confirm deleting this receipt"}
                 message={"Are you sure you want to delete this receipt?"}
                 buttonText={"Delete Receipt"}
@@ -76,7 +44,14 @@ const ReceiptItem = (props: IReceiptItemProps) => {
 
     // UPDATE RECEIPT
     if (openUpdater) {
-        return <UpdateReceipt closeUpdatedReceiptForm={() => setOpenUpdater(false)} receipt={receipts} />;
+        return (
+            <UpdateReceipt
+                users={user}
+                onReceiptUpdated={() => {}}
+                closeUpdatedReceiptForm={() => setOpenUpdater(false)}
+                receipt={receipts}
+            />
+        );
     }
 
     // RECEIPT ITEM
@@ -125,9 +100,9 @@ const ReceiptItem = (props: IReceiptItemProps) => {
 
 const getContentItem = (title: string, content: string | React.ReactNode) => {
     return (
-        <div className="flex flex-col flex-1 w-full justify-between my-1 md:flex-row">
+        <div className="flex flex-col flex-1 w-full justify-between my-2 md:flex-row">
             <h5 className="mr-2 font-semibold flex flex-1 justify-start">{title}</h5>
-            <p className="font-semibold flex justify-start ml-4 text-xs">{content}</p>
+            <p className="font-semibold flex justify-start text-zinc-400 text-xs">{content}</p>
         </div>
     );
 };

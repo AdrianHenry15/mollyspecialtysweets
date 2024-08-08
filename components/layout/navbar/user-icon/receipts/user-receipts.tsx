@@ -1,39 +1,32 @@
 "use client";
 
-import { UserType, ReceiptType } from "@/lib/types";
+import { ReceiptType } from "@/lib/types";
 import { useUser } from "@clerk/nextjs";
 import React from "react";
 import { Loader } from "@/components/loader";
 import ReceiptItem from "./receipt-item";
-import { useUserStore } from "@/stores/useUserStore";
 
 const UserReceipts = () => {
     const { user } = useUser();
-    const { users, setUsers } = useUserStore((state) => ({
-        users: state.users,
-        setUsers: state.setUsers,
-    }));
+    const [receipts, setReceipts] = React.useState<ReceiptType[]>([]);
     const [loading, setLoading] = React.useState(true);
-
-    const publicMetadata = user?.publicMetadata;
-    const receipts = publicMetadata?.receipts as ReceiptType[];
 
     React.useEffect(() => {
         if (!user?.id) return;
 
-        const fetchUsers = async () => {
+        const fetchReceipts = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`/api/users`, {
+                const response = await fetch(`/api/users/${user.id}/receipts`, {
                     method: "GET",
                 });
                 if (!response.ok) {
                     const errorText = await response.text();
                     console.error(`Error response text: ${errorText}`);
-                    throw new Error("Failed to fetch users");
+                    throw new Error("Failed to fetch receipts");
                 }
-                const data: UserType[] = await response.json();
-                setUsers(data); // Update Zustand store
+                const data: { receipts: ReceiptType[] } = await response.json();
+                setReceipts(data.receipts);
             } catch (error) {
                 console.error(error);
             } finally {
@@ -41,8 +34,8 @@ const UserReceipts = () => {
             }
         };
 
-        fetchUsers();
-    }, [user, setUsers]);
+        fetchReceipts();
+    }, [user]);
 
     if (loading) {
         return (
@@ -53,10 +46,7 @@ const UserReceipts = () => {
         );
     }
 
-    // Check if the receipts are available from Zustand store
-    const userReceipts = users?.find((u) => u.id === user?.id)?.publicMetadata?.receipts || [];
-
-    if (userReceipts.length === 0) {
+    if (receipts.length === 0) {
         return (
             <div>
                 <p>No Receipts Found.</p>
@@ -70,8 +60,8 @@ const UserReceipts = () => {
                 <h3 className="text-xl">Receipts</h3>
                 <aside className="text-zinc-400 text-sm">A list of your completed order receipts</aside>
             </div>
-            {userReceipts.map((item: ReceiptType, index: number) => (
-                <ReceiptItem receipts={item} key={index} />
+            {receipts.map((item: ReceiptType, index: number) => (
+                <ReceiptItem onUpdate={() => {}} receipts={item} key={index} />
             ))}
         </div>
     );

@@ -1,23 +1,19 @@
 import { useUser } from "@clerk/nextjs";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { ReceiptType } from "@/lib/types";
+import { ReceiptType, UserType } from "@/lib/types";
 import toast from "react-hot-toast";
 import { BsReceipt } from "react-icons/bs";
-import { useUserStore } from "@/stores/useUserStore"; // Import Zustand store
 
 interface IUpdateReceiptProps {
+    users: any;
     receipt: ReceiptType;
     closeUpdatedReceiptForm: () => void;
+    onReceiptUpdated: (updatedReceipt: any) => void;
 }
 
 const UpdateReceipt = (props: IUpdateReceiptProps) => {
     const { user } = useUser();
     const { receipt, closeUpdatedReceiptForm } = props;
-
-    // Extract `updateReceipt` from Zustand store
-    const { updateReceipt } = useUserStore((state) => ({
-        updateReceipt: state.updateReceipt,
-    }));
 
     const [itemName, setItemName] = useState<string>(receipt.itemName || "");
     const [price, setPrice] = useState<string>(receipt.price || "$");
@@ -39,7 +35,7 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
         };
 
         try {
-            const response = await fetch(`/api/receipts/${receipt.id}`, {
+            const response = await fetch(`/api/receipts/${receipt?.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -58,9 +54,9 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
                 setPhoneNumber("");
 
                 // Update the receipt in the Zustand store
-                if (user?.id) {
-                    updateReceipt(user.id, receipt.id, updatedReceipt);
-                }
+                // if (user?.id) {
+                //     updateReceipt(user.id, receipt.id, updatedReceipt);
+                // }
 
                 toast.success("You have successfully updated this receipt");
 
