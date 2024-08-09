@@ -13,9 +13,11 @@ interface ICreateReceiptProps {
 }
 
 const CreateReceipt = (props: ICreateReceiptProps) => {
+    // CONSTANTS
     const { user } = useUser();
     const { selectedUserForCreate, closeReceiptForm } = props;
 
+    // STATE
     const [itemName, setItemName] = useState<string>("");
     const [price, setPrice] = useState<string>("");
     const [username, setUsername] = useState<string>(selectedUserForCreate.fullName || "");
@@ -32,37 +34,33 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        getUserInfo();
-
-        const newReceipt: Omit<ReceiptType, "id" | "createdAt" | "updatedAt"> = {
-            itemName,
-            fullName: username,
-            primaryEmailAddress: email,
-            primaryPhoneNumber: phoneNumber,
-            price,
-            userId: selectedUserForCreate.id,
-            verified: true,
-        };
+        if (!itemName || !price || !username || !email) {
+            toast.error("Please fill in all required fields.");
+            return;
+        }
 
         try {
-            // Send POST request to your API to create the receipt
-            await axios.post(`/api/users/${selectedUserForCreate.id}/receipts`, newReceipt);
+            // Prepare the new receipt data
+            const newReceipt = {
+                itemName,
+                price,
+                fullName: username,
+                email,
+                phoneNumber,
+            };
 
-            // Clear the form
-            setItemName("");
-            setPrice("");
-            setUsername("");
-            setEmail("");
-            setPhoneNumber("");
+            // Send the new receipt data to the API endpoint
+            const response = await axios.post(`/api/users/${selectedUserForCreate.id}`, newReceipt);
 
-            // Toast
-            toast.success("You have successfully created a receipt");
-
-            // Close the form
-            closeReceiptForm();
+            if (response.status === 200) {
+                toast.success("Receipt created successfully!");
+                closeReceiptForm(); // Close the form after successful submission
+            } else {
+                throw new Error("Failed to create receipt");
+            }
         } catch (error) {
-            console.error("Error:", error);
-            toast.error("Cannot create a receipt");
+            console.error("Error creating receipt:", error);
+            toast.error("An error occurred while creating the receipt.");
         }
     };
 
@@ -77,7 +75,7 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
     );
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col mb-4">
             {/* BREADCRUMBS */}
             <div className="flex items-center text-sm">
                 <BsReceipt color="gray" />

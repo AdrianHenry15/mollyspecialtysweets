@@ -1,13 +1,18 @@
+"use client";
+
 import { EstimateType, UserType } from "@/lib/types";
+import { useUser } from "@clerk/nextjs";
 import React from "react";
 
 interface IEstimateItemProps {
-    user: UserType;
     estimates: EstimateType;
 }
 
 const EstimateItem = (props: IEstimateItemProps) => {
-    const { estimates, user } = props;
+    // CONSTANTS
+    const { estimates } = props;
+
+    // FUNCTIONS
     const getContentItem = (title: string, content: string) => {
         return (
             <div className="flex flex-1 justify-between my-1">
@@ -26,9 +31,9 @@ const EstimateItem = (props: IEstimateItemProps) => {
             {/* CONTENT */}
             <div className="flex text-sm flex-col my-2">
                 <div className="border-b-[1px] border-zinc-300">
-                    {getContentItem("User Name", user.name)}
-                    {getContentItem("Email Address", user.email)}
-                    {getContentItem("Phone Number", user.phoneNumber || "")}
+                    {getContentItem("User Name", estimates?.fullName)}
+                    {getContentItem("Email Address", estimates.primaryEmailAddress)}
+                    {getContentItem("Phone Number", estimates.primaryPhoneNumber || "")}
                     {getContentItem("Estimate ID: ", estimates.id)}
                     {getContentItem("Item Name: ", estimates.itemName)}
                     {getContentItem("Date Created: ", estimates.createdAt?.toString() || "")}

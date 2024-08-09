@@ -12,7 +12,7 @@ export async function GET() {
             email: user.emailAddresses[0].emailAddress,
             phoneNumber: user.phoneNumbers[0]?.phoneNumber || null,
             image: user.imageUrl,
-            publicMetadata: user.publicMetadata,
+            unsafeMetadata: user.unsafeMetadata,
         }));
 
         return NextResponse.json(userData);

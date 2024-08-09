@@ -13,6 +13,13 @@ interface IUpdateReceiptProps {
 
 const UpdateReceipt = (props: IUpdateReceiptProps) => {
     const { user } = useUser();
+    // TODO: USE THIS TO UPDATE USER
+    // user?.update({
+    //     unsafeMetadata: {
+    //         ['receipts']: "",
+    //         ['estimates']: ""
+    //     }
+    // })
     const { receipt, closeUpdatedReceiptForm } = props;
 
     const [itemName, setItemName] = useState<string>(receipt.itemName || "");
