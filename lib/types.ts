@@ -52,7 +52,7 @@ export type UserType = {
     email: string;
     phoneNumber?: string;
     image: string;
-    publicMetadata: {
+    unsafeMetadata: {
         estimates: EstimateType[];
         receipts: ReceiptType[];
     };

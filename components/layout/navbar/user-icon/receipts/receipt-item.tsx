@@ -10,7 +10,6 @@ import toast from "react-hot-toast";
 
 interface IReceiptItemProps {
     receipts: ReceiptType;
-    onUpdate: () => void;
 }
 
 const ReceiptItem = (props: IReceiptItemProps) => {

@@ -19,7 +19,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
             email: user.emailAddresses[0].emailAddress,
             phoneNumber: user.phoneNumbers[0]?.phoneNumber || null,
             image: user.imageUrl,
-            publicMetadata: user.publicMetadata,
+            unsafeMetadata: user.unsafeMetadata,
         };
 
         return NextResponse.json(userData);
@@ -38,15 +38,15 @@ export async function POST(request: Request, { params }: { params: { id: string 
         const user = await clerkClient.users.getUser(userId);
 
         // Retrieve existing receipts from the public metadata
-        const existingReceipts = (user.publicMetadata?.receipts as []) || [];
+        const existingReceipts = (user.unsafeMetadata?.receipts as []) || [];
 
         // Add the new receipt to the list
         const updatedReceipts = [...existingReceipts, data];
 
         // Update the user's public metadata with the new receipt list
         await clerkClient.users.updateUser(userId, {
-            publicMetadata: {
-                ...user.publicMetadata,
+            unsafeMetadata: {
+                ...user.unsafeMetadata,
                 receipts: updatedReceipts,
             },
         });
