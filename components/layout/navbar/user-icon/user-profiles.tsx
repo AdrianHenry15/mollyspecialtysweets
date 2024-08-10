@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader } from "@/components/loader";
-import { ReceiptType, UserType } from "@/lib/types";
+import { EstimateType, ReceiptType, UserType } from "@/lib/types";
 import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
 import EstimateItem from "./estimates/estimate-item";
@@ -12,15 +12,26 @@ import CreateReceipt from "./receipts/create-receipt";
 import UpdateReceipt from "./receipts/update-receipt";
 import { User } from "@clerk/backend";
 import axios from "axios";
+import { useUser } from "@clerk/nextjs";
+import toast from "react-hot-toast";
+import ConfirmationModal from "@/components/modals/confirmation-modal";
 
 const UserProfiles = () => {
+    //CONSTANTS
+    const { user } = useUser();
+    const isAdmin =
+        user?.primaryEmailAddress?.emailAddress === "adrianhenry2115@gmail.com" ||
+        user?.primaryEmailAddress?.emailAddress === "mollyspecialtysweets@gmail.com";
     // STATE
     const [users, setUsers] = useState<UserType[]>([]);
     const [loading, setLoading] = useState(true);
     const [createReceiptForUserId, setCreateReceiptForUserId] = useState<string | null>(null);
     const [updateReceiptForUserId, setUpdateReceiptForUserId] = useState<string | null>(null);
+    const [deleteReceiptForUserId, setDeleteReceiptForUserId] = useState<string | null>(null);
+    const [selectedReceipt, setSelectedReceipt] = useState<ReceiptType | null>(null); // New state for selected receipt
     const [openEstimates, setOpenEstimates] = useState<{ [key: string]: boolean }>({});
     const [openReceipts, setOpenReceipts] = useState<{ [key: string]: boolean }>({});
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
     const fetchUsers = useCallback(async () => {
         try {
@@ -38,6 +49,42 @@ const UserProfiles = () => {
         fetchUsers();
     }, [fetchUsers]);
 
+    const deleteReceipt = useCallback(async () => {
+        if (!deleteReceiptForUserId || !selectedReceipt?.id) {
+            console.log(deleteReceiptForUserId, selectedReceipt!.id);
+            console.error("Invalid user ID or receipt ID.");
+            toast.error("Failed to delete receipt. User ID or receipt ID is invalid.");
+            return;
+        }
+
+        console.log("Deleting receipt for userId:", deleteReceiptForUserId);
+        console.log("Receipt ID:", selectedReceipt.id);
+
+        try {
+            await axios.delete(`/api/users/${deleteReceiptForUserId}/receipts/${selectedReceipt.id}`);
+            toast.success("Receipt deleted successfully!");
+            fetchUsers();
+        } catch (error) {
+            console.error("Error deleting receipt:", error);
+            toast.error("An error occurred while deleting the receipt.");
+        } finally {
+            setOpenDeleteModal(false);
+        }
+    }, [selectedReceipt, deleteReceiptForUserId, fetchUsers]);
+
+    const openDeleteModalFunction = (userId: string, receipt: ReceiptType) => {
+        console.log("Setting deleteReceiptForUserId to:", userId);
+        console.log("Setting selectedReceipt to:", receipt);
+
+        if (!userId || !receipt) {
+            return;
+        }
+
+        setDeleteReceiptForUserId(userId);
+        setSelectedReceipt(receipt!);
+        setOpenDeleteModal(true);
+    };
+
     const toggleEstimateDropdown = (userId: string) => {
         setOpenEstimates((prevState) => ({ ...prevState, [userId]: !prevState[userId] }));
         setOpenReceipts((prevState) => ({ ...prevState, [userId]: false }));
@@ -46,6 +93,12 @@ const UserProfiles = () => {
     const toggleReceiptDropdown = (userId: string) => {
         setOpenReceipts((prevState) => ({ ...prevState, [userId]: !prevState[userId] }));
         setOpenEstimates((prevState) => ({ ...prevState, [userId]: false }));
+    };
+
+    const handleOpenUpdateReceipt = (userId: string, receipt: ReceiptType) => {
+        console.log("Opening update for receipt:", receipt); // Log receipt data
+        setUpdateReceiptForUserId(userId);
+        setSelectedReceipt(receipt);
     };
 
     const renderUserProfile = (user: UserType) => {
@@ -67,8 +120,9 @@ const UserProfiles = () => {
 
     const renderDropdownElement = (toggleDropdown: () => void, isOpen: boolean, title: string, user: UserType | null) => {
         const itemMetadata = user!.unsafeMetadata || {};
-        const estimates = itemMetadata["estimates"] as [];
-        const receipts = itemMetadata["receipts"] as [];
+        const estimates = itemMetadata["estimates"] as EstimateType[];
+        const receipts = itemMetadata["receipts"] as ReceiptType[];
+
         return (
             <div>
                 <div
@@ -91,7 +145,27 @@ const UserProfiles = () => {
                         ) : title === "Receipts" ? (
                             <div className="mr-4">
                                 {receipts && receipts.length > 0 ? (
-                                    receipts.map((receipt, index) => <ReceiptItem key={index} receipts={receipt} />)
+                                    receipts.map((receipt, index) => (
+                                        <div key={index}>
+                                            <ReceiptItem receipts={receipt} />
+                                            {isAdmin && (
+                                                <div className="flex items-center justify-end mb-2 text-sm pr-10">
+                                                    <button
+                                                        onClick={() => handleOpenUpdateReceipt(user!.id, receipt)}
+                                                        className="flex items-center justify-center text-yellow-500 mx-2 hover:underline transition-all duration-300 ease-in-out underline-offset-2"
+                                                    >
+                                                        Update
+                                                    </button>
+                                                    <button
+                                                        onClick={() => openDeleteModalFunction(user!.id, receipt)}
+                                                        className="flex items-center justify-center text-red-500 hover:underline transition-all duration-300 ease-in-out underline-offset-2"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))
                                 ) : (
                                     <div>{renderNotFoundText("Receipts")}</div>
                                 )}
@@ -145,45 +219,65 @@ const UserProfiles = () => {
                 </div>
             )}
             {users.map((user) => {
-                const unsafeMetadata = user.unsafeMetadata || {};
-                const receipts = unsafeMetadata["receipts"] as [];
                 const userId = user.id;
-                const selectedUserForCreate = createReceiptForUserId === userId ? user : null;
-                const selectedUserForUpdate =
-                    updateReceiptForUserId === userId ? receipts?.find((receipt) => receipt === updateReceiptForUserId) : null;
+                const receipts = user.unsafeMetadata?.receipts || [];
+                const currentReceipt = receipts.find((receipt) => receipt === selectedReceipt); // Get the current receipt
 
-                if (!selectedUserForCreate && !selectedUserForUpdate) {
-                    return (
-                        <div key={userId}>
-                            {renderUserProfile(user)}
-                            {renderDropdownElement(() => toggleEstimateDropdown(userId), openEstimates[userId] || false, "Estimates", user)}
-                            {renderDropdownElement(() => toggleReceiptDropdown(userId), openReceipts[userId] || false, "Receipts", user)}
-                        </div>
-                    );
-                } else if (selectedUserForCreate && !selectedUserForUpdate) {
-                    if (createReceiptForUserId === userId) {
-                        return (
-                            <CreateReceipt
-                                key={selectedUserForCreate.id}
-                                selectedUserForCreate={selectedUserForCreate}
-                                closeReceiptForm={() => setCreateReceiptForUserId(null)}
-                            />
-                        );
-                    }
-                } else if (!selectedUserForCreate && selectedUserForUpdate) {
-                    if (updateReceiptForUserId === userId) {
-                        return (
+                return (
+                    <div key={userId}>
+                        {createReceiptForUserId === null && updateReceiptForUserId === null && (
+                            <div>
+                                {renderUserProfile(user)}
+                                {renderDropdownElement(
+                                    () => toggleEstimateDropdown(userId),
+                                    openEstimates[userId] || false,
+                                    "Estimates",
+                                    user,
+                                )}
+                                {renderDropdownElement(
+                                    () => toggleReceiptDropdown(userId),
+                                    openReceipts[userId] || false,
+                                    "Receipts",
+                                    user,
+                                )}
+                            </div>
+                        )}
+                        {updateReceiptForUserId === userId && selectedReceipt ? (
                             <UpdateReceipt
-                                key={selectedUserForUpdate}
-                                users={user}
-                                receipt={selectedUserForUpdate}
-                                closeUpdatedReceiptForm={() => setUpdateReceiptForUserId(null)}
-                                onReceiptUpdated={() => fetchUsers()} // Optionally refresh the user data after update
+                                key={user.id}
+                                selectedUser={user}
+                                currentReceipt={currentReceipt!}
+                                closeUpdatedReceiptForm={() => {
+                                    setUpdateReceiptForUserId(null);
+                                    setSelectedReceipt(null);
+                                }}
+                                fetchUsers={fetchUsers}
+                                onReceiptUpdated={fetchUsers}
                             />
-                        );
-                    }
-                }
+                        ) : null}
+                        {createReceiptForUserId === userId ? (
+                            userId ? (
+                                <CreateReceipt
+                                    key={user.id}
+                                    fetchUsers={fetchUsers}
+                                    selectedUser={user}
+                                    closeReceiptForm={() => setCreateReceiptForUserId(null)}
+                                />
+                            ) : null
+                        ) : null}
+                    </div>
+                );
             })}
+            {openDeleteModal && (
+                <ConfirmationModal
+                    isOpen={openDeleteModal}
+                    closeModal={() => setOpenDeleteModal(false)}
+                    confirm={deleteReceipt}
+                    title={"Confirm deleting this receipt"}
+                    message={"Are you sure you want to delete this receipt?"}
+                    buttonText={"Delete Receipt"}
+                />
+            )}
         </div>
     );
 };

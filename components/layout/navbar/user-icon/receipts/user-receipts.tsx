@@ -8,8 +8,12 @@ import ReceiptItem from "./receipt-item";
 const UserReceipts = () => {
     const { user } = useUser();
 
-    const publicMetadata = user?.publicMetadata;
-    const receipts = publicMetadata!["receipts"] as [];
+    const unsafeMetadata = user?.unsafeMetadata;
+    const receipts = unsafeMetadata!["receipts"] as [];
+
+    if (!receipts) {
+        return <div>No receipts found.</div>;
+    }
 
     return (
         <div className="flex flex-col">
