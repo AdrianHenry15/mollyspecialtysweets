@@ -23,21 +23,21 @@ export default function HomePage() {
             <IconsRow
                 iconItem1={{
                     linkText: "Create A Cake",
-                    href: "/cakes",
+                    href: "/order/cakes",
                     src: Cake,
                     name: "Cakes",
                     description: "Save the perfection of Molly's cakes—a delightful blend of quality and flavor in every bite",
                 }}
                 iconItem2={{
                     linkText: "Order Cupcakes Now",
-                    href: "/cupcakes",
+                    href: "/order/cupcakes",
                     src: Cupcake,
                     name: "Cupcakes",
                     description: "Sweeten up your day with Molly's Cupcakery—where tiny treats bring big joy",
                 }}
                 iconItem3={{
                     linkText: "Order Cookies Now",
-                    href: "/cookies",
+                    href: "/order/cookies",
                     src: Cookie,
                     name: "Cookies",
                     description: "Expertly crafted artisinal cookies for a joyous indulgence",
