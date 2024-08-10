@@ -16,20 +16,20 @@ interface IIconItemProps {
 
 const IconItem = (props: IIconItemProps) => {
     return (
-        <article className={`flex flex-col px-4 py-10 justify-center items-center flex-1 md:mx-10`}>
+        <Link
+            href={props.href}
+            className={`flex flex-col px-4 py-10 justify-center items-center flex-1 rounded-lg hover:bg-zinc-900 ease-in-out duration-300 md:mx-10`}
+        >
             <span>
-                <Image src={props.src} alt="cookie-icon" width={75} height={75} />
+                <Image className="hover:scale-110 duration-300 ease-in-out" src={props.src} alt="cookie-icon" width={75} height={75} />
             </span>
-            <h5 className="text-white my-4 font-semibold text-2xl">{props.name}</h5>
-            <p className="text-white font-light w-full">{props.description}</p>
-            <Link
-                href={props.href}
-                className="text-pink-500 flex items-center justify-center pt-10 transition-colors duration-500 hover:text-blue-400"
-            >
+            <h5 className="text-white my-4 font-semibold text-2xl transition-colors duration-500 hover:text-blue-400">{props.name}</h5>
+            <p className="text-white font-light w-full transition-colors duration-500 hover:text-blue-400">{props.description}</p>
+            <div className="text-pink-500 flex items-center justify-center pt-10 transition-colors duration-500 hover:text-blue-400">
                 <aside className="mr-2">{props.linkText}</aside>
                 <ChevronRightIcon width={15} />
-            </Link>
-        </article>
+            </div>
+        </Link>
     );
 };
 
