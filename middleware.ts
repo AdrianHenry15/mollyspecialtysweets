@@ -1,7 +1,5 @@
 import { authMiddleware } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import { handleUser } from "./lib/handle-user";
-import { UserResource } from "@clerk/types";
 
 // This example protects all routes including api/trpc routes
 // Please edit this to allow other routes to be public as needed.
@@ -19,17 +17,7 @@ export default authMiddleware({
             }
         }
     },
-    publicRoutes: [
-        "/",
-        "/order/cakes",
-        "/estimate",
-        "/contact-us",
-        "/my-story",
-        "/order/cookies",
-        "/order/cupcakes",
-        "/create-a-cake",
-        "/api/users(.*)",
-    ],
+    publicRoutes: ["/", "/order(.*)", "/estimate", "/contact-us", "/my-story", "/create-a-cake", "/api/users(.*)"],
 });
 
 export const config = {
