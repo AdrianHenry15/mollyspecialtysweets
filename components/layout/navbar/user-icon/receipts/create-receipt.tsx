@@ -8,28 +8,21 @@ import { BsReceipt } from "react-icons/bs";
 import axios from "axios";
 
 interface ICreateReceiptProps {
-    selectedUserForCreate: UserType;
+    fetchUsers: () => void;
+    selectedUser: UserType;
     closeReceiptForm: () => void;
 }
 
 const CreateReceipt = (props: ICreateReceiptProps) => {
     // CONSTANTS
-    const { user } = useUser();
-    const { selectedUserForCreate, closeReceiptForm } = props;
+    const { selectedUser, closeReceiptForm, fetchUsers } = props;
 
     // STATE
     const [itemName, setItemName] = useState<string>("");
     const [price, setPrice] = useState<string>("");
-    const [username, setUsername] = useState<string>(selectedUserForCreate.fullName || "");
-    const [email, setEmail] = useState<string>(selectedUserForCreate.email || "");
-    const [phoneNumber, setPhoneNumber] = useState<string>(selectedUserForCreate.phoneNumber || "");
-
-    const getUserInfo = () => {
-        if (selectedUserForCreate.email === user?.primaryEmailAddress?.emailAddress) {
-            setEmail(user?.primaryEmailAddress?.emailAddress || "");
-            setPhoneNumber(user?.primaryPhoneNumber?.phoneNumber || "");
-        }
-    };
+    const [username, setUsername] = useState<string>(selectedUser.fullName || "");
+    const [email, setEmail] = useState<string>(selectedUser.email || "");
+    const [phoneNumber, setPhoneNumber] = useState<string>(selectedUser.phoneNumber || "");
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -41,18 +34,21 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
 
         try {
             // Prepare the new receipt data
-            const newReceipt = {
+            const newReceipt: Omit<ReceiptType, "id" | "createdAt" | "updatedAt"> = {
+                userId: selectedUser.id,
                 itemName,
                 price,
                 fullName: username,
-                email,
-                phoneNumber,
+                primaryEmailAddress: email,
+                primaryPhoneNumber: phoneNumber,
+                verified: true,
             };
 
             // Send the new receipt data to the API endpoint
-            const response = await axios.post(`/api/users/${selectedUserForCreate.id}`, newReceipt);
+            const response = await axios.post(`/api/users/${selectedUser!.id}/receipts`, newReceipt);
 
             if (response.status === 200) {
+                fetchUsers();
                 toast.success("Receipt created successfully!");
                 closeReceiptForm(); // Close the form after successful submission
             } else {

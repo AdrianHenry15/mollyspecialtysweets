@@ -43,9 +43,11 @@
         "react-spinners": "^0.13.8",
         "svix": "^1.25.0",
         "ts-node": "^10.9.2",
+        "uuid": "^10.0.0",
         "zustand": "^4.5.4"
     },
     "devDependencies": {
+        "@types/uuid": "^10.0.0",
         "autoprefixer": "^10.4.16",
         "eslint": "8.56.0",
         "eslint-config-next": "^14.0.4",

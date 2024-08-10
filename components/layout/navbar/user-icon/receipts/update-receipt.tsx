@@ -1,48 +1,43 @@
-import { useUser } from "@clerk/nextjs";
-import { ChangeEvent, FormEvent, useState } from "react";
+"use client";
+
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { ReceiptType, UserType } from "@/lib/types";
 import toast from "react-hot-toast";
 import { BsReceipt } from "react-icons/bs";
-
 interface IUpdateReceiptProps {
-    users: any;
-    receipt: ReceiptType;
+    currentReceipt: ReceiptType;
+    selectedUser: UserType;
     closeUpdatedReceiptForm: () => void;
+    fetchUsers: () => void;
     onReceiptUpdated: (updatedReceipt: any) => void;
 }
 
 const UpdateReceipt = (props: IUpdateReceiptProps) => {
-    const { user } = useUser();
-    // TODO: USE THIS TO UPDATE USER
-    // user?.update({
-    //     unsafeMetadata: {
-    //         ['receipts']: "",
-    //         ['estimates']: ""
-    //     }
-    // })
-    const { receipt, closeUpdatedReceiptForm } = props;
+    // PROPS
+    const { currentReceipt, closeUpdatedReceiptForm, selectedUser, fetchUsers } = props;
 
-    const [itemName, setItemName] = useState<string>(receipt.itemName || "");
-    const [price, setPrice] = useState<string>(receipt.price || "$");
-    const [username, setUsername] = useState<string>(receipt.fullName || "");
-    const [phoneNumber, setPhoneNumber] = useState<string>(receipt.primaryPhoneNumber || "");
-    const [email, setEmail] = useState<string>(receipt.primaryEmailAddress || "");
+    // STATE
+    const [itemName, setItemName] = useState<string>(currentReceipt.itemName || "");
+    const [price, setPrice] = useState<string>(currentReceipt.price || "");
+    const [username, setUsername] = useState<string>(currentReceipt.fullName || "");
+    const [phoneNumber, setPhoneNumber] = useState<string>(currentReceipt.primaryPhoneNumber! || "");
+    const [email, setEmail] = useState<string>(currentReceipt.primaryEmailAddress || "");
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
         const updatedReceipt: Omit<ReceiptType, "id" | "createdAt" | "updatedAt"> = {
-            ...receipt,
+            ...currentReceipt,
+            userId: selectedUser.id,
             itemName,
             price,
             fullName: username,
             primaryEmailAddress: email,
             primaryPhoneNumber: phoneNumber,
-            verified: true,
         };
 
         try {
-            const response = await fetch(`/api/receipts/${receipt?.id}`, {
+            const response = await fetch(`/api/users/${selectedUser.id}/receipts/${currentReceipt!.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -51,6 +46,7 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
             });
 
             if (response.ok) {
+                fetchUsers();
                 const result = await response.json();
                 console.log("Receipt updated:", result);
 
@@ -59,11 +55,6 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
                 setUsername("");
                 setEmail("");
                 setPhoneNumber("");
-
-                // Update the receipt in the Zustand store
-                // if (user?.id) {
-                //     updateReceipt(user.id, receipt.id, updatedReceipt);
-                // }
 
                 toast.success("You have successfully updated this receipt");
 
