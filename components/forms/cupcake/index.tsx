@@ -65,6 +65,7 @@ const CupcakeForm = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
             itemName: `${getValues("cupcakeSize").toString()} ${getValues("cupcakeShape")} ${getValues("cupcakeTier")} ${getValues("colors")} ${getValues("cupcakeFlavor")} ${getValues("cupcakeFrosting")} ${getValues("cupcakeFilling")} ${getValues("cupcakeTopping")} Cupcake`,
+            extraDetails: `${getValues("details")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
             primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
