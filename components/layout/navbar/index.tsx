@@ -7,13 +7,9 @@ import Image from "next/image";
 import MobileHeader from "@/components/layout/navbar/mobile-menu";
 import logo from "@/public/mollys-logo-black.png";
 import { NavMenuItems } from "@/lib/constants";
-import { NavMenuType, ReceiptType } from "@/lib/types";
+import { NavMenuType } from "@/lib/types";
 import Button from "@/components/buttons/button";
 import UserIcon from "./user-icon/user-icon";
-
-interface INavbarProps {
-    receipts: ReceiptType[];
-}
 
 export default function Navbar() {
     const pathname = usePathname();

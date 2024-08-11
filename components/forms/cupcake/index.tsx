@@ -17,10 +17,13 @@ import { Loader } from "@/components/loader";
 import Button from "@/components/buttons/button";
 import ContactDetails from "../contact-details";
 import OrderDetails from "../order-details";
+import { EstimateType } from "@/lib/types";
+import { useUser } from "@clerk/nextjs";
+import axios from "axios";
 
 const CupcakeForm = () => {
-    const InputClass = "w-full border-gray-300 rounded-md py-4";
-
+    // CONSTANTS
+    const { user } = useUser();
     // STATE
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
@@ -40,12 +43,12 @@ const CupcakeForm = () => {
 
     //EMAIL JS
     const templateParams = {
-        cookieSize: getValues("cupcakeSize"),
-        cookieAmount: getValues("cupcakeAmount"),
-        cookieFlavor: getValues("cupcakeFlavor"),
-        cookieFrosting: getValues("cupcakeFrosting"),
-        cookieFilling: getValues("cupcakeFilling"),
-        cookieTopping: getValues("cupcakeTopping"),
+        cupcakeSize: getValues("cupcakeSize"),
+        cupcakeAmount: getValues("cupcakeAmount"),
+        cupcakeFlavor: getValues("cupcakeFlavor"),
+        cupcakeFrosting: getValues("cupcakeFrosting"),
+        cupcakeFilling: getValues("cupcakeFilling"),
+        cupcakeTopping: getValues("cupcakeTopping"),
         colors: getValues("colors"),
         date: getValues("date"),
         deliveryAddress: getValues("deliveryAddress"),
@@ -58,10 +61,38 @@ const CupcakeForm = () => {
         phoneNumber: getValues("phoneNumber"),
     };
 
+    const createCupcakeEstimate = () => {
+        // Prepare the request body for the Estimate model
+        const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
+            itemName: `${getValues("cupcakeSize").toString()} ${getValues("cupcakeShape")} ${getValues("cupcakeTier")} ${getValues("colors")} ${getValues("cupcakeFlavor")} ${getValues("cupcakeFrosting")} ${getValues("cupcakeFilling")} ${getValues("cupcakeTopping")} Cupcake`,
+            userId: user?.id || "",
+            fullName: user?.fullName || "",
+            primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
+            primaryPhoneNumber: user?.primaryPhoneNumber?.phoneNumber || "",
+        };
+
+        // POST request to api/estimates
+        axios
+            .post(`/api/users/${user?.id}/estimates`, estimate, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            .then((response) => {
+                console.log("POST request successful", response.data);
+            })
+            .catch((error) => {
+                console.error("Error with POST request", error);
+            });
+    };
+
     const onSubmit = (data: any) => {
         // open confirmation modal
         setIsConfirmationModalOpen(true);
         console.log(data);
+
+        // TEST
+        createCupcakeEstimate();
     };
 
     const confirmEstimate = () => {
@@ -76,6 +107,8 @@ const CupcakeForm = () => {
                 console.log("FAILED...", error);
             },
         );
+
+        // createCupcakeEstimate()
         // close modal
         setIsConfirmationModalOpen(false);
         setTimeout(() => {

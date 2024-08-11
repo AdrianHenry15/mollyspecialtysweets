@@ -1,11 +1,6 @@
-import ConfirmationModal from "@/components/modals/confirmation-modal";
-import { ReceiptType, UserType } from "@/lib/types";
-import { useUser } from "@clerk/nextjs";
-import React, { useCallback, useState } from "react";
+import { ReceiptType } from "@/lib/types";
+import React from "react";
 import { BsCheck2Circle, BsXCircle } from "react-icons/bs";
-import UpdateReceipt from "./update-receipt";
-import axios from "axios";
-import toast from "react-hot-toast";
 
 interface IReceiptItemProps {
     receipts: ReceiptType;

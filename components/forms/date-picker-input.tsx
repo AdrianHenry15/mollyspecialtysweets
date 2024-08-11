@@ -15,7 +15,9 @@ const DatePickerInput = (props: IDatePickerInputProps) => {
                 name="date"
                 control={props.control}
                 rules={{ required: true }}
-                render={({ field }) => <DatePicker className="w-full" {...field} />}
+                render={({ field }) => (
+                    <DatePicker className="w-full" {...field} value={field.value || null} onChange={(date) => field.onChange(date)} />
+                )}
             />
             {props.errors?.["date"]?.type === "required" && <p className="text-sm text-red-600 ml-4">Date is required.</p>}
         </div>

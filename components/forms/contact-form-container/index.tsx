@@ -17,6 +17,9 @@ import DeliveryMethod from "../delivery-method";
 import { Categories, Occasions } from "@/lib/constants";
 import FormItem from "../form-item";
 import DatePickerInput from "../date-picker-input";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { EstimateType } from "@/lib/types";
 
 const ContactFormContainer = () => {
     // SWITCH BETWEEN CONTACT AND ESTIMATE FORM | BOTH FORMS DO THE SAME THING FOR NOW
@@ -27,7 +30,7 @@ const ContactFormContainer = () => {
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const { isSignedIn, user, isLoaded } = useUser();
+    const { user } = useUser();
 
     // EMAIL JS
     const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID as string;
@@ -57,44 +60,46 @@ const ContactFormContainer = () => {
         details: getValues("details"),
     };
 
-    const onSubmit = (data: any) => {
-        // open confirmation modal
-        setIsConfirmationModalOpen(true);
-        console.log(data);
-    };
-
-    const fetchContactEstimate = () => {
+    const createEstimate = () => {
         // Prepare the request body for the Estimate model
-        const estimate = {
-            itemName: `${getValues("colors")} ${getValues("orderTypes")}`,
-            userId: user?.id,
-            image: user?.imageUrl,
-            username: `${getValues("firstName")} ${getValues("lastName")}}`,
-            email: `${getValues("email")}`,
-            phoneNumber: `${getValues("phoneNumber")}`,
+        const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
+            itemName: `${getValues("colors")} ${getValues("orderTypes") === "Cakes" ? "Cake" : getValues("orderTypes")}`,
+            userId: user?.id || "",
+            fullName: user?.fullName || "",
+            primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
+            primaryPhoneNumber: user?.primaryPhoneNumber?.phoneNumber || "",
         };
 
         // POST request to api/estimates
-        fetch("/api/estimates", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(estimate),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("POST request successful", data);
+        axios
+            .post(`/api/users/${user?.id}/estimates`, estimate, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            .then((response) => {
+                console.log("POST request successful", response.data);
             })
             .catch((error) => {
                 console.error("Error with POST request", error);
             });
     };
 
+    const onSubmit = (data?: any) => {
+        // open confirmation modal
+        setIsConfirmationModalOpen(true);
+        setInputClicked(true);
+        console.log(data);
+
+        // TEST
+        createEstimate();
+    };
+
     const confirmEstimate = () => {
         // EMAIL JS
         emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
             function (response) {
+                toast.success("You have successfully created an estimate!");
                 console.log("SUCCESS!", response.status, response.text);
             },
             function (error) {
@@ -103,7 +108,8 @@ const ContactFormContainer = () => {
         );
 
         // POST CONTACT ESTIMATE
-        fetchContactEstimate();
+        // createEstimate();
+
         // close modal
         setIsConfirmationModalOpen(false);
         setTimeout(() => {
@@ -137,7 +143,7 @@ const ContactFormContainer = () => {
             }`}</h1>
 
             {/* FORM CONTAINER */}
-            <div className="flex flex-col w-[350px] p-6 rounded-2xl shadow-pink-500 shadow-lg border-2 md:w-[650px] lg:w-[1000px]">
+            <div className="flex flex-col w-full p-6 rounded-2xl shadow-pink-500 shadow-lg border-2 md:w-[650px] lg:w-[1000px]">
                 {/* LOGO */}
                 <div className="flex justify-center pb-4">
                     <Image loading="eager" width={125} src={Logo} alt="Brite Logo" />
@@ -217,7 +223,7 @@ const ContactFormContainer = () => {
                     {/* BUTTON */}
                     <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
                         <Button
-                            submit
+                            onClick={() => onSubmit()}
                             name={`${pathname === "/contact-us" ? "Contact Us" : "Get Your Free Estimate"}`}
                             className="w-full justify-center"
                         />
