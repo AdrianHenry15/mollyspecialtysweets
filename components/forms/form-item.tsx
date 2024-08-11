@@ -50,17 +50,17 @@ const FormItem: React.FC<IFormItemProps> = ({
     textInput,
 }: IFormItemProps) => {
     const theme = useTheme();
-    const [orderName, setOrderName] = React.useState<string[]>([]);
 
-    function getStyles(name: string, orderName: readonly string[], theme: Theme) {
+    function getStyles(name: string, selectedNames: readonly string[] = [], theme: Theme) {
         return {
-            fontWeight: orderName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
+            fontWeight: selectedNames.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
         };
     }
+
     return (
         <FormContainer className="flex-col pb-6" title={title}>
             <Controller
-                rules={{ required: required }}
+                rules={{ required }}
                 name={name}
                 defaultValue={defaultValue}
                 control={control}
@@ -89,13 +89,13 @@ const FormItem: React.FC<IFormItemProps> = ({
                         {/* MULTIPLE SELECT */}
                         {multipleSelect && (
                             <FormControl className="w-full my-4">
-                                <InputLabel id="demo-multiple-chip-label">Order</InputLabel>
+                                <InputLabel id="demo-multiple-chip-label">{label}</InputLabel>
                                 <Select
                                     multiple
                                     onChange={field.onChange}
                                     onBlur={field.onBlur}
                                     value={field.value || []}
-                                    input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                                    input={<OutlinedInput id="select-multiple-chip" label={label} />}
                                     renderValue={(selected) => (
                                         <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                                             {selected.map((value: any) => (
@@ -106,7 +106,7 @@ const FormItem: React.FC<IFormItemProps> = ({
                                     MenuProps={MenuProps}
                                 >
                                     {options!.map((name) => (
-                                        <MenuItem key={name} value={name} style={getStyles(name, orderName, theme)}>
+                                        <MenuItem key={name} value={name} style={getStyles(name, field.value, theme)}>
                                             {name}
                                         </MenuItem>
                                     ))}
@@ -114,7 +114,7 @@ const FormItem: React.FC<IFormItemProps> = ({
                             </FormControl>
                         )}
                         {/* INPUT TEXT */}
-                        {textInput && <TextField className="w-full" label={label} {...field} />}
+                        {textInput && <TextField className="w-full" label={label} value={field.value || ""} onChange={field.onChange} />}
                     </div>
                 )}
             />

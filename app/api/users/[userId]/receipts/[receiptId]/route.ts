@@ -15,7 +15,7 @@ export async function DELETE(request: Request, { params }: { params: { userId: s
         const currentReceipts = (user.unsafeMetadata.receipts as []) || [];
 
         // Filter out the receipt to be deleted
-        const updatedReceipts = currentReceipts.filter((receipt: any) => receipt.id !== receiptId);
+        const updatedReceipts = currentReceipts.filter((receipt: ReceiptType) => receipt.id !== receiptId);
 
         // Update the user's unsafeMetadata with the new list of receipts
         await users.updateUser(userId, {
@@ -47,7 +47,7 @@ export async function PUT(request: Request, { params }: { params: { userId: stri
         console.log("Current receipts:", currentReceipts);
 
         // Find and update the specific receipt by its id
-        const updatedReceipts = currentReceipts.map((receipt: any) => {
+        const updatedReceipts = currentReceipts.map((receipt: ReceiptType) => {
             if (receipt.id === receiptId) {
                 return { ...receipt, ...updatedReceipt };
             }

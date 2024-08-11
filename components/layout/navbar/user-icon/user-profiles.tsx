@@ -28,7 +28,7 @@ const UserProfiles = () => {
     const [createReceiptForUserId, setCreateReceiptForUserId] = useState<string | null>(null);
     const [updateReceiptForUserId, setUpdateReceiptForUserId] = useState<string | null>(null);
     const [deleteReceiptForUserId, setDeleteReceiptForUserId] = useState<string | null>(null);
-    const [selectedReceipt, setSelectedReceipt] = useState<ReceiptType | null>(null); // New state for selected receipt
+    const [selectedReceipt, setSelectedReceipt] = useState<ReceiptType | EstimateType | null>(null); // New state for selected receipt
     const [openEstimates, setOpenEstimates] = useState<{ [key: string]: boolean }>({});
     const [openReceipts, setOpenReceipts] = useState<{ [key: string]: boolean }>({});
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -72,16 +72,16 @@ const UserProfiles = () => {
         }
     }, [selectedReceipt, deleteReceiptForUserId, fetchUsers]);
 
-    const openDeleteModalFunction = (userId: string, receipt: ReceiptType) => {
+    const openDeleteModalFunction = (userId: string, receipt?: ReceiptType, estimate?: EstimateType) => {
         console.log("Setting deleteReceiptForUserId to:", userId);
-        console.log("Setting selectedReceipt to:", receipt);
+        console.log("Setting selectedReceipt to:", receipt || estimate);
 
-        if (!userId || !receipt) {
+        if (!userId || !receipt || !estimate) {
             return;
         }
 
         setDeleteReceiptForUserId(userId);
-        setSelectedReceipt(receipt!);
+        setSelectedReceipt(receipt || estimate);
         setOpenDeleteModal(true);
     };
 
@@ -138,7 +138,28 @@ const UserProfiles = () => {
                     <div>
                         {title === "Estimates" ? (
                             estimates && estimates.length > 0 ? (
-                                estimates.map((estimate, index) => <EstimateItem key={index} estimates={estimate} />)
+                                estimates.map((estimate, index) => (
+                                    <div key={index}>
+                                        {" "}
+                                        <EstimateItem estimates={estimate} />{" "}
+                                        {isAdmin && (
+                                            <div className="flex items-center justify-end mb-2 text-sm pr-10">
+                                                {/* <button
+                                                    onClick={() => handleOpenUpdateReceipt(user!.id, receipt)}
+                                                    className="flex items-center justify-center text-yellow-500 mx-2 hover:underline transition-all duration-300 ease-in-out underline-offset-2"
+                                                >
+                                                    Update
+                                                </button> */}
+                                                <button
+                                                    // onClick={() => openDeleteModalFunction(user!.id, estimate! || null)}
+                                                    className="flex items-center justify-center text-red-500 hover:underline transition-all duration-300 ease-in-out underline-offset-2"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        )}{" "}
+                                    </div>
+                                ))
                             ) : (
                                 <div>{renderNotFoundText("Estimates")}</div>
                             )

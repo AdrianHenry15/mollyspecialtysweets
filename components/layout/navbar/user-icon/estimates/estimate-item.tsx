@@ -15,9 +15,9 @@ const EstimateItem = (props: IEstimateItemProps) => {
     // FUNCTIONS
     const getContentItem = (title: string, content: string) => {
         return (
-            <div className="flex flex-1 justify-between my-1">
-                <h5 className="mr-2 font-semibold">{title}</h5>
-                <p className="font-semibold">{content}</p>
+            <div className="flex flex-col flex-1 w-full justify-between my-2 md:flex-row">
+                <h5 className="mr-2 font-semibold flex flex-1 justify-start">{title}</h5>
+                <p className="font-semibold flex justify-start text-zinc-400 text-xs">{content}</p>
             </div>
         );
     };
@@ -27,16 +27,16 @@ const EstimateItem = (props: IEstimateItemProps) => {
     }
 
     return (
-        <div className="flex flex-col ">
+        <div className="flex flex-col px-10">
             {/* CONTENT */}
             <div className="flex text-sm flex-col my-2">
                 <div className="border-b-[1px] border-zinc-300">
-                    {getContentItem("User Name", estimates?.fullName)}
-                    {getContentItem("Email Address", estimates.primaryEmailAddress)}
-                    {getContentItem("Phone Number", estimates.primaryPhoneNumber || "")}
                     {getContentItem("Estimate ID: ", estimates.id)}
                     {getContentItem("Item Name: ", estimates.itemName)}
-                    {getContentItem("Date Created: ", estimates.createdAt?.toString() || "")}
+                    {getContentItem("User Name", estimates?.fullName)}
+                    {getContentItem("Email Address", estimates.primaryEmailAddress)}
+                    {getContentItem("Phone Number", estimates.primaryPhoneNumber || "N/A")}
+                    {getContentItem("Date Created: ", estimates.createdAt ? new Date(estimates.createdAt).toLocaleString() : "N/A")}
                 </div>
             </div>
         </div>
