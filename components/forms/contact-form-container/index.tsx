@@ -63,7 +63,8 @@ const ContactFormContainer = () => {
     const createEstimate = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("colors")} ${getValues("orderTypes") === "Cakes" ? "Cake" : getValues("orderTypes")}`,
+            itemName: `${getValues("orderTypes") === "Cakes" ? "Cake" : getValues("orderTypes")}`,
+            extraDetails: `${getValues("colors")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
             primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",

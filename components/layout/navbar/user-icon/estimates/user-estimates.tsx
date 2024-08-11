@@ -17,33 +17,33 @@ const UserEstimates = () => {
         user?.primaryEmailAddress?.emailAddress === "adrianhenry2115@gmail.com" ||
         user?.primaryEmailAddress?.emailAddress === "mollyspecialtysweets@gmail.com";
 
-    const [deleteReceiptForUserId, setDeleteReceiptForUserId] = useState<string | null>(null);
-    const [selectedReceipt, setSelectedReceipt] = useState<EstimateType | null>(null); // New state for selected receipt
-    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [deleteEstimateForUserId, setDeleteEstimateForUserId] = useState<string | null>(null);
+    const [selectedEstimate, setSelectedEstimate] = useState<EstimateType | null>(null); // New state for selected receipt
+    const [openDeleteEstimateModal, setOpenDeleteEstimateModal] = useState(false);
 
-    const deleteReceipt = useCallback(async () => {
-        if (!deleteReceiptForUserId || !selectedReceipt?.id) {
-            console.log(deleteReceiptForUserId, selectedReceipt!.id);
-            console.error("Invalid user ID or receipt ID.");
-            toast.error("Failed to delete receipt. User ID or receipt ID is invalid.");
+    const deleteEstimate = useCallback(async () => {
+        if (!deleteEstimateForUserId || !selectedEstimate?.id) {
+            console.log(deleteEstimateForUserId, selectedEstimate!.id);
+            console.error("Invalid user ID or estimate ID.");
+            toast.error("Failed to delete estimate. User ID or estimate ID is invalid.");
             return;
         }
 
-        console.log("Deleting receipt for userId:", deleteReceiptForUserId);
-        console.log("Receipt ID:", selectedReceipt.id);
+        console.log("Deleting estimate for userId:", deleteEstimateForUserId);
+        console.log("Estimate ID:", selectedEstimate.id);
 
         try {
-            await axios.delete(`/api/users/${deleteReceiptForUserId}/receipts/${selectedReceipt.id}`);
-            toast.success("Receipt deleted successfully!");
+            await axios.delete(`/api/users/${deleteEstimateForUserId}/receipts/${selectedEstimate.id}`);
+            toast.success("Estimate deleted successfully!");
         } catch (error) {
-            console.error("Error deleting receipt:", error);
-            toast.error("An error occurred while deleting the receipt.");
+            console.error("Error deleting estimate:", error);
+            toast.error("An error occurred while deleting the estimate.");
         } finally {
-            setOpenDeleteModal(false);
+            setOpenDeleteEstimateModal(false);
         }
-    }, [selectedReceipt, deleteReceiptForUserId]);
+    }, [selectedEstimate, deleteEstimateForUserId]);
 
-    const openDeleteModalFunction = (userId: string, estimate: EstimateType) => {
+    const onOpenDeleteEstimateModal = (userId: string, estimate: EstimateType) => {
         console.log("Setting deleteEstimateForUserId to:", userId);
         console.log("Setting selectedEstimate to:", estimate);
 
@@ -51,9 +51,9 @@ const UserEstimates = () => {
             return;
         }
 
-        setDeleteReceiptForUserId(userId);
-        setSelectedReceipt(estimate!);
-        setOpenDeleteModal(true);
+        setDeleteEstimateForUserId(userId);
+        setSelectedEstimate(estimate!);
+        setOpenDeleteEstimateModal(true);
     };
 
     if (!estimates) {
@@ -78,7 +78,7 @@ const UserEstimates = () => {
                                                         Update
                                                     </button> */}
                             <button
-                                onClick={() => openDeleteModalFunction(user!.id, item)}
+                                onClick={() => onOpenDeleteEstimateModal(user!.id, item)}
                                 className="flex items-center justify-center text-red-500 hover:underline transition-all duration-300 ease-in-out underline-offset-2"
                             >
                                 Delete
@@ -87,14 +87,14 @@ const UserEstimates = () => {
                     )}
                 </div>
             ))}
-            {openDeleteModal && (
+            {openDeleteEstimateModal && (
                 <ConfirmationModal
-                    isOpen={openDeleteModal}
-                    closeModal={() => setOpenDeleteModal(false)}
-                    confirm={deleteReceipt}
-                    title={"Confirm deleting this receipt"}
-                    message={"Are you sure you want to delete this receipt?"}
-                    buttonText={"Delete Receipt"}
+                    isOpen={openDeleteEstimateModal}
+                    closeModal={() => setOpenDeleteEstimateModal(false)}
+                    confirm={deleteEstimate}
+                    title={"Confirm deleting this estimate"}
+                    message={"Are you sure you want to delete this estimate?"}
+                    buttonText={"Delete Estimate"}
                 />
             )}
         </div>

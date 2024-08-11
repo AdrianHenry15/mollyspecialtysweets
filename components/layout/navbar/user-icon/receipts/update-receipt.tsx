@@ -18,6 +18,7 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
 
     // STATE
     const [itemName, setItemName] = useState<string>(currentReceipt.itemName || "");
+    const [extraDetails, setExtraDetails] = useState<string>(currentReceipt.extraDetails || "");
     const [price, setPrice] = useState<string>(currentReceipt.price || "");
     const [username, setUsername] = useState<string>(currentReceipt.fullName || "");
     const [phoneNumber, setPhoneNumber] = useState<string>(currentReceipt.primaryPhoneNumber! || "");
@@ -30,6 +31,7 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
             ...currentReceipt,
             userId: selectedUser.id,
             itemName,
+            extraDetails,
             price,
             fullName: username,
             primaryEmailAddress: email,
@@ -51,6 +53,7 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
                 console.log("Receipt updated:", result);
 
                 setItemName("");
+                setExtraDetails("");
                 setPrice("$");
                 setUsername("");
                 setEmail("");
@@ -91,6 +94,7 @@ const UpdateReceipt = (props: IUpdateReceiptProps) => {
             <h5 className="text-4xl font-semibold my-6">Update Receipt</h5>
             <form onSubmit={handleSubmit}>
                 {renderInput("Item Name", itemName, (e) => setItemName(e.target.value))}
+                {renderInput("Extra Details", extraDetails, (e) => setExtraDetails(e.target.value))}
                 {renderInput("Price", price, (e) => setPrice(e.target.value))}
                 {renderInput("Full Name", username, (e) => setUsername(e.target.value))}
                 {renderInput("Email", email, (e) => setEmail(e.target.value), "email")}

@@ -66,6 +66,7 @@ const CookieForm = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
             itemName: `${getValues("cookieSize").toString()} ${getValues("cookieShape")} ${getValues("cookieTier")} ${getValues("colors")} ${getValues("cookieFlavor")} ${getValues("cookieFrosting")} ${getValues("cookieFilling")} ${getValues("cookieTopping")} Cookie`,
+            extraDetails: `${getValues("details")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
             primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",

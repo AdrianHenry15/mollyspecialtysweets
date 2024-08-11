@@ -1,6 +1,6 @@
 "use client";
 
-import { ReceiptType } from "@/lib/types";
+import { EstimateType, ReceiptType } from "@/lib/types";
 import { useUser } from "@clerk/nextjs";
 import React from "react";
 import ReceiptItem from "./receipt-item";

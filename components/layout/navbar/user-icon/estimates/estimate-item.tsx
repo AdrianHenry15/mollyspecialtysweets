@@ -1,7 +1,6 @@
 "use client";
 
-import { EstimateType, UserType } from "@/lib/types";
-import { useUser } from "@clerk/nextjs";
+import { EstimateType } from "@/lib/types";
 import React from "react";
 
 interface IEstimateItemProps {
