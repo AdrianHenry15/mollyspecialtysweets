@@ -19,6 +19,7 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
 
     // STATE
     const [itemName, setItemName] = useState<string>("");
+    const [extraDetails, setExtraDetails] = useState<string>("");
     const [price, setPrice] = useState<string>("");
     const [username, setUsername] = useState<string>(selectedUser.fullName || "");
     const [email, setEmail] = useState<string>(selectedUser.email || "");
@@ -37,6 +38,7 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
             const newReceipt: Omit<ReceiptType, "id" | "createdAt" | "updatedAt"> = {
                 userId: selectedUser.id,
                 itemName,
+                extraDetails,
                 price,
                 fullName: username,
                 primaryEmailAddress: email,
@@ -86,6 +88,7 @@ const CreateReceipt = (props: ICreateReceiptProps) => {
             {/* INPUT FORM */}
             <form onSubmit={handleSubmit}>
                 {renderInput("Item Name", itemName, (e) => setItemName(e.target.value))}
+                {renderInput("Extra Details", extraDetails, (e) => setExtraDetails(e.target.value))}
                 {renderInput("Price", price, (e) => setPrice(e.target.value))}
                 {renderInput("User Name", username, (e) => setUsername(e.target.value))}
                 {renderInput("Email", email, (e) => setEmail(e.target.value), "email")}

@@ -31,6 +31,7 @@ const ReceiptItem = (props: IReceiptItemProps) => {
                 <div className="border-b-[1px] border-zinc-300">
                     {getContentItem("Receipt ID: ", receipts.id)}
                     {getContentItem("Item Name: ", receipts.itemName)}
+                    {getContentItem("Extra Details: ", receipts.extraDetails)}
                     {getContentItem("Price: ", `${receipts.price}`)}
                     {getContentItem("Full Name: ", receipts.fullName)}
                     {getContentItem("Email Address", receipts.primaryEmailAddress || "")}

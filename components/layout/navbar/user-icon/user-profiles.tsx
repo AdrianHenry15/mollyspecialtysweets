@@ -19,9 +19,7 @@ import ConfirmationModal from "@/components/modals/confirmation-modal";
 const UserProfiles = () => {
     // CONSTANTS
     const { user } = useUser();
-    const isAdmin =
-        user?.primaryEmailAddress?.emailAddress === "adrianhenry2115@gmail.com" ||
-        user?.primaryEmailAddress?.emailAddress === "mollyspecialtysweets@gmail.com";
+    const isAdmin = ["adrianhenry2115@gmail.com", "mollyspecialtysweets@gmail.com"].includes(user?.primaryEmailAddress?.emailAddress || "");
     // STATE
     const [users, setUsers] = useState<UserType[]>([]);
     const [loading, setLoading] = useState(true);
@@ -280,7 +278,7 @@ const UserProfiles = () => {
             {createReceiptForUserId === null && updateReceiptForUserId === null && (
                 <div className="flex flex-col items-start border-b-[1px] border-zinc-300">
                     <h3 className="text-xl">Users</h3>
-                    <p className="text-zinc-400 text-sm">Find all of the users here</p>
+                    <p className="text-zinc-400 text-sm">Find all users here</p>
                 </div>
             )}
             {users.map((user) => {
@@ -288,50 +286,54 @@ const UserProfiles = () => {
                 const receipts = user.unsafeMetadata?.receipts || [];
                 const currentReceipt = receipts.find((receipt) => receipt === selectedReceipt); // Get the current receipt
 
-                return (
-                    <div key={userId}>
-                        {createReceiptForUserId === null && updateReceiptForUserId === null && (
-                            <div>
-                                {renderUserProfile(user)}
-                                {renderDropdownElement(
-                                    () => toggleEstimateDropdown(userId),
-                                    openEstimates[userId] || false,
-                                    "Estimates",
-                                    user,
-                                )}
-                                {renderDropdownElement(
-                                    () => toggleReceiptDropdown(userId),
-                                    openReceipts[userId] || false,
-                                    "Receipts",
-                                    user,
-                                )}
-                            </div>
-                        )}
-                        {updateReceiptForUserId === userId && selectedReceipt ? (
-                            <UpdateReceipt
-                                key={user.id}
-                                selectedUser={user}
-                                currentReceipt={currentReceipt!}
-                                closeUpdatedReceiptForm={() => {
-                                    setUpdateReceiptForUserId(null);
-                                    setSelectedReceipt(null);
-                                }}
-                                fetchUsers={fetchUsers}
-                                onReceiptUpdated={fetchUsers}
-                            />
-                        ) : null}
-                        {createReceiptForUserId === userId ? (
-                            userId ? (
-                                <CreateReceipt
+                if (user.email !== "adrianhenry2115@gmail.com" && user.email !== "mollyspecialtysweets@gmail.com") {
+                    return (
+                        <div key={userId}>
+                            {createReceiptForUserId === null && updateReceiptForUserId === null && (
+                                <div>
+                                    {renderUserProfile(user)}
+                                    {renderDropdownElement(
+                                        () => toggleEstimateDropdown(userId),
+                                        openEstimates[userId] || false,
+                                        "Estimates",
+                                        user,
+                                    )}
+                                    {renderDropdownElement(
+                                        () => toggleReceiptDropdown(userId),
+                                        openReceipts[userId] || false,
+                                        "Receipts",
+                                        user,
+                                    )}
+                                </div>
+                            )}
+                            {updateReceiptForUserId === userId && selectedReceipt ? (
+                                <UpdateReceipt
                                     key={user.id}
-                                    fetchUsers={fetchUsers}
                                     selectedUser={user}
-                                    closeReceiptForm={() => setCreateReceiptForUserId(null)}
+                                    currentReceipt={currentReceipt!}
+                                    closeUpdatedReceiptForm={() => {
+                                        setUpdateReceiptForUserId(null);
+                                        setSelectedReceipt(null);
+                                    }}
+                                    fetchUsers={fetchUsers}
+                                    onReceiptUpdated={fetchUsers}
                                 />
-                            ) : null
-                        ) : null}
-                    </div>
-                );
+                            ) : null}
+                            {createReceiptForUserId === userId ? (
+                                userId ? (
+                                    <CreateReceipt
+                                        key={user.id}
+                                        fetchUsers={fetchUsers}
+                                        selectedUser={user}
+                                        closeReceiptForm={() => setCreateReceiptForUserId(null)}
+                                    />
+                                ) : null
+                            ) : null}
+                        </div>
+                    );
+                } else {
+                    return null;
+                }
             })}
             {openDeleteReceiptModal && (
                 <ConfirmationModal

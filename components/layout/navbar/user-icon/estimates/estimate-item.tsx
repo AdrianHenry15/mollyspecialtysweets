@@ -32,6 +32,7 @@ const EstimateItem = (props: IEstimateItemProps) => {
                 <div className="border-b-[1px] border-zinc-300">
                     {getContentItem("Estimate ID: ", estimates.id)}
                     {getContentItem("Item Name: ", estimates.itemName)}
+                    {getContentItem("Extra Details: ", estimates.extraDetails)}
                     {getContentItem("User Name", estimates?.fullName)}
                     {getContentItem("Email Address", estimates.primaryEmailAddress)}
                     {getContentItem("Phone Number", estimates.primaryPhoneNumber || "N/A")}
