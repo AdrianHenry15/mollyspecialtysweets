@@ -13,7 +13,11 @@ const nextConfig = {
     },
     swcMinify: true,
     images: {
-        domains: ['img.clerk.com']
+        remotePatterns: [
+            {
+                hostname: 'img.clerk.com',
+            },
+        ],
     }
 };
 
