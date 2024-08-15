@@ -47,11 +47,11 @@ const UserIcon = () => {
                         </UserButton>
                     )}
                     {/* ORG OPTION */}
-                    {isAdmin ? (
+                    {/* {isAdmin ? (
                         <div className="ml-4">
                             <OrganizationSwitcher />
                         </div>
-                    ) : null}
+                    ) : null} */}
                 </div>
             </SignedIn>
             <SignedOut>
