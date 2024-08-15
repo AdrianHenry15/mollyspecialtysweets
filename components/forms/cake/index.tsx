@@ -96,7 +96,6 @@ const CakeForm = () => {
         setIsConfirmationModalOpen(true);
         console.log(data);
 
-        // TEST
         createCakeEstimate();
     };
 

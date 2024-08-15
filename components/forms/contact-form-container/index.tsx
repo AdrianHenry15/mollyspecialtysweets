@@ -91,9 +91,6 @@ const ContactFormContainer = () => {
         setIsConfirmationModalOpen(true);
         setInputClicked(true);
         console.log(data);
-
-        // TEST
-        createEstimate();
     };
 
     const confirmEstimate = () => {
@@ -109,7 +106,7 @@ const ContactFormContainer = () => {
         );
 
         // POST CONTACT ESTIMATE
-        // createEstimate();
+        createEstimate();
 
         // close modal
         setIsConfirmationModalOpen(false);
