@@ -56,8 +56,8 @@ const UserIcon = () => {
             </SignedIn>
             <SignedOut>
                 {/* Signed out users get sign in button */}
-                <Link href={"/sign-in"} className="bg-pink-200 text-black px-10 py-2 rounded-full shadow-md">
-                    <SignInButton />
+                <Link href={"/sign-in"} className="bg-pink-200 text-black px-40 py-1 rounded-full shadow-md lg:py-2 lg:px-10">
+                    <SignInButton redirectUrl="/" />
                 </Link>
             </SignedOut>
         </div>

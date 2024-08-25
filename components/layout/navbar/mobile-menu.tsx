@@ -34,7 +34,7 @@ const MobileMenu = () => {
                             leaveFrom="opacity-100 translate-y-0"
                             leaveTo="opacity-0 translate-y-1"
                         >
-                            <Popover.Panel className="absolute z-10 mt-1 w-screen max-w-sm -translate-x-[351px] translate-y-[30px] transform ml-7">
+                            <Popover.Panel className="absolute z-[100] mt-1 w-screen max-w-sm -translate-x-[351px] translate-y-[0px] transform ml-7">
                                 <div className="flex flex-col relative shadow-lg rounded-lg bg-zinc-200 pt-4">
                                     <div className="flex justify-end me-2">
                                         <UserIcon />
