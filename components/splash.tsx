@@ -6,9 +6,10 @@ import Image from "next/image";
 import Logo from "@/public/mollys-logo-pink.png";
 
 import Link from "next/link";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 interface ISplashProps {
-    img: any;
+    img: string | StaticImport;
     title: string;
     link1: string;
     link2: string;
