@@ -86,7 +86,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 link_title_2={getLinkTitle2()}
                 img={getImg()}
                 title={getTitle()}
-                release_date="2024"
+                // release_date="2024"
             />
             <div className="flex flex-col self-center w-full md:w-[600px] lg:w-[650px] xl:w-[700px]">{children}</div>
         </div>
