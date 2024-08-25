@@ -27,6 +27,7 @@ const CakeForm = () => {
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [currentStep, setCurrentStep] = useState(0);
 
     // CLERK
     const { user } = useUser();
@@ -123,11 +124,34 @@ const CakeForm = () => {
 
         setLoading(true);
     };
+
+    const steps = [
+        <CakeShape key={0} errors={errors} control={control} />,
+        <CakeTier key={1} errors={errors} control={control} />,
+        <CakeSize key={2} errors={errors} cakeShape={watch("cakeShape")} control={control} />,
+        <CakeFlavor key={3} errors={errors} control={control} />,
+        <CakeFrosting key={4} errors={errors} control={control} />,
+        <CakeFilling key={5} errors={errors} control={control} />,
+        <CakeTopping key={6} control={control} />,
+        <ContactDetails key={7} control={control} errors={errors} />,
+        <OrderDetails key={8} control={control} errors={errors} />,
+    ];
+
+    const handleNext = () => {
+        if (currentStep < steps.length - 1) {
+            setCurrentStep(currentStep + 1);
+        }
+    };
+
+    const handlePrevious = () => {
+        if (currentStep > 0) {
+            setCurrentStep(currentStep - 1);
+        }
+    };
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="py-10 px-4">
-            <div className="relative">
-                <h1 className="font-semibold text-4xl underline text-center my-10">Cake Details</h1>
-            </div>
+            <div className="relative">{/* <h1 className="font-semibold text-4xl underline text-center my-10">Cake Details</h1> */}</div>
             {isConfirmationModalOpen && (
                 <ConfirmationModal
                     title="Confirm Your Estimate Request"
@@ -142,34 +166,47 @@ const CakeForm = () => {
             {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
             {loading ? <Loader /> : null}
 
+            {/* Render the current step */}
+            {steps[currentStep]}
+
+            {/* Navigation Buttons */}
+            <div className="flex justify-between mt-8">
+                <Button name="Previous" onClick={handlePrevious} className="mr-4" disabled={currentStep === 0} />
+                {currentStep < steps.length - 1 ? (
+                    <Button name="Next" onClick={handleNext} className="ml-4" />
+                ) : (
+                    <Button submit name="Complete Estimate" className="ml-4" />
+                )}
+            </div>
+
             {/* CAKE SHAPE */}
-            <CakeShape errors={errors} control={control} />
+            {/* <CakeShape errors={errors} control={control} /> */}
 
             {/* CAKE TIER */}
-            <CakeTier errors={errors} control={control} />
+            {/* <CakeTier errors={errors} control={control} /> */}
             {/* CAKE SIZE */}
-            <CakeSize errors={errors} cakeShape={watch("cakeShape")} control={control} />
+            {/* <CakeSize errors={errors} cakeShape={watch("cakeShape")} control={control} /> */}
 
             {/* CAKE FLAVOR */}
-            <CakeFlavor errors={errors} control={control} />
+            {/* <CakeFlavor errors={errors} control={control} /> */}
 
             {/* CAKE FROSTING */}
-            <CakeFrosting errors={errors} control={control} />
+            {/* <CakeFrosting errors={errors} control={control} /> */}
 
             {/* CAKE FILLING */}
-            <CakeFilling errors={errors} control={control} />
+            {/* <CakeFilling errors={errors} control={control} /> */}
 
             {/* CAKE TOPPING */}
-            <CakeTopping control={control} />
+            {/* <CakeTopping control={control} /> */}
 
             {/* CONTACT DETAILS */}
-            <ContactDetails control={control} errors={errors} />
+            {/* <ContactDetails control={control} errors={errors} /> */}
 
             {/* ORDER DETAILS */}
-            <OrderDetails control={control} errors={errors} />
+            {/* <OrderDetails control={control} errors={errors} /> */}
 
             {/* REVIEW BUTTON */}
-            <Button submit name={`Complete Estimate`} className="w-full justify-center my-10" />
+            {/* <Button submit name={`Complete Estimate`} className="w-full justify-center my-10" /> */}
         </form>
     );
 };
