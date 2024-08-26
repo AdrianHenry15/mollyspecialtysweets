@@ -10,25 +10,32 @@ import { NavMenuItems } from "@/lib/constants";
 import { NavMenuType } from "@/lib/types";
 import Button from "@/components/buttons/button";
 import UserIcon from "./user-icon/user-icon";
+import Cart from "@/components/cart";
+import { useState } from "react";
+import { useCartStore } from "@/stores/cart-store";
 
 export default function Navbar() {
+    // STATE
+    const [isCartOpen, setIsCartOpen] = useState(false);
+
+    // CONSTANTS
     const pathname = usePathname();
 
     return (
         <nav className={`bg-white text-sm font-semibold flex w-full self-center sticky top-0 z-50 shadow-md`}>
             {/* MOBILE CONTAINER */}
-            <div className="absolute self-center right-0 lg:hidden">
+            <div className="absolute self-center right-10 xl:hidden">
                 <MobileHeader />
             </div>
             {/* TITLE & LINKS  */}
             <div className="flex w-full my-2 justify-evenly">
                 <div className="flex items-center">
-                    <Link href="/" className="lg:mr-10">
+                    <Link href="/" className="xl:mr-10">
                         {/* TODO: LOGO */}
                         <Image className="" src={logo} alt="logo" width={100} />
                     </Link>
                     {/* LINKS  */}
-                    <ul className="hidden text-gray-600 items-center lg:flex">
+                    <ul className="hidden text-gray-600 items-center xl:flex">
                         {NavMenuItems.map((item: NavMenuType) => (
                             <li
                                 className={`mx-2 transition-all duration-300 ease-in-out hover:text-blue-700 hover:underline ${
@@ -44,7 +51,7 @@ export default function Navbar() {
                     </ul>
                 </div>
                 {/* NAV BUTTONS */}
-                <ul className="hidden items-center lg:flex">
+                <ul className="hidden items-center xl:flex">
                     <Link className="mr-4" href={"/contact-us"}>
                         <Button roundedFull name="Contact Us" altColor />
                     </Link>
@@ -55,6 +62,9 @@ export default function Navbar() {
                         <UserIcon />
                     </div>
                 </ul>
+            </div>
+            <div className="flex justify-center items-center">
+                <Cart />
             </div>
         </nav>
     );

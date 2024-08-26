@@ -3,6 +3,13 @@ export type NavMenuType = {
     link: string;
 };
 
+export type CartItemType = {
+    id: string;
+    name: string;
+    price: number;
+    quantity: number;
+};
+
 export type CakeType = {
     shape: string;
     tier: string;
