@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 const OrderCupcakes = () => {
     return (
-        <PageFormContainer>
-            <CupcakeForm />
-        </PageFormContainer>
+        // <PageFormContainer>
+        <CupcakeForm />
+        // </PageFormContainer>
     );
 };
 

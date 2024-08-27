@@ -8,7 +8,7 @@ import Cake from "@/public/flowers.jpg";
 import Cupcake from "@/public/mellows.jpg";
 import Cookies from "@/public/roons.jpg";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function OrderLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const getLinkTitle1 = () => {
         if (pathname === "/order/cakes") {
@@ -88,7 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 title={getTitle()}
                 // release_date="2024"
             />
-            <div className="flex flex-col self-center w-full md:w-[600px] lg:w-[650px] xl:w-[700px]">{children}</div>
+            <div className="flex flex-col justify-between w-full">{children}</div>
         </div>
     );
 }

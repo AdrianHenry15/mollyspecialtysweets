@@ -1,6 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Qwitcher+Grypen:wght@400;700&display=swap");
+
+.qwitcher-grypen-regular {
+    font-family: "Qwitcher Grypen", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.qwitcher-grypen-bold {
+    font-family: "Qwitcher Grypen", cursive;
+    font-weight: 700;
+    font-style: normal;
+}
 
 h1,
 h2,
@@ -18,12 +31,16 @@ p {
 .fade-in-from-top {
     opacity: 0;
     transform: translateY(-20px);
-    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+    transition:
+        opacity 0.8s ease-in-out,
+        transform 0.8s ease-in-out;
 }
 .fade-in {
     opacity: 0;
     /* transform: translateY(-20px); */
-    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+    transition:
+        opacity 0.8s ease-in-out,
+        transform 0.8s ease-in-out;
 }
 /* Add the following to create a stagger effect based on index */
 .fade-in:nth-child(1) {

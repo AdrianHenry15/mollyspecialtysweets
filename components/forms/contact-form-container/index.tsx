@@ -155,9 +155,22 @@ const ContactFormContainer = () => {
         setCurrentStep(step);
     };
 
-    const createCakeEstimate = () => {
+    const handleKeyPress = async (event: React.KeyboardEvent) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            const isStepValid = await trigger(); // Trigger validation for the current step
+
+            if (isStepValid && currentStep < steps.length - 1) {
+                handleNext();
+            } else if (isStepValid && currentStep === steps.length - 1) {
+                setIsConfirmationModalOpen(true);
+            }
+        }
+    };
+
+    const createEstimate = () => {
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("cakeSize").toString()} ${getValues("cakeShape")} ${getValues("cakeTier")} ${getValues("colors")} ${getValues("cakeFlavor")} ${getValues("cakeFrosting")} ${getValues("cakeFilling")} ${getValues("cakeTopping")} Cake`,
+            itemName: `${getValues("cakeSize")} ${getValues("cakeShape")} ${getValues("cakeTier")} ${getValues("colors")} ${getValues("cakeFlavor")} ${getValues("cakeFrosting")} ${getValues("cakeFilling")} ${getValues("cakeTopping")} Cake`,
             extraDetails: `${getValues("details")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
@@ -181,20 +194,23 @@ const ContactFormContainer = () => {
 
     const onSubmit = (data: any) => {
         setIsConfirmationModalOpen(true);
-        createCakeEstimate();
+        // createEstimate();
     };
 
     const confirmEstimate = () => {
         emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
             function (response) {
-                toast.success("Your cake estimate has been submitted successfully!");
+                toast.success("Your estimate has been submitted successfully!");
                 console.log("SUCCESS!", response.status, response.text);
             },
             function (error) {
-                toast.error("There was an error submitting your cake estimate. Please try again.");
+                toast.error("There was an error submitting your estimate. Please try again.");
                 console.log("FAILED...", error);
             },
         );
+        // CREATE ESTIMATE
+        createEstimate();
+
         setIsConfirmationModalOpen(false);
         setTimeout(() => {
             setEstimateSuccess(true);
@@ -205,7 +221,11 @@ const ContactFormContainer = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="py-24 px-2 md:px-[10rem] lg:px-[20rem] 2xl:px-[30rem]">
+        <form
+            onKeyDown={handleKeyPress}
+            onSubmit={handleSubmit(onSubmit)}
+            className="py-24 px-2 md:px-[10rem] lg:px-[20rem] 2xl:px-[30rem]"
+        >
             {isConfirmationModalOpen && (
                 <ConfirmationModal
                     title="Confirm Your Estimate Request"
@@ -219,6 +239,9 @@ const ContactFormContainer = () => {
             {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
             {loading ? <Loader /> : null}
 
+            <h5 className="flex justify-center items-center font-semibold text-[40px] mb-24">Bakery Estimate</h5>
+
+            {/* LOGO */}
             <div className="flex justify-center pb-4">
                 <Image loading="eager" width={125} src={Logo} alt="Brite Logo" />
             </div>

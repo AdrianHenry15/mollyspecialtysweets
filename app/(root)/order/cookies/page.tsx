@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 const OrderCookies = () => {
     return (
-        <PageFormContainer>
-            <CookieForm />
-        </PageFormContainer>
+        // <PageFormContainer>
+        <CookieForm />
+        // </PageFormContainer>
     );
 };
 

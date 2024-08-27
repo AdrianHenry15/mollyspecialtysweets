@@ -119,7 +119,7 @@ const FormItem: React.FC<IFormItemProps> = ({
                 )}
             />
             {hasFruit && <p className="italic text-xs text-zinc-500 pl-2">Fruit is an upcharge $</p>}
-            {errors?.[name]?.type === "required" && <p className="text-sm text-red-600 ml-4">{label} is required.</p>}
+            {errors?.[name]?.type === "required" && <p className="text-sm text-red-600 ml-2">{label} is required.</p>}
         </FormContainer>
     );
 };

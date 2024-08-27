@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 const CakePage = () => {
     return (
         <div>
-            <PageFormContainer>
-                <CakeForm />
-            </PageFormContainer>
+            {/* <PageFormContainer> */}
+            <CakeForm />
+            {/* </PageFormContainer> */}
         </div>
     );
 };
