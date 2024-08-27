@@ -114,7 +114,7 @@ const FormItem: React.FC<IFormItemProps> = ({
                             </FormControl>
                         )}
                         {/* INPUT TEXT */}
-                        {textInput && <TextField className="w-full" label={label} value={field.value || ""} onChange={field.onChange} />}
+                        {textInput && <TextField className="w-full" value={field.value || ""} onChange={field.onChange} />}
                     </div>
                 )}
             />

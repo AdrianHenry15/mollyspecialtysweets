@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import emailjs from "@emailjs/browser";
 import toast from "react-hot-toast";
+import { motion, AnimatePresence } from "framer-motion";
 
 import CakeTier from "./tier";
 import CakeSize from "./size";
@@ -166,8 +167,18 @@ const CakeForm = () => {
             {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
             {loading ? <Loader /> : null}
 
-            {/* Render the current step */}
-            {steps[currentStep]}
+            {/* Render the current step with animation */}
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={currentStep}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                >
+                    {steps[currentStep]}
+                </motion.div>
+            </AnimatePresence>
 
             {/* Navigation Buttons */}
             <div className="flex justify-between mt-8">
@@ -178,35 +189,6 @@ const CakeForm = () => {
                     <Button submit name="Complete Estimate" className="ml-4" />
                 )}
             </div>
-
-            {/* CAKE SHAPE */}
-            {/* <CakeShape errors={errors} control={control} /> */}
-
-            {/* CAKE TIER */}
-            {/* <CakeTier errors={errors} control={control} /> */}
-            {/* CAKE SIZE */}
-            {/* <CakeSize errors={errors} cakeShape={watch("cakeShape")} control={control} /> */}
-
-            {/* CAKE FLAVOR */}
-            {/* <CakeFlavor errors={errors} control={control} /> */}
-
-            {/* CAKE FROSTING */}
-            {/* <CakeFrosting errors={errors} control={control} /> */}
-
-            {/* CAKE FILLING */}
-            {/* <CakeFilling errors={errors} control={control} /> */}
-
-            {/* CAKE TOPPING */}
-            {/* <CakeTopping control={control} /> */}
-
-            {/* CONTACT DETAILS */}
-            {/* <ContactDetails control={control} errors={errors} /> */}
-
-            {/* ORDER DETAILS */}
-            {/* <OrderDetails control={control} errors={errors} /> */}
-
-            {/* REVIEW BUTTON */}
-            {/* <Button submit name={`Complete Estimate`} className="w-full justify-center my-10" /> */}
         </form>
     );
 };
