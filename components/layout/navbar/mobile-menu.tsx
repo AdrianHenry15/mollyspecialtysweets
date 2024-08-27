@@ -34,26 +34,26 @@ const MobileMenu = () => {
                             leaveFrom="opacity-100 translate-y-0"
                             leaveTo="opacity-0 translate-y-1"
                         >
-                            <Popover.Panel className="absolute z-10 mt-1 w-screen max-w-sm -translate-x-[351px] translate-y-[30px] transform ml-7">
+                            <Popover.Panel className="absolute z-50 mt-1 w-screen max-w-sm -translate-x-[351px] translate-y-[30px] transform ml-7">
                                 <div className="flex flex-col relative shadow-lg rounded-lg bg-zinc-200 pt-4">
                                     <div className="flex justify-end me-2">
                                         <UserIcon />
                                     </div>
-                                    <div className="flex flex-col border-y-2 bg-gray-100 border-white pt-2 mt-4">
+                                    <div className="flex flex-col border-y-2 bg-gray-100 border-white py-2 mt-4">
                                         <PopoverPanelItem
                                             onClick={close}
                                             icon={<BsCake size={25} />}
                                             page={{
-                                                title: "Create A Cake",
+                                                title: "Cakes",
                                                 link: "/order/cakes",
                                             }}
-                                            description={"Your Custom Cakes"}
+                                            description={"Design A Cake"}
                                         />
                                         <PopoverPanelItem
                                             onClick={close}
                                             icon={<GiCupcake size={25} />}
                                             page={{
-                                                title: "Order Cupcakes",
+                                                title: "Cupcakes",
                                                 link: "/order/cupcakes",
                                             }}
                                             description={"Order Cupcakes Here"}
@@ -62,7 +62,7 @@ const MobileMenu = () => {
                                             onClick={close}
                                             icon={<FaCookieBite size={25} />}
                                             page={{
-                                                title: "Order Cookies",
+                                                title: "Cookies",
                                                 link: "/order/cookies",
                                             }}
                                             description={"Order Cookies Here"}
@@ -73,15 +73,15 @@ const MobileMenu = () => {
                                         {/* CONTACT US BUTTON */}
                                         <Link
                                             onClick={close}
-                                            className="bg-pink-500/90 px-10 py-2 rounded-full hover:bg-red-600 transition-all duration-300 ease-in-out"
-                                            href={"/contact-us"}
+                                            className="bg-pink-300/90 px-10 py-2 rounded-full hover:bg-pink-400 transition-all duration-300 ease-in-out"
+                                            href="sms:4072424468"
                                         >
                                             <h5 className="hover:text-white transition-colors duration-300 ease-in-out">Contact Us</h5>
                                         </Link>
                                         {/* ESTIMATE BUTTON */}
                                         <Link
                                             onClick={close}
-                                            className="bg-pink-500/90 px-10 py-2 rounded-full hover:bg-red-600 transition-all duration-300 ease-in-out"
+                                            className="bg-pink-300/90 px-10 py-2 rounded-full hover:bg-pink-400 transition-all duration-300 ease-in-out"
                                             href={"/estimate"}
                                         >
                                             <h5 className="hover:text-white transition-colors duration-300 ease-in-out">Estimate</h5>

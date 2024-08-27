@@ -14,15 +14,15 @@ export const NavMenuItems: NavMenuType[] = [
     //     link: "/event-planning",
     // },
     {
-        title: "Create A Cake",
+        title: "Cakes",
         link: "/order/cakes",
     },
     {
-        title: "Order Cupcakes",
+        title: "Cupcakes",
         link: "/order/cupcakes",
     },
     {
-        title: "Order Cookies",
+        title: "Cookies",
         link: "/order/cookies",
     },
     // {

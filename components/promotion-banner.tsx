@@ -6,7 +6,7 @@ const PromotionBanner = () => {
     const { isSignedIn } = useUser();
 
     return (
-        <div className="bg-pink-200 justify-center items-center text-black text-center sticky top-[78px] font-semibold text-xs py-1 z-50 w-full">
+        <div className="bg-pink-200 justify-center items-center text-black text-center sticky top-[78px] font-semibold text-xs py-1 z-30 w-full">
             {!isSignedIn ? (
                 <div>
                     <Link href="/sign-up" className="text-blue-500 mx-1">

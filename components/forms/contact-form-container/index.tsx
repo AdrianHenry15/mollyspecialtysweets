@@ -255,7 +255,7 @@ const ContactFormContainer = () => {
 
                 {/* LOGO */}
                 <div className="flex justify-center pb-4">
-                    <Image loading="eager" width={125} src={Logo} alt="Brite Logo" />
+                    <Image loading="eager" width={125} src={Logo} alt="mollys-logo" />
                 </div>
 
                 {/* Render the current step with animation */}

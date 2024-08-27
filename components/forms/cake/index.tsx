@@ -86,7 +86,7 @@ const CakeForm = () => {
     const createCakeEstimate = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("cakeSize").toString()} ${getValues("cakeShape")} ${getValues("cakeTier")} ${getValues("colors")} ${getValues("cakeFlavor")} ${getValues("cakeFrosting")} ${getValues("cakeFilling")} ${getValues("cakeTopping")} Cake`,
+            itemName: `${getValues("cakeSize")} ${getValues("cakeShape")} ${getValues("cakeTier")} ${getValues("colors")} ${getValues("cakeFlavor")} ${getValues("cakeFrosting")} ${getValues("cakeFilling")} ${getValues("cakeTopping")} Cake`,
             extraDetails: `${getValues("details")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
@@ -194,7 +194,7 @@ const CakeForm = () => {
 
             {/* LOGO */}
             <div className="flex justify-center pb-4">
-                <Image loading="eager" width={125} src={Logo} alt="Brite Logo" />
+                <Image loading="eager" width={125} src={Logo} alt="mollys-logo" />
             </div>
 
             {/* Render the current step with animation */}

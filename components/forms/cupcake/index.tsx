@@ -175,9 +175,9 @@ const CupcakeForm = () => {
         >
             {isConfirmationModalOpen && (
                 <ConfirmationModal
-                    title="Confirm Your Cake Estimate Request"
-                    message="Confirm your Cake Estimate Request and someone from our team will be in touch with you about your project"
-                    buttonText="Get Your Free Cake Estimate"
+                    title="Confirm Your Cupake Estimate Request"
+                    message="Confirm your Cupake Estimate Request and someone from our team will be in touch with you about your project"
+                    buttonText="Get Your Free Cupake Estimate"
                     confirm={confirmEstimate}
                     isOpen={isConfirmationModalOpen}
                     closeModal={() => setIsConfirmationModalOpen(false)}
@@ -186,11 +186,11 @@ const CupcakeForm = () => {
             {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
             {loading ? <Loader /> : null}
 
-            <h5 className="flex justify-center items-center font-semibold text-[40px] mb-24">Cake Estimate</h5>
+            <h5 className="flex justify-center items-center font-semibold text-[40px] mb-24">Cupcake Estimate</h5>
 
             {/* LOGO */}
             <div className="flex justify-center pb-4">
-                <Image loading="eager" width={125} src={Logo} alt="Brite Logo" />
+                <Image loading="eager" width={125} src={Logo} alt="mollys-logo" />
             </div>
 
             {/* Render the current step with animation */}
