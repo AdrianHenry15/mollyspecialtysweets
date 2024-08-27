@@ -1,6 +1,6 @@
 "use client";
 
-import Splash from "@/components/splash";
+import Splash from "@/components/splashes/splash";
 import "@/styles/globals.css";
 import { usePathname } from "next/navigation";
 

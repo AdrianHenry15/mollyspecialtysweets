@@ -5,7 +5,7 @@ import IconsRow from "@/components/layout/icons-row";
 import Cookie from "@/public/cookie-icon.png";
 import Cake from "@/public/cake-icon.png";
 import Cupcake from "@/public/cupcake-icon.png";
-import Splash from "@/components/splash";
+import Splash from "@/components/splashes/splash";
 
 export default function HomePage() {
     return (

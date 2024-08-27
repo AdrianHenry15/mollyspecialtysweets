@@ -22,6 +22,11 @@ import { Categories, Occasions } from "@/lib/constants";
 import DatePickerInput from "../date-picker-input";
 
 const ContactFormContainer = () => {
+    // CONSTANTS
+    const itemVariants = {
+        hidden: { opacity: 0, y: 100 },
+        visible: { opacity: 1, y: 0 },
+    };
     // STATE
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
@@ -221,65 +226,77 @@ const ContactFormContainer = () => {
     };
 
     return (
-        <form
-            onKeyDown={handleKeyPress}
-            onSubmit={handleSubmit(onSubmit)}
-            className="py-24 px-2 md:px-[10rem] lg:px-[20rem] 2xl:px-[30rem]"
+        <motion.div
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }} // Trigger when 30% of the component is visible
+            transition={{ duration: 0.8, delay: 0.2 }} // Adjust delay for staggered effect
         >
-            {isConfirmationModalOpen && (
-                <ConfirmationModal
-                    title="Confirm Your Estimate Request"
-                    message="Confirm your Estimate Request and someone from our team will be in touch with you about your project"
-                    buttonText="Get Your Free Estimate"
-                    confirm={confirmEstimate}
-                    isOpen={isConfirmationModalOpen}
-                    closeModal={() => setIsConfirmationModalOpen(false)}
-                />
-            )}
-            {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
-            {loading ? <Loader /> : null}
-
-            <h5 className="flex justify-center items-center font-semibold text-[40px] mb-24">Bakery Estimate</h5>
-
-            {/* LOGO */}
-            <div className="flex justify-center pb-4">
-                <Image loading="eager" width={125} src={Logo} alt="Brite Logo" />
-            </div>
-
-            {/* Render the current step with animation */}
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={currentStep}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3 }}
-                >
-                    {steps[currentStep]}
-                </motion.div>
-            </AnimatePresence>
-
-            {/* Navigation Buttons */}
-            <div className="flex justify-between mt-8">
-                <Button name="Previous" onClick={handlePrevious} className="mr-4 text-sm md:text-md" disabled={currentStep === 0} />
-                {currentStep < steps.length - 1 ? (
-                    <Button name="Next" onClick={handleNext} className="ml-4 text-sm md:text-md" />
-                ) : (
-                    <Button onClick={() => setIsConfirmationModalOpen(true)} name="Complete Estimate" className="ml-4 text-sm md:text-md" />
-                )}
-            </div>
-
-            {/* Navigation Dots */}
-            <div className="flex justify-center mt-4">
-                {steps.map((_, index) => (
-                    <div
-                        key={index}
-                        className={`w-3 h-3 mx-2 rounded-full cursor-pointer ${currentStep === index ? "bg-blue-500" : "bg-gray-300"}`}
-                        onClick={() => handleGoToStep(index)}
+            <form
+                onKeyDown={handleKeyPress}
+                onSubmit={handleSubmit(onSubmit)}
+                className="py-24 px-2 md:px-[10rem] lg:px-[20rem] 2xl:px-[30rem]"
+            >
+                {isConfirmationModalOpen && (
+                    <ConfirmationModal
+                        title="Confirm Your Estimate Request"
+                        message="Confirm your Estimate Request and someone from our team will be in touch with you about your project"
+                        buttonText="Get Your Free Estimate"
+                        confirm={confirmEstimate}
+                        isOpen={isConfirmationModalOpen}
+                        closeModal={() => setIsConfirmationModalOpen(false)}
                     />
-                ))}
-            </div>
-        </form>
+                )}
+                {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
+                {loading ? <Loader /> : null}
+
+                <h5 className="flex w-full justify-center items-center font-semibold text-[40px] mb-24">Free Estimate</h5>
+
+                {/* LOGO */}
+                <div className="flex justify-center pb-4">
+                    <Image loading="eager" width={125} src={Logo} alt="Brite Logo" />
+                </div>
+
+                {/* Render the current step with animation */}
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={currentStep}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        {steps[currentStep]}
+                    </motion.div>
+                </AnimatePresence>
+
+                {/* Navigation Buttons */}
+                <div className="flex justify-between mt-8">
+                    <Button name="Previous" onClick={handlePrevious} className="mr-4 text-sm md:text-md" disabled={currentStep === 0} />
+                    {currentStep < steps.length - 1 ? (
+                        <Button name="Next" onClick={handleNext} className="ml-4 text-sm md:text-md" />
+                    ) : (
+                        <Button
+                            onClick={() => setIsConfirmationModalOpen(true)}
+                            name="Complete Estimate"
+                            className="ml-4 text-sm md:text-md"
+                        />
+                    )}
+                </div>
+
+                {/* Navigation Dots */}
+                <div className="flex justify-center mt-4">
+                    {steps.map((_, index) => (
+                        <div
+                            key={index}
+                            className={`w-3 h-3 mx-2 rounded-full cursor-pointer ${currentStep === index ? "bg-blue-500" : "bg-gray-300"}`}
+                            onClick={() => handleGoToStep(index)}
+                        />
+                    ))}
+                </div>
+            </form>
+        </motion.div>
     );
 };
 
