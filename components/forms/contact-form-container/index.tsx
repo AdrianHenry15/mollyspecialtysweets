@@ -1,35 +1,39 @@
 "use client";
 
-import Image from "next/image";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useUser } from "@clerk/nextjs";
-import { usePathname } from "next/navigation";
 import emailjs from "@emailjs/browser";
+import toast from "react-hot-toast";
+import { useUser } from "@clerk/nextjs";
+import axios from "axios";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 
 import Logo from "@/public/mollys-logo-black.png";
 
-import Button from "../../buttons/button";
-import ConfirmationModal from "../../modals/confirmation-modal";
-import SuccessModal from "../../modals/success-modal";
-import { Loader } from "../../loader";
+import Button from "@/components/buttons/button";
+import ConfirmationModal from "@/components/modals/confirmation-modal";
+import SuccessModal from "@/components/modals/success-modal";
+import { Loader } from "@/components/loader";
+import { EstimateType } from "@/lib/types";
+import FormItem from "../form-item";
 import DeliveryMethod from "../delivery-method";
 import { Categories, Occasions } from "@/lib/constants";
-import FormItem from "../form-item";
 import DatePickerInput from "../date-picker-input";
-import toast from "react-hot-toast";
-import axios from "axios";
-import { EstimateType } from "@/lib/types";
 
 const ContactFormContainer = () => {
-    // SWITCH BETWEEN CONTACT AND ESTIMATE FORM | BOTH FORMS DO THE SAME THING FOR NOW
-    const pathname = usePathname();
-
-    const [inputClicked, setInputClicked] = useState(false);
+    // CONSTANTS
+    const itemVariants = {
+        hidden: { opacity: 0, y: 100 },
+        visible: { opacity: 1, y: 0 },
+    };
+    // STATE
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [currentStep, setCurrentStep] = useState(0);
 
+    // CLERK
     const { user } = useUser();
 
     // EMAIL JS
@@ -43,6 +47,7 @@ const ContactFormContainer = () => {
         control,
         watch,
         formState: { errors },
+        trigger,
     } = useForm();
 
     //EMAIL JS
@@ -60,18 +65,124 @@ const ContactFormContainer = () => {
         details: getValues("details"),
     };
 
+    // Steps for the form
+    const steps = [
+        <FormItem
+            key={0}
+            required
+            defaultValue={user?.firstName || ""}
+            textInput
+            control={control}
+            title={"First Name *"}
+            name={"firstName"}
+            errors={errors}
+            label="First Name"
+        />,
+        <FormItem
+            errors={errors}
+            label="Last Name"
+            key={1}
+            required
+            defaultValue={user?.lastName || ""}
+            textInput
+            control={control}
+            title={"Last Name *"}
+            name={"lastName"}
+        />,
+        <FormItem
+            key={2}
+            defaultValue={user?.primaryPhoneNumber?.phoneNumber || ""}
+            textInput
+            control={control}
+            title={"Phone Number *"}
+            name={"phoneNumber"}
+            required
+            errors={errors}
+            label="Phone Number"
+        />,
+        <FormItem
+            key={3}
+            defaultValue={user?.primaryEmailAddress?.emailAddress || ""}
+            textInput
+            control={control}
+            title={"Email *"}
+            name={"email"}
+            required
+            errors={errors}
+            label="Email"
+        />,
+        <DeliveryMethod key={4} errors={errors} control={control} />,
+        ...(watch("deliveryMethod") === "delivery"
+            ? [
+                  <FormItem
+                      key={5}
+                      textInput
+                      control={control}
+                      title={"Delivery Address"}
+                      name={"deliveryAddress"}
+                      required={watch("deliveryMethod") === "delivery" ? true : false}
+                      errors={errors}
+                  />,
+              ]
+            : []),
+        <FormItem
+            key={6}
+            control={control}
+            title={"Choose Order Type"}
+            name={"orderTypes"}
+            label={"Order Type"}
+            multipleSelect
+            options={Categories as []}
+            required
+            errors={errors}
+        />,
+        <DatePickerInput key={7} control={control} errors={errors} />,
+        <FormItem key={8} autocomplete options={Occasions as []} control={control} title={"Occasion"} name={"occasion"} />,
+        <FormItem key={9} textInput control={control} title={"Colors"} name={"colors"} />,
+        <FormItem key={10} textarea control={control} title={"Extra Details"} name={"details"} label={"Details"} />,
+    ];
+
+    const handleNext = async () => {
+        const isStepValid = await trigger(); // Trigger validation for the current step
+
+        if (isStepValid && currentStep < steps.length - 1) {
+            setCurrentStep(currentStep + 1); // Advance to the next step
+        }
+    };
+
+    const handlePrevious = () => {
+        if (currentStep > 0) {
+            setCurrentStep(currentStep - 1);
+        }
+    };
+
+    const handleGoToStep = (step: number) => {
+        setCurrentStep(step);
+    };
+
+    const handleKeyPress = async (event: React.KeyboardEvent) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            const isStepValid = await trigger(); // Trigger validation for the current step
+
+            if (isStepValid && currentStep < steps.length - 1) {
+                handleNext();
+            } else if (isStepValid && currentStep === steps.length - 1) {
+                setIsConfirmationModalOpen(true);
+            }
+        }
+    };
+
     const createEstimate = () => {
-        // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("orderTypes") === "Cakes" ? "Cake" : getValues("orderTypes")}`,
-            extraDetails: `${getValues("colors")}`,
+            itemName: `${getValues("cakeSize")} ${getValues("cakeShape")} ${getValues("cakeTier")} ${getValues("colors")} ${getValues("cakeFlavor")} ${getValues("cakeFrosting")} ${getValues("cakeFilling")} ${getValues("cakeTopping")} Cake`,
+            extraDetails: `${getValues("details")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
             primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
             primaryPhoneNumber: user?.primaryPhoneNumber?.phoneNumber || "",
         };
 
-        // POST request to api/estimates
         axios
             .post(`/api/users/${user?.id}/estimates`, estimate, {
                 headers: {
@@ -86,32 +197,27 @@ const ContactFormContainer = () => {
             });
     };
 
-    const onSubmit = (data?: any) => {
-        // open confirmation modal
+    const onSubmit = (data: any) => {
         setIsConfirmationModalOpen(true);
-        setInputClicked(true);
-        console.log(data);
+        // createEstimate();
     };
 
     const confirmEstimate = () => {
-        // EMAIL JS
         emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
             function (response) {
-                toast.success("You have successfully created an estimate!");
+                toast.success("Your estimate has been submitted successfully!");
                 console.log("SUCCESS!", response.status, response.text);
             },
             function (error) {
+                toast.error("There was an error submitting your estimate. Please try again.");
                 console.log("FAILED...", error);
             },
         );
-
-        // POST CONTACT ESTIMATE
+        // CREATE ESTIMATE
         createEstimate();
 
-        // close modal
         setIsConfirmationModalOpen(false);
         setTimeout(() => {
-            // open success modal
             setEstimateSuccess(true);
             setLoading(false);
         }, 1000);
@@ -120,115 +226,77 @@ const ContactFormContainer = () => {
     };
 
     return (
-        <section className="flex flex-col items-center px-4 py-20 shadow-inner relative w-full">
-            {isConfirmationModalOpen && (
-                <ConfirmationModal
-                    title="Confirm Your Estimate Request"
-                    message="Confirm your Estimate Request and someone from our team will
-                                    be in touch with you about your project"
-                    buttonText="Get Your Free Estimate"
-                    confirm={confirmEstimate}
-                    isOpen={isConfirmationModalOpen}
-                    closeModal={() => setIsConfirmationModalOpen(false)}
-                />
-            )}
-            {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
-            {loading ? <Loader /> : null}
+        <motion.div
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }} // Trigger when 30% of the component is visible
+            transition={{ duration: 0.8, delay: 0.2 }} // Adjust delay for staggered effect
+        >
+            <form
+                onKeyDown={handleKeyPress}
+                onSubmit={handleSubmit(onSubmit)}
+                className="py-24 px-2 md:px-[10rem] lg:px-[20rem] 2xl:px-[30rem]"
+            >
+                {isConfirmationModalOpen && (
+                    <ConfirmationModal
+                        title="Confirm Your Estimate Request"
+                        message="Confirm your Estimate Request and someone from our team will be in touch with you about your project"
+                        buttonText="Get Your Free Estimate"
+                        confirm={confirmEstimate}
+                        isOpen={isConfirmationModalOpen}
+                        closeModal={() => setIsConfirmationModalOpen(false)}
+                    />
+                )}
+                {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
+                {loading ? <Loader /> : null}
 
-            {/* TITLE */}
-            <h1 className="text-3xl mb-10 font-light animate-bounce">{`${
-                pathname === "/contact-us" ? "Contact Us" : "Get Your Free Estimate!"
-            }`}</h1>
+                <h5 className="flex w-full justify-center items-center font-semibold text-[40px] mb-24">Free Estimate</h5>
 
-            {/* FORM CONTAINER */}
-            <div className="flex flex-col w-full p-6 rounded-2xl shadow-pink-500 shadow-lg border-2 md:w-[650px] lg:w-[1000px]">
                 {/* LOGO */}
                 <div className="flex justify-center pb-4">
-                    <Image loading="eager" width={125} src={Logo} alt="Brite Logo" />
+                    <Image loading="eager" width={125} src={Logo} alt="mollys-logo" />
                 </div>
 
-                {/* FORM */}
-                <form className="self-center w-full md:w-2/3" onSubmit={handleSubmit(onSubmit)}>
-                    <h1 className="font-semibold text-4xl underline text-center my-10">Contact Details</h1>
-                    {/* FIRST NAME */}
-                    <FormItem defaultValue={user?.firstName || ""} textInput control={control} title={"First Name"} name={"firstName"} />
+                {/* Render the current step with animation */}
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={currentStep}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        {steps[currentStep]}
+                    </motion.div>
+                </AnimatePresence>
 
-                    {/* LAST NAME */}
-                    <FormItem defaultValue={user?.lastName || ""} textInput control={control} title={"Last Name"} name={"lastName"} />
-
-                    {/* PHONE NUMBER */}
-                    <FormItem
-                        defaultValue={user?.primaryPhoneNumber?.phoneNumber || ""}
-                        textInput
-                        control={control}
-                        title={"Phone Number"}
-                        name={"phoneNumber"}
-                        required
-                        errors={errors}
-                    />
-
-                    {/* EMAIL */}
-                    <FormItem
-                        defaultValue={user?.primaryEmailAddress?.emailAddress || ""}
-                        textInput
-                        control={control}
-                        title={"Email*"}
-                        name={"email"}
-                        required
-                        errors={errors}
-                    />
-
-                    <h1 className="font-semibold text-4xl underline text-center my-10">Order Details</h1>
-
-                    {/* DELIVERY METHOD */}
-                    <DeliveryMethod errors={errors} control={control} />
-
-                    {/* DELIVERY ADDRESS */}
-                    {/* IF THERE IS A DELIVERY METHOD CHOSEN THAN SHOW THIS */}
-                    {watch("deliveryMethod") === "delivery" ? (
-                        <FormItem
-                            textInput
-                            control={control}
-                            title={"Delivery Address"}
-                            name={"deliveryAddress"}
-                            required={watch("deliveryMethod") === "delivery" ? true : false}
-                            errors={errors}
-                        />
-                    ) : null}
-                    {/* ORDER */}
-                    <FormItem
-                        control={control}
-                        title={"Choose Order Type"}
-                        name={"orderTypes"}
-                        label={"Order Type"}
-                        multipleSelect
-                        options={Categories as []}
-                        required
-                        errors={errors}
-                    />
-
-                    {/* DELIVERY DATE */}
-                    <DatePickerInput control={control} errors={errors} />
-
-                    {/* OCCASION */}
-                    <FormItem autocomplete options={Occasions as []} control={control} title={"Occasion"} name={"occasion"} />
-
-                    {/* COLORS */}
-                    <FormItem textInput control={control} title={"Colors"} name={"colors"} />
-                    {/* DETAILS */}
-                    <FormItem textarea control={control} title={"Extra Details"} name={"details"} label={"Details"} />
-
-                    {/* BUTTON */}
-                    <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
+                {/* Navigation Buttons */}
+                <div className="flex justify-between mt-8">
+                    <Button name="Previous" onClick={handlePrevious} className="mr-4 text-sm md:text-md" disabled={currentStep === 0} />
+                    {currentStep < steps.length - 1 ? (
+                        <Button name="Next" onClick={handleNext} className="ml-4 text-sm md:text-md" />
+                    ) : (
                         <Button
-                            onClick={() => onSubmit()}
-                            name={`${pathname === "/contact-us" ? "Contact Us" : "Get Your Free Estimate"}`}
-                            className="w-full justify-center"
+                            onClick={() => setIsConfirmationModalOpen(true)}
+                            name="Complete Estimate"
+                            className="ml-4 text-sm md:text-md"
                         />
-                    </div>
-                </form>
-            </div>
-        </section>
+                    )}
+                </div>
+
+                {/* Navigation Dots */}
+                <div className="flex justify-center mt-4">
+                    {steps.map((_, index) => (
+                        <div
+                            key={index}
+                            className={`w-3 h-3 mx-2 rounded-full cursor-pointer ${currentStep === index ? "bg-blue-500" : "bg-gray-300"}`}
+                            onClick={() => handleGoToStep(index)}
+                        />
+                    ))}
+                </div>
+            </form>
+        </motion.div>
     );
 };
 

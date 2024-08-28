@@ -5,7 +5,7 @@ const ContactCard = () => {
     return (
         <div className="flex flex-1 flex-col justify-start items-start w-full py-10 md:py-0 md:text-left">
             <div className="flex flex-col text-xs w-full flex-1">
-                <Link href={"/contact-us"} className="font-light tracking-wider text-2xl pb-4">
+                <Link href="sms:4072424468" className="font-light tracking-wider text-2xl pb-4">
                     Contact Us
                 </Link>
                 <div className="w-full">
@@ -18,7 +18,7 @@ const ContactCard = () => {
                         </span>
                         <span className="pb-4">
                             <label className="text-white">Email: </label>
-                            <Link className="hover:underline underline-offset-2" href="email:info@britellc.net">
+                            <Link className="hover:underline underline-offset-2" href="email:mollyspecialtysweets@gmail.com">
                                 mollyspecialtysweets@gmail.com
                             </Link>
                         </span>

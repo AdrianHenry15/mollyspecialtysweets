@@ -9,11 +9,13 @@ interface IButtonProps {
     onClick?: () => void;
     onSubmit?: () => void;
     submit?: boolean;
+    disabled?: boolean;
 }
 
 const Button = (props: IButtonProps) => {
     return (
         <button
+            disabled={props.disabled}
             onSubmit={props.submit ? props.onSubmit : () => {}}
             type={props.submit ? "submit" : "button"}
             onClick={props.onClick}

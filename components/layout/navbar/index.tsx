@@ -24,7 +24,7 @@ export default function Navbar() {
     return (
         <nav className={`bg-white text-sm font-semibold flex w-full self-center sticky top-0 z-50 shadow-md`}>
             {/* MOBILE CONTAINER */}
-            <div className="absolute self-center right-10 xl:hidden">
+            <div className="absolute self-center z-50 right-0 lg:hidden">
                 <MobileHeader />
             </div>
             {/* TITLE & LINKS  */}
@@ -51,8 +51,8 @@ export default function Navbar() {
                     </ul>
                 </div>
                 {/* NAV BUTTONS */}
-                <ul className="hidden items-center xl:flex">
-                    <Link className="mr-4" href={"/contact-us"}>
+                <ul className="hidden items-center lg:flex">
+                    <Link className="mr-4" href="sms:4072424468">
                         <Button roundedFull name="Contact Us" altColor />
                     </Link>
                     <Link href={"/estimate"}>

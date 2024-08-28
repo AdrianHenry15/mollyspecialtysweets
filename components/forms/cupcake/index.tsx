@@ -3,6 +3,13 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import emailjs from "@emailjs/browser";
+import { useUser } from "@clerk/nextjs";
+import axios from "axios";
+import Image from "next/image";
+import toast from "react-hot-toast";
+import { AnimatePresence, motion } from "framer-motion";
+
+import Logo from "@/public/mollys-logo-black.png";
 
 import CupcakeSize from "./size";
 import CupcakeFlavor from "./flavor";
@@ -10,7 +17,6 @@ import CupcakeFrosting from "./frosting";
 import CupcakeFilling from "./filling";
 import CupcakeTopping from "./topping";
 import CupcakeAmount from "./amount";
-import toast from "react-hot-toast";
 import ConfirmationModal from "@/components/modals/confirmation-modal";
 import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
@@ -18,16 +24,16 @@ import Button from "@/components/buttons/button";
 import ContactDetails from "../contact-details";
 import OrderDetails from "../order-details";
 import { EstimateType } from "@/lib/types";
-import { useUser } from "@clerk/nextjs";
-import axios from "axios";
 
 const CupcakeForm = () => {
-    // CONSTANTS
-    const { user } = useUser();
     // STATE
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [currentStep, setCurrentStep] = useState(0);
+
+    // CLERK
+    const { user } = useUser();
 
     // EMAIL JS
     const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID as string;
@@ -39,6 +45,7 @@ const CupcakeForm = () => {
         getValues,
         control,
         formState: { errors },
+        trigger,
     } = useForm();
 
     //EMAIL JS
@@ -60,6 +67,17 @@ const CupcakeForm = () => {
         occasion: getValues("occasion"),
         phoneNumber: getValues("phoneNumber"),
     };
+
+    const steps = [
+        <CupcakeAmount key={0} errors={errors} control={control} />,
+        <CupcakeSize key={1} errors={errors} control={control} />,
+        <CupcakeFlavor key={2} errors={errors} control={control} />,
+        <CupcakeFrosting key={3} errors={errors} control={control} />,
+        <CupcakeFilling key={4} control={control} />,
+        <CupcakeTopping key={5} control={control} />,
+        <ContactDetails key={6} errors={errors} control={control} />,
+        <OrderDetails key={7} errors={errors} control={control} />,
+    ];
 
     const createCupcakeEstimate = () => {
         // Prepare the request body for the Estimate model
@@ -93,7 +111,7 @@ const CupcakeForm = () => {
         console.log(data);
 
         // TEST
-        createCupcakeEstimate();
+        // createCupcakeEstimate();
     };
 
     const confirmEstimate = () => {
@@ -109,7 +127,7 @@ const CupcakeForm = () => {
             },
         );
 
-        // createCupcakeEstimate()
+        createCupcakeEstimate();
         // close modal
         setIsConfirmationModalOpen(false);
         setTimeout(() => {
@@ -120,17 +138,46 @@ const CupcakeForm = () => {
 
         setLoading(true);
     };
+
+    const handleNext = () => {
+        if (currentStep < steps.length - 1) {
+            setCurrentStep(currentStep + 1);
+        }
+    };
+
+    const handlePrevious = () => {
+        if (currentStep > 0) {
+            setCurrentStep(currentStep - 1);
+        }
+    };
+
+    const handleGoToStep = (step: number) => {
+        setCurrentStep(step);
+    };
+
+    const handleKeyPress = async (event: React.KeyboardEvent) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            const isStepValid = await trigger(); // Trigger validation for the current step
+
+            if (isStepValid && currentStep < steps.length - 1) {
+                handleNext();
+            } else if (isStepValid && currentStep === steps.length - 1) {
+                setIsConfirmationModalOpen(true);
+            }
+        }
+    };
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="py-10 px-4">
-            <div className="relative">
-                <h5 className="text-center font-semibold text-2xl pb-8">Cupcake Estimate Form</h5>
-            </div>
+        <form
+            onKeyDown={handleKeyPress}
+            onSubmit={handleSubmit(onSubmit)}
+            className="py-24 px-2 md:px-[10rem] lg:px-[20rem] 2xl:px-[30rem]"
+        >
             {isConfirmationModalOpen && (
                 <ConfirmationModal
-                    title="Confirm Your Estimate Request"
-                    message="Confirm your Estimate Request and someone from our team will
-                                    be in touch with you about your project"
-                    buttonText="Get Your Free Estimate"
+                    title="Confirm Your Cupake Estimate Request"
+                    message="Confirm your Cupake Estimate Request and someone from our team will be in touch with you about your project"
+                    buttonText="Get Your Free Cupake Estimate"
                     confirm={confirmEstimate}
                     isOpen={isConfirmationModalOpen}
                     closeModal={() => setIsConfirmationModalOpen(false)}
@@ -138,32 +185,46 @@ const CupcakeForm = () => {
             )}
             {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
             {loading ? <Loader /> : null}
-            {/* AMOUNT */}
-            <CupcakeAmount errors={errors} control={control} />
 
-            {/* SIZE */}
-            <CupcakeSize control={control} errors={errors} />
+            <h5 className="flex justify-center items-center font-semibold text-[40px] mb-24">Cupcake Estimate</h5>
 
-            {/* FLAVOR */}
-            <CupcakeFlavor errors={errors} control={control} />
+            {/* LOGO */}
+            <div className="flex justify-center pb-4">
+                <Image loading="eager" width={125} src={Logo} alt="mollys-logo" />
+            </div>
 
-            {/* FROSTING */}
-            <CupcakeFrosting errors={errors} control={control} />
+            {/* Render the current step with animation */}
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={currentStep}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                >
+                    {steps[currentStep]}
+                </motion.div>
+            </AnimatePresence>
 
-            {/* FILLING */}
-            <CupcakeFilling control={control} />
+            {/* Navigation Buttons */}
+            <div className="flex justify-between mt-8">
+                <Button name="Previous" onClick={handlePrevious} className="mr-4 text-sm md:text-md" disabled={currentStep === 0} />
+                {currentStep < steps.length - 1 ? (
+                    <Button name="Next" onClick={handleNext} className="ml-4 text-sm md:text-md" />
+                ) : (
+                    <Button onClick={() => setIsConfirmationModalOpen(true)} name="Complete Estimate" className="ml-4 text-sm md:text-md" />
+                )}
+            </div>
 
-            {/* TOPPING */}
-            <CupcakeTopping control={control} />
-
-            {/* CONTACT DETAILS */}
-            <ContactDetails control={control} errors={errors} />
-
-            {/* ORDER DETAILS */}
-            <OrderDetails control={control} errors={errors} />
-
-            <div className={`my-10`}>
-                <Button submit name={`Submit Cupcake Estimate`} className="w-full justify-center"></Button>
+            {/* Navigation Dots */}
+            <div className="flex justify-center mt-4">
+                {steps.map((_, index) => (
+                    <div
+                        key={index}
+                        className={`w-3 h-3 mx-2 rounded-full cursor-pointer ${currentStep === index ? "bg-blue-500" : "bg-gray-300"}`}
+                        onClick={() => handleGoToStep(index)}
+                    />
+                ))}
             </div>
         </form>
     );

@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import emailjs from "@emailjs/browser";
 import toast from "react-hot-toast";
+import { motion, AnimatePresence } from "framer-motion";
+
+import Logo from "@/public/mollys-logo-black.png";
 
 import CakeTier from "./tier";
 import CakeSize from "./size";
@@ -21,12 +24,14 @@ import OrderDetails from "../order-details";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { EstimateType } from "@/lib/types";
+import Image from "next/image";
 
 const CakeForm = () => {
     // STATE
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [currentStep, setCurrentStep] = useState(0);
 
     // CLERK
     const { user } = useUser();
@@ -42,6 +47,7 @@ const CakeForm = () => {
         control,
         watch,
         formState: { errors },
+        trigger,
     } = useForm();
 
     //EMAIL JS
@@ -65,10 +71,22 @@ const CakeForm = () => {
         phoneNumber: getValues("phoneNumber"),
     };
 
+    const steps = [
+        <CakeShape key={0} errors={errors} control={control} />,
+        <CakeTier key={1} errors={errors} control={control} />,
+        <CakeSize key={2} errors={errors} cakeShape={watch("cakeShape")} control={control} />,
+        <CakeFlavor key={3} errors={errors} control={control} />,
+        <CakeFrosting key={4} errors={errors} control={control} />,
+        <CakeFilling key={5} errors={errors} control={control} />,
+        <CakeTopping key={6} control={control} />,
+        <ContactDetails key={7} control={control} errors={errors} />,
+        <OrderDetails key={8} control={control} errors={errors} />,
+    ];
+
     const createCakeEstimate = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("cakeSize").toString()} ${getValues("cakeShape")} ${getValues("cakeTier")} ${getValues("colors")} ${getValues("cakeFlavor")} ${getValues("cakeFrosting")} ${getValues("cakeFilling")} ${getValues("cakeTopping")} Cake`,
+            itemName: `${getValues("cakeSize")} ${getValues("cakeShape")} ${getValues("cakeTier")} ${getValues("colors")} ${getValues("cakeFlavor")} ${getValues("cakeFrosting")} ${getValues("cakeFilling")} ${getValues("cakeTopping")} Cake`,
             extraDetails: `${getValues("details")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
@@ -96,7 +114,7 @@ const CakeForm = () => {
         setIsConfirmationModalOpen(true);
         console.log(data);
 
-        createCakeEstimate();
+        // createCakeEstimate();
     };
 
     const confirmEstimate = () => {
@@ -112,7 +130,7 @@ const CakeForm = () => {
             },
         );
         // POST REQUEST
-        // crateCakeEstimate();
+        createCakeEstimate();
         // close modal
         setIsConfirmationModalOpen(false);
         setTimeout(() => {
@@ -123,17 +141,47 @@ const CakeForm = () => {
 
         setLoading(true);
     };
+
+    const handleNext = () => {
+        if (currentStep < steps.length - 1) {
+            setCurrentStep(currentStep + 1);
+        }
+    };
+
+    const handlePrevious = () => {
+        if (currentStep > 0) {
+            setCurrentStep(currentStep - 1);
+        }
+    };
+
+    const handleGoToStep = (step: number) => {
+        setCurrentStep(step);
+    };
+
+    const handleKeyPress = async (event: React.KeyboardEvent) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            const isStepValid = await trigger(); // Trigger validation for the current step
+
+            if (isStepValid && currentStep < steps.length - 1) {
+                handleNext();
+            } else if (isStepValid && currentStep === steps.length - 1) {
+                setIsConfirmationModalOpen(true);
+            }
+        }
+    };
+
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="py-10 px-4">
-            <div className="relative">
-                <h1 className="font-semibold text-4xl underline text-center my-10">Cake Details</h1>
-            </div>
+        <form
+            onKeyDown={handleKeyPress}
+            onSubmit={handleSubmit(onSubmit)}
+            className="py-24 px-2 md:px-[10rem] lg:px-[20rem] 2xl:px-[30rem]"
+        >
             {isConfirmationModalOpen && (
                 <ConfirmationModal
-                    title="Confirm Your Estimate Request"
-                    message="Confirm your Estimate Request and someone from our team will
-                                        be in touch with you about your project"
-                    buttonText="Get Your Free Estimate"
+                    title="Confirm Your Cake Estimate Request"
+                    message="Confirm your Cake Estimate Request and someone from our team will be in touch with you about your project"
+                    buttonText="Get Your Free Cake Estimate"
                     confirm={confirmEstimate}
                     isOpen={isConfirmationModalOpen}
                     closeModal={() => setIsConfirmationModalOpen(false)}
@@ -142,34 +190,46 @@ const CakeForm = () => {
             {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
             {loading ? <Loader /> : null}
 
-            {/* CAKE SHAPE */}
-            <CakeShape errors={errors} control={control} />
+            <h5 className="flex justify-center items-center font-semibold text-[40px] mb-24">Cake Estimate</h5>
 
-            {/* CAKE TIER */}
-            <CakeTier errors={errors} control={control} />
-            {/* CAKE SIZE */}
-            <CakeSize errors={errors} cakeShape={watch("cakeShape")} control={control} />
+            {/* LOGO */}
+            <div className="flex justify-center pb-4">
+                <Image loading="eager" width={125} src={Logo} alt="mollys-logo" />
+            </div>
 
-            {/* CAKE FLAVOR */}
-            <CakeFlavor errors={errors} control={control} />
+            {/* Render the current step with animation */}
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={currentStep}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                >
+                    {steps[currentStep]}
+                </motion.div>
+            </AnimatePresence>
 
-            {/* CAKE FROSTING */}
-            <CakeFrosting errors={errors} control={control} />
+            {/* Navigation Buttons */}
+            <div className="flex justify-between mt-8">
+                <Button name="Previous" onClick={handlePrevious} className="mr-4 text-sm md:text-md" disabled={currentStep === 0} />
+                {currentStep < steps.length - 1 ? (
+                    <Button name="Next" onClick={handleNext} className="ml-4 text-sm md:text-md" />
+                ) : (
+                    <Button onClick={() => setIsConfirmationModalOpen(true)} name="Complete Estimate" className="ml-4 text-sm md:text-md" />
+                )}
+            </div>
 
-            {/* CAKE FILLING */}
-            <CakeFilling errors={errors} control={control} />
-
-            {/* CAKE TOPPING */}
-            <CakeTopping control={control} />
-
-            {/* CONTACT DETAILS */}
-            <ContactDetails control={control} errors={errors} />
-
-            {/* ORDER DETAILS */}
-            <OrderDetails control={control} errors={errors} />
-
-            {/* REVIEW BUTTON */}
-            <Button submit name={`Complete Estimate`} className="w-full justify-center my-10" />
+            {/* Navigation Dots */}
+            <div className="flex justify-center mt-4">
+                {steps.map((_, index) => (
+                    <div
+                        key={index}
+                        className={`w-3 h-3 mx-2 rounded-full cursor-pointer ${currentStep === index ? "bg-blue-500" : "bg-gray-300"}`}
+                        onClick={() => handleGoToStep(index)}
+                    />
+                ))}
+            </div>
         </form>
     );
 };
