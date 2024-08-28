@@ -1,13 +1,16 @@
+import { StaticImageData } from "next/image";
+
 export type NavMenuType = {
     title: string;
     link: string;
 };
 
-export type CartItemType = {
+export type ProductType = {
     id: string;
     name: string;
     price: number;
     quantity: number;
+    img: string | StaticImageData;
 };
 
 export type CakeType = {

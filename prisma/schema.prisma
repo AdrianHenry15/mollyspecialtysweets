@@ -30,3 +30,11 @@ model Invoice {
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 }
+
+model Product {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  price    BigInt
+  quantity Int
+  img      String
+}

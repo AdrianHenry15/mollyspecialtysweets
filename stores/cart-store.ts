@@ -1,9 +1,9 @@
-import { CartItemType } from "@/lib/types";
+import { ProductType } from "@/lib/types";
 import { create } from "zustand";
 
 type CartState = {
-    items: CartItemType[];
-    addItem: (item: CartItemType) => void;
+    items: ProductType[];
+    addItem: (item: ProductType) => void;
     removeItem: (id: string) => void;
     clearCart: () => void;
 };
