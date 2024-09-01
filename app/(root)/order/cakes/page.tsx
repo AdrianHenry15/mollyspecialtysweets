@@ -3,7 +3,7 @@ import { Metadata } from "next";
 
 import CakeForm from "@/components/forms/cake";
 import ProductRow from "@/components/products/product-row";
-import { Category } from "@/lib/constants";
+import { Collection } from "@/lib/constants";
 
 export const metadata: Metadata = {
     title: "Cakes",
@@ -13,7 +13,9 @@ export const metadata: Metadata = {
 const CakePage = () => {
     return (
         <div>
-            <ProductRow category={Category.CAKES} />
+            <div className="pr-10 bg-black">
+                <ProductRow collection={Collection.CAKES} />
+            </div>
             <CakeForm />
         </div>
     );

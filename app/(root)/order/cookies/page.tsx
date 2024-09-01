@@ -3,7 +3,7 @@ import React from "react";
 
 import CookieForm from "@/components/forms/cookie";
 import ProductRow from "@/components/products/product-row";
-import { Category } from "@/lib/constants";
+import { Collection } from "@/lib/constants";
 
 export const metadata: Metadata = {
     title: "Cookies",
@@ -13,7 +13,9 @@ export const metadata: Metadata = {
 const OrderCookies = () => {
     return (
         <div>
-            <ProductRow category={Category.COOKIES} />
+            <div className="pr-10 bg-black">
+                <ProductRow collection={Collection.COOKIES} />
+            </div>
             <CookieForm />
         </div>
     );

@@ -1,13 +1,8 @@
-import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
-import React, { useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import React from "react";
+import Link from "next/link";
 
 import { ProductType } from "@/lib/types";
-import { useCartStore } from "@/stores/cart-store";
-
-import { Fragment } from "react";
-import Link from "next/link";
 
 interface ProductItemProps {
     product: ProductType;
@@ -20,7 +15,7 @@ const ProductItem = (props: ProductItemProps) => {
     return (
         <Link
             href={`/products/${product.id}`}
-            className="relative bg-black items-center justify-center flex flex-shrink-0 mx-2 w-[300px] h-[300px] rounded-md"
+            className="relative bg-black items-center my-24 justify-center flex flex-shrink-0  w-[300px] h-[300px] rounded-md border-white border"
         >
             <Image
                 className="object-cover opacity-75 w-[200px] h-[200px] flex rounded-md border border-white hover:scale-105 transition-transform duration-300 ease-in-out"

@@ -1,6 +1,6 @@
 import { NavMenuType } from "./types";
 
-export enum Category {
+export enum Collection {
     CAKES = "Cakes",
     CUPCAKES = "Cupcakes",
     COOKIES = "Cookies",

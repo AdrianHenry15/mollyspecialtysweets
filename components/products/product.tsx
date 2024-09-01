@@ -1,9 +1,33 @@
-import React from 'react'
+import { ProductType } from "@/lib/types";
+import { useProductStore } from "@/stores/product-store";
+import React from "react";
 
-const Product = () => {
-  return (
-    <div>Product</div>
-  )
+interface IProductProps {
+    productId: string;
 }
 
-export default Product
+const Product = (props: IProductProps) => {
+    const { products, isLoading, fetchProducts } = useProductStore((state) => ({
+        products: state.products,
+        isLoading: state.isLoading,
+        fetchProducts: state.fetchProducts,
+    }));
+    return (
+        <div>
+            <div>
+                {/* PICTURE */}
+                {/* TITLE */}
+                {/* PRICE */}
+            </div>
+            {/* TIER */}
+            {/* SHAPE */}
+            {/* SIZE */}
+            {/* AMOUNT */}
+            {/* FLAVORS */}
+            {/* FROSTINGS */}
+            {/* FILLINGS */}
+        </div>
+    );
+};
+
+export default Product;

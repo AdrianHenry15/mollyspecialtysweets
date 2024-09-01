@@ -1,5 +1,5 @@
 import { StaticImageData } from "next/image";
-import { Category } from "./constants";
+import { Collection } from "./constants";
 
 export type NavMenuType = {
     title: string;
@@ -10,7 +10,7 @@ export type ProductType = {
     id: string;
     name: string;
     description: string;
-    category: Category;
+    collection: Collection;
     price: number;
     quantity: number;
     image: string | StaticImageData;
