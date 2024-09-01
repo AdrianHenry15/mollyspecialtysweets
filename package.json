@@ -11,6 +11,7 @@
         "format": "prettier --write ."
     },
     "dependencies": {
+        "@aws-sdk/client-s3": "^3.637.0",
         "@clerk/backend": "^1.4.1",
         "@clerk/clerk-js": "^4.68.5",
         "@clerk/nextjs": "^4.29.3",
@@ -27,6 +28,7 @@
         "@types/react": "^18.2.47",
         "@vercel/analytics": "^1.2.2",
         "@vercel/speed-insights": "^1.0.10",
+        "aws": "^0.0.3-2",
         "axios": "^1.7.2",
         "dayjs": "^1.11.10",
         "framer-motion": "^11.3.30",

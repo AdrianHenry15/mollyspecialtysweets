@@ -9,7 +9,8 @@ const nextConfig = {
         WEBHOOK_PROD_SECRET: process.env.WEBHOOK_PROD_SECRET,
         SQUARE_ACCESS_TOKEN: process.env.SQUARE_ACCESS_TOKEN,
         SQUARE_APP_ID: process.env.SQUARE_APP_ID,
-        SQUARE_LOCATION_ID: process.env.SQUARE_LOCATION_ID
+        SQUARE_LOCATION_ID: process.env.SQUARE_LOCATION_ID,
+        AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME
     },
     typescript: {
         ignoreBuildErrors: true,

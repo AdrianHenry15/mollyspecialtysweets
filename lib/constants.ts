@@ -1,5 +1,12 @@
 import { NavMenuType } from "./types";
 
+export enum Category {
+    CAKES = "Cakes",
+    CUPCAKES = "Cupcakes",
+    COOKIES = "Cookies",
+    RETAIL = "Retail",
+}
+
 export const NavMenuItems: NavMenuType[] = [
     {
         title: "Home",

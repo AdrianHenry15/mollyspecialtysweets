@@ -1,4 +1,5 @@
 import { StaticImageData } from "next/image";
+import { Category } from "./constants";
 
 export type NavMenuType = {
     title: string;
@@ -8,9 +9,11 @@ export type NavMenuType = {
 export type ProductType = {
     id: string;
     name: string;
+    description: string;
+    category: Category;
     price: number;
     quantity: number;
-    img: string | StaticImageData;
+    image: string | StaticImageData;
 };
 
 export type CakeType = {

@@ -2,6 +2,8 @@ import React from "react";
 import { Metadata } from "next";
 
 import CupcakeForm from "@/components/forms/cupcake";
+import ProductRow from "@/components/products/product-row";
+import { Category } from "@/lib/constants";
 
 export const metadata: Metadata = {
     title: "Cupcakes",
@@ -9,7 +11,12 @@ export const metadata: Metadata = {
 };
 
 const OrderCupcakes = () => {
-    return <CupcakeForm />;
+    return (
+        <div>
+            <ProductRow category={Category.CUPCAKES} />
+            <CupcakeForm />
+        </div>
+    );
 };
 
 export default OrderCupcakes;

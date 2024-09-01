@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import React from "react";
 
 import CookieForm from "@/components/forms/cookie";
+import ProductRow from "@/components/products/product-row";
+import { Category } from "@/lib/constants";
 
 export const metadata: Metadata = {
     title: "Cookies",
@@ -9,7 +11,12 @@ export const metadata: Metadata = {
 };
 
 const OrderCookies = () => {
-    return <CookieForm />;
+    return (
+        <div>
+            <ProductRow category={Category.COOKIES} />
+            <CookieForm />
+        </div>
+    );
 };
 
 export default OrderCookies;

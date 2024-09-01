@@ -171,25 +171,30 @@ const CakeForm = () => {
         }
     };
 
+    {
+        isConfirmationModalOpen && (
+            <ConfirmationModal
+                title="Confirm Your Cake Estimate Request"
+                message="Confirm your Cake Estimate Request and someone from our team will be in touch with you about your project"
+                buttonText="Get Your Free Cake Estimate"
+                confirm={confirmEstimate}
+                isOpen={isConfirmationModalOpen}
+                closeModal={() => setIsConfirmationModalOpen(false)}
+            />
+        );
+    }
+    {
+        estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />;
+    }
+    {
+        loading ? <Loader /> : null;
+    }
     return (
         <form
             onKeyDown={handleKeyPress}
             onSubmit={handleSubmit(onSubmit)}
             className="py-24 px-2 md:px-[10rem] lg:px-[20rem] 2xl:px-[30rem]"
         >
-            {isConfirmationModalOpen && (
-                <ConfirmationModal
-                    title="Confirm Your Cake Estimate Request"
-                    message="Confirm your Cake Estimate Request and someone from our team will be in touch with you about your project"
-                    buttonText="Get Your Free Cake Estimate"
-                    confirm={confirmEstimate}
-                    isOpen={isConfirmationModalOpen}
-                    closeModal={() => setIsConfirmationModalOpen(false)}
-                />
-            )}
-            {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
-            {loading ? <Loader /> : null}
-
             <h5 className="flex justify-center items-center font-semibold text-[40px] mb-24">Cake Estimate</h5>
 
             {/* LOGO */}

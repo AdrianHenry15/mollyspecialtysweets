@@ -1,14 +1,39 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import CakeSplash from "@/public/cake-splash.jpg";
 import ContactFormContainer from "@/components/forms/contact-form-container";
 import IconsRow from "@/components/layout/icons-row";
-
 import Cookie from "@/public/cookie-icon.png";
 import Cake from "@/public/cake-icon.png";
 import Cupcake from "@/public/cupcake-icon.png";
 import Splash from "@/components/splashes/splash";
 import ProductRow from "@/components/products/product-row";
+import { ProductType } from "@/lib/types";
+import { Loader } from "@/components/loader";
+import { Category } from "@/lib/constants";
 
 export default function HomePage() {
+    const [products, setProducts] = useState<ProductType[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            setIsLoading(true);
+            try {
+                const response = await axios.get("/api/products"); // Adjust API endpoint if necessary
+                setProducts(response.data);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
     return (
         <div className="flex flex-col justify-between w-full">
             {/* JUMBOTRON */}
@@ -20,7 +45,7 @@ export default function HomePage() {
                 img={CakeSplash}
                 title="Molly's Specialty Sweets"
             />
-            <ProductRow />
+            {isLoading ? <Loader /> : <ProductRow />}
             {/* ICON BANNER */}
             <IconsRow
                 iconItem1={{

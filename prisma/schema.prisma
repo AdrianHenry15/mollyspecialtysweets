@@ -32,9 +32,18 @@ model Invoice {
 }
 
 model Product {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  price    BigInt
-  quantity Int
-  img      String
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  category    Category
+  price       BigInt
+  quantity    Int
+  image       String
+}
+
+enum Category {
+  CAKES
+  COOKIES
+  CUPCAKES
+  RETAIL
 }

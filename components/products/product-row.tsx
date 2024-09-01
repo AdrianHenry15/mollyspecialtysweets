@@ -1,41 +1,44 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+
 import ProductItem from "./product-item";
 import { ProductType } from "@/lib/types";
-import axios from "axios";
 import { Loader } from "../loader";
+import { Category } from "@/lib/constants";
+import { useProductStore } from "@/stores/product-store";
 
-const ProductRow = () => {
-    // State
-    const [products, setProducts] = useState<ProductType[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+interface IProductRowProps {
+    category?: Category;
+}
+
+const ProductRow = (props: IProductRowProps) => {
+    const { category } = props;
+    const { products, isLoading, fetchProducts } = useProductStore((state) => ({
+        products: state.products,
+        isLoading: state.isLoading,
+        fetchProducts: state.fetchProducts,
+    }));
 
     useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            try {
-                const response = await axios.get("/api/products");
-                setProducts(response.data);
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+        // Fetch products only if they haven't been fetched yet
+        if (products.length === 0) {
+            fetchProducts();
+        }
+    }, [fetchProducts, products.length]);
 
-        fetchData();
-    }, []);
+    const filteredProducts = category ? products.filter((product) => product.category === category) : products;
 
     return (
-        <div className="flex p-4">
-            {products.map((product, index) => {
-                if (isLoading) {
-                    return <Loader key={index} />;
-                } else {
-                    return <ProductItem key={index} product={product} />;
-                }
-            })}
+        <div className="flex flex-col w-full p-10 relative space-x-4 overflow-x-auto border-y border-black shadow-lg">
+            <h5 className="text-3xl mb-4">{category || "All Products"}</h5>
+            <div className="flex items-center space-x-4">
+                {isLoading ? (
+                    <Loader />
+                ) : (
+                    filteredProducts.map((product: ProductType) => <ProductItem key={product.id} product={product} />)
+                )}
+            </div>
         </div>
     );
 };

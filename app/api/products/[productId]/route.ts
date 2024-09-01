@@ -20,7 +20,7 @@ export async function GET(request: Request, { params }: { params: { productId: s
         }
 
         // Construct the Amazon S3 image URL based on the product data
-        const imageUrl = `https://your-s3-bucket.s3.amazonaws.com/${product.img}`;
+        const imageUrl = `https://your-s3-bucket.s3.amazonaws.com/${product.image}`;
 
         // Fetch image data from Amazon S3
         const imageResponse = await axios.get(imageUrl, { responseType: "arraybuffer" });
