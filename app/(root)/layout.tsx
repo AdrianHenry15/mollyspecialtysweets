@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="flex flex-col relative">
                 <Navbar />
                 <PromotionBanner />
-                {children}
+                <div className="flex relative">{children}</div>
                 <Footer />
             </div>
         </LocalizationProvider>
