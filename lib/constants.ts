@@ -43,8 +43,8 @@ export const NavMenuItems: NavMenuType[] = [
 ];
 export const NavMenuAltItems: NavMenuType[] = [
     {
-        title: "Contact Us",
-        link: "/contact-us",
+        title: "(321) 370-0836",
+        link: "tel:3213700836",
     },
     {
         title: "Get Your Free Estimate",
@@ -81,6 +81,27 @@ export const Occasions = [
     "Groundhog Day",
     "April Fools' Day",
     "Labor Day",
+];
+
+export const CakeShapes = ["Round", "Sheet"];
+
+export const RoundCakeSizes = [
+    { size: "4 in.", serves: "Serves 8" },
+    { size: "6 in.", serves: "Serves 12" },
+    { size: "8 in.", serves: "Serves 20" },
+    { size: "9 in.", serves: "Serves 24" },
+    { size: "10 in.", serves: "Serves 28" },
+    { size: "12 in.", serves: "Serves 40" },
+    { size: "14 in.", serves: "Serves 63" },
+    { size: "16 in.", serves: "Serves 77" },
+];
+
+export const SheetCakeSizes = [
+    { size: "6 in.", serves: "Serves 12" },
+    { size: "8 in.", serves: "Serves 20" },
+    { size: "10 in.", serves: "Serves 30" },
+    { size: "12 in.", serves: "Serves 48" },
+    { size: "14 in.", serves: "Serves 63" },
 ];
 
 export const Categories = ["Cakes", "Cookies", "Cupcakes"];

@@ -15,7 +15,7 @@ const ProductItem = (props: ProductItemProps) => {
     return (
         <Link
             href={`/products/${product.id}`}
-            className="relative bg-black items-center my-24 justify-center flex flex-shrink-0  w-[300px] h-[300px] rounded-md border-white border"
+            className="relative bg-black items-center my-24 justify-center flex flex-shrink-0 w-[300px] h-[300px] rounded-md border-white border"
         >
             <Image
                 className="object-cover opacity-75 w-[200px] h-[200px] flex rounded-md hover:scale-105 transition-transform duration-300 ease-in-out"

@@ -6,6 +6,11 @@ export type NavMenuType = {
     link: string;
 };
 
+export type CakeSizeServings = {
+    size: string;
+    serves: string;
+};
+
 export type ProductType = {
     id: string;
     name: string;

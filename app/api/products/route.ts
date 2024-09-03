@@ -11,7 +11,7 @@ const dummyProducts = [
     {
         id: "1",
         name: "Chocolate Cake",
-        category: Collection.CAKES,
+        collection: Collection.CAKES,
         price: 15.0,
         quantity: 1,
         image: ChocolateCake, // Ensure this path is correct
@@ -20,7 +20,7 @@ const dummyProducts = [
     {
         id: "2",
         name: "Vanilla Cupcake",
-        category: Collection.CUPCAKES,
+        collection: Collection.CUPCAKES,
         price: 5.0,
         quantity: 1,
         image: Cupcake, // Ensure this path is correct
@@ -29,7 +29,7 @@ const dummyProducts = [
     {
         id: "3",
         name: "Vanilla Cupcake",
-        category: Collection.CUPCAKES,
+        collection: Collection.CUPCAKES,
         price: 5.0,
         quantity: 1,
         image: Cupcake, // Ensure this path is correct
@@ -38,7 +38,7 @@ const dummyProducts = [
     {
         id: "4",
         name: "Vanilla Cupcake",
-        category: Collection.CUPCAKES,
+        collection: Collection.CUPCAKES,
         price: 5.0,
         quantity: 1,
         image: Cupcake, // Ensure this path is correct
