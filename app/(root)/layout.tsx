@@ -12,10 +12,10 @@ import PromotionBanner from "@/components/promotion-banner";
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div className="flex flex-col relative">
+            <div className="flex flex-col relative w-full">
                 <Navbar />
                 <PromotionBanner />
-                <div className="flex relative">{children}</div>
+                <div className="flex relative w-full">{children}</div>
                 <Footer />
             </div>
         </LocalizationProvider>

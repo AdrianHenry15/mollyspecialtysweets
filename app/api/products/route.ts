@@ -5,6 +5,7 @@ import axios from "axios";
 
 import ChocolateCake from "@/public/cake-img.jpg";
 import Cupcake from "@/public/cupcakes-img.jpg";
+import Cookie from "@/public/cookies-img.jpg";
 import { Collection } from "@/lib/constants";
 
 const dummyProducts = [
@@ -28,11 +29,11 @@ const dummyProducts = [
     },
     {
         id: "3",
-        name: "Vanilla Cupcake",
+        name: "Cookie",
         collection: Collection.CUPCAKES,
         price: 5.0,
         quantity: 1,
-        image: Cupcake, // Ensure this path is correct
+        image: Cookie, // Ensure this path is correct
         description: "Light and fluffy vanilla cupcake with buttercream frosting",
     },
     {

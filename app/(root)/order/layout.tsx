@@ -78,7 +78,7 @@ export default function OrderLayout({ children }: { children: React.ReactNode })
     };
 
     return (
-        <div className="flex flex-col justify-center">
+        <div className="flex relative flex-col w-full justify-center">
             <Splash
                 link1={getLink1()}
                 link2={getLink2()}
@@ -88,7 +88,7 @@ export default function OrderLayout({ children }: { children: React.ReactNode })
                 title={getTitle()}
                 // release_date="2024"
             />
-            <div className="flex flex-col justify-between w-full">{children}</div>
+            <div className="flex relative w-full">{children}</div>
         </div>
     );
 }

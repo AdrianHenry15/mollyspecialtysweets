@@ -21,8 +21,9 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { IoEllipsisVerticalOutline } from "react-icons/io5";
-import CookieSize from "../forms/cookie/size";
+import CookieSize from "../../forms/cookie/size";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import CookieCupcakeProduct from "./cookie-cupcake-product";
 
 interface IProductProps {
     productId: string;
@@ -125,49 +126,49 @@ const Product = (props: IProductProps) => {
         );
     };
 
-    const renderCookieCupcakeSection = () => {
-        return (
-            <div className="flex flex-col">
-                {/* Amount */}
-                <div className="flex flex-col">{renderInputs("Amount", "select", Amounts, handleAmountClick)}</div>
-                {/* Size */}
-                <div className="flex flex-col">{renderInputs("Size", "select", ["Mini", "Regular"], handleSizeClick)}</div>
-                {/* Flavor */}
-                <div className="flex flex-col">
-                    {renderInputs(
-                        "Flavor",
-                        "select",
-                        product.collection === Collection.COOKIES ? CookieFlavors : CupcakeFlavors,
-                        handleFlavorClick,
-                    )}
-                </div>
-                {/* Frosting */}
-                <div className="flex flex-col">
-                    {renderInputs(
-                        "Frosting",
-                        "select",
-                        product.collection === Collection.COOKIES ? CookieFrostings : CupcakeFrostings,
-                        handleFrostingClick,
-                    )}
-                </div>
-                {/* Filling */}
-                <div className="flex flex-col">
-                    {renderInputs(
-                        "Filling",
-                        "select",
-                        product.collection === Collection.COOKIES ? CookieFillings : CupcakeFillings,
-                        handleFillingClick,
-                    )}
-                </div>
-                {/* Fruit */}
-                <div className="flex flex-col">{renderInputs("Fruit?", "select", ["Yes", "No"], handleHasFruit)}</div>
-                {/* Which Fruit */}
-                {hasFruit === "Yes" && <div className="flex flex-col">{renderInputs("Which Fruit?", "select", Fruits)}</div>}
-                {/* Extra Details */}
-                <div className="flex flex-col">{renderInputs("Extra Details/Comments", "textarea")}</div>
-            </div>
-        );
-    };
+    // const renderCookieCupcakeSection = () => {
+    //     return (
+    //         <div className="flex flex-col">
+    //             {/* Amount */}
+    //             <div className="flex flex-col">{renderInputs("Amount", "select", Amounts, handleAmountClick)}</div>
+    //             {/* Size */}
+    //             <div className="flex flex-col">{renderInputs("Size", "select", ["Mini", "Regular"], handleSizeClick)}</div>
+    //             {/* Flavor */}
+    //             <div className="flex flex-col">
+    //                 {renderInputs(
+    //                     "Flavor",
+    //                     "select",
+    //                     product.collection === Collection.COOKIES ? CookieFlavors : CupcakeFlavors,
+    //                     handleFlavorClick,
+    //                 )}
+    //             </div>
+    //             {/* Frosting */}
+    //             <div className="flex flex-col">
+    //                 {renderInputs(
+    //                     "Frosting",
+    //                     "select",
+    //                     product.collection === Collection.COOKIES ? CookieFrostings : CupcakeFrostings,
+    //                     handleFrostingClick,
+    //                 )}
+    //             </div>
+    //             {/* Filling */}
+    //             <div className="flex flex-col">
+    //                 {renderInputs(
+    //                     "Filling",
+    //                     "select",
+    //                     product.collection === Collection.COOKIES ? CookieFillings : CupcakeFillings,
+    //                     handleFillingClick,
+    //                 )}
+    //             </div>
+    //             {/* Fruit */}
+    //             <div className="flex flex-col">{renderInputs("Fruit?", "select", ["Yes", "No"], handleHasFruit)}</div>
+    //             {/* Which Fruit */}
+    //             {hasFruit === "Yes" && <div className="flex flex-col">{renderInputs("Which Fruit?", "select", Fruits)}</div>}
+    //             {/* Extra Details */}
+    //             <div className="flex flex-col">{renderInputs("Extra Details/Comments", "textarea")}</div>
+    //         </div>
+    //     );
+    // };
     const renderCakeSection = () => {
         return (
             <div className="flex flex-col">
@@ -217,7 +218,9 @@ const Product = (props: IProductProps) => {
                     </p>
                 </div>
                 {/* INPUTS */}
-                {(product.collection === Collection.COOKIES || product.collection === Collection.CUPCAKES) && renderCookieCupcakeSection()}
+                {(product.collection === Collection.COOKIES || product.collection === Collection.CUPCAKES) && (
+                    <CookieCupcakeProduct product={product} renderInputs={renderInputs} />
+                )}
                 {product.collection === Collection.CAKES && renderCakeSection()}
             </div>
             <button className="hover:opacity-75 duration-200 ease-in-out transition-all flex relative items-center justify-center self-center bg-blue-500 text-white w-[80%] rounded-full py-4 mt-4 mb-10">

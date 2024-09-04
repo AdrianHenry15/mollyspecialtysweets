@@ -195,45 +195,51 @@ const CakeForm = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="py-24 px-2 md:px-[10rem] lg:px-[20rem] 2xl:px-[30rem]"
         >
-            <h5 className="flex justify-center items-center font-semibold text-[40px] mb-24">Cake Estimate</h5>
+            <div className="border-4 border-black shadow-lg shadow-zinc-400 p-6">
+                <h5 className="flex justify-center items-center font-semibold text-[40px] mb-24">Cake Estimate</h5>
 
-            {/* LOGO */}
-            <div className="flex justify-center pb-4">
-                <Image loading="eager" width={125} src={Logo} alt="mollys-logo" />
-            </div>
+                {/* LOGO */}
+                <div className="flex justify-center pb-4">
+                    <Image loading="eager" width={125} src={Logo} alt="mollys-logo" />
+                </div>
 
-            {/* Render the current step with animation */}
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={currentStep}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3 }}
-                >
-                    {steps[currentStep]}
-                </motion.div>
-            </AnimatePresence>
+                {/* Render the current step with animation */}
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={currentStep}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        {steps[currentStep]}
+                    </motion.div>
+                </AnimatePresence>
 
-            {/* Navigation Buttons */}
-            <div className="flex justify-between mt-8">
-                <Button name="Previous" onClick={handlePrevious} className="mr-4 text-sm md:text-md" disabled={currentStep === 0} />
-                {currentStep < steps.length - 1 ? (
-                    <Button name="Next" onClick={handleNext} className="ml-4 text-sm md:text-md" />
-                ) : (
-                    <Button onClick={() => setIsConfirmationModalOpen(true)} name="Complete Estimate" className="ml-4 text-sm md:text-md" />
-                )}
-            </div>
+                {/* Navigation Buttons */}
+                <div className="flex justify-between mt-8">
+                    <Button name="Previous" onClick={handlePrevious} className="mr-4 text-sm md:text-md" disabled={currentStep === 0} />
+                    {currentStep < steps.length - 1 ? (
+                        <Button name="Next" onClick={handleNext} className="ml-4 text-sm md:text-md" />
+                    ) : (
+                        <Button
+                            onClick={() => setIsConfirmationModalOpen(true)}
+                            name="Complete Estimate"
+                            className="ml-4 text-sm md:text-md"
+                        />
+                    )}
+                </div>
 
-            {/* Navigation Dots */}
-            <div className="flex justify-center mt-4">
-                {steps.map((_, index) => (
-                    <div
-                        key={index}
-                        className={`w-3 h-3 mx-2 rounded-full cursor-pointer ${currentStep === index ? "bg-blue-500" : "bg-gray-300"}`}
-                        onClick={() => handleGoToStep(index)}
-                    />
-                ))}
+                {/* Navigation Dots */}
+                <div className="flex justify-center mt-4">
+                    {steps.map((_, index) => (
+                        <div
+                            key={index}
+                            className={`w-3 h-3 mx-2 rounded-full cursor-pointer ${currentStep === index ? "bg-blue-500" : "bg-gray-300"}`}
+                            onClick={() => handleGoToStep(index)}
+                        />
+                    ))}
+                </div>
             </div>
         </form>
     );

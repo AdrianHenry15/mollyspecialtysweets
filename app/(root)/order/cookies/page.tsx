@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const OrderCookies = () => {
     return (
-        <div>
+        <div className="flex flex-col justify-between w-full">
             <div className="pr-10 bg-black">
                 <ProductRow collection={Collection.COOKIES} />
             </div>

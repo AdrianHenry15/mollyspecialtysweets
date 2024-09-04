@@ -13,6 +13,7 @@ import UserIcon from "./user-icon/user-icon";
 import Cart from "@/components/cart";
 import { useState } from "react";
 import { useCartStore } from "@/stores/cart-store";
+import { FaPhone } from "react-icons/fa6";
 
 export default function Navbar() {
     // STATE
@@ -52,8 +53,13 @@ export default function Navbar() {
                 </div>
                 {/* NAV BUTTONS */}
                 <ul className="hidden items-center lg:flex">
-                    <Link className="mr-4" href="sms:4072424468">
-                        <Button roundedFull name="Contact Us" altColor />
+                    <Link
+                        // onClick={close}
+                        className="bg-pink-300/90 flex mr-4 items-center px-10 py-2 rounded-full hover:bg-pink-400 transition-all duration-300 ease-in-out"
+                        href="sms:4072424468"
+                    >
+                        <FaPhone className="mr-2" />
+                        <h5 className="hover:text-white transition-colors duration-300 ease-in-out">(407) 242-4468</h5>
                     </Link>
                     <Link href={"/estimate"}>
                         <Button className="animate-pulse" roundedFull name="Get Your Free Estimate" />

@@ -5,11 +5,11 @@ import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
 
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import { BsCake } from "react-icons/bs";
+import { BsCake, BsPhone } from "react-icons/bs";
 import { GiCupcake } from "react-icons/gi";
 
 import PopoverPanelItem from "./popover-panel-item";
-import { FaCookieBite } from "react-icons/fa6";
+import { FaCookieBite, FaPhone } from "react-icons/fa6";
 import UserIcon from "./user-icon/user-icon";
 
 const MobileMenu = () => {
@@ -73,10 +73,11 @@ const MobileMenu = () => {
                                         {/* CONTACT US BUTTON */}
                                         <Link
                                             onClick={close}
-                                            className="bg-pink-300/90 px-10 py-2 rounded-full hover:bg-pink-400 transition-all duration-300 ease-in-out"
+                                            className="bg-pink-300/90 flex items-center px-10 py-2 rounded-full hover:bg-pink-400 transition-all duration-300 ease-in-out"
                                             href="sms:4072424468"
                                         >
-                                            <h5 className="hover:text-white transition-colors duration-300 ease-in-out">Contact Us</h5>
+                                            <FaPhone className="mr-2" />
+                                            <h5 className="hover:text-white transition-colors duration-300 ease-in-out">(407) 242-4468</h5>
                                         </Link>
                                         {/* ESTIMATE BUTTON */}
                                         <Link

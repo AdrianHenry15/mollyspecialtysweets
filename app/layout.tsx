@@ -31,7 +31,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
                 <link rel="icon" href="/favicons/cake-icon-16.png" sizes="16x16" />
                 <body className={inter.variable}>
                     <Toaster containerClassName="z-[900000]" />
-                    <div className="flex flex-col">
+                    <div className="flex flex-col w-full">
                         <Suspense fallback={<Loader />}>{children}</Suspense>
                     </div>
                 </body>

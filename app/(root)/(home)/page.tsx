@@ -19,9 +19,9 @@ export default function HomePage() {
                 img={CakeSplash}
                 title="Molly's Specialty Sweets"
             />
-            <div className="pr-10 bg-black">
-                <ProductRow />
-            </div>
+            {/* <div className="pr-10 bg-black w-full flex"> */}
+            <ProductRow />
+            {/* </div> */}
             {/* ICON BANNER */}
             <IconsRow
                 iconItem1={{
