@@ -1,4 +1,4 @@
-import { NavMenuType } from "./types";
+import { CakeSizeAndServings, NavMenuType } from "./types";
 
 export enum Collection {
     CAKES = "Cakes",
@@ -85,7 +85,7 @@ export const Occasions = [
 
 export const CakeShapes = ["Round", "Sheet"];
 
-export const RoundCakeSizes = [
+export const RoundCakeSizes: CakeSizeAndServings[] = [
     { size: "4 in.", serves: "Serves 8" },
     { size: "6 in.", serves: "Serves 12" },
     { size: "8 in.", serves: "Serves 20" },
@@ -96,7 +96,7 @@ export const RoundCakeSizes = [
     { size: "16 in.", serves: "Serves 77" },
 ];
 
-export const SheetCakeSizes = [
+export const SheetCakeSizes: CakeSizeAndServings[] = [
     { size: "6 in.", serves: "Serves 12" },
     { size: "8 in.", serves: "Serves 20" },
     { size: "10 in.", serves: "Serves 30" },

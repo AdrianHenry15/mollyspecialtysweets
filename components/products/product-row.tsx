@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { motion } from "framer-motion";
+
 import ProductItem from "./product-item";
 import { ProductType } from "@/lib/types";
 import { Loader } from "../loader";
@@ -12,6 +14,10 @@ interface IProductRowProps {
 }
 
 const ProductRow = (props: IProductRowProps) => {
+    const itemVariants = {
+        hidden: { opacity: 0, x: 100 },
+        visible: { opacity: 1, x: 0 },
+    };
     const { collection } = props;
     const { products, isLoading, fetchProducts } = useProductStore((state) => ({
         products: state.products,
@@ -36,9 +42,18 @@ const ProductRow = (props: IProductRowProps) => {
                     <Loader />
                 ) : (
                     filteredProducts.map((product: ProductType, index: number) => (
-                        <div key={product.id} className={`${index === filteredProducts.length - 1 ? "mr-6" : ""} flex-shrink-0`}>
-                            <ProductItem product={product} />
-                        </div>
+                        <motion.div
+                            key={product.id}
+                            variants={itemVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, amount: 0.3 }} // Trigger when 30% of the component is visible
+                            transition={{ duration: 0.8, delay: 0.2 }} // Adjust delay for staggered effect
+                        >
+                            <div className={`${index === filteredProducts.length - 1 ? "mr-6" : ""} flex-shrink-0`}>
+                                <ProductItem product={product} />
+                            </div>
+                        </motion.div>
                     ))
                 )}
             </div>
