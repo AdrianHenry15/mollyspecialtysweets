@@ -47,8 +47,8 @@ const ProductRow = (props: IProductRowProps) => {
                             variants={itemVariants}
                             initial="hidden"
                             whileInView="visible"
-                            viewport={{ once: true, amount: 0.3 }} // Trigger when 30% of the component is visible
-                            transition={{ duration: 0.8, delay: 0.2 }} // Adjust delay for staggered effect
+                            viewport={{ once: true, amount: 0.2 }} // Trigger when 30% of the component is visible
+                            transition={{ duration: 0.8, delay: 0.1 }} // Adjust delay for staggered effect
                         >
                             <div className={`${index === filteredProducts.length - 1 ? "mr-6" : ""} flex-shrink-0`}>
                                 <ProductItem product={product} />

@@ -1,11 +1,6 @@
 import { CakeSizeAndServings, NavMenuType } from "./types";
 
-export enum Collection {
-    CAKES = "Cakes",
-    CUPCAKES = "Cupcakes",
-    COOKIES = "Cookies",
-    RETAIL = "Retail",
-}
+export type Collection = "Cakes" | "Cupcakes" | "Cookies" | "Retail";
 
 export const NavMenuItems: NavMenuType[] = [
     {

@@ -1,55 +1,9 @@
 import { NextResponse } from "next/server";
-import { uploadFileToS3 } from "@/lib/upload-file-to-s3"; // Assuming you have a function to upload to S3
-import prisma from "@/lib/prisma";
-import axios from "axios";
 
-import ChocolateCake from "@/public/cake-img.jpg";
-import Cupcake from "@/public/cupcakes-img.jpg";
-import Cookie from "@/public/cookies-img.jpg";
-import { Collection } from "@/lib/constants";
-
-const dummyProducts = [
-    {
-        id: "1",
-        name: "Chocolate Cake",
-        collection: Collection.CAKES,
-        price: 15.0,
-        quantity: 1,
-        image: ChocolateCake, // Ensure this path is correct
-        description: "Delicious chocolate cake with rich cocoa flavor",
-    },
-    {
-        id: "2",
-        name: "Vanilla Cupcake",
-        collection: Collection.CUPCAKES,
-        price: 5.0,
-        quantity: 1,
-        image: Cupcake, // Ensure this path is correct
-        description: "Light and fluffy vanilla cupcake with buttercream frosting",
-    },
-    {
-        id: "3",
-        name: "Cookie",
-        collection: Collection.CUPCAKES,
-        price: 5.0,
-        quantity: 1,
-        image: Cookie, // Ensure this path is correct
-        description: "Light and fluffy vanilla cupcake with buttercream frosting",
-    },
-    {
-        id: "4",
-        name: "Vanilla Cupcake",
-        collection: Collection.CUPCAKES,
-        price: 5.0,
-        quantity: 1,
-        image: Cupcake, // Ensure this path is correct
-        description: "Light and fluffy vanilla cupcake with buttercream frosting",
-    },
-    // Add more dummy products as needed
-];
+import { dummyCakes } from "@/lib/products";
 
 export async function GET() {
-    return NextResponse.json(dummyProducts);
+    return NextResponse.json(dummyCakes);
 }
 
 // export async function GET(request: Request) {
