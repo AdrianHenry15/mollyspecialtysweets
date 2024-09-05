@@ -15,6 +15,7 @@ const CustomSelect = (props: ICustomSelectProps) => {
         handleChange && handleChange(item);
 
         setSelected(item);
+        console.log(item);
     };
     return (
         <div className="flex flex-col mt-4">

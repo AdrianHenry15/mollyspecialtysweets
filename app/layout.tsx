@@ -32,9 +32,8 @@ export default async function MainLayout({ children }: { children: React.ReactNo
                 <body className={inter.variable}>
                     <Toaster containerClassName="z-[900000]" />
                     <div className="flex flex-col w-full">
-                        {/* <Suspense fallback={<Loader />}> */}
-                        {children}
-                        {/* </Suspense> */}
+                        <Suspense fallback={<Loader />}>{children}</Suspense>
+                        {/* <Loader /> */}
                     </div>
                 </body>
             </html>

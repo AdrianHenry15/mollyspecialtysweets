@@ -8,7 +8,8 @@ interface ICustomTextarea {
 const CustomTextarea = (props: ICustomTextarea) => {
     const { value, onChange } = props;
     return (
-        <div>
+        <div className="flex flex-col w-full">
+            <h1 className="text-white">EXTRA DETAILS</h1>
             <textarea
                 className="h-48"
                 value={value} // Bind to extraDetails state

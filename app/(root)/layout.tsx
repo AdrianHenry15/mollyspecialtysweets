@@ -8,6 +8,8 @@ import "@/styles/globals.css";
 import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
 import PromotionBanner from "@/components/promotion-banner";
+import { Suspense } from "react";
+import { Loader } from "@/components/loader";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -15,7 +17,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="flex flex-col relative w-full">
                 <Navbar />
                 <PromotionBanner />
-                <div className="flex relative w-full">{children}</div>
+                <div className="flex relative w-full">
+                    <Suspense fallback={<Loader />}>{children}</Suspense>
+                </div>
                 <Footer />
             </div>
         </LocalizationProvider>

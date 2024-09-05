@@ -5,15 +5,20 @@ import { useCartStore } from "@/stores/cart-store";
 import CustomSelect from "@/components/products/custom-select"; // Import the updated CustomSelect component
 import {
     Amounts,
+    CakeFillings,
+    CakeFlavors,
+    CakeFrostings,
     CakeShapes,
     CakeTiers,
     Collection,
     CookieFillings,
     CookieFlavors,
     CookieFrostings,
+    CookieToppings,
     CupcakeFillings,
     CupcakeFlavors,
     CupcakeFrostings,
+    CupcakeToppings,
     Fruits,
     RoundCakeSizes,
     SheetCakeSizes,
@@ -67,38 +72,34 @@ const CakeProduct = (props: CakeProductProps) => {
         addItemToCart(configuredProduct);
     };
 
+    const renderSizes = () => {
+        if (selectedShape?.trim().toLowerCase() === "round") {
+            return <CustomSelect title="Size" options={RoundCakeSizes} handleChange={handleSizeChange} />;
+        } else if (selectedShape?.trim().toLowerCase()) {
+            return <CustomSelect title="Size" options={SheetCakeSizes} handleChange={handleSizeChange} />;
+        } else {
+            return <></>;
+        }
+    };
+
     return (
         <div className="flex flex-col">
             {/* Tier */}
             <CustomSelect title="Tier" options={CakeTiers} handleChange={handleTierChange} />
+            {/* Shape */}
+            <CustomSelect title="Shape" options={CakeShapes} handleChange={handleShapeChange} />
             {/* Size */}
-            <CustomSelect title="Shape" options={CakeShapes} handleChange={handleSizeChange} />
-            {/* Size */}
-            {selectedShape === "" ? null : (
-                <CustomSelect
-                    title="Size"
-                    options={selectedShape?.toLowerCase() === "round" ? RoundCakeSizes : SheetCakeSizes}
-                    handleChange={handleSizeChange}
-                />
-            )}
+            {renderSizes()}
+
             {/* Flavor */}
-            <CustomSelect
-                title="Flavor"
-                options={product.collection === Collection.COOKIES ? CookieFlavors : CupcakeFlavors}
-                handleChange={handleFlavorChange}
-            />
+            <CustomSelect title="Flavor" options={CakeFlavors} handleChange={handleFlavorChange} />
+
             {/* Frosting */}
-            <CustomSelect
-                title="Frosting"
-                options={product.collection === Collection.COOKIES ? CookieFrostings : CupcakeFrostings}
-                handleChange={handleFrostingChange}
-            />
+            <CustomSelect title="Frosting" options={CakeFrostings} handleChange={handleFrostingChange} />
             {/* Filling */}
-            <CustomSelect
-                title="Filling"
-                options={product.collection === Collection.COOKIES ? CookieFillings : CupcakeFillings}
-                handleChange={handleFillingChange}
-            />
+            <CustomSelect title="Filling" options={CakeFillings} handleChange={handleFillingChange} />
+            {/* Topping */}
+            <CustomSelect title="Topping" options={CakeFillings} handleChange={handleToppingChange} />
             {/* Fruit */}
             <CustomSelect title="Fruit?" options={["Yes", "No"]} handleChange={handleHasFruitChange} />
             {/* Which Fruit */}
