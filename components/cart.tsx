@@ -12,13 +12,23 @@ export default function Cart() {
     const openCart = () => setIsOpen(true);
     const closeCart = () => setIsOpen(false);
 
+    // Calculate the total quantity of items in the cart
+    const totalQuantity = items.reduce((total, item) => total + item.quantity, 0);
+
     return (
         <>
             <button className="absolute right-6 lg:right-[2%] 2xl:right-[3.5%]" onClick={openCart} aria-label="Open cart">
-                <ShoppingCartIcon
-                    className="h-6 w-6 cursor-pointer text-black hover:scale-110 transition-transform ease-in-out duration-300"
-                    aria-hidden="true"
-                />
+                <div className="relative">
+                    <ShoppingCartIcon
+                        className="h-6 w-6 cursor-pointer text-black hover:scale-110 transition-transform ease-in-out duration-300"
+                        aria-hidden="true"
+                    />
+                    {totalQuantity > 0 && (
+                        <span className="absolute -top-2 -right-2 rounded-full bg-red-600 text-white text-xs font-bold p-[2px] px-[6px]">
+                            {totalQuantity}
+                        </span>
+                    )}
+                </div>
             </button>
 
             <Transition.Root show={isOpen} as={Fragment}>

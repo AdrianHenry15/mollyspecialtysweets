@@ -2,27 +2,8 @@ import React, { useState } from "react";
 import { ProductType } from "@/lib/types";
 import { useCartStore } from "@/stores/cart-store";
 
-import CustomSelect from "@/components/products/custom-select"; // Import the updated CustomSelect component
-import {
-    Amounts,
-    CakeFillings,
-    CakeFlavors,
-    CakeFrostings,
-    CakeShapes,
-    CakeTiers,
-    Collection,
-    CookieFillings,
-    CookieFlavors,
-    CookieFrostings,
-    CookieToppings,
-    CupcakeFillings,
-    CupcakeFlavors,
-    CupcakeFrostings,
-    CupcakeToppings,
-    Fruits,
-    RoundCakeSizes,
-    SheetCakeSizes,
-} from "@/lib/constants";
+import CustomSelect from "@/components/products/custom-select";
+import { CakeFillings, CakeFlavors, CakeFrostings, CakeShapes, CakeTiers, Fruits, RoundCakeSizes, SheetCakeSizes } from "@/lib/constants";
 import CustomTextarea from "../custom-textarea";
 import AddToCartBtn from "../add-to-cart-btn";
 
@@ -45,7 +26,19 @@ const CakeProduct = (props: CakeProductProps) => {
     const [selectedFruit, setSelectedFruit] = useState<string | null>(null);
     const [extraDetails, setExtraDetails] = useState<string>("");
 
-    const handleTierChange = (amount: string) => setSelectedTier(amount);
+    // Error states for validation
+    const [errors, setErrors] = useState({
+        tier: false,
+        size: false,
+        shape: false,
+        flavor: false,
+        frosting: false,
+        filling: false,
+        topping: false,
+        fruit: false,
+    });
+
+    const handleTierChange = (tier: string) => setSelectedTier(tier);
     const handleSizeChange = (size: string) => setSelectedSize(size);
     const handleShapeChange = (shape: string) => setSelectedShape(shape);
     const handleFlavorChange = (flavor: string) => setSelectedFlavor(flavor);
@@ -56,54 +49,127 @@ const CakeProduct = (props: CakeProductProps) => {
     const handleFruitChange = (fruit: string) => setSelectedFruit(fruit);
     const handleExtraDetailsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setExtraDetails(e.target.value);
 
-    const handleAddToCart = () => {
-        const configuredProduct = {
-            ...product,
-            selectedTier,
-            selectedSize,
-            selectedShape,
-            selectedFlavor,
-            selectedFrosting,
-            selectedFilling,
-            selectedTopping,
-            selectedFruit: hasFruit === "Yes" ? selectedFruit : null,
+    const validateSelections = () => {
+        const newErrors = {
+            tier: !selectedTier,
+            size: !selectedSize,
+            shape: !selectedShape,
+            flavor: !selectedFlavor,
+            frosting: !selectedFrosting,
+            filling: !selectedFilling,
+            topping: !selectedTopping,
+            fruit: hasFruit === "Yes" && !selectedFruit,
         };
 
-        addItemToCart(configuredProduct);
+        setErrors(newErrors);
+        return !Object.values(newErrors).some((error) => error);
+    };
+
+    const handleAddToCart = () => {
+        if (validateSelections()) {
+            const configuredProduct = {
+                ...product,
+                selectedTier,
+                selectedSize,
+                selectedShape,
+                selectedFlavor,
+                selectedFrosting,
+                selectedFilling,
+                selectedTopping,
+                selectedFruit: hasFruit === "Yes" ? selectedFruit : null,
+                extraDetails,
+            };
+
+            addItemToCart(configuredProduct);
+        }
     };
 
     const renderSizes = () => {
         if (selectedShape?.trim().toLowerCase() === "round") {
-            return <CustomSelect title="Size" options={RoundCakeSizes} handleChange={handleSizeChange} />;
-        } else if (selectedShape?.trim().toLowerCase()) {
-            return <CustomSelect title="Size" options={SheetCakeSizes} handleChange={handleSizeChange} />;
+            return (
+                <CustomSelect
+                    title="Size"
+                    options={RoundCakeSizes}
+                    handleChange={handleSizeChange}
+                    error={errors.size ? "Please select a size" : undefined}
+                />
+            );
+        } else if (selectedShape?.trim().toLowerCase() === "sheet") {
+            return (
+                <CustomSelect
+                    title="Size"
+                    options={SheetCakeSizes}
+                    handleChange={handleSizeChange}
+                    error={errors.size ? "Please select a size" : undefined}
+                />
+            );
         } else {
-            return <></>;
+            return null;
         }
     };
 
     return (
         <div className="flex flex-col">
             {/* Tier */}
-            <CustomSelect title="Tier" options={CakeTiers} handleChange={handleTierChange} />
+            <CustomSelect
+                title="Tier"
+                options={CakeTiers}
+                handleChange={handleTierChange}
+                error={errors.tier ? "Please select a tier" : undefined}
+            />
             {/* Shape */}
-            <CustomSelect title="Shape" options={CakeShapes} handleChange={handleShapeChange} />
+            <CustomSelect
+                title="Shape"
+                options={CakeShapes}
+                handleChange={handleShapeChange}
+                error={errors.shape ? "Please select a shape" : undefined}
+            />
             {/* Size */}
             {renderSizes()}
-
             {/* Flavor */}
-            <CustomSelect title="Flavor" options={CakeFlavors} handleChange={handleFlavorChange} />
-
+            <CustomSelect
+                title="Flavor"
+                options={CakeFlavors}
+                handleChange={handleFlavorChange}
+                error={errors.flavor ? "Please select a flavor" : undefined}
+            />
             {/* Frosting */}
-            <CustomSelect title="Frosting" options={CakeFrostings} handleChange={handleFrostingChange} />
+            <CustomSelect
+                title="Frosting"
+                options={CakeFrostings}
+                handleChange={handleFrostingChange}
+                error={errors.frosting ? "Please select a frosting" : undefined}
+            />
             {/* Filling */}
-            <CustomSelect title="Filling" options={CakeFillings} handleChange={handleFillingChange} />
+            <CustomSelect
+                title="Filling"
+                options={CakeFillings}
+                handleChange={handleFillingChange}
+                error={errors.filling ? "Please select a filling" : undefined}
+            />
             {/* Topping */}
-            <CustomSelect title="Topping" options={CakeFillings} handleChange={handleToppingChange} />
+            <CustomSelect
+                title="Topping"
+                options={CakeFillings}
+                handleChange={handleToppingChange}
+                error={errors.topping ? "Please select a topping" : undefined}
+            />
             {/* Fruit */}
-            <CustomSelect title="Fruit?" options={["Yes", "No"]} handleChange={handleHasFruitChange} />
+            <CustomSelect
+                title="Fruit?"
+                options={["Yes", "No"]}
+                handleChange={handleHasFruitChange}
+                error={errors.fruit ? "Please select if you want fruit" : undefined}
+            />
             {/* Which Fruit */}
-            {hasFruit === "Yes" && <CustomSelect title="Which Fruit?" options={Fruits} handleChange={handleFruitChange} />}
+            {hasFruit === "Yes" && (
+                <CustomSelect
+                    title="Which Fruit?"
+                    options={Fruits}
+                    handleChange={handleFruitChange}
+                    error={errors.fruit ? "Please select a fruit" : undefined}
+                />
+            )}
             {/* Extra Details */}
             <CustomTextarea value={extraDetails} onChange={handleExtraDetailsChange} />
             {/* Add To Cart Btn */}
