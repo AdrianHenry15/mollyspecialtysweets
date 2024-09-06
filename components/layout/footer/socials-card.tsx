@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-import { AiFillFacebook, AiOutlineInstagram } from "react-icons/ai";
+import { AiOutlineInstagram } from "react-icons/ai";
 
 const SocialsCard = () => {
     return (
@@ -9,7 +9,7 @@ const SocialsCard = () => {
             {/* <Link target="_blank" href="">
                 <AiFillFacebook size={35} />
             </Link> */}
-            <Link target="_blank" href="">
+            <Link target="_blank" href="https://www.instagram.com/mollyspecialtysweets/">
                 <AiOutlineInstagram className="hover:scale-125 transition-all duration-300 ease-in-out" size={25} />
             </Link>
         </div>
