@@ -26,7 +26,6 @@ interface CookieCupcakeProductProps {
 const CookieCupcakeProduct = (props: CookieCupcakeProductProps) => {
     const { product } = props;
     const addItemToCart = useCartStore((state) => state.addItem);
-    const clearCart = useCartStore((state) => state.clearCart);
 
     const [selectedAmount, setSelectedAmount] = useState<string | null>(null);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -114,28 +113,28 @@ const CookieCupcakeProduct = (props: CookieCupcakeProductProps) => {
             {/* Flavor */}
             <CustomSelect
                 title="Flavor"
-                options={product.collection === Collection.COOKIES ? CookieFlavors : CupcakeFlavors}
+                options={product.collection === "Cookies" ? CookieFlavors : CupcakeFlavors}
                 handleChange={handleFlavorChange}
                 error={errors.flavor ? "Please select a flavor" : undefined}
             />
             {/* Frosting */}
             <CustomSelect
                 title="Frosting"
-                options={product.collection === Collection.COOKIES ? CookieFrostings : CupcakeFrostings}
+                options={product.collection === "Cookies" ? CookieFrostings : CupcakeFrostings}
                 handleChange={handleFrostingChange}
                 error={errors.frosting ? "Please select a frosting" : undefined}
             />
             {/* Filling */}
             <CustomSelect
                 title="Filling"
-                options={product.collection === Collection.COOKIES ? CookieFillings : CupcakeFillings}
+                options={product.collection === "Cookies" ? CookieFillings : CupcakeFillings}
                 handleChange={handleFillingChange}
                 error={errors.filling ? "Please select a filling" : undefined}
             />
             {/* Topping */}
             <CustomSelect
                 title="Topping"
-                options={product.collection === Collection.COOKIES ? CookieToppings : CupcakeToppings}
+                options={product.collection === "Cookies" ? CookieToppings : CupcakeToppings}
                 handleChange={handleToppingChange}
                 error={errors.topping ? "Please select a topping" : undefined}
             />

@@ -4,6 +4,7 @@ import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ShoppingCartIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useCartStore } from "@/stores/cart-store";
+import Link from "next/link";
 
 export default function Cart() {
     const [isOpen, setIsOpen] = useState(false);
@@ -91,10 +92,10 @@ export default function Cart() {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+                                    <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-3 sm:gap-3">
                                         <button
                                             type="button"
-                                            className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none sm:text-sm"
+                                            className="inline-flex items-center w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none sm:text-sm"
                                             onClick={() => {
                                                 clearCart();
                                                 closeCart();
@@ -109,6 +110,13 @@ export default function Cart() {
                                         >
                                             Continue Shopping
                                         </button>
+                                        <Link
+                                            href="/checkout"
+                                            className="mt-3 sm:mt-0 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none sm:text-sm"
+                                            onClick={closeCart}
+                                        >
+                                            Checkout
+                                        </Link>
                                     </div>
                                 </Dialog.Panel>
                             </Transition.Child>

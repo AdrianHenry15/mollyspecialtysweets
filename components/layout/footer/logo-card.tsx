@@ -11,7 +11,7 @@ const LogoCard = () => {
                     <Image loading="eager" width={100} className="pb-4" src={Logo} alt="logo" />
                 </span>
                 <span className="flex items-center text-xs text-zinc-500">
-                    <FaRegCopyright className="mx-2" />
+                    <FaRegCopyright size={10} className="mx-1 text-zinc-700 mb-2" />
                     {`2023 Molly's Specialty Sweets`}
                 </span>
             </div>

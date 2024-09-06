@@ -20,6 +20,7 @@ export default function HomePage() {
                 img={CakeSplash}
                 title="Molly's Specialty Sweets"
             />
+            <ProductRow />
             <Banner />
             {/* ICON BANNER */}
             <IconsRow
@@ -45,7 +46,6 @@ export default function HomePage() {
                     description: "Expertly crafted artisinal cookies for a joyous indulgence",
                 }}
             />
-            <ProductRow />
             <ContactFormContainer />
         </div>
     );

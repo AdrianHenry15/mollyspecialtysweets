@@ -3,11 +3,12 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
 
-import { Collection } from "@/lib/constants";
 import { useProductStore } from "@/stores/product-store";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import CookieCupcakeProduct from "./cookie-cupcake-product";
 import CakeProduct from "./cake-product";
+import { useCartStore } from "@/stores/cart-store";
+import AddToCartBtn from "../add-to-cart-btn";
 
 interface IProductProps {
     productId: string;
@@ -18,6 +19,7 @@ const Product = (props: IProductProps) => {
     const { productId } = props;
     // Store
     const { products, isLoading, error, fetchProducts } = useProductStore();
+    const addItemToCart = useCartStore((state) => state.addItem);
 
     useEffect(() => {
         if (products.length === 0) {
@@ -58,6 +60,11 @@ const Product = (props: IProductProps) => {
         );
     };
 
+    // Hanlders
+    const handleAddToCart = () => {
+        addItemToCart(product);
+    };
+
     return (
         <div className="flex flex-col relative w-full border border-zinc-200 bg-black rounded-lg">
             <div className="flex flex-col relative p-6">
@@ -87,6 +94,7 @@ const Product = (props: IProductProps) => {
                 )}
                 {product.name === "Custom Cake" && product.collection === "Cakes" && <CakeProduct product={product} />}
             </div>
+            <AddToCartBtn handleAddToCart={handleAddToCart} />
         </div>
     );
 };
