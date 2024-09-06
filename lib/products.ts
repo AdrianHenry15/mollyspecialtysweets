@@ -1,6 +1,6 @@
 import { Collection } from "./constants";
-import ChocolateCake from "@/public/cake-img.jpg";
-import RedVelvetCake from "@/public/cake-splash.jpg";
+import RedVelvetCake from "@/public/red-velvet-cake.jpg";
+import ChocolateCake from "@/public/chcolate-cake.jpg";
 import CoconutCake from "@/public/coconut-cake.jpg";
 import LemonCake from "@/public/lemon-cake.jpg";
 import CustomCake from "@/public/custom-cake.jpg";

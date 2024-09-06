@@ -7,6 +7,7 @@ import ContactCard from "./contact-card";
 import SocialsCard from "./socials-card";
 import FooterMenu from "./footer-menu";
 import LogoCard from "./logo-card";
+import PoweredBy from "./powered-by";
 
 const Footer = () => {
     return (
@@ -22,6 +23,8 @@ const Footer = () => {
             </div>
             {/* SOCIALS  */}
             <SocialsCard />
+            {/* POWERED BY */}
+            <PoweredBy />
             {/* CREATED BY */}
             <div className="flex flex-col items-center justify-center text-center self-center w-full border-t-[1px] py-14 text-xs border-zinc-900">
                 {/* THIRDGEN LOGO */}

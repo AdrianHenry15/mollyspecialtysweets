@@ -82,8 +82,10 @@ const Product = (props: IProductProps) => {
                     </p>
                 </div>
                 {/* INPUTS */}
-                {(product.collection === "Cookies" || product.collection === "Cupcakes") && <CookieCupcakeProduct product={product} />}
-                {product.collection === "Cakes" && <CakeProduct product={product} />}
+                {product.name === "Custom Cake" && (product.collection === "Cookies" || product.collection === "Cupcakes") && (
+                    <CookieCupcakeProduct product={product} />
+                )}
+                {product.name === "Custom Cake" && product.collection === "Cakes" && <CakeProduct product={product} />}
             </div>
         </div>
     );

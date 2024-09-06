@@ -6,6 +6,7 @@ import Cake from "@/public/cake-icon.png";
 import Cupcake from "@/public/cupcake-icon.png";
 import Splash from "@/components/splashes/splash";
 import ProductRow from "@/components/products/product-row";
+import Banner from "@/components/banner";
 
 export default function HomePage() {
     return (
@@ -19,7 +20,7 @@ export default function HomePage() {
                 img={CakeSplash}
                 title="Molly's Specialty Sweets"
             />
-            <ProductRow />
+            <Banner />
             {/* ICON BANNER */}
             <IconsRow
                 iconItem1={{
@@ -44,6 +45,7 @@ export default function HomePage() {
                     description: "Expertly crafted artisinal cookies for a joyous indulgence",
                 }}
             />
+            <ProductRow />
             <ContactFormContainer />
         </div>
     );

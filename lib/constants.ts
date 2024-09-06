@@ -38,10 +38,6 @@ export const NavMenuItems: NavMenuType[] = [
 ];
 export const NavMenuAltItems: NavMenuType[] = [
     {
-        title: "(321) 370-0836",
-        link: "tel:3213700836",
-    },
-    {
         title: "Get Your Free Estimate",
         link: "/estimate",
     },

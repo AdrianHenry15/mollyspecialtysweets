@@ -13,14 +13,14 @@ const PromotionBanner = () => {
                         Sign up
                     </Link>
                     <span>today to see your </span>
-                    <span className="text-pink-600">Receipts</span>
+                    <span className="text-pink-600">Order History</span>
                     <span className="mx-1">and</span>
                     <span className="text-pink-600">Estimates</span>
                 </div>
             ) : (
                 <div>
                     <span>Click on your profile to checkout your </span>
-                    <span className="text-pink-600">Receipts</span>
+                    <span className="text-pink-600">Order History</span>
                     <span className="mx-1">and</span>
                     <span className="text-pink-600">Estimates</span>
                     <span className="ml-1">now!</span>
