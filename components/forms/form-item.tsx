@@ -22,7 +22,7 @@ interface IFormItemProps {
     name: string;
     options?: [];
     label?: string;
-    required?: boolean;
+    errorMessage?: string;
     autocomplete?: boolean;
     defaultValue?: string;
     errors?: FieldErrors;
@@ -39,7 +39,7 @@ const FormItem: React.FC<IFormItemProps> = ({
     name,
     options,
     label,
-    required,
+    errorMessage,
     autocomplete,
     defaultValue,
     errors,
@@ -60,7 +60,7 @@ const FormItem: React.FC<IFormItemProps> = ({
     return (
         <FormContainer className="flex-col pb-6" title={title}>
             <Controller
-                rules={{ required }}
+                rules={{ required: errorMessage }}
                 name={name}
                 defaultValue={defaultValue}
                 control={control}

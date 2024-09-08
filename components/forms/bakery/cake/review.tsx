@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ReviewItem from "../review-item";
+import ReviewItem from "../../review-item";
 
 const CakeReview = () => {
     return (

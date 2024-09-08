@@ -1,4 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { getAuth } from "@clerk/nextjs/server";
+
 import prisma from "@/lib/prisma"; // Assuming you have a Prisma client instance here
 import { Client as SquareClient, Environment } from "square"; // Square SDK for handling payments
 
@@ -17,19 +19,22 @@ export async function GET() {
     }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
-        const { userId, description, amount } = await request.json();
+        // Get the authenticated user from Clerk
+        const { userId } = getAuth(request);
 
-        // Validate the required fields
-        if (!userId || !description || !amount) {
-            return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+        if (!userId) {
+            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
         }
+
+        // Parse request body
+        const { description, amount, sourceId } = await request.json();
 
         // Create the estimate in Prisma
         const newEstimate = await prisma.estimate.create({
             data: {
-                userId,
+                clerkId: userId,
                 description,
                 amount,
             },
@@ -40,7 +45,7 @@ export async function POST(request: Request) {
 
         // If the estimate is created successfully, initiate Square payment process
         const squareResponse = await squareClient.paymentsApi.createPayment({
-            sourceId: "SOURCE_ID", // You should replace this with the actual payment source (card token, etc.)
+            sourceId, // You should replace this with the actual payment source (card token, etc.)
             amountMoney: {
                 amount: amountInCents, // Square expects the amount in the smallest currency unit
                 currency: "USD",

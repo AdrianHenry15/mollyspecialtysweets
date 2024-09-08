@@ -8,42 +8,23 @@ generator client {
 }
 
 model Estimate {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String   @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  clerkUser   ClerkUser
   description String
   amount      Float
-  status      String   @default("pending")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  User        User     @relation(fields: [userId], references: [id])
+  status      String    @default("pending")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Invoice {
-  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
-  itemName            String
-  price               String
-  verified            Boolean  @default(false)
-  userId              String   @unique
-  fullName            String
-  primaryEmailAddress String   @unique
-  primaryPhoneNumber  String?  @unique
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-}
-
-model User {
-  id               String  @id @default(auto()) @map("_id") @db.ObjectId
-  clerkId          String  @unique // Clerk ID
-  firstName        String
-  lastName         String
-  email            String  @unique
-  phoneNumber      String
-  img              String?
-  address          String?
-  squareCustomerId String? // Optional: Square Customer ID for future transactions
-  orders           Order[] // Relation to Order model
-
-  Estimate Estimate[]
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  itemName  String
+  price     String
+  verified  Boolean   @default(false)
+  clerkUser ClerkUser
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Product {
@@ -61,7 +42,7 @@ model Product {
 
 model Cart {
   id          String     @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String // Assuming a relationship to a User
+  clerkUser   ClerkUser // Use Clerk user on frontend
   items       CartItem[] // One-to-many relationship with CartItem
   totalAmount Float // Calculated total for all items in the cart
   createdAt   DateTime   @default(now())
@@ -81,8 +62,7 @@ model CartItem {
 
 model Order {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String      @unique @db.ObjectId
-  user        User        @relation(fields: [userId], references: [id])
+  clerkUser   ClerkUser // Use Clerk user on frontend
   orderItems  OrderItem[] // Relationship to order items
   totalAmount Float
   status      OrderStatus // Enum for order status (e.g., Pending, Shipped)
@@ -149,6 +129,17 @@ type CookieProduct {
   amount        String
   size          String
   bakeryProduct BakeryProduct
+}
+
+// Use Clerk user on frontend
+type ClerkUser {
+  userId              String
+  firstName           String
+  lastName            String
+  emailaddresses      String[]
+  primaryEmailAddress String
+  phoneNumbers        String[]
+  primaryPhoneNumber  String
 }
 
 enum PaymentStatus {

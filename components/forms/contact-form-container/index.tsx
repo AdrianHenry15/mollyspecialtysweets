@@ -32,6 +32,8 @@ const ContactFormContainer = () => {
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
+    const [estimateId, setEstimateId] = useState("");
+    const [createdAt, setCreatedAt] = useState("");
 
     // CLERK
     const { user } = useUser();
@@ -52,8 +54,11 @@ const ContactFormContainer = () => {
 
     //EMAIL JS
     const templateParams = {
+        estimateId: estimateId,
+        createdAt: createdAt,
         firstName: getValues("firstName"),
         lastName: getValues("lastName"),
+        orderTypes: getValues("orderTypes"),
         phone: getValues("phone"),
         email: getValues("email"),
         date: getValues("date"),
@@ -62,7 +67,7 @@ const ContactFormContainer = () => {
         occasion: getValues("occasion"),
         colors: getValues("colors"),
         orders: getValues("orderTypes"),
-        details: getValues("details"),
+        extraDetails: getValues("extraDetails"),
     };
 
     // Steps for the form
@@ -176,7 +181,7 @@ const ContactFormContainer = () => {
     const createEstimate = () => {
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
             itemName: `${getValues("cakeSize")} ${getValues("cakeShape")} ${getValues("cakeTier")} ${getValues("colors")} ${getValues("cakeFlavor")} ${getValues("cakeFrosting")} ${getValues("cakeFilling")} ${getValues("cakeTopping")} Cake`,
-            extraDetails: `${getValues("details")}`,
+            extraDetails: `${getValues("extraDetails")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
             primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
@@ -198,8 +203,20 @@ const ContactFormContainer = () => {
     };
 
     const onSubmit = (data: any) => {
+        // Generate unique estimateId and set current time for createdAt
+        setEstimateId(Math.floor(100000 + Math.random() * 900000).toString()); // Generating a random unique ID
+
+        setCreatedAt(
+            new Date()
+                .toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                })
+                .toString(),
+        );
+
         setIsConfirmationModalOpen(true);
-        // createEstimate();
     };
 
     const confirmEstimate = () => {
@@ -233,11 +250,7 @@ const ContactFormContainer = () => {
             viewport={{ once: true, amount: 0.3 }} // Trigger when 30% of the component is visible
             transition={{ duration: 0.8, delay: 0.2 }} // Adjust delay for staggered effect
         >
-            <form
-                onKeyDown={handleKeyPress}
-                onSubmit={handleSubmit(onSubmit)}
-                className="py-24 px-2 md:px-[10rem] lg:px-[20rem] 2xl:px-[30rem]"
-            >
+            <form onKeyDown={handleKeyPress} onSubmit={handleSubmit(onSubmit)} className="py-24 px-2 md:px-[5%] 2xl:px-[20%]">
                 {isConfirmationModalOpen && (
                     <ConfirmationModal
                         title="Confirm Your Estimate Request"

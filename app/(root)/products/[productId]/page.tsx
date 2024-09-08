@@ -1,4 +1,4 @@
-import Product from "@/components/products/product/product";
+import Product from "@/components/products/product-page/product";
 
 export default function ProductPage({ params }: { params: { productId: string } }) {
     return (

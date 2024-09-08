@@ -5,34 +5,49 @@ import { useForm } from "react-hook-form";
 import emailjs from "@emailjs/browser";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
-import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import toast from "react-hot-toast";
+import { AnimatePresence, motion } from "framer-motion";
 
 import Logo from "@/public/mollys-logo-black.png";
 
-import CookieAmount from "./amount";
-import CookieSize from "./size";
-import CookieFlavor from "./flavor";
-import CookieFrosting from "./frosting";
-import CookieFilling from "./filling";
-import CookieTopping from "./topping";
 import ConfirmationModal from "@/components/modals/confirmation-modal";
 import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
 import Button from "@/components/buttons/button";
-import ContactDetails from "../contact-details";
-import OrderDetails from "../order-details";
+import ContactDetails from "../../contact-details";
+import OrderDetails from "../../order-details";
 import { EstimateType } from "@/lib/types";
-import Image from "next/image";
+import BakeryInput from "../bakery-input";
+import { Amounts, CupcakeFillings, CupcakeFlavors, CupcakeToppings, Sizes } from "@/lib/constants";
 
-const CookieForm = () => {
-    const { user } = useUser();
+// Define a type for the form fields
+type FormFields =
+    | "cupcakeAmount"
+    | "cupcakeSize"
+    | "cupcakeFlavor"
+    | "cupcakeFilling"
+    | "cupcakeTopping"
+    | "firstName"
+    | "lastName"
+    | "email"
+    | "phoneNumber"
+    | "deliveryAddress"
+    | "deliveryMethod"
+    | "occasion"
+    | "date";
 
+const CupcakeForm = () => {
     // STATE
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
+    const [estimateId, setEstimateId] = useState("");
+    const [createdAt, setCreatedAt] = useState("");
+
+    // CLERK
+    const { user } = useUser();
 
     // EMAIL JS
     const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID as string;
@@ -45,44 +60,98 @@ const CookieForm = () => {
         control,
         formState: { errors },
         trigger,
-    } = useForm();
-
-    const steps = [
-        <CookieAmount key={0} errors={errors} control={control} />,
-        <CookieSize key={1} errors={errors} control={control} />,
-        <CookieFlavor key={2} errors={errors} control={control} />,
-        <CookieFrosting key={3} control={control} />,
-        <CookieFilling key={4} control={control} />,
-        <CookieTopping key={5} control={control} />,
-        <ContactDetails key={6} control={control} errors={errors} />,
-        <OrderDetails key={7} control={control} errors={errors} />,
-    ];
+    } = useForm({
+        defaultValues: {
+            date: "",
+            deliveryAddress: "",
+            deliveryMethod: "",
+            email: "",
+            firstName: "",
+            lastName: "",
+            occasion: "",
+            phoneNumber: "",
+            cupcakeAmount: "",
+            cupcakeSize: "",
+            cupcakeFlavor: "",
+            cupcakeFrosting: "",
+            cupcakeFilling: "",
+            cupcakeTopping: "",
+            cupcakeFruit: "",
+            extraCupcakeDetails: "",
+            cupcakeColors: "",
+        },
+    });
 
     //EMAIL JS
     const templateParams = {
-        cookieSize: getValues("cookieSize"),
-        cookieAmount: getValues("cookieAmount"),
-        cookieFlavor: getValues("cookieFlavor"),
-        cookieFrosting: getValues("cookieFrosting"),
-        cookieFilling: getValues("cookieFilling"),
-        cookieTopping: getValues("cookieTopping"),
-        colors: getValues("colors"),
+        estimateId: estimateId,
+        createdAt: createdAt,
         date: getValues("date"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
-        details: getValues("details"),
         email: getValues("email"),
         firstName: getValues("firstName"),
         lastName: getValues("lastName"),
         occasion: getValues("occasion"),
         phoneNumber: getValues("phoneNumber"),
+        cupcakeSize: getValues("cupcakeSize"),
+        cupcakeAmount: getValues("cupcakeAmount"),
+        cupcakeFlavor: getValues("cupcakeFlavor"),
+        cupcakeFrosting: getValues("cupcakeFrosting"),
+        cupcakeFilling: getValues("cupcakeFilling"),
+        cupcakeTopping: getValues("cupcakeTopping"),
+        cupcakeFruit: getValues("cupcakeFruit"),
+        extraCupcakeDetails: getValues("extraCupcakeDetails"),
+        cupcakeColors: getValues("cupcakeColors"),
     };
 
-    const createCookieEstimate = () => {
+    const steps = [
+        <BakeryInput key={0} label="Cupcake Amount" value="cupcakeAmount" options={Amounts as []} errors={errors} control={control} />,
+        <BakeryInput key={1} label="Cupcake Size" value="cupcakeSize" options={Sizes as []} errors={errors} control={control} />,
+        <BakeryInput
+            key={2}
+            label="Cupcake Flavor"
+            value="cupcakeFlavor"
+            options={CupcakeFlavors as []}
+            errors={errors}
+            control={control}
+        />,
+        <BakeryInput
+            key={3}
+            label="Cupcake Frosting"
+            value="cupcakeFrosting"
+            hasFruit
+            options={CupcakeFlavors as []}
+            errors={errors}
+            control={control}
+        />,
+        <BakeryInput
+            key={4}
+            label="Cupcake Filling"
+            value="cupcakeFilling"
+            hasFruit
+            options={CupcakeFillings as []}
+            errors={errors}
+            control={control}
+        />,
+        <BakeryInput
+            key={5}
+            label="Cupcake Topping"
+            value="cupcakeTopping"
+            hasFruit
+            options={CupcakeToppings as []}
+            errors={errors}
+            control={control}
+        />,
+        <ContactDetails key={6} errors={errors} control={control} />,
+        <OrderDetails key={7} errors={errors} control={control} />,
+    ];
+
+    const createCupcakeEstimate = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("cookieSize")} ${getValues("cookieShape")} ${getValues("cookieTier")} ${getValues("colors")} ${getValues("cookieFlavor")} ${getValues("cookieFrosting")} ${getValues("cookieFilling")} ${getValues("cookieTopping")} Cookie`,
-            extraDetails: `${getValues("details")}`,
+            itemName: `${getValues("cupcakeAmount")} ${getValues("cupcakeSize")} ${getValues("cupcakeColors")} ${getValues("cupcakeFlavor")} ${getValues("cupcakeFrosting")} ${getValues("cupcakeFilling")} ${getValues("cupcakeTopping")} with ${getValues("cupcakeFruit")} Cupcake`,
+            extraDetails: `${getValues("extraCupcakeDetails")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
             primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
@@ -105,30 +174,36 @@ const CookieForm = () => {
     };
 
     const onSubmit = (data: any) => {
-        // open confirmation modal
-        setIsConfirmationModalOpen(true);
-        console.log(data);
+        // Generate unique estimateId and set current time for createdAt
+        setEstimateId(Math.floor(100000 + Math.random() * 900000).toString()); // Generating a random unique ID
 
-        // TEST
-        // createCookieEstimate();
+        setCreatedAt(
+            new Date()
+                .toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                })
+                .toString(),
+        );
+
+        setIsConfirmationModalOpen(true);
     };
 
     const confirmEstimate = () => {
         // EMAIL JS
         emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
             function (response) {
-                toast.success("Your Cookie estimate has been submitted successfully!");
+                toast.success("Your cupcake estimate has been submitted successfully!");
                 console.log("SUCCESS!", response.status, response.text);
             },
             function (error) {
-                toast.error("Your Cookie estimate failed to submit.");
+                toast.error("There was an error submitting your cupcake estimate. Please try again.");
                 console.log("FAILED...", error);
             },
         );
 
-        // POST CONTACT ESTIMATE
-        createCookieEstimate();
-
+        createCupcakeEstimate();
         // close modal
         setIsConfirmationModalOpen(false);
         setTimeout(() => {
@@ -139,9 +214,13 @@ const CookieForm = () => {
 
         setLoading(true);
     };
-    const handleNext = () => {
-        if (currentStep < steps.length - 1) {
-            setCurrentStep(currentStep + 1);
+
+    // Navigate between steps with validation
+    const handleNext = async () => {
+        const isValid = await trigger(Object.keys(control._defaultValues)[currentStep] as FormFields);
+
+        if (isValid) {
+            setCurrentStep((prev) => prev + 1);
         }
     };
 
@@ -167,18 +246,13 @@ const CookieForm = () => {
             }
         }
     };
-
     return (
-        <form
-            onKeyDown={handleKeyPress}
-            onSubmit={handleSubmit(onSubmit)}
-            className="py-24 px-2 md:px-[10rem] lg:px-[20rem] 2xl:px-[30rem]"
-        >
+        <form onKeyDown={handleKeyPress} onSubmit={handleSubmit(onSubmit)} className="py-24 px-2 md:px-[5%] 2xl:px-[20%]">
             {isConfirmationModalOpen && (
                 <ConfirmationModal
-                    title="Confirm Your Cookie Estimate Request"
-                    message="Confirm your Cookie Estimate Request and someone from our team will be in touch with you about your project"
-                    buttonText="Get Your Free Cookie Estimate"
+                    title="Confirm Your Cupake Estimate Request"
+                    message="Confirm your Cupake Estimate Request and someone from our team will be in touch with you about your project"
+                    buttonText="Get Your Free Cupake Estimate"
                     confirm={confirmEstimate}
                     isOpen={isConfirmationModalOpen}
                     closeModal={() => setIsConfirmationModalOpen(false)}
@@ -186,9 +260,8 @@ const CookieForm = () => {
             )}
             {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
             {loading ? <Loader /> : null}
-
             <div className="border-4 border-black shadow-lg shadow-zinc-400 p-6">
-                <h5 className="flex justify-center items-center font-semibold text-[40px] mb-24">Cookie Estimate</h5>
+                <h5 className="flex justify-center items-center font-semibold text-[40px] mb-24">Cupcake Estimate</h5>
 
                 {/* LOGO */}
                 <div className="flex justify-center pb-4">
@@ -237,4 +310,4 @@ const CookieForm = () => {
     );
 };
 
-export default CookieForm;
+export default CupcakeForm;

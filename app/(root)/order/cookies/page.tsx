@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import React from "react";
 
-import CookieForm from "@/components/forms/cookie";
+import CookieForm from "@/components/forms/bakery/cookie";
 import ProductRow from "@/components/products/product-row";
 import { Collection } from "@/lib/constants";
 
@@ -14,7 +14,7 @@ const OrderCookies = () => {
     return (
         <div className="flex flex-col justify-between w-full">
             <div className="pr-10 bg-black">
-                <ProductRow collection={Collection.COOKIES} />
+                <ProductRow collection={"Cookies"} />
             </div>
             <CookieForm />
         </div>

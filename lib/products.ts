@@ -7,8 +7,9 @@ import CustomCake from "@/public/custom-cake.jpg";
 import StrawberryCake from "@/public/strawberry-cake.jpg";
 import CarrotCake from "@/public/carrot-cake.jpg";
 import CoffeeCake from "@/public/coffee-cake.jpg";
+import { ProductType } from "./types";
 
-export const dummyCakes = [
+export const dummyCakes: ProductType[] = [
     {
         id: "cake-1",
         name: "Custom Cake",
@@ -82,3 +83,5 @@ export const dummyCakes = [
         description: "Fresh strawberry cake with a light and fruity flavor.",
     },
 ];
+
+export const dummyCupcakes = [{}];

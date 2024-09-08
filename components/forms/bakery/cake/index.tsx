@@ -3,34 +3,41 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import emailjs from "@emailjs/browser";
+import toast from "react-hot-toast";
+import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import Image from "next/image";
-import toast from "react-hot-toast";
-import { AnimatePresence, motion } from "framer-motion";
 
 import Logo from "@/public/mollys-logo-black.png";
 
-import CupcakeSize from "./size";
-import CupcakeFlavor from "./flavor";
-import CupcakeFrosting from "./frosting";
-import CupcakeFilling from "./filling";
-import CupcakeTopping from "./topping";
-import CupcakeAmount from "./amount";
+import Button from "@/components/buttons/button";
 import ConfirmationModal from "@/components/modals/confirmation-modal";
 import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
-import Button from "@/components/buttons/button";
-import ContactDetails from "../contact-details";
-import OrderDetails from "../order-details";
+import ContactDetails from "../../contact-details";
+import OrderDetails from "../../order-details";
 import { EstimateType } from "@/lib/types";
+import BakeryInput from "../bakery-input";
+import {
+    CakeFillings,
+    CakeFlavors,
+    CakeFrostings,
+    CakeShapes,
+    CakeTiers,
+    CakeToppings,
+    RoundCakeSizes,
+    SheetCakeSizes,
+} from "@/lib/constants";
 
-const CupcakeForm = () => {
+const CakeForm = () => {
     // STATE
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
+    const [estimateId, setEstimateId] = useState("");
+    const [createdAt, setCreatedAt] = useState("");
 
     // CLERK
     const { user } = useUser();
@@ -44,46 +51,116 @@ const CupcakeForm = () => {
         handleSubmit,
         getValues,
         control,
+        watch,
         formState: { errors },
         trigger,
     } = useForm();
 
     //EMAIL JS
     const templateParams = {
-        cupcakeSize: getValues("cupcakeSize"),
-        cupcakeAmount: getValues("cupcakeAmount"),
-        cupcakeFlavor: getValues("cupcakeFlavor"),
-        cupcakeFrosting: getValues("cupcakeFrosting"),
-        cupcakeFilling: getValues("cupcakeFilling"),
-        cupcakeTopping: getValues("cupcakeTopping"),
-        colors: getValues("colors"),
+        estimateId: estimateId,
+        createdAt: createdAt,
         date: getValues("date"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
-        details: getValues("details"),
         email: getValues("email"),
         firstName: getValues("firstName"),
         lastName: getValues("lastName"),
         occasion: getValues("occasion"),
         phoneNumber: getValues("phoneNumber"),
+        cakeTier: getValues("cakeTier"),
+        cakeShape: getValues("cakeShape"),
+        cakeSize: getValues("cakeSize"),
+        cakeFlavor: getValues("cakeFlavor"),
+        cakeFrosting: getValues("cakeFrosting"),
+        cakeFrostingFruit: getValues("cakeFrostingFruit"),
+        cakeFilling: getValues("cakeFilling"),
+        cakeFillingFruit: getValues("cakeFillingFruit"),
+        cakeTopping: getValues("cakeTopping"),
+        cakeToppingFruit: getValues("cakeToppingFruit"),
+        cakeFruit: getValues("cakeFruit"),
+        extraCakeDetails: getValues("extraCakeDetails"),
+        cakeColors: getValues("cakeColors"),
     };
 
     const steps = [
-        <CupcakeAmount key={0} errors={errors} control={control} />,
-        <CupcakeSize key={1} errors={errors} control={control} />,
-        <CupcakeFlavor key={2} errors={errors} control={control} />,
-        <CupcakeFrosting key={3} errors={errors} control={control} />,
-        <CupcakeFilling key={4} control={control} />,
-        <CupcakeTopping key={5} control={control} />,
-        <ContactDetails key={6} errors={errors} control={control} />,
-        <OrderDetails key={7} errors={errors} control={control} />,
+        <BakeryInput
+            key={0}
+            errorMessage="Cake Needs Flavor"
+            value="cakeTier"
+            label="Cake Tier"
+            options={CakeTiers as []}
+            errors={errors}
+            control={control}
+        />,
+        <BakeryInput
+            key={1}
+            errorMessage="Cake Needs Shape"
+            value="cakeShape"
+            label="Cake Shape"
+            options={CakeShapes as []}
+            errors={errors}
+            control={control}
+        />,
+        <BakeryInput
+            key={2}
+            errorMessage="Cake Needs Size"
+            value="cakeSize"
+            label="Cake Size"
+            options={watch("cakeShape") === "rectangle" ? (RoundCakeSizes as []) : (SheetCakeSizes as [])}
+            errors={errors}
+            control={control}
+        />,
+        <BakeryInput
+            key={3}
+            errorMessage="Cake Needs Flavor"
+            value="cakeFlavor"
+            label="Cake Flavor"
+            options={CakeFlavors as []}
+            errors={errors}
+            control={control}
+        />,
+        <BakeryInput
+            key={4}
+            errorMessage="Cake Needs Frosting"
+            hasFruit
+            fruitValue="cakeFrostingFruit"
+            fruitLabel="Frosting Fruit"
+            value="cakeFrosting"
+            label="Cake Frosting"
+            options={CakeFrostings as []}
+            errors={errors}
+            control={control}
+        />,
+        <BakeryInput
+            key={5}
+            hasFruit
+            fruitValue="cakeFillingFruit"
+            fruitLabel="Filling Fruit"
+            value="cakeFilling"
+            label="Cake Filling"
+            options={CakeFillings as []}
+            errors={errors}
+            control={control}
+        />,
+        <BakeryInput
+            key={6}
+            hasFruit
+            value="cakeTopping"
+            label="Cake Topping"
+            options={CakeToppings as []}
+            errors={errors}
+            control={control}
+        />,
+        <ContactDetails key={7} control={control} errors={errors} />,
+        <OrderDetails key={8} control={control} errors={errors} />,
     ];
 
-    const createCupcakeEstimate = () => {
+    const createCakeEstimate = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("cupcakeSize").toString()} ${getValues("cupcakeShape")} ${getValues("cupcakeTier")} ${getValues("colors")} ${getValues("cupcakeFlavor")} ${getValues("cupcakeFrosting")} ${getValues("cupcakeFilling")} ${getValues("cupcakeTopping")} Cupcake`,
-            extraDetails: `${getValues("details")}`,
+            itemName: `${getValues("cakeSize")} ${getValues("cakeShape")} ${getValues("cakeTier")} ${getValues("cakeColors")} ${getValues("cakeFlavor")} ${getValues("cakeFrosting")} ${getValues("cakeFilling")} ${getValues("cakeTopping")} with ${getValues("cakeFruit")} Cake`,
+            extraDetails: `${getValues("extraCakeDetails")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
             primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
@@ -106,28 +183,36 @@ const CupcakeForm = () => {
     };
 
     const onSubmit = (data: any) => {
-        // open confirmation modal
-        setIsConfirmationModalOpen(true);
-        console.log(data);
+        // Generate unique estimateId and set current time for createdAt
+        setEstimateId(Math.floor(100000 + Math.random() * 900000).toString()); // Generating a random unique ID
 
-        // TEST
-        // createCupcakeEstimate();
+        setCreatedAt(
+            new Date()
+                .toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                })
+                .toString(),
+        );
+
+        setIsConfirmationModalOpen(true);
     };
 
     const confirmEstimate = () => {
         // EMAIL JS
         emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
             function (response) {
-                toast.success("Your cupcake estimate has been submitted successfully!");
+                toast.success("Your cake estimate has been submitted successfully!");
                 console.log("SUCCESS!", response.status, response.text);
             },
             function (error) {
-                toast.error("There was an error submitting your cupcake estimate. Please try again.");
+                toast.error("There was an error submitting your cake estimate. Please try again.");
                 console.log("FAILED...", error);
             },
         );
-
-        createCupcakeEstimate();
+        // POST REQUEST
+        createCakeEstimate();
         // close modal
         setIsConfirmationModalOpen(false);
         setTimeout(() => {
@@ -167,26 +252,29 @@ const CupcakeForm = () => {
             }
         }
     };
+
+    {
+        isConfirmationModalOpen && (
+            <ConfirmationModal
+                title="Confirm Your Cake Estimate Request"
+                message="Confirm your Cake Estimate Request and someone from our team will be in touch with you about your project"
+                buttonText="Get Your Free Cake Estimate"
+                confirm={confirmEstimate}
+                isOpen={isConfirmationModalOpen}
+                closeModal={() => setIsConfirmationModalOpen(false)}
+            />
+        );
+    }
+    {
+        estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />;
+    }
+    {
+        loading ? <Loader /> : null;
+    }
     return (
-        <form
-            onKeyDown={handleKeyPress}
-            onSubmit={handleSubmit(onSubmit)}
-            className="py-24 px-2 md:px-[10rem] lg:px-[20rem] 2xl:px-[30rem]"
-        >
-            {isConfirmationModalOpen && (
-                <ConfirmationModal
-                    title="Confirm Your Cupake Estimate Request"
-                    message="Confirm your Cupake Estimate Request and someone from our team will be in touch with you about your project"
-                    buttonText="Get Your Free Cupake Estimate"
-                    confirm={confirmEstimate}
-                    isOpen={isConfirmationModalOpen}
-                    closeModal={() => setIsConfirmationModalOpen(false)}
-                />
-            )}
-            {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
-            {loading ? <Loader /> : null}
+        <form onKeyDown={handleKeyPress} onSubmit={handleSubmit(onSubmit)} className="py-24 px-2 md:px-[5%] 2xl:px-[20%]">
             <div className="border-4 border-black shadow-lg shadow-zinc-400 p-6">
-                <h5 className="flex justify-center items-center font-semibold text-[40px] mb-24">Cupcake Estimate</h5>
+                <h5 className="flex justify-center items-center font-semibold text-[40px] mb-24">Cake Estimate</h5>
 
                 {/* LOGO */}
                 <div className="flex justify-center pb-4">
@@ -235,4 +323,4 @@ const CupcakeForm = () => {
     );
 };
 
-export default CupcakeForm;
+export default CakeForm;

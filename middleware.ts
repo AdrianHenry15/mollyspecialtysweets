@@ -17,7 +17,7 @@ export default authMiddleware({
             }
         }
     },
-    publicRoutes: ["/", "/order(.*)", "/estimate", "/contact-us", "/my-story", "/create-a-cake", "/api/users(.*)"],
+    publicRoutes: ["/", "/order(.*)", "/estimate", "/contact-us", "/my-story", "/create-a-cake", "/api/(.*)", "/test-estimate"],
 });
 
 export const config = {
@@ -29,6 +29,6 @@ export const config = {
         // Home
         "/",
         // Always run for API routes
-        "/(api|trpc)(.*)",
+        // "/(api|trpc)(.*)",
     ],
 };

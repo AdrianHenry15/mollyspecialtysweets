@@ -5,14 +5,16 @@ import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
 
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import { BsCake, BsPhone } from "react-icons/bs";
+import { BsCake } from "react-icons/bs";
 import { GiCupcake } from "react-icons/gi";
+import { useUser } from "@clerk/nextjs";
 
 import PopoverPanelItem from "./popover-panel-item";
 import { FaCookieBite, FaPhone } from "react-icons/fa6";
 import UserIcon from "./user-icon/user-icon";
 
 const MobileMenu = () => {
+    const { isSignedIn } = useUser();
     return (
         <div className="top-16 w-full max-w-sm px-4">
             <Popover className="relative">
@@ -36,7 +38,7 @@ const MobileMenu = () => {
                         >
                             <Popover.Panel className="absolute z-50 mt-1 w-screen max-w-sm -translate-x-[351px] translate-y-[30px] transform ml-7">
                                 <div className="flex flex-col relative shadow-lg rounded-lg bg-zinc-200 pt-4">
-                                    <div className="flex justify-end me-2">
+                                    <div onClick={isSignedIn ? undefined : close} className="flex justify-center">
                                         <UserIcon />
                                     </div>
                                     <div className="flex flex-col border-y-2 bg-gray-100 border-white py-2 mt-4">

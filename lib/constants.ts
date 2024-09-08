@@ -95,6 +95,8 @@ export const SheetCakeSizes: CakeSizeAndServings[] = [
     { size: "14 in.", serves: "Serves 63" },
 ];
 
+export const Sizes = ["Mini", "Regular"];
+
 export const Categories = ["Cakes", "Cookies", "Cupcakes"];
 
 export const CakeTiers = ["Single", "Multiple"];
