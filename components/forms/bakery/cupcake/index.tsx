@@ -21,22 +21,6 @@ import { EstimateType } from "@/lib/types";
 import BakeryInput from "../bakery-input";
 import { Amounts, CupcakeFillings, CupcakeFlavors, CupcakeToppings, Sizes } from "@/lib/constants";
 
-// Define a type for the form fields
-type FormFields =
-    | "cupcakeAmount"
-    | "cupcakeSize"
-    | "cupcakeFlavor"
-    | "cupcakeFilling"
-    | "cupcakeTopping"
-    | "firstName"
-    | "lastName"
-    | "email"
-    | "phoneNumber"
-    | "deliveryAddress"
-    | "deliveryMethod"
-    | "occasion"
-    | "date";
-
 const CupcakeForm = () => {
     // STATE
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
@@ -58,6 +42,7 @@ const CupcakeForm = () => {
         handleSubmit,
         getValues,
         control,
+        watch,
         formState: { errors },
         trigger,
     } = useForm({
@@ -74,9 +59,11 @@ const CupcakeForm = () => {
             cupcakeSize: "",
             cupcakeFlavor: "",
             cupcakeFrosting: "",
+            cupcakeFrostingFruit: "",
             cupcakeFilling: "",
+            cupcakeFillingFruit: "",
             cupcakeTopping: "",
-            cupcakeFruit: "",
+            cupcakeToppingFruit: "",
             extraCupcakeDetails: "",
             cupcakeColors: "",
         },
@@ -98,28 +85,38 @@ const CupcakeForm = () => {
         cupcakeAmount: getValues("cupcakeAmount"),
         cupcakeFlavor: getValues("cupcakeFlavor"),
         cupcakeFrosting: getValues("cupcakeFrosting"),
+        cupcakeFrostingFruit: getValues("cupcakeFrostingFruit"),
         cupcakeFilling: getValues("cupcakeFilling"),
+        cupcakeFillingFruit: getValues("cupcakeFillingFruit"),
         cupcakeTopping: getValues("cupcakeTopping"),
-        cupcakeFruit: getValues("cupcakeFruit"),
+        cupcakeToppingFruit: getValues("cupcakeToppingFruit"),
         extraCupcakeDetails: getValues("extraCupcakeDetails"),
         cupcakeColors: getValues("cupcakeColors"),
     };
 
     const steps = [
-        <BakeryInput key={0} label="Cupcake Amount" value="cupcakeAmount" options={Amounts as []} errors={errors} control={control} />,
-        <BakeryInput key={1} label="Cupcake Size" value="cupcakeSize" options={Sizes as []} errors={errors} control={control} />,
+        <BakeryInput
+            key={0}
+            errorMessage="damn"
+            label="Cupcake Amount*"
+            name="cupcakeAmount"
+            options={Amounts as []}
+            errors={errors}
+            control={control}
+        />,
+        <BakeryInput key={1} label="Cupcake Size*" name="cupcakeSize" options={Sizes as []} errors={errors} control={control} />,
         <BakeryInput
             key={2}
-            label="Cupcake Flavor"
-            value="cupcakeFlavor"
+            label="Cupcake Flavor*"
+            name="cupcakeFlavor"
             options={CupcakeFlavors as []}
             errors={errors}
             control={control}
         />,
         <BakeryInput
             key={3}
-            label="Cupcake Frosting"
-            value="cupcakeFrosting"
+            label="Cupcake Frosting*"
+            name="cupcakeFrosting"
             hasFruit
             options={CupcakeFlavors as []}
             errors={errors}
@@ -128,7 +125,9 @@ const CupcakeForm = () => {
         <BakeryInput
             key={4}
             label="Cupcake Filling"
-            value="cupcakeFilling"
+            name="cupcakeFilling"
+            fruitLabel="Cupcake Filling Fruit"
+            fruitValue="cupcakeFillingFruit"
             hasFruit
             options={CupcakeFillings as []}
             errors={errors}
@@ -137,7 +136,7 @@ const CupcakeForm = () => {
         <BakeryInput
             key={5}
             label="Cupcake Topping"
-            value="cupcakeTopping"
+            name="cupcakeTopping"
             hasFruit
             options={CupcakeToppings as []}
             errors={errors}
@@ -150,7 +149,18 @@ const CupcakeForm = () => {
     const createCupcakeEstimate = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("cupcakeAmount")} ${getValues("cupcakeSize")} ${getValues("cupcakeColors")} ${getValues("cupcakeFlavor")} ${getValues("cupcakeFrosting")} ${getValues("cupcakeFilling")} ${getValues("cupcakeTopping")} with ${getValues("cupcakeFruit")} Cupcake`,
+            itemName: `
+            ${getValues("cupcakeAmount")} 
+            ${getValues("cupcakeSize")} 
+            ${getValues("cupcakeColors")} 
+            ${getValues("cupcakeFlavor")} 
+            ${getValues("cupcakeFrosting")} 
+            ${getValues("cupcakeFrostingFruit")} 
+            ${getValues("cupcakeFilling")} 
+            ${getValues("cupcakeFillingFruit")} 
+            ${getValues("cupcakeTopping")} 
+            ${getValues("cupcakeToppingFruit")} 
+            Cupcake`,
             extraDetails: `${getValues("extraCupcakeDetails")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
@@ -217,10 +227,38 @@ const CupcakeForm = () => {
 
     // Navigate between steps with validation
     const handleNext = async () => {
-        const isValid = await trigger(Object.keys(control._defaultValues)[currentStep] as FormFields);
+        let isStepValid = false;
 
-        if (isValid) {
+        // Validate fields dynamically based on the current step
+        switch (currentStep) {
+            case 0: // Cupcake Amount
+                isStepValid = watch("cupcakeAmount") !== "";
+                break;
+            case 1: // Cupcake Size
+                isStepValid = watch("cupcakeSize") !== "";
+                break;
+            case 2: // Cupcake Flavor
+                isStepValid = watch("cupcakeFlavor") !== "";
+                break;
+            case 3: // Cupcake Frosting
+                isStepValid = watch("cupcakeFrosting") !== "";
+                break;
+            case 4: // Contact Details (assuming multiple fields)
+                isStepValid = watch("firstName") !== "" && watch("lastName") !== "" && watch("email") !== "" && watch("phoneNumber") !== "";
+                break;
+            case 5: // Order Details (assuming multiple fields)
+                isStepValid =
+                    watch("deliveryAddress") !== "" && watch("deliveryMethod") !== "" && watch("occasion") !== "" && watch("date") !== "";
+                break;
+            default:
+                isStepValid = false;
+        }
+
+        // If the step is valid, proceed to the next step
+        if (isStepValid) {
             setCurrentStep((prev) => prev + 1);
+        } else {
+            toast.error("Please fill out all required fields before proceeding.");
         }
     };
 

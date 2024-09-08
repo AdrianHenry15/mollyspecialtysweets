@@ -54,7 +54,30 @@ const CakeForm = () => {
         watch,
         formState: { errors },
         trigger,
-    } = useForm();
+    } = useForm({
+        defaultValues: {
+            date: "",
+            deliveryAddress: "",
+            deliveryMethod: "",
+            email: "",
+            firstName: "",
+            lastName: "",
+            occasion: "",
+            phoneNumber: "",
+            cakeTier: "",
+            cakeShape: "",
+            cakeSize: "",
+            cakeFlavor: "",
+            cakeFrosting: "",
+            cakeFrostingFruit: "",
+            cakeFilling: "",
+            cakeFillingFruit: "",
+            cakeTopping: "",
+            cakeToppingFruit: "",
+            extraCakeDetails: "",
+            cakeColors: "",
+        },
+    });
 
     //EMAIL JS
     const templateParams = {
@@ -78,7 +101,6 @@ const CakeForm = () => {
         cakeFillingFruit: getValues("cakeFillingFruit"),
         cakeTopping: getValues("cakeTopping"),
         cakeToppingFruit: getValues("cakeToppingFruit"),
-        cakeFruit: getValues("cakeFruit"),
         extraCakeDetails: getValues("extraCakeDetails"),
         cakeColors: getValues("cakeColors"),
     };
@@ -87,8 +109,8 @@ const CakeForm = () => {
         <BakeryInput
             key={0}
             errorMessage="Cake Needs Flavor"
-            value="cakeTier"
-            label="Cake Tier"
+            name="cakeTier"
+            label="Cake Tier*"
             options={CakeTiers as []}
             errors={errors}
             control={control}
@@ -96,8 +118,8 @@ const CakeForm = () => {
         <BakeryInput
             key={1}
             errorMessage="Cake Needs Shape"
-            value="cakeShape"
-            label="Cake Shape"
+            name="cakeShape"
+            label="Cake Shape*"
             options={CakeShapes as []}
             errors={errors}
             control={control}
@@ -105,8 +127,8 @@ const CakeForm = () => {
         <BakeryInput
             key={2}
             errorMessage="Cake Needs Size"
-            value="cakeSize"
-            label="Cake Size"
+            name="cakeSize"
+            label="Cake Size*"
             options={watch("cakeShape") === "rectangle" ? (RoundCakeSizes as []) : (SheetCakeSizes as [])}
             errors={errors}
             control={control}
@@ -114,8 +136,8 @@ const CakeForm = () => {
         <BakeryInput
             key={3}
             errorMessage="Cake Needs Flavor"
-            value="cakeFlavor"
-            label="Cake Flavor"
+            name="cakeFlavor"
+            label="Cake Flavor*"
             options={CakeFlavors as []}
             errors={errors}
             control={control}
@@ -126,8 +148,8 @@ const CakeForm = () => {
             hasFruit
             fruitValue="cakeFrostingFruit"
             fruitLabel="Frosting Fruit"
-            value="cakeFrosting"
-            label="Cake Frosting"
+            name="cakeFrosting"
+            label="Cake Frosting*"
             options={CakeFrostings as []}
             errors={errors}
             control={control}
@@ -137,7 +159,7 @@ const CakeForm = () => {
             hasFruit
             fruitValue="cakeFillingFruit"
             fruitLabel="Filling Fruit"
-            value="cakeFilling"
+            name="cakeFilling"
             label="Cake Filling"
             options={CakeFillings as []}
             errors={errors}
@@ -146,7 +168,7 @@ const CakeForm = () => {
         <BakeryInput
             key={6}
             hasFruit
-            value="cakeTopping"
+            name="cakeTopping"
             label="Cake Topping"
             options={CakeToppings as []}
             errors={errors}
@@ -159,7 +181,19 @@ const CakeForm = () => {
     const createCakeEstimate = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("cakeSize")} ${getValues("cakeShape")} ${getValues("cakeTier")} ${getValues("cakeColors")} ${getValues("cakeFlavor")} ${getValues("cakeFrosting")} ${getValues("cakeFilling")} ${getValues("cakeTopping")} with ${getValues("cakeFruit")} Cake`,
+            itemName: `
+            ${getValues("cakeSize")} 
+            ${getValues("cakeShape")} 
+            ${getValues("cakeTier")} 
+            ${getValues("cakeColors")} 
+            ${getValues("cakeFlavor")} 
+            ${getValues("cakeFrosting")} 
+            ${getValues("cakeFrostingFruit")} 
+            ${getValues("cakeFilling")} 
+            ${getValues("cakeFillingFruit")} 
+            ${getValues("cakeTopping")} 
+            ${getValues("cakeToppingFruit")} 
+            Cake`,
             extraDetails: `${getValues("extraCakeDetails")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
@@ -224,9 +258,48 @@ const CakeForm = () => {
         setLoading(true);
     };
 
-    const handleNext = () => {
-        if (currentStep < steps.length - 1) {
-            setCurrentStep(currentStep + 1);
+    const handleNext = async () => {
+        let isStepValid = false;
+
+        // Validate fields dynamically based on the current step
+        switch (currentStep) {
+            case 0: // Cookie Amount
+                isStepValid = watch("cakeTier") !== "";
+                break;
+            case 1: // Cookie Size
+                isStepValid = watch("cakeShape") !== "";
+                break;
+            case 2: // Cookie Flavor
+                isStepValid = watch("cakeSize") !== "";
+                break;
+            case 3: // Cookie Frosting
+                isStepValid = watch("cakeFlavor") !== "";
+                break;
+            case 4: // Cookie Frosting
+                isStepValid = watch("cakeFrosting") !== "";
+                break;
+            case 5: // Cookie Frosting
+                isStepValid = watch("cakeFilling") !== "";
+                break;
+            case 6: // Cookie Frosting
+                isStepValid = watch("cakeTopping") !== "";
+                break;
+            case 7: // Contact Details (assuming multiple fields)
+                isStepValid = watch("firstName") !== "" && watch("lastName") !== "" && watch("email") !== "" && watch("phoneNumber") !== "";
+                break;
+            case 8: // Order Details (assuming multiple fields)
+                isStepValid =
+                    watch("deliveryAddress") !== "" && watch("deliveryMethod") !== "" && watch("occasion") !== "" && watch("date") !== "";
+                break;
+            default:
+                isStepValid = false;
+        }
+
+        // If the step is valid, proceed to the next step
+        if (isStepValid) {
+            setCurrentStep((prev) => prev + 1);
+        } else {
+            toast.error("Please fill out all required fields before proceeding.");
         }
     };
 
@@ -243,7 +316,7 @@ const CakeForm = () => {
     const handleKeyPress = async (event: React.KeyboardEvent) => {
         if (event.key === "Enter") {
             event.preventDefault();
-            const isStepValid = await trigger(); // Trigger validation for the current step
+            const isStepValid = await await trigger(); // Trigger validation for the current step
 
             if (isStepValid && currentStep < steps.length - 1) {
                 handleNext();

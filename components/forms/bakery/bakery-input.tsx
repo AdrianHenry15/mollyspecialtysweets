@@ -1,12 +1,13 @@
 import React from "react";
 
 import FormItem from "@/components/forms/form-item";
-import { FieldErrors } from "react-hook-form";
+import { FieldError, FieldErrors } from "react-hook-form";
 import FruitInput from "./fruit-input";
+import CustomInput from "../inputs/custom-input";
 
 interface IBakeryInputProps {
     control: any;
-    value: string;
+    name: string;
     label: string;
     options: [];
     fruitValue?: string;
@@ -17,23 +18,23 @@ interface IBakeryInputProps {
 }
 
 const BakeryInput = (props: IBakeryInputProps) => {
-    const { control, errors, value, fruitValue, label, fruitLabel, options, hasFruit, errorMessage } = props;
+    const { control, errors, name, fruitValue, label, fruitLabel, options, hasFruit, errorMessage } = props;
 
     return (
         <div>
-            <FormItem
+            {/* <FormItem */}
+            <CustomInput
                 hasFruit={hasFruit}
                 freeSolo
-                autocomplete
-                errors={errors}
-                errorMessage={errorMessage}
+                error={errors!}
+                // errorMessage={errorMessage}
                 control={control}
-                title={label}
-                name={value}
+                // title={label}
+                name={name}
                 options={options}
                 label={label}
             />
-            {hasFruit ? <FruitInput value={fruitValue!} label={fruitLabel!} control={control} /> : null}
+            {hasFruit ? <FruitInput name={fruitValue!} label={fruitLabel!} control={control} /> : null}
         </div>
     );
 };

@@ -5,19 +5,24 @@ import { Fruits } from "@/lib/constants";
 
 interface IFruitInputProps {
     control: any;
-    value: string;
+    name: string;
     label: string;
 }
 
 const FruitInput = (props: IFruitInputProps) => {
     // State
     const [isAddingFruit, setIsAddingFruit] = useState(false);
+
     // Props
-    const { control, value, label } = props;
+    const { control, name = "", label } = props;
+
     return (
         <div>
             {isAddingFruit ? (
-                <BakeryInput control={control} value={value} label={label} hasFruit={false} options={Fruits as []} />
+                <>
+                    <BakeryInput control={control} name={name} label={label} hasFruit={true} options={Fruits as []} />
+                    <Button name="No Fruit" onClick={() => setIsAddingFruit(false)} />
+                </>
             ) : (
                 <Button name="Add Fruit" onClick={() => setIsAddingFruit(true)} />
             )}

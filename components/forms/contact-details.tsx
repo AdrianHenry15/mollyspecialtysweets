@@ -27,7 +27,7 @@ const ContactDetails = (props: IContactDetailsProps) => {
                     defaultValue={user?.primaryPhoneNumber?.phoneNumber || ""}
                     textInput
                     control={props.control}
-                    title={"Phone Number"}
+                    title={"Phone Number (required)"}
                     name={"phoneNumber"}
                 />
 
@@ -36,10 +36,9 @@ const ContactDetails = (props: IContactDetailsProps) => {
                     defaultValue={user?.primaryEmailAddress?.emailAddress || ""}
                     textInput
                     control={props.control}
-                    title={"Email*"}
+                    title={"Email (required)"}
                     label="Email"
                     name={"email"}
-                    required
                     errors={props.errors}
                 />
             </div>

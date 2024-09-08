@@ -40,19 +40,42 @@ const CookieForm = () => {
     const {
         handleSubmit,
         getValues,
+        watch,
         control,
         formState: { errors },
         trigger,
-    } = useForm();
+    } = useForm({
+        defaultValues: {
+            date: "",
+            deliveryAddress: "",
+            deliveryMethod: "",
+            email: "",
+            firstName: "",
+            lastName: "",
+            occasion: "",
+            phoneNumber: "",
+            cookieAmount: "",
+            cookieSize: "",
+            cookieFlavor: "",
+            cookieFrosting: "",
+            cookieFrostingFruit: "",
+            cookieFilling: "",
+            cookieFillingFruit: "",
+            cookieTopping: "",
+            cookieToppingFruit: "",
+            extraCookieDetails: "",
+            cookieColors: "",
+        },
+    });
 
     const steps = [
-        <BakeryInput key={0} label="Cookie Amount" value="cookieAmount" options={Amounts as []} errors={errors} control={control} />,
-        <BakeryInput key={1} label="Cookie Size" value="cookieSize" options={Sizes as []} errors={errors} control={control} />,
-        <BakeryInput key={2} label="Cookie Flavor" value="cookieFlavor" options={CookieFlavors as []} errors={errors} control={control} />,
+        <BakeryInput key={0} label="Cookie Amount*" name="cookieAmount" options={Amounts as []} errors={errors} control={control} />,
+        <BakeryInput key={1} label="Cookie Size*" name="cookieSize" options={Sizes as []} errors={errors} control={control} />,
+        <BakeryInput key={2} label="Cookie Flavor*" name="cookieFlavor" options={CookieFlavors as []} errors={errors} control={control} />,
         <BakeryInput
             key={3}
-            label="Cookie Frosting"
-            value="cookieFrosting"
+            label="Cookie Frosting*"
+            name="cookieFrosting"
             hasFruit
             options={CookieFlavors as []}
             errors={errors}
@@ -61,7 +84,7 @@ const CookieForm = () => {
         <BakeryInput
             key={4}
             label="Cookie Filling"
-            value="cookieFilling"
+            name="cookieFilling"
             hasFruit
             options={CookieFillings as []}
             errors={errors}
@@ -70,7 +93,7 @@ const CookieForm = () => {
         <BakeryInput
             key={5}
             label="CookieTopping"
-            value="cookieTopping"
+            name="cookieTopping"
             hasFruit
             options={CookieToppings as []}
             errors={errors}
@@ -96,17 +119,29 @@ const CookieForm = () => {
         cookieAmount: getValues("cookieAmount"),
         cookieFlavor: getValues("cookieFlavor"),
         cookieFrosting: getValues("cookieFrosting"),
-        cookieFilling: getValues("cookieFilling"),
+        cookieFrostingFruit: getValues("cookieFrostingFruit"),
+        cookieFillingFruit: getValues("cookieFillingFruit"),
         cookieTopping: getValues("cookieTopping"),
-        cookieFruit: getValues("cookieFruit"),
+        cookieToppingFruit: getValues("cookieToppingFruit"),
         cookieColors: getValues("cookieColors"),
-        extraCakeDetails: getValues("extraCakeDetails"),
+        extraCakeDetails: getValues("extraCookieDetails"),
     };
 
     const createCookieEstimate = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("cookieSize")} ${getValues("cookieShape")} ${getValues("cookieTier")} ${getValues("cookieColors")} ${getValues("cookieFlavor")} ${getValues("cookieFrosting")} ${getValues("cookieFilling")} ${getValues("cookieTopping")} with ${getValues("cookieFruit")} Cookie`,
+            itemName: `
+            ${getValues("cookieAmount")} 
+            ${getValues("cookieSize")} 
+            ${getValues("cookieColors")} 
+            ${getValues("cookieFlavor")} 
+            ${getValues("cookieFrosting")} 
+            ${getValues("cookieFrostingFruit")} 
+            ${getValues("cookieFilling")} 
+            ${getValues("cookieFillingFruit")} 
+            ${getValues("cookieTopping")} 
+            ${getValues("cookieToppingFruit")} 
+             Cookie`,
             extraDetails: `${getValues("extraCookieDetails")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
@@ -172,9 +207,40 @@ const CookieForm = () => {
 
         setLoading(true);
     };
-    const handleNext = () => {
-        if (currentStep < steps.length - 1) {
-            setCurrentStep(currentStep + 1);
+
+    const handleNext = async () => {
+        let isStepValid = false;
+
+        // Validate fields dynamically based on the current step
+        switch (currentStep) {
+            case 0: // Cookie Amount
+                isStepValid = watch("cookieAmount") !== "";
+                break;
+            case 1: // Cookie Size
+                isStepValid = watch("cookieSize") !== "";
+                break;
+            case 2: // Cookie Flavor
+                isStepValid = watch("cookieFlavor") !== "";
+                break;
+            case 3: // Cookie Frosting
+                isStepValid = watch("cookieFrosting") !== "";
+                break;
+            case 4: // Contact Details (assuming multiple fields)
+                isStepValid = watch("firstName") !== "" && watch("lastName") !== "" && watch("email") !== "" && watch("phoneNumber") !== "";
+                break;
+            case 5: // Order Details (assuming multiple fields)
+                isStepValid =
+                    watch("deliveryAddress") !== "" && watch("deliveryMethod") !== "" && watch("occasion") !== "" && watch("date") !== "";
+                break;
+            default:
+                isStepValid = false;
+        }
+
+        // If the step is valid, proceed to the next step
+        if (isStepValid) {
+            setCurrentStep((prev) => prev + 1);
+        } else {
+            toast.error("Please fill out all required fields before proceeding.");
         }
     };
 

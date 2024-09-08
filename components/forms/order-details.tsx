@@ -25,9 +25,9 @@ const OrderDetails = (props: IOrderDetailsProps) => {
                 <FormItem
                     textInput
                     control={props.control}
-                    title={"Delivery Address"}
+                    title={"Delivery Address*"}
                     name={"deliveryAddress"}
-                    required={watch("deliveryMethod") === "delivery" ? true : false}
+                    errorMessage="Please Fill Out Input"
                     errors={props.errors}
                 />
             ) : null}
@@ -38,10 +38,10 @@ const OrderDetails = (props: IOrderDetailsProps) => {
                 autocomplete
                 options={Occasions as []}
                 control={props.control}
-                title={"Choose Occasion"}
+                title={"Choose Occasion*"}
                 label="Occasion"
                 name={"occasion"}
-                required
+                errorMessage="Please Fill Out Input"
                 errors={props.errors}
             />
             {/* COLORS */}
@@ -51,7 +51,7 @@ const OrderDetails = (props: IOrderDetailsProps) => {
                 title={"Choose Colors"}
                 name={"colors"}
                 label="Colors"
-                required
+                errorMessage="Please Fill Out Input"
                 errors={props.errors}
             />
             {/* DETAILS */}
