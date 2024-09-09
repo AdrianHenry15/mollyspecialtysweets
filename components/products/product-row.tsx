@@ -33,7 +33,7 @@ const ProductRow = (props: IProductRowProps) => {
         }
     }, [fetchProducts, products.length]);
 
-    const filteredProducts = collection ? products.filter((product) => product.collection === collection) : products;
+    const filteredProducts = collection ? products!.filter((product) => product.collection === collection) : products;
 
     return (
         <div className={`${props.className} w-full bg-black text-white relative border-y border-white shadow-lg overflow-x-hidden`}>

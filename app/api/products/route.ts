@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 
-import { dummyCakes } from "@/lib/products";
+import { dummyCakes, dummyCookies, dummyCupcakes } from "@/lib/products";
+
+const BakeryProducts = [...dummyCakes, ...dummyCupcakes, ...dummyCookies];
 
 export async function GET() {
-    return NextResponse.json(dummyCakes);
+    return NextResponse.json(BakeryProducts);
 }
 
 // export async function GET(request: Request) {
