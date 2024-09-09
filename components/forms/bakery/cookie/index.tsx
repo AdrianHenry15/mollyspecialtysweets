@@ -18,8 +18,8 @@ import ContactDetails from "../../contact-details";
 import OrderDetails from "../../order-details";
 import { EstimateType } from "@/lib/types";
 import Image from "next/image";
-import BakeryInput from "../bakery-input";
 import { Amounts, CookieFillings, CookieFlavors, CookieToppings, Sizes } from "@/lib/constants";
+import BakeryInput from "../../inputs/bakery-input";
 
 const CookieForm = () => {
     const { user } = useUser();

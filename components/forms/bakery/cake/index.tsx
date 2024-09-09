@@ -18,7 +18,6 @@ import { Loader } from "@/components/loader";
 import ContactDetails from "../../contact-details";
 import OrderDetails from "../../order-details";
 import { EstimateType } from "@/lib/types";
-import BakeryInput from "../bakery-input";
 import {
     CakeFillings,
     CakeFlavors,
@@ -29,6 +28,7 @@ import {
     RoundCakeSizes,
     SheetCakeSizes,
 } from "@/lib/constants";
+import BakeryInput from "../../inputs/bakery-input";
 
 const CakeForm = () => {
     // STATE

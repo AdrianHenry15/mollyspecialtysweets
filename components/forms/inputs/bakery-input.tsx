@@ -9,7 +9,7 @@ interface IBakeryInputProps {
     control: any;
     name: string;
     label: string;
-    options: [];
+    options?: [];
     fruitValue?: string;
     fruitLabel?: string;
     hasFruit?: boolean;

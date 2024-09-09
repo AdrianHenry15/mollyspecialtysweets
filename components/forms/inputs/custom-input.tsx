@@ -29,7 +29,7 @@ const CustomInput = <TFieldValues extends FieldValues>({
     options = [],
 }: CustomInputProps<TFieldValues>) => {
     return (
-        <div className="custom-input">
+        <div className="flex flex-col">
             <label htmlFor={name}>{label}</label>
             <Controller
                 name={name}

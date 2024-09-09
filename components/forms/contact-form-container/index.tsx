@@ -20,6 +20,7 @@ import FormItem from "../form-item";
 import DeliveryMethod from "../delivery-method";
 import { Categories, Occasions } from "@/lib/constants";
 import DatePickerInput from "../date-picker-input";
+import BakeryInput from "@/components/forms/inputs/bakery-input";
 
 const ContactFormContainer = () => {
     // CONSTANTS
@@ -50,7 +51,21 @@ const ContactFormContainer = () => {
         watch,
         formState: { errors },
         trigger,
-    } = useForm();
+    } = useForm({
+        defaultValues: {
+            firstName: user?.firstName || "",
+            lastName: user?.lastName || "",
+            orderTypes: "",
+            phone: user?.primaryPhoneNumber || "",
+            email: user?.primaryEmailAddress || "",
+            date: "",
+            deliveryMethod: "",
+            deliveryAddress: "",
+            occasion: "",
+            colors: "",
+            extraDetails: "",
+        },
+    });
 
     //EMAIL JS
     const templateParams = {
@@ -72,86 +87,79 @@ const ContactFormContainer = () => {
 
     // Steps for the form
     const steps = [
-        <FormItem
-            key={0}
-            required
-            defaultValue={user?.firstName || ""}
-            textInput
-            control={control}
-            title={"First Name *"}
-            name={"firstName"}
-            errors={errors}
-            label="First Name"
-        />,
-        <FormItem
-            errors={errors}
-            label="Last Name"
-            key={1}
-            required
-            defaultValue={user?.lastName || ""}
-            textInput
-            control={control}
-            title={"Last Name *"}
-            name={"lastName"}
-        />,
-        <FormItem
-            key={2}
-            defaultValue={user?.primaryPhoneNumber?.phoneNumber || ""}
-            textInput
-            control={control}
-            title={"Phone Number *"}
-            name={"phoneNumber"}
-            required
-            errors={errors}
-            label="Phone Number"
-        />,
-        <FormItem
-            key={3}
-            defaultValue={user?.primaryEmailAddress?.emailAddress || ""}
-            textInput
-            control={control}
-            title={"Email *"}
-            name={"email"}
-            required
-            errors={errors}
-            label="Email"
-        />,
-        <DeliveryMethod key={4} errors={errors} control={control} />,
-        ...(watch("deliveryMethod") === "delivery"
-            ? [
-                  <FormItem
-                      key={5}
-                      textInput
-                      control={control}
-                      title={"Delivery Address"}
-                      name={"deliveryAddress"}
-                      required={watch("deliveryMethod") === "delivery" ? true : false}
-                      errors={errors}
-                  />,
-              ]
-            : []),
-        <FormItem
-            key={6}
-            control={control}
-            title={"Choose Order Type"}
-            name={"orderTypes"}
-            label={"Order Type"}
-            multipleSelect
-            options={Categories as []}
-            required
-            errors={errors}
-        />,
+        <BakeryInput key={0} control={control} name={"firstName"} errors={errors} label="First Name*" />,
+        <BakeryInput errors={errors} label="Last Name*" key={1} control={control} name={"lastName"} />,
+        <BakeryInput key={2} control={control} name={"phone"} errors={errors} label="Phone Number*" />,
+        <BakeryInput key={3} control={control} name={"email"} errors={errors} label="Email*" />,
+        <div key={4}>
+            {watch("deliveryMethod").toLowerCase() === "delivery" ? (
+                <div>
+                    <DeliveryMethod errors={errors} control={control} />
+                    <BakeryInput control={control} label="Delivery Address" name="deliveryAddress" errors={errors} />
+                </div>
+            ) : (
+                <DeliveryMethod errors={errors} control={control} />
+            )}
+        </div>,
+        <BakeryInput key={6} control={control} name={"orderTypes"} label={"Order Type"} options={Categories as []} errors={errors} />,
         <DatePickerInput key={7} control={control} errors={errors} />,
-        <FormItem key={8} autocomplete options={Occasions as []} control={control} title={"Occasion"} name={"occasion"} />,
-        <FormItem key={9} textInput control={control} title={"Colors"} name={"colors"} />,
-        <FormItem key={10} textarea control={control} title={"Extra Details"} name={"details"} label={"Details"} />,
+        <BakeryInput key={8} label="Occasion" options={Occasions as []} control={control} name={"occasion"} />,
+        <BakeryInput key={9} control={control} label={"Colors"} name={"colors"} />,
+        <BakeryInput key={10} control={control} label={"Extra Details"} name={"details"} />,
     ];
 
+    // Navigate between steps with validation
     const handleNext = async () => {
-        const isStepValid = await trigger(); // Trigger validation for the current step
+        let isStepValid = false;
 
-        if (isStepValid && currentStep < steps.length - 1) {
-            setCurrentStep(currentStep + 1); // Advance to the next step
+        // Validate fields dynamically based on the current step
+        switch (currentStep) {
+            case 0: // First Name
+                isStepValid = watch("firstName") !== "";
+                break;
+            case 1: // Last Name
+                isStepValid = watch("lastName") !== "";
+                break;
+            case 2: // Phone
+                isStepValid = watch("phone") !== "";
+                break;
+            case 3: // Email
+                isStepValid = watch("email") !== "";
+                break;
+
+            case 4: // Delivery Method
+                const DeliveryMethod = watch("deliveryMethod").toLowerCase();
+                const DeliveryAddress = watch("deliveryAddress").toLowerCase();
+
+                if (DeliveryMethod === "delivery") {
+                    isStepValid = DeliveryAddress !== "";
+                } else if (DeliveryMethod === "pickup") {
+                    isStepValid = true;
+                } else {
+                    isStepValid = DeliveryMethod !== "";
+                }
+                break;
+            case 5: // Order Types
+                isStepValid = watch("orderTypes") !== "";
+                break;
+            case 6: // Order Types
+                isStepValid = watch("date") !== "";
+                break;
+            case 7: // Order Types
+                isStepValid = watch("occasion") !== "";
+                break;
+            case 8: // Order Types
+                isStepValid = watch("colors") !== "";
+                break;
+            default:
+                isStepValid = false;
+        }
+
+        // If the step is valid, proceed to the next step
+        if (isStepValid) {
+            setCurrentStep((prev) => prev + 1);
+        } else {
+            toast.error("Please fill out all required fields before proceeding.");
         }
     };
 
@@ -180,7 +188,7 @@ const ContactFormContainer = () => {
 
     const createEstimate = () => {
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("cakeSize")} ${getValues("cakeShape")} ${getValues("cakeTier")} ${getValues("colors")} ${getValues("cakeFlavor")} ${getValues("cakeFrosting")} ${getValues("cakeFilling")} ${getValues("cakeTopping")} Cake`,
+            itemName: `${getValues("deliveryMethod")} ${getValues("deliveryAddress")} ${getValues("occasion")}`,
             extraDetails: `${getValues("extraDetails")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",

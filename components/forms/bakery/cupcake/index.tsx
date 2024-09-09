@@ -18,7 +18,7 @@ import Button from "@/components/buttons/button";
 import ContactDetails from "../../contact-details";
 import OrderDetails from "../../order-details";
 import { EstimateType } from "@/lib/types";
-import BakeryInput from "../bakery-input";
+import BakeryInput from "@/components/forms/inputs/bakery-input";
 import { Amounts, CupcakeFillings, CupcakeFlavors, CupcakeToppings, Sizes } from "@/lib/constants";
 
 const CupcakeForm = () => {
