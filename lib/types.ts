@@ -21,32 +21,27 @@ export type ProductType = {
     image: string | StaticImageData;
 };
 
+export type BakeryItemType = {
+    flavor: string;
+    frosting: string;
+    frostingFruit?: string;
+    filling: string;
+    fillingFruit?: string;
+    topping: string;
+    toppingFruit?: string;
+};
+
 export type CakeType = {
     shape: string;
     tier: string;
     size: string;
-    flavor: string;
-    frosting: string;
-    filling: string;
-    toppings?: string;
+    bakery: BakeryItemType;
 };
 
-export type CupcakeType = {
+export type CookieCupcakeType = {
     amount: string;
     size: string;
-    flavor: string;
-    frosting: string;
-    filling?: string;
-    toppings?: string;
-};
-
-export type CookieType = {
-    amount: string;
-    size: string;
-    flavor: string;
-    frosting?: string;
-    filling?: string;
-    toppings?: string;
+    bakery: BakeryItemType;
 };
 
 export type ContactDetailsType = {

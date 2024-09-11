@@ -89,12 +89,13 @@ const Product = (props: IProductProps) => {
                     </p>
                 </div>
                 {/* INPUTS */}
-                {product.name === "Custom Cake" && (product.collection === "Cookies" || product.collection === "Cupcakes") && (
-                    <CookieCupcakeProduct product={product} />
-                )}
+                {product.name === "Custom Cookie" ||
+                    (product.name === "Custom Cupcake" && (product.collection === "Cookies" || product.collection === "Cupcakes") && (
+                        <CookieCupcakeProduct product={product} />
+                    ))}
                 {product.name === "Custom Cake" && product.collection === "Cakes" && <CakeProduct product={product} />}
             </div>
-            <AddToCartBtn handleAddToCart={handleAddToCart} />
+            {product.name !== "Custom Cake" && <AddToCartBtn handleAddToCart={handleAddToCart} />}
         </div>
     );
 };

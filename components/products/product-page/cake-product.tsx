@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import { ProductType } from "@/lib/types";
 import { useCartStore } from "@/stores/cart-store";
-
+import { useCakeStore } from "@/stores/cake-store"; // Import the cake store
 import CustomSelect from "@/components/products/custom-select";
-import { CakeFillings, CakeFlavors, CakeFrostings, CakeShapes, CakeTiers, Fruits, RoundCakeSizes, SheetCakeSizes } from "@/lib/constants";
+import {
+    CakeFillings,
+    CakeFlavors,
+    CakeFrostings,
+    CakeShapes,
+    CakeTiers,
+    CakeToppings,
+    Fruits,
+    RoundCakeSizes,
+    SheetCakeSizes,
+} from "@/lib/constants";
 import CustomTextarea from "../custom-textarea";
 import AddToCartBtn from "../add-to-cart-btn";
+import toast from "react-hot-toast";
 
 interface CakeProductProps {
     product: ProductType;
@@ -15,19 +26,43 @@ const CakeProduct = (props: CakeProductProps) => {
     const { product } = props;
     const addItemToCart = useCartStore((state) => state.addItem);
 
-    const [selectedTier, setSelectedTier] = useState<string | null>(null);
-    const [selectedSize, setSelectedSize] = useState<string | null>(null);
-    const [selectedShape, setSelectedShape] = useState<string | null>(null);
-    const [selectedFlavor, setSelectedFlavor] = useState<string | null>(null);
-    const [selectedFrosting, setSelectedFrosting] = useState<string | null>(null);
-    const [selectedFilling, setSelectedFilling] = useState<string | null>(null);
-    const [selectedTopping, setSelectedTopping] = useState<string | null>(null);
-    const [hasFruit, setHasFruit] = useState<string | null>(null);
-    const [selectedFruit, setSelectedFruit] = useState<string | null>(null);
-    const [extraDetails, setExtraDetails] = useState<string>("");
+    // Refs for each section that needs validation
+    const tierRef = useRef<HTMLDivElement>(null);
+    const sizeRef = useRef<HTMLDivElement>(null);
+    const shapeRef = useRef<HTMLDivElement>(null);
+    const flavorRef = useRef<HTMLDivElement>(null);
+    const frostingRef = useRef<HTMLDivElement>(null);
+    const fillingRef = useRef<HTMLDivElement>(null);
+    const toppingRef = useRef<HTMLDivElement>(null);
+
+    // Get state and actions from the cake store
+    const {
+        tier,
+        size,
+        shape,
+        flavor,
+        frosting,
+        frostingFruit,
+        filling,
+        fillingFruit,
+        topping,
+        toppingFruit,
+        extraDetails,
+        setTier,
+        setSize,
+        setShape,
+        setFlavor,
+        setFrosting,
+        setFrostingFruit,
+        setFilling,
+        setFillingFruit,
+        setTopping,
+        setToppingFruit,
+        setExtraDetails,
+    } = useCakeStore();
 
     // Error states for validation
-    const [errors, setErrors] = useState({
+    const [errors, setErrors] = React.useState({
         tier: false,
         size: false,
         shape: false,
@@ -35,33 +70,60 @@ const CakeProduct = (props: CakeProductProps) => {
         frosting: false,
         filling: false,
         topping: false,
-        fruit: false,
     });
-
-    const handleTierChange = (tier: string) => setSelectedTier(tier);
-    const handleSizeChange = (size: string) => setSelectedSize(size);
-    const handleShapeChange = (shape: string) => setSelectedShape(shape);
-    const handleFlavorChange = (flavor: string) => setSelectedFlavor(flavor);
-    const handleFrostingChange = (frosting: string) => setSelectedFrosting(frosting);
-    const handleFillingChange = (filling: string) => setSelectedFilling(filling);
-    const handleToppingChange = (topping: string) => setSelectedTopping(topping);
-    const handleHasFruitChange = (hasFruit: string) => setHasFruit(hasFruit);
-    const handleFruitChange = (fruit: string) => setSelectedFruit(fruit);
-    const handleExtraDetailsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setExtraDetails(e.target.value);
 
     const validateSelections = () => {
         const newErrors = {
-            tier: !selectedTier,
-            size: !selectedSize,
-            shape: !selectedShape,
-            flavor: !selectedFlavor,
-            frosting: !selectedFrosting,
-            filling: !selectedFilling,
-            topping: !selectedTopping,
-            fruit: hasFruit === "Yes" && !selectedFruit,
+            tier: !tier,
+            size: !size,
+            shape: !shape,
+            flavor: !flavor,
+            frosting: !frosting,
+            filling: !filling,
+            topping: !topping,
         };
 
         setErrors(newErrors);
+
+        // Check if there are any errors
+        const errorFields = Object.entries(newErrors)
+            .filter(([key, hasError]) => hasError)
+            .map(([key]) => key);
+
+        // Scroll to the first error field and show a single toast
+        if (errorFields.length > 0) {
+            const firstErrorField = errorFields[0];
+
+            switch (firstErrorField) {
+                case "tier":
+                    tierRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    break;
+                case "shape":
+                    shapeRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    break;
+                case "size":
+                    sizeRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    break;
+                case "flavor":
+                    flavorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    break;
+                case "frosting":
+                    frostingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    break;
+                case "filling":
+                    fillingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    break;
+                case "topping":
+                    toppingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    break;
+                default:
+                    break;
+            }
+
+            // Show a single toast for all errors
+            toast.error(`Please fill in the following fields: ${errorFields.join(", ")}.`);
+        }
+
         return !Object.values(newErrors).some((error) => error);
     };
 
@@ -69,14 +131,13 @@ const CakeProduct = (props: CakeProductProps) => {
         if (validateSelections()) {
             const configuredProduct = {
                 ...product,
-                selectedTier,
-                selectedSize,
-                selectedShape,
-                selectedFlavor,
-                selectedFrosting,
-                selectedFilling,
-                selectedTopping,
-                selectedFruit: hasFruit === "Yes" ? selectedFruit : null,
+                tier,
+                size,
+                shape,
+                flavor,
+                frosting,
+                filling,
+                topping,
                 extraDetails,
             };
 
@@ -85,21 +146,27 @@ const CakeProduct = (props: CakeProductProps) => {
     };
 
     const renderSizes = () => {
-        if (selectedShape?.trim().toLowerCase() === "round") {
+        if (shape?.trim().toLowerCase() === "round") {
             return (
                 <CustomSelect
+                    ref={sizeRef}
                     title="Size"
+                    value={size || ""}
+                    handleInputChange={(e) => setSize(e.target.value)}
                     options={RoundCakeSizes}
-                    handleChange={handleSizeChange}
+                    handleChange={setSize} // Using setSize from Zustand
                     error={errors.size ? "Please select a size" : undefined}
                 />
             );
-        } else if (selectedShape?.trim().toLowerCase() === "sheet") {
+        } else if (shape?.trim().toLowerCase() === "sheet") {
             return (
                 <CustomSelect
+                    ref={sizeRef}
                     title="Size"
                     options={SheetCakeSizes}
-                    handleChange={handleSizeChange}
+                    value={size || ""}
+                    handleInputChange={(e) => setSize(e.target.value)}
+                    handleChange={setSize} // Using setSize from Zustand
                     error={errors.size ? "Please select a size" : undefined}
                 />
             );
@@ -112,66 +179,77 @@ const CakeProduct = (props: CakeProductProps) => {
         <div className="flex flex-col">
             {/* Tier */}
             <CustomSelect
+                ref={tierRef}
                 title="Tier"
+                value={tier || ""}
+                handleInputChange={(e) => setTier(e.target.value)}
                 options={CakeTiers}
-                handleChange={handleTierChange}
+                handleChange={setTier} // Using setTier from Zustand
                 error={errors.tier ? "Please select a tier" : undefined}
             />
             {/* Shape */}
             <CustomSelect
+                ref={shapeRef}
                 title="Shape"
                 options={CakeShapes}
-                handleChange={handleShapeChange}
+                value={shape || ""}
+                handleInputChange={(e) => setShape(e.target.value)}
+                handleChange={setShape} // Using setShape from Zustand
                 error={errors.shape ? "Please select a shape" : undefined}
             />
             {/* Size */}
             {renderSizes()}
             {/* Flavor */}
             <CustomSelect
+                ref={flavorRef}
                 title="Flavor"
                 options={CakeFlavors}
-                handleChange={handleFlavorChange}
+                value={flavor || ""}
+                handleInputChange={(e) => setFlavor(e.target.value)}
+                handleChange={setFlavor} // Using setFlavor from Zustand
                 error={errors.flavor ? "Please select a flavor" : undefined}
             />
             {/* Frosting */}
             <CustomSelect
+                ref={frostingRef}
                 title="Frosting"
                 options={CakeFrostings}
-                handleChange={handleFrostingChange}
+                value={frosting || ""}
+                handleInputChange={(e) => setFrosting(e.target.value)}
+                handleChange={setFrosting} // Using setFrosting from Zustand
+                hasFruit
+                fruitValue={frostingFruit as string}
+                handleFruitInputChange={(e) => setFrostingFruit(e.target.value)}
                 error={errors.frosting ? "Please select a frosting" : undefined}
             />
             {/* Filling */}
             <CustomSelect
+                ref={fillingRef}
                 title="Filling"
                 options={CakeFillings}
-                handleChange={handleFillingChange}
+                value={filling || ""}
+                handleInputChange={(e) => setFilling(e.target.value)}
+                handleChange={setFilling} // Using setFilling from Zustand
+                hasFruit
+                fruitValue={fillingFruit as string}
+                handleFruitInputChange={(e) => setFillingFruit(e.target.value)}
                 error={errors.filling ? "Please select a filling" : undefined}
             />
             {/* Topping */}
             <CustomSelect
                 title="Topping"
-                options={CakeFillings}
-                handleChange={handleToppingChange}
+                options={CakeToppings}
+                value={topping || ""}
+                handleInputChange={(e) => setTopping(e.target.value)}
+                handleChange={setTopping} // Using setTopping from Zustand
+                hasFruit
+                fruitValue={toppingFruit as string}
+                handleFruitInputChange={(e) => setToppingFruit(e.target.value)}
                 error={errors.topping ? "Please select a topping" : undefined}
             />
-            {/* Fruit */}
-            <CustomSelect
-                title="Fruit?"
-                options={["Yes", "No"]}
-                handleChange={handleHasFruitChange}
-                error={errors.fruit ? "Please select if you want fruit" : undefined}
-            />
-            {/* Which Fruit */}
-            {hasFruit === "Yes" && (
-                <CustomSelect
-                    title="Which Fruit?"
-                    options={Fruits}
-                    handleChange={handleFruitChange}
-                    error={errors.fruit ? "Please select a fruit" : undefined}
-                />
-            )}
             {/* Extra Details */}
-            <CustomTextarea value={extraDetails} onChange={handleExtraDetailsChange} />
+            <CustomTextarea value={extraDetails || ""} onChange={(e) => setExtraDetails(e.target.value)} />{" "}
+            {/* Using setExtraDetails from Zustand */}
             {/* Add To Cart Btn */}
             <AddToCartBtn handleAddToCart={handleAddToCart} />
         </div>

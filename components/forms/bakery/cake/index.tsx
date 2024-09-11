@@ -36,8 +36,6 @@ const CakeForm = () => {
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
-    const [estimateId, setEstimateId] = useState("");
-    const [createdAt, setCreatedAt] = useState("");
 
     // CLERK
     const { user } = useUser();
@@ -81,8 +79,6 @@ const CakeForm = () => {
 
     //EMAIL JS
     const templateParams = {
-        estimateId: estimateId,
-        createdAt: createdAt,
         date: getValues("date"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
@@ -217,19 +213,6 @@ const CakeForm = () => {
     };
 
     const onSubmit = (data: any) => {
-        // Generate unique estimateId and set current time for createdAt
-        setEstimateId(Math.floor(100000 + Math.random() * 900000).toString()); // Generating a random unique ID
-
-        setCreatedAt(
-            new Date()
-                .toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                })
-                .toString(),
-        );
-
         setIsConfirmationModalOpen(true);
     };
 

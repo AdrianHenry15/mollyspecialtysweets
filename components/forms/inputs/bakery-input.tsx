@@ -6,15 +6,16 @@ import FruitInput from "./fruit-input";
 import CustomInput from "../inputs/custom-input";
 
 interface IBakeryInputProps {
-    control: any;
     name: string;
     label: string;
+    control?: any;
     options?: [];
     fruitValue?: string;
     fruitLabel?: string;
     hasFruit?: boolean;
     errors?: FieldErrors;
     errorMessage?: string;
+    handleChange?: () => void;
 }
 
 const BakeryInput = (props: IBakeryInputProps) => {
