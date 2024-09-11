@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import emailjs from "@emailjs/browser";
 import toast from "react-hot-toast";
@@ -51,13 +51,14 @@ const ContactFormContainer = () => {
         watch,
         formState: { errors },
         trigger,
+        setValue,
     } = useForm({
         defaultValues: {
             firstName: user?.firstName || "",
             lastName: user?.lastName || "",
-            orderTypes: "",
-            phone: user?.primaryPhoneNumber || "",
-            email: user?.primaryEmailAddress || "",
+            orderType: "",
+            phone: user?.primaryPhoneNumber?.phoneNumber || "",
+            email: user?.primaryEmailAddress?.emailAddress || "",
             date: "",
             deliveryMethod: "",
             deliveryAddress: "",
@@ -67,13 +68,14 @@ const ContactFormContainer = () => {
         },
     });
 
+    // Watch form values
+    const formValues = watch();
+
     //EMAIL JS
     const templateParams = {
-        estimateId: estimateId,
-        createdAt: createdAt,
         firstName: getValues("firstName"),
         lastName: getValues("lastName"),
-        orderTypes: getValues("orderTypes"),
+        orderType: getValues("orderType"),
         phone: getValues("phone"),
         email: getValues("email"),
         date: getValues("date"),
@@ -81,7 +83,6 @@ const ContactFormContainer = () => {
         deliveryAddress: getValues("deliveryAddress"),
         occasion: getValues("occasion"),
         colors: getValues("colors"),
-        orders: getValues("orderTypes"),
         extraDetails: getValues("extraDetails"),
     };
 
@@ -101,12 +102,27 @@ const ContactFormContainer = () => {
                 <DeliveryMethod errors={errors} control={control} />
             )}
         </div>,
-        <BakeryInput key={6} control={control} name={"orderTypes"} label={"Order Type"} options={Categories as []} errors={errors} />,
+        <BakeryInput key={6} control={control} name={"orderType"} label={"Order Type"} options={Categories as []} errors={errors} />,
         <DatePickerInput key={7} control={control} errors={errors} />,
         <BakeryInput key={8} label="Occasion" options={Occasions as []} control={control} name={"occasion"} />,
         <BakeryInput key={9} control={control} label={"Colors"} name={"colors"} />,
         <BakeryInput key={10} control={control} label={"Extra Details"} name={"details"} />,
     ];
+
+    useEffect(() => {
+        localStorage.setItem("formData", JSON.stringify(formValues));
+    }, [formValues]);
+
+    // Load form data from localStorage on component mount
+    useEffect(() => {
+        const savedFormData = localStorage.getItem("formData");
+        if (savedFormData) {
+            const parsedFormData = JSON.parse(savedFormData);
+            Object.keys(parsedFormData).forEach((key) => {
+                setValue(key as keyof typeof formValues, parsedFormData[key]);
+            });
+        }
+    }, [setValue]);
 
     // Navigate between steps with validation
     const handleNext = async () => {
@@ -140,7 +156,7 @@ const ContactFormContainer = () => {
                 }
                 break;
             case 5: // Order Types
-                isStepValid = watch("orderTypes") !== "";
+                isStepValid = watch("orderType") !== "";
                 break;
             case 6: // Order Types
                 isStepValid = watch("date") !== "";
@@ -211,20 +227,9 @@ const ContactFormContainer = () => {
     };
 
     const onSubmit = (data: any) => {
-        // Generate unique estimateId and set current time for createdAt
-        setEstimateId(Math.floor(100000 + Math.random() * 900000).toString()); // Generating a random unique ID
-
-        setCreatedAt(
-            new Date()
-                .toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                })
-                .toString(),
-        );
-
         setIsConfirmationModalOpen(true);
+        // Clear localStorage after submit
+        localStorage.removeItem("formData");
     };
 
     const confirmEstimate = () => {

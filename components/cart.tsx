@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default function Cart() {
     const [isOpen, setIsOpen] = useState(false);
-    const { items, removeItem, clearCart } = useCartStore();
+    const { items, removeItemById, clearCart } = useCartStore();
 
     const openCart = () => setIsOpen(true);
     const closeCart = () => setIsOpen(false);
@@ -81,7 +81,7 @@ export default function Cart() {
                                                                 {item.name} (x{item.quantity})
                                                             </span>
                                                             <span>${item.price.toFixed(2)}</span>
-                                                            <button className="text-red-500" onClick={() => removeItem(item.id)}>
+                                                            <button className="text-red-500" onClick={() => removeItemById(item.id)}>
                                                                 Remove
                                                             </button>
                                                         </li>
