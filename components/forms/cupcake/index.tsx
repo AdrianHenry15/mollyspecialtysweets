@@ -50,7 +50,7 @@ const CupcakeForm = () => {
         cupcakeFilling: getValues("cupcakeFilling"),
         cupcakeTopping: getValues("cupcakeTopping"),
         colors: getValues("colors"),
-        date: getValues("date"),
+        orderDate: getValues("orderDate"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
         details: getValues("details"),

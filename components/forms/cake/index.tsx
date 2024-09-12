@@ -54,7 +54,7 @@ const CakeForm = () => {
         cakeTier: getValues("cakeTier"),
         cakeTopping: getValues("cakeTopping"),
         colors: getValues("colors"),
-        date: getValues("date"),
+        orderDate: getValues("orderDate"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
         details: getValues("details"),

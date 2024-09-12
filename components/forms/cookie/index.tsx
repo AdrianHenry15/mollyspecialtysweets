@@ -51,7 +51,7 @@ const CookieForm = () => {
         cookieFilling: getValues("cookieFilling"),
         cookieTopping: getValues("cookieTopping"),
         colors: getValues("colors"),
-        date: getValues("date"),
+        orderDate: getValues("orderDate"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
         details: getValues("details"),
