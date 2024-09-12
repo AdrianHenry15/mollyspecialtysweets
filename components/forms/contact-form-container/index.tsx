@@ -56,14 +56,15 @@ const ContactFormContainer = () => {
         deliveryAddress: getValues("deliveryAddress"),
         occasion: getValues("occasion"),
         colors: getValues("colors"),
-        orders: getValues("orderTypes"),
-        details: getValues("details"),
+        orders: getValues("orderType"),
+        extraDetails: getValues("extraDetails"),
+        orderDate: getValues("orderDate"),
     };
 
     const createEstimate = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("orderTypes") === "Cakes" ? "Cake" : getValues("orderTypes")}`,
+            itemName: `${getValues("orderType") === "Cakes" ? "Cake" : getValues("orderType")}`,
             extraDetails: `${getValues("colors")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
@@ -199,7 +200,7 @@ const ContactFormContainer = () => {
                     <FormItem
                         control={control}
                         title={"Choose Order Type"}
-                        name={"orderTypes"}
+                        name={"orderType"}
                         label={"Order Type"}
                         multipleSelect
                         options={Categories as []}
