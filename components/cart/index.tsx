@@ -2,9 +2,10 @@
 
 import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { ShoppingCartIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon, ShoppingCartIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useCartStore } from "@/stores/cart-store";
 import Link from "next/link";
+import CartItem from "./cart-item";
 
 export default function Cart() {
     const [isOpen, setIsOpen] = useState(false);
@@ -74,19 +75,25 @@ export default function Cart() {
                                         </Dialog.Title>
                                         <div className="mt-2">
                                             {items.length > 0 ? (
-                                                <ul>
-                                                    {items.map((item) => (
-                                                        <li key={item.id} className="flex justify-between py-2">
-                                                            <span>
-                                                                {item.name} (x{item.quantity})
-                                                            </span>
-                                                            <span>${item.price.toFixed(2)}</span>
-                                                            <button className="text-red-500" onClick={() => removeItemById(item.id)}>
-                                                                Remove
-                                                            </button>
-                                                        </li>
-                                                    ))}
-                                                </ul>
+                                                <>
+                                                    {/* Total Price Above the Cart Items */}
+                                                    <div className="mb-4 p-4 bg-gray-100 rounded">
+                                                        <h3 className="text-lg font-semibold">Total</h3>
+                                                        <p className="text-lg">
+                                                            $
+                                                            {items
+                                                                .reduce((total, item) => total + item.price * item.quantity, 0)
+                                                                .toFixed(2)}
+                                                        </p>
+                                                    </div>
+
+                                                    {/* Cart Items */}
+                                                    <ul className="h-[220px] overflow-y-scroll">
+                                                        {items.map((item, index) => (
+                                                            <CartItem key={index} product={item} />
+                                                        ))}
+                                                    </ul>
+                                                </>
                                             ) : (
                                                 <p>Your cart is empty.</p>
                                             )}
@@ -112,7 +119,7 @@ export default function Cart() {
                                         </button>
                                         <Link
                                             href="/checkout"
-                                            className="mt-3 sm:mt-0 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none sm:text-sm"
+                                            className="mt-3 sm:mt-0 inline-flex w-full justify-center items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none sm:text-sm"
                                             onClick={closeCart}
                                         >
                                             Checkout

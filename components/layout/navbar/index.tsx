@@ -12,7 +12,6 @@ import Button from "@/components/buttons/button";
 import UserIcon from "./user-icon/user-icon";
 import Cart from "@/components/cart";
 import { useState } from "react";
-import { useCartStore } from "@/stores/cart-store";
 import { FaPhone } from "react-icons/fa6";
 
 export default function Navbar() {

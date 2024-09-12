@@ -105,6 +105,24 @@ export const DeliveryOptions = ["Pickup", "Delivery"];
 
 export const Amounts = ["4", "6", "12", "18", "24", "30", "36", "42", "48"];
 
+export const MainCakeFlavors = [
+    "Vanilla",
+    "Milk Chocolate",
+    "Dark Chocolate",
+    "Chocolate Peanut Butter",
+    "White Chocolate Raspberry",
+    "Classic Red Velvet",
+    "Classic Lemon",
+    "Classic Carrot Cake",
+    "Marble (Vanilla Chocolate Swirl)",
+    "Angel Food Cake",
+    "Confetti Cake",
+    "Classic Spice Cake",
+    "Strawberry",
+    "Cookie Cake",
+    "Other",
+];
+
 export const CakeFlavors = [
     // VANILLA
     "Classic Vanilla",

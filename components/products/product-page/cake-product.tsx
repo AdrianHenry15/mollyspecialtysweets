@@ -5,12 +5,11 @@ import { useCakeStore } from "@/stores/cake-store"; // Import the cake store
 import CustomSelect from "@/components/products/custom-select";
 import {
     CakeFillings,
-    CakeFlavors,
     CakeFrostings,
     CakeShapes,
     CakeTiers,
     CakeToppings,
-    Fruits,
+    MainCakeFlavors,
     RoundCakeSizes,
     SheetCakeSizes,
 } from "@/lib/constants";
@@ -23,19 +22,10 @@ interface CakeProductProps {
 }
 
 const CakeProduct = (props: CakeProductProps) => {
+    // Props
     const { product } = props;
+    // Store
     const addItemToCart = useCartStore((state) => state.addItem);
-
-    // Refs for each section that needs validation
-    const tierRef = useRef<HTMLDivElement>(null);
-    const sizeRef = useRef<HTMLDivElement>(null);
-    const shapeRef = useRef<HTMLDivElement>(null);
-    const flavorRef = useRef<HTMLDivElement>(null);
-    const frostingRef = useRef<HTMLDivElement>(null);
-    const fillingRef = useRef<HTMLDivElement>(null);
-    const toppingRef = useRef<HTMLDivElement>(null);
-
-    // Get state and actions from the cake store
     const {
         tier,
         size,
@@ -60,6 +50,15 @@ const CakeProduct = (props: CakeProductProps) => {
         setToppingFruit,
         setExtraDetails,
     } = useCakeStore();
+
+    // Refs for each section that needs validation
+    const tierRef = useRef<HTMLDivElement>(null);
+    const sizeRef = useRef<HTMLDivElement>(null);
+    const shapeRef = useRef<HTMLDivElement>(null);
+    const flavorRef = useRef<HTMLDivElement>(null);
+    const frostingRef = useRef<HTMLDivElement>(null);
+    const fillingRef = useRef<HTMLDivElement>(null);
+    const toppingRef = useRef<HTMLDivElement>(null);
 
     // Error states for validation
     const [errors, setErrors] = React.useState({
@@ -121,7 +120,7 @@ const CakeProduct = (props: CakeProductProps) => {
             }
 
             // Show a single toast for all errors
-            toast.error(`Please fill in the following fields: ${errorFields.join(", ")}.`);
+            toast.error(`Please fill in the following fields: \n ${errorFields.join(", ")}.`);
         }
 
         return !Object.values(newErrors).some((error) => error);
@@ -176,10 +175,9 @@ const CakeProduct = (props: CakeProductProps) => {
     };
 
     return (
-        <div className="flex flex-col">
+        <div ref={tierRef} className="flex flex-col">
             {/* Tier */}
             <CustomSelect
-                ref={tierRef}
                 title="Tier"
                 value={tier || ""}
                 handleInputChange={(e) => setTier(e.target.value)}
@@ -203,7 +201,7 @@ const CakeProduct = (props: CakeProductProps) => {
             <CustomSelect
                 ref={flavorRef}
                 title="Flavor"
-                options={CakeFlavors}
+                options={MainCakeFlavors}
                 value={flavor || ""}
                 handleInputChange={(e) => setFlavor(e.target.value)}
                 handleChange={setFlavor} // Using setFlavor from Zustand
