@@ -20,6 +20,7 @@ import DatePickerInput from "../date-picker-input";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { EstimateType } from "@/lib/types";
+import dayjs from "dayjs";
 
 const ContactFormContainer = () => {
     // SWITCH BETWEEN CONTACT AND ESTIMATE FORM | BOTH FORMS DO THE SAME THING FOR NOW
@@ -56,9 +57,9 @@ const ContactFormContainer = () => {
         deliveryAddress: getValues("deliveryAddress"),
         occasion: getValues("occasion"),
         colors: getValues("colors"),
-        orders: getValues("orderType"),
+        orderType: getValues("orderType"),
         extraDetails: getValues("extraDetails"),
-        orderDate: getValues("orderDate"),
+        orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
     };
 
     const createEstimate = () => {
@@ -163,7 +164,7 @@ const ContactFormContainer = () => {
                         textInput
                         control={control}
                         title={"Phone Number"}
-                        name={"phoneNumber"}
+                        name={"phone"}
                         required
                         errors={errors}
                     />
@@ -198,11 +199,11 @@ const ContactFormContainer = () => {
                     ) : null}
                     {/* ORDER */}
                     <FormItem
+                        multipleSelect
                         control={control}
                         title={"Choose Order Type"}
                         name={"orderType"}
                         label={"Order Type"}
-                        multipleSelect
                         options={Categories as []}
                         required
                         errors={errors}
@@ -217,7 +218,7 @@ const ContactFormContainer = () => {
                     {/* COLORS */}
                     <FormItem textInput control={control} title={"Colors"} name={"colors"} />
                     {/* DETAILS */}
-                    <FormItem textarea control={control} title={"Extra Details"} name={"details"} label={"Details"} />
+                    <FormItem textarea control={control} title={"Extra Details"} name={"extraDetails"} label={"Details"} />
 
                     {/* BUTTON */}
                     <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
