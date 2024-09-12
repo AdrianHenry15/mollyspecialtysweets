@@ -8,8 +8,8 @@ const nextConfig = {
         WEBHOOK_DEV_SECRET: process.env.WEBHOOK_DEV_SECRET,
         WEBHOOK_PROD_SECRET: process.env.WEBHOOK_PROD_SECRET,
         SQUARE_ACCESS_TOKEN: process.env.SQUARE_ACCESS_TOKEN,
-        SQUARE_APP_ID: process.env.SQUARE_APP_ID,
-        SQUARE_LOCATION_ID: process.env.SQUARE_LOCATION_ID,
+        NEXT_PUBLIC_SQUARE_APP_ID: process.env.NEXT_PUBLIC_SQUARE_APP_ID,
+        NEXT_PUBLIC_SQUARE_LOCATION_ID: process.env.NEXT_PUBLIC_SQUARE_LOCATION_ID,
         AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME
     },
     typescript: {
