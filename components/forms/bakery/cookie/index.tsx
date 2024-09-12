@@ -46,7 +46,7 @@ const CookieForm = () => {
         trigger,
     } = useForm({
         defaultValues: {
-            date: "",
+            orderDate: "",
             deliveryAddress: "",
             deliveryMethod: "",
             email: "",
@@ -107,7 +107,7 @@ const CookieForm = () => {
     const templateParams = {
         estimateId: estimateId,
         createdAt: createdAt,
-        date: getValues("date"),
+        date: getValues("orderDate"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
         email: getValues("email"),
@@ -230,7 +230,10 @@ const CookieForm = () => {
                 break;
             case 5: // Order Details (assuming multiple fields)
                 isStepValid =
-                    watch("deliveryAddress") !== "" && watch("deliveryMethod") !== "" && watch("occasion") !== "" && watch("date") !== "";
+                    watch("deliveryAddress") !== "" &&
+                    watch("deliveryMethod") !== "" &&
+                    watch("occasion") !== "" &&
+                    watch("orderDate") !== "";
                 break;
             default:
                 isStepValid = false;

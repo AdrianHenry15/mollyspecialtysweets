@@ -59,7 +59,7 @@ const ContactFormContainer = () => {
             orderType: "",
             phone: user?.primaryPhoneNumber?.phoneNumber || "",
             email: user?.primaryEmailAddress?.emailAddress || "",
-            date: "",
+            orderDate: "",
             deliveryMethod: "",
             deliveryAddress: "",
             occasion: "",
@@ -78,7 +78,7 @@ const ContactFormContainer = () => {
         orderType: getValues("orderType"),
         phone: getValues("phone"),
         email: getValues("email"),
-        date: getValues("date"),
+        orderDate: getValues("orderDate"),
         deliveryMethod: getValues("deliveryMethod"),
         deliveryAddress: getValues("deliveryAddress"),
         occasion: getValues("occasion"),
@@ -159,7 +159,7 @@ const ContactFormContainer = () => {
                 isStepValid = watch("orderType") !== "";
                 break;
             case 6: // Order Types
-                isStepValid = watch("date") !== "";
+                isStepValid = watch("orderDate") !== "";
                 break;
             case 7: // Order Types
                 isStepValid = watch("occasion") !== "";
