@@ -7,12 +7,12 @@ export async function GET() {
     try {
         const users = await clerk.users.getUserList();
         const userData = users.data.map((user) => ({
-            id: user.id,
-            fullName: user.fullName,
-            email: user.emailAddresses[0].emailAddress || "",
-            phoneNumber: user.phoneNumbers[0]?.phoneNumber || "",
-            image: user.imageUrl,
-            unsafeMetadata: user.unsafeMetadata,
+            id: user.id || "", // Handle case where id might be undefined
+            fullName: user.fullName || "N/A", // Provide default value if fullName is missing
+            email: user.emailAddresses?.[0]?.emailAddress || "", // Use optional chaining and default to empty string
+            phoneNumber: user.phoneNumbers?.[0]?.phoneNumber || "", // Use optional chaining and default to empty string
+            image: user.imageUrl || "", // Provide default value if imageUrl is missing
+            unsafeMetadata: user.unsafeMetadata || {}, // Provide default empty object if unsafeMetadata is missing
         }));
 
         return NextResponse.json(userData);
