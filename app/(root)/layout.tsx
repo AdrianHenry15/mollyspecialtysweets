@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div className="flex flex-col relative">
                 <Navbar />
-                <PromotionBanner />
+                {/* <PromotionBanner /> */}
                 {children}
                 <Footer />
             </div>
