@@ -1,16 +1,13 @@
-import ContactFormContainer from "@/components/forms/contact-form-container";
 import IconsRow from "@/components/layout/icons-row";
 
 import Splash from "@/components/splashes/splash";
 import ProductRow from "@/components/products/product-row";
-import Banner from "@/components/banner";
 
 import CakeSplash from "@/public/cake-splash.jpg";
 import Cookie from "@/public/cookie-icon.png";
 import Cake from "@/public/cake-icon.png";
 import Cupcake from "@/public/cupcake-icon.png";
-import BakingBanner from "@/public/some-bake-stuff.jpg";
-import CupcakeBanner from "@/public/pink-cupcakes.jpg";
+import ContactFormContainer from "@/components/form-components/forms/contact-form-container";
 
 export default function HomePage() {
     return (

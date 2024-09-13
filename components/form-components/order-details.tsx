@@ -1,10 +1,10 @@
 import React from "react";
 import { FieldErrors, useForm } from "react-hook-form";
 
-import DeliveryMethod from "./delivery-method";
+import { Occasions } from "@/lib/constants";
+import DeliveryMethodFormComponent from "./delivery-method-form-component";
 import FormItem from "./form-item";
 import DatePickerInput from "./date-picker-input";
-import { Occasions } from "@/lib/constants";
 
 interface IOrderDetailsProps {
     control: any;
@@ -18,7 +18,7 @@ const OrderDetails = (props: IOrderDetailsProps) => {
             {" "}
             <h1 className="font-semibold text-4xl underline text-center my-10">Order Details</h1>
             {/* DELIVERY METHOD */}
-            <DeliveryMethod errors={props.errors} control={props.control} />
+            <DeliveryMethodFormComponent errors={props.errors} control={props.control} />
             {/* DELIVERY ADDRESS */}
             {/* IF THERE IS A DELIVERY METHOD CHOSEN THAN SHOW THIS */}
             {watch("deliveryMethod") === "delivery" ? (

@@ -15,8 +15,8 @@ import Button from "@/components/buttons/button";
 import ConfirmationModal from "@/components/modals/confirmation-modal";
 import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
-import ContactDetails from "../../contact-details";
-import OrderDetails from "../../order-details";
+import ContactDetails from "../../../contact-details";
+import OrderDetails from "../../../order-details";
 import { EstimateType } from "@/lib/types";
 import {
     CakeFillings,
@@ -28,7 +28,7 @@ import {
     RoundCakeSizes,
     SheetCakeSizes,
 } from "@/lib/constants";
-import BakeryInput from "../../inputs/bakery-input";
+import BakeryInput from "../../../inputs/bakery-input";
 import dayjs from "dayjs";
 
 const CakeForm = () => {

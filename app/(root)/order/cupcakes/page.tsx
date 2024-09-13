@@ -1,8 +1,8 @@
 import React from "react";
 import { Metadata } from "next";
 
-import CupcakeForm from "@/components/forms/bakery/cupcake";
 import ProductRow from "@/components/products/product-row";
+import CupcakeForm from "@/components/form-components/forms/bakery/cupcake";
 
 export const metadata: Metadata = {
     title: "Cupcakes",
@@ -12,9 +12,7 @@ export const metadata: Metadata = {
 const OrderCupcakes = () => {
     return (
         <div className="flex flex-col justify-between w-full">
-            <div className="pr-10 bg-black">
-                <ProductRow collection={"Cupcakes"} />
-            </div>
+            <ProductRow collection={"Cupcakes"} />
             <CupcakeForm />
         </div>
     );

@@ -1,6 +1,6 @@
+import { useCartStore } from "@/stores/cart-store";
 import React from "react";
 import { FiTrash, FiMinus, FiPlus } from "react-icons/fi";
-import { useCartStore } from "@/stores/cart-store";
 
 interface QuantityCounterProps {
     itemId: string;

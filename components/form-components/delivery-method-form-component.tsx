@@ -1,12 +1,12 @@
 import React from "react";
 import { Controller, FieldErrors } from "react-hook-form";
 
-interface IDeliveryMethodProps {
+interface IDeliveryMethodFormComponentProps {
     control: any;
     errors: FieldErrors;
 }
 
-const DeliveryMethod = (props: IDeliveryMethodProps) => {
+const DeliveryMethodFormComponent = (props: IDeliveryMethodFormComponentProps) => {
     const { errors, control } = props;
     return (
         <div>
@@ -54,4 +54,4 @@ const DeliveryMethod = (props: IDeliveryMethodProps) => {
     );
 };
 
-export default DeliveryMethod;
+export default DeliveryMethodFormComponent;

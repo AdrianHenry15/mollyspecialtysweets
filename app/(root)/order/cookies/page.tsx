@@ -1,9 +1,8 @@
 import { Metadata } from "next";
 import React from "react";
 
-import CookieForm from "@/components/forms/bakery/cookie";
 import ProductRow from "@/components/products/product-row";
-import { Collection } from "@/lib/constants";
+import CookieForm from "@/components/form-components/forms/bakery/cookie";
 
 export const metadata: Metadata = {
     title: "Cookies",
@@ -13,9 +12,7 @@ export const metadata: Metadata = {
 const OrderCookies = () => {
     return (
         <div className="flex flex-col justify-between w-full">
-            <div className="pr-10 bg-black">
-                <ProductRow collection={"Cookies"} />
-            </div>
+            <ProductRow collection={"Cookies"} />
             <CookieForm />
         </div>
     );

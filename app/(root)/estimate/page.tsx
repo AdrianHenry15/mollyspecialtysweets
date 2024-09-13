@@ -1,6 +1,7 @@
-import ContactFormContainer from "@/components/forms/contact-form-container";
 import { Metadata } from "next";
 import React from "react";
+
+import ContactFormContainer from "@/components/form-components/forms/contact-form-container";
 
 export const metadata: Metadata = {
     title: "Get An Estimate Today",

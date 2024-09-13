@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAuth } from "@clerk/nextjs/server";
+import { getAuth, clerkClient } from "@clerk/nextjs/server";
+import prisma from "@/lib/prisma";
+import { Client as SquareClient, Environment } from "square";
 
-import prisma from "@/lib/prisma"; // Assuming you have a Prisma client instance here
-import { Client as SquareClient, Environment } from "square"; // Square SDK for handling payments
-
+// Initialize the Square client
 const squareClient = new SquareClient({
     accessToken: process.env.SQUARE_ACCESS_TOKEN,
     environment: process.env.NODE_ENV === "production" ? Environment.Production : Environment.Sandbox,
@@ -28,24 +28,37 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
         }
 
-        // Parse request body
+        // Fetch user details directly from Clerk
+        const user = await clerkClient.users.getUser(userId);
+
+        if (!user) {
+            return NextResponse.json({ message: "User not found in Clerk" }, { status: 404 });
+        }
+
+        // Parse the request body
         const { description, amount, sourceId } = await request.json();
 
-        // Create the estimate in Prisma
+        // Create the estimate in Prisma with user details from Clerk
         const newEstimate = await prisma.estimate.create({
             data: {
-                clerkId: userId,
+                clerkUser: {
+                    userId: user.id,
+                    firstName: user.firstName || "", // Use empty string if firstName is not available
+                    lastName: user.lastName || "", // Use empty string if lastName is not available
+                    primaryEmailAddress: user.emailAddresses[0]?.emailAddress || "", // Use first email if available
+                    primaryPhoneNumber: user.phoneNumbers[0]?.phoneNumber || "", // Use first phone number if available
+                },
                 description,
                 amount,
             },
         });
 
-        // Convert amount from dollars to center (e.g., $15.00 -> 1500 cents)
+        // Convert amount from dollars to cents (e.g., $15.00 -> 1500 cents)
         const amountInCents = BigInt(Math.round(amount * 100));
 
-        // If the estimate is created successfully, initiate Square payment process
+        // If the estimate is created successfully, initiate the Square payment process
         const squareResponse = await squareClient.paymentsApi.createPayment({
-            sourceId, // You should replace this with the actual payment source (card token, etc.)
+            sourceId, // The payment source (card token, etc.)
             amountMoney: {
                 amount: amountInCents, // Square expects the amount in the smallest currency unit
                 currency: "USD",

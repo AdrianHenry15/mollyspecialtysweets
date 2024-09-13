@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import emailjs from "@emailjs/browser";
 import toast from "react-hot-toast";
@@ -16,12 +16,12 @@ import ConfirmationModal from "@/components/modals/confirmation-modal";
 import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
 import { EstimateType } from "@/lib/types";
-import DeliveryMethod from "../delivery-method";
+import DeliveryMethod from "../../delivery-method-form-component";
 import { Categories, Occasions } from "@/lib/constants";
-import DatePickerInput from "../date-picker-input";
-import BakeryInput from "@/components/forms/inputs/bakery-input";
+import DatePickerInput from "../../date-picker-input";
 import dayjs from "dayjs";
-import FormItem from "../form-item";
+import FormItem from "../../form-item";
+import BakeryInput from "../../inputs/bakery-input";
 
 const ContactFormContainer = () => {
     // CONSTANTS
