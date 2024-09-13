@@ -2,15 +2,16 @@
 
 import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { ChevronDownIcon, ShoppingCartIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { ShoppingCartIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useCartStore } from "@/stores/cart-store";
 import Link from "next/link";
 import CartItem from "./cart-item";
 
 export default function Cart() {
     const [isOpen, setIsOpen] = useState(false);
-    const { items, removeItemById, clearCart } = useCartStore();
+    const { items, clearCart } = useCartStore();
 
+    // Functions
     const openCart = () => setIsOpen(true);
     const closeCart = () => setIsOpen(false);
 
@@ -118,7 +119,7 @@ export default function Cart() {
                                             Continue Shopping
                                         </button>
                                         <Link
-                                            href="/checkout"
+                                            href="/order-method"
                                             className="mt-3 sm:mt-0 inline-flex w-full justify-center items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none sm:text-sm"
                                             onClick={closeCart}
                                         >
