@@ -14,8 +14,8 @@ export async function GET(request: Request, { params }: { params: { userId: stri
         const userData = {
             id: user.id,
             fullName: user.fullName,
-            email: user.emailAddresses[0].emailAddress || null,
-            phoneNumber: user.phoneNumbers[0]?.phoneNumber || null,
+            email: user.emailAddresses[0].emailAddress || "",
+            phoneNumber: user.phoneNumbers[0]?.phoneNumber || "",
             image: user.imageUrl,
             unsafeMetadata: user.unsafeMetadata,
         };
