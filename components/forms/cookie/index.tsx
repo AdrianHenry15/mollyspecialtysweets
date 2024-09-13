@@ -21,6 +21,7 @@ import OrderDetails from "../order-details";
 import { useUser } from "@clerk/nextjs";
 import { EstimateType } from "@/lib/types";
 import axios from "axios";
+import dayjs from "dayjs";
 
 const CookieForm = () => {
     const { user } = useUser();
@@ -40,7 +41,26 @@ const CookieForm = () => {
         getValues,
         control,
         formState: { errors },
-    } = useForm();
+    } = useForm({
+        defaultValues: {
+            cookieSize: "",
+            cookieAmount: "",
+            cookieFlavor: "",
+            cookieFrosting: "",
+            cookieFilling: "",
+            cookieTopping: "",
+            colors: "",
+            orderDate: "",
+            deliveryAddress: "",
+            deliveryMethod: "",
+            extraCookieDetails: "",
+            email: "",
+            firstName: "",
+            lastName: "",
+            occasion: "",
+            phone: "",
+        },
+    });
 
     //EMAIL JS
     const templateParams = {
@@ -51,22 +71,22 @@ const CookieForm = () => {
         cookieFilling: getValues("cookieFilling"),
         cookieTopping: getValues("cookieTopping"),
         colors: getValues("colors"),
-        orderDate: getValues("orderDate"),
+        orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
-        details: getValues("details"),
+        extraCookieDetails: getValues("extraCookieDetails"),
         email: getValues("email"),
         firstName: getValues("firstName"),
         lastName: getValues("lastName"),
         occasion: getValues("occasion"),
-        phoneNumber: getValues("phoneNumber"),
+        phone: getValues("phone"),
     };
 
     const createCookieEstimate = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("cookieSize").toString()} ${getValues("cookieShape")} ${getValues("cookieTier")} ${getValues("colors")} ${getValues("cookieFlavor")} ${getValues("cookieFrosting")} ${getValues("cookieFilling")} ${getValues("cookieTopping")} Cookie`,
-            extraDetails: `${getValues("details")}`,
+            itemName: `${getValues("cookieSize").toString()} ${getValues("cookieAmount")} ${getValues("colors")} ${getValues("cookieFlavor")} ${getValues("cookieFrosting")} ${getValues("cookieFilling")} ${getValues("cookieTopping")} Cookie`,
+            extraDetails: `${getValues("extraCookieDetails")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
             primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",

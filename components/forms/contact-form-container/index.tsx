@@ -44,7 +44,21 @@ const ContactFormContainer = () => {
         control,
         watch,
         formState: { errors },
-    } = useForm();
+    } = useForm({
+        defaultValues: {
+            firstName: "",
+            lastName: "",
+            phone: "",
+            email: "",
+            orderDate: "",
+            deliveryMethod: "",
+            deliveryAddress: "",
+            occasion: "",
+            colors: "",
+            orderType: "",
+            extraDetails: "",
+        },
+    });
 
     //EMAIL JS
     const templateParams = {
@@ -52,7 +66,6 @@ const ContactFormContainer = () => {
         lastName: getValues("lastName"),
         phone: getValues("phone"),
         email: getValues("email"),
-        date: getValues("date"),
         deliveryMethod: getValues("deliveryMethod"),
         deliveryAddress: getValues("deliveryAddress"),
         occasion: getValues("occasion"),

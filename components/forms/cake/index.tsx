@@ -21,6 +21,7 @@ import OrderDetails from "../order-details";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { EstimateType } from "@/lib/types";
+import dayjs from "dayjs";
 
 const CakeForm = () => {
     // STATE
@@ -42,7 +43,27 @@ const CakeForm = () => {
         control,
         watch,
         formState: { errors },
-    } = useForm();
+    } = useForm({
+        defaultValues: {
+            cakeFilling: "",
+            cakeFlavor: "",
+            cakeFrosting: "",
+            cakeShape: "",
+            cakeSize: "",
+            cakeTier: "",
+            cakeTopping: "",
+            colors: "",
+            orderDate: "",
+            deliveryAddress: "",
+            deliveryMethod: "",
+            extraCakeDetails: "",
+            email: "",
+            firstName: "",
+            lastName: "",
+            phone: "",
+            occasion: "",
+        },
+    });
 
     //EMAIL JS
     const templateParams = {
@@ -54,22 +75,22 @@ const CakeForm = () => {
         cakeTier: getValues("cakeTier"),
         cakeTopping: getValues("cakeTopping"),
         colors: getValues("colors"),
-        orderDate: getValues("orderDate"),
+        orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
-        details: getValues("details"),
+        extraCakeDetails: getValues("extraCakeDetails"),
         email: getValues("email"),
         firstName: getValues("firstName"),
         lastName: getValues("lastName"),
         occasion: getValues("occasion"),
-        phoneNumber: getValues("phoneNumber"),
+        phone: getValues("phone"),
     };
 
     const createCakeEstimate = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
             itemName: `${getValues("cakeSize").toString()} ${getValues("cakeShape")} ${getValues("cakeTier")} ${getValues("colors")} ${getValues("cakeFlavor")} ${getValues("cakeFrosting")} ${getValues("cakeFilling")} ${getValues("cakeTopping")} Cake`,
-            extraDetails: `${getValues("details")}`,
+            extraDetails: `${getValues("extraCakeDetails")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
             primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
