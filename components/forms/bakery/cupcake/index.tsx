@@ -20,6 +20,7 @@ import OrderDetails from "../../order-details";
 import { EstimateType } from "@/lib/types";
 import BakeryInput from "@/components/forms/inputs/bakery-input";
 import { Amounts, CupcakeFillings, CupcakeFlavors, CupcakeToppings, Sizes } from "@/lib/constants";
+import dayjs from "dayjs";
 
 const CupcakeForm = () => {
     // STATE
@@ -27,8 +28,6 @@ const CupcakeForm = () => {
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
-    const [estimateId, setEstimateId] = useState("");
-    const [createdAt, setCreatedAt] = useState("");
 
     // CLERK
     const { user } = useUser();
@@ -54,7 +53,7 @@ const CupcakeForm = () => {
             firstName: "",
             lastName: "",
             occasion: "",
-            phoneNumber: "",
+            phone: "",
             cupcakeAmount: "",
             cupcakeSize: "",
             cupcakeFlavor: "",
@@ -71,16 +70,14 @@ const CupcakeForm = () => {
 
     //EMAIL JS
     const templateParams = {
-        estimateId: estimateId,
-        createdAt: createdAt,
-        date: getValues("orderDate"),
+        orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
         email: getValues("email"),
         firstName: getValues("firstName"),
         lastName: getValues("lastName"),
         occasion: getValues("occasion"),
-        phoneNumber: getValues("phoneNumber"),
+        phone: getValues("phone"),
         cupcakeSize: getValues("cupcakeSize"),
         cupcakeAmount: getValues("cupcakeAmount"),
         cupcakeFlavor: getValues("cupcakeFlavor"),
@@ -184,19 +181,6 @@ const CupcakeForm = () => {
     };
 
     const onSubmit = (data: any) => {
-        // Generate unique estimateId and set current time for createdAt
-        setEstimateId(Math.floor(100000 + Math.random() * 900000).toString()); // Generating a random unique ID
-
-        setCreatedAt(
-            new Date()
-                .toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                })
-                .toString(),
-        );
-
         setIsConfirmationModalOpen(true);
     };
 
@@ -244,7 +228,7 @@ const CupcakeForm = () => {
                 isStepValid = watch("cupcakeFrosting") !== "";
                 break;
             case 4: // Contact Details (assuming multiple fields)
-                isStepValid = watch("firstName") !== "" && watch("lastName") !== "" && watch("email") !== "" && watch("phoneNumber") !== "";
+                isStepValid = watch("firstName") !== "" && watch("lastName") !== "" && watch("email") !== "" && watch("phone") !== "";
                 break;
             case 5: // Order Details (assuming multiple fields)
                 isStepValid =

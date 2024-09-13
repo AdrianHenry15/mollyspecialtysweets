@@ -29,6 +29,7 @@ import {
     SheetCakeSizes,
 } from "@/lib/constants";
 import BakeryInput from "../../inputs/bakery-input";
+import dayjs from "dayjs";
 
 const CakeForm = () => {
     // STATE
@@ -61,7 +62,7 @@ const CakeForm = () => {
             firstName: "",
             lastName: "",
             occasion: "",
-            phoneNumber: "",
+            phone: "",
             cakeTier: "",
             cakeShape: "",
             cakeSize: "",
@@ -79,14 +80,14 @@ const CakeForm = () => {
 
     //EMAIL JS
     const templateParams = {
-        date: getValues("orderDate"),
+        orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
         email: getValues("email"),
         firstName: getValues("firstName"),
         lastName: getValues("lastName"),
         occasion: getValues("occasion"),
-        phoneNumber: getValues("phoneNumber"),
+        phone: getValues("phone"),
         cakeTier: getValues("cakeTier"),
         cakeShape: getValues("cakeShape"),
         cakeSize: getValues("cakeSize"),
@@ -268,7 +269,7 @@ const CakeForm = () => {
                 isStepValid = watch("cakeTopping") !== "";
                 break;
             case 7: // Contact Details (assuming multiple fields)
-                isStepValid = watch("firstName") !== "" && watch("lastName") !== "" && watch("email") !== "" && watch("phoneNumber") !== "";
+                isStepValid = watch("firstName") !== "" && watch("lastName") !== "" && watch("email") !== "" && watch("phone") !== "";
                 break;
             case 8: // Order Details (assuming multiple fields)
                 isStepValid =

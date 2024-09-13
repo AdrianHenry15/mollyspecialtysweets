@@ -6,10 +6,7 @@ import { PaymentForm, CreditCard } from "react-square-web-payments-sdk";
 import { useCartStore } from "@/stores/cart-store";
 import axios from "axios";
 import CartItem from "../cart/cart-item";
-
-const CheckoutContainer = (children: React.ReactNode) => {
-    return <div className="flex flex-col p-6 m-6">{children}</div>;
-};
+import OrderMethodCheckout from "./order-method-checkout";
 
 const CheckoutPage = () => {
     const { items } = useCartStore();
@@ -66,12 +63,14 @@ const CheckoutPage = () => {
     };
 
     return (
-        <CheckoutContainer>
-            <div></div>
-            {/* Fufillment Method */}
+        <div className="flex flex-col w-full">
+            {/* Order Method */}
+            <div className="p-4 border border-gray-400 m-4 rounded-md">
+                <OrderMethodCheckout />
+            </div>
             {/* Cart Items */}
             {/* Order Details */}
-        </CheckoutContainer>
+        </div>
     );
 
     // return (

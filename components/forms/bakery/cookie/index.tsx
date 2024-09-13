@@ -20,6 +20,7 @@ import { EstimateType } from "@/lib/types";
 import Image from "next/image";
 import { Amounts, CookieFillings, CookieFlavors, CookieToppings, Sizes } from "@/lib/constants";
 import BakeryInput from "../../inputs/bakery-input";
+import dayjs from "dayjs";
 
 const CookieForm = () => {
     const { user } = useUser();
@@ -29,8 +30,6 @@ const CookieForm = () => {
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
-    const [estimateId, setEstimateId] = useState("");
-    const [createdAt, setCreatedAt] = useState("");
 
     // EMAIL JS
     const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID as string;
@@ -53,7 +52,7 @@ const CookieForm = () => {
             firstName: "",
             lastName: "",
             occasion: "",
-            phoneNumber: "",
+            phone: "",
             cookieAmount: "",
             cookieSize: "",
             cookieFlavor: "",
@@ -105,16 +104,14 @@ const CookieForm = () => {
 
     //EMAIL JS
     const templateParams = {
-        estimateId: estimateId,
-        createdAt: createdAt,
-        date: getValues("orderDate"),
+        orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
         email: getValues("email"),
         firstName: getValues("firstName"),
         lastName: getValues("lastName"),
         occasion: getValues("occasion"),
-        phoneNumber: getValues("phoneNumber"),
+        phone: getValues("phone"),
         cookieSize: getValues("cookieSize"),
         cookieAmount: getValues("cookieAmount"),
         cookieFlavor: getValues("cookieFlavor"),
@@ -165,19 +162,6 @@ const CookieForm = () => {
     };
 
     const onSubmit = (data: any) => {
-        // Generate unique estimateId and set current time for createdAt
-        setEstimateId(Math.floor(100000 + Math.random() * 900000).toString()); // Generating a random unique ID
-
-        setCreatedAt(
-            new Date()
-                .toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                })
-                .toString(),
-        );
-
         setIsConfirmationModalOpen(true);
     };
 
@@ -226,7 +210,7 @@ const CookieForm = () => {
                 isStepValid = watch("cookieFrosting") !== "";
                 break;
             case 4: // Contact Details (assuming multiple fields)
-                isStepValid = watch("firstName") !== "" && watch("lastName") !== "" && watch("email") !== "" && watch("phoneNumber") !== "";
+                isStepValid = watch("firstName") !== "" && watch("lastName") !== "" && watch("email") !== "" && watch("phone") !== "";
                 break;
             case 5: // Order Details (assuming multiple fields)
                 isStepValid =

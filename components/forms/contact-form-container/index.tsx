@@ -16,11 +16,12 @@ import ConfirmationModal from "@/components/modals/confirmation-modal";
 import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
 import { EstimateType } from "@/lib/types";
-import FormItem from "../form-item";
 import DeliveryMethod from "../delivery-method";
 import { Categories, Occasions } from "@/lib/constants";
 import DatePickerInput from "../date-picker-input";
 import BakeryInput from "@/components/forms/inputs/bakery-input";
+import dayjs from "dayjs";
+import FormItem from "../form-item";
 
 const ContactFormContainer = () => {
     // CONSTANTS
@@ -33,8 +34,6 @@ const ContactFormContainer = () => {
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
-    const [estimateId, setEstimateId] = useState("");
-    const [createdAt, setCreatedAt] = useState("");
 
     // CLERK
     const { user } = useUser();
@@ -68,9 +67,6 @@ const ContactFormContainer = () => {
         },
     });
 
-    // Watch form values
-    const formValues = watch();
-
     //EMAIL JS
     const templateParams = {
         firstName: getValues("firstName"),
@@ -78,7 +74,7 @@ const ContactFormContainer = () => {
         orderType: getValues("orderType"),
         phone: getValues("phone"),
         email: getValues("email"),
-        orderDate: getValues("orderDate"),
+        orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
         deliveryMethod: getValues("deliveryMethod"),
         deliveryAddress: getValues("deliveryAddress"),
         occasion: getValues("occasion"),
@@ -102,27 +98,21 @@ const ContactFormContainer = () => {
                 <DeliveryMethod errors={errors} control={control} />
             )}
         </div>,
-        <BakeryInput key={6} control={control} name={"orderType"} label={"Order Type"} options={Categories as []} errors={errors} />,
+        <FormItem
+            title="Order Type"
+            multipleSelect
+            key={6}
+            control={control}
+            name={"orderType"}
+            label={"Order Type"}
+            options={Categories as []}
+            errors={errors}
+        />,
         <DatePickerInput key={7} control={control} errors={errors} />,
         <BakeryInput key={8} label="Occasion" options={Occasions as []} control={control} name={"occasion"} />,
         <BakeryInput key={9} control={control} label={"Colors"} name={"colors"} />,
         <BakeryInput key={10} control={control} label={"Extra Details"} name={"details"} />,
     ];
-
-    useEffect(() => {
-        localStorage.setItem("formData", JSON.stringify(formValues));
-    }, [formValues]);
-
-    // Load form data from localStorage on component mount
-    useEffect(() => {
-        const savedFormData = localStorage.getItem("formData");
-        if (savedFormData) {
-            const parsedFormData = JSON.parse(savedFormData);
-            Object.keys(parsedFormData).forEach((key) => {
-                setValue(key as keyof typeof formValues, parsedFormData[key]);
-            });
-        }
-    }, [setValue]);
 
     // Navigate between steps with validation
     const handleNext = async () => {
