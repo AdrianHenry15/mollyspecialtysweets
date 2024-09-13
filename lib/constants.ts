@@ -46,6 +46,8 @@ export const NavMenuAltItems: NavMenuType[] = [
 ];
 
 export const Occasions = [
+    "Barbecue",
+    "Bridal Shower",
     "New Year's Day",
     "Valentine's Day",
     "Easter",
