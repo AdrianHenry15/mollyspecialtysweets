@@ -46,6 +46,18 @@ const CupcakeSize = (props: ICupcakeSizeProps) => {
                         </div>
                     )}
                 />
+                <Controller
+                    name="cupcakeSize"
+                    control={props.control}
+                    defaultValue={"jumbo"}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                        <div className="flex items-center">
+                            <input className="mr-2" {...field} type="radio" value={"jumbo"} name="cupcakeSize" id="regular" />
+                            <label htmlFor="cupcakeSize">Jumbo</label>
+                        </div>
+                    )}
+                />
             </div>
             {errors?.["cupcakeSize"]?.type === "required" && <p className="text-sm text-red-600 ml-4">Cupcake Size is required.</p>}
         </div>

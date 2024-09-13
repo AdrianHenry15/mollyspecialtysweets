@@ -46,6 +46,18 @@ const CookieSize = (props: ICookieSizeProps) => {
                         </div>
                     )}
                 />
+                <Controller
+                    name="cookieSize"
+                    control={props.control}
+                    defaultValue={"jumbo"}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                        <div className="flex items-center">
+                            <input className="mr-2" {...field} type="radio" value={"jumbo"} name="cookieSize" id="jumbo" />
+                            <label htmlFor="cookieSize">Jumbo</label>
+                        </div>
+                    )}
+                />
             </div>
             {errors?.["cookieSize"]?.type === "required" && <p className="text-sm text-red-600 ml-4">Cookie Size is required.</p>}
         </div>
