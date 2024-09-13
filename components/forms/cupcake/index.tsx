@@ -20,6 +20,7 @@ import OrderDetails from "../order-details";
 import { EstimateType } from "@/lib/types";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
+import dayjs from "dayjs";
 
 const CupcakeForm = () => {
     // CONSTANTS
@@ -39,7 +40,26 @@ const CupcakeForm = () => {
         getValues,
         control,
         formState: { errors },
-    } = useForm();
+    } = useForm({
+        defaultValues: {
+            cupcakeSize: "",
+            cupcakeAmount: "",
+            cupcakeFlavor: "",
+            cupcakeFrosting: "",
+            cupcakeFilling: "",
+            cupcakeTopping: "",
+            colors: "",
+            orderDate: "",
+            deliveryAddress: "",
+            deliveryMethod: "",
+            extraCupcakeDetails: "",
+            email: "",
+            firstName: "",
+            lastName: "",
+            occasion: "",
+            phone: "",
+        },
+    });
 
     //EMAIL JS
     const templateParams = {
@@ -50,22 +70,22 @@ const CupcakeForm = () => {
         cupcakeFilling: getValues("cupcakeFilling"),
         cupcakeTopping: getValues("cupcakeTopping"),
         colors: getValues("colors"),
-        orderDate: getValues("orderDate"),
+        orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
-        details: getValues("details"),
+        extraCupcakeDetails: getValues("extraCupcakeDetails"),
         email: getValues("email"),
         firstName: getValues("firstName"),
         lastName: getValues("lastName"),
         occasion: getValues("occasion"),
-        phoneNumber: getValues("phoneNumber"),
+        phone: getValues("phone"),
     };
 
     const createCupcakeEstimate = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("cupcakeSize").toString()} ${getValues("cupcakeShape")} ${getValues("cupcakeTier")} ${getValues("colors")} ${getValues("cupcakeFlavor")} ${getValues("cupcakeFrosting")} ${getValues("cupcakeFilling")} ${getValues("cupcakeTopping")} Cupcake`,
-            extraDetails: `${getValues("details")}`,
+            itemName: `${getValues("cupcakeSize").toString()} ${getValues("cupcakeAmount")} ${getValues("colors")} ${getValues("cupcakeFlavor")} ${getValues("cupcakeFrosting")} ${getValues("cupcakeFilling")} ${getValues("cupcakeTopping")} Cupcake`,
+            extraDetails: `${getValues("extraCupcakeDetails")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
             primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
