@@ -193,23 +193,25 @@ const ContactFormContainer = () => {
     };
 
     const createEstimate = () => {
-        const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
+        const estimate = {
             itemName: `${getValues("deliveryMethod")} ${getValues("deliveryAddress")} ${getValues("occasion")}`,
             extraDetails: `${getValues("extraDetails")}`,
-            userId: user?.id || "",
-            fullName: user?.fullName || "",
-            primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
-            primaryPhoneNumber: user?.primaryPhoneNumber?.phoneNumber || "",
+            email: user?.primaryEmailAddress?.emailAddress || "",
+            orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
         };
 
         axios
-            .post(`/api/users/${user?.id}/estimates`, estimate, {
+            .post("/api/square/estimates", estimate, {
                 headers: {
                     "Content-Type": "application/json",
                 },
             })
             .then((response) => {
-                console.log("POST request successful", response.data);
+                if (response.data.success) {
+                    console.log("Estimate successfully created:", response.data.data);
+                } else {
+                    console.error("Error with creating estimate:", response.data.errors);
+                }
             })
             .catch((error) => {
                 console.error("Error with POST request", error);
