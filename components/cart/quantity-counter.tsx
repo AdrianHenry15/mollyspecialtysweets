@@ -31,7 +31,7 @@ const QuantityCounter: React.FC<QuantityCounterProps> = ({ itemId, quantity }) =
                 onClick={handleDecreaseOrRemove}
                 aria-label={quantity > 1 ? "Decrease quantity" : "Remove item"}
             >
-                {quantity > 1 ? <FiMinus className="text-gray-700" size={18} /> : <FiTrash className="text-red-600" size={18} />}
+                {quantity > 1 ? <FiMinus className="text-gray-700" size={15} /> : <FiTrash className="text-red-600" size={18} />}
             </button>
 
             {/* Quantity Display */}
@@ -39,7 +39,7 @@ const QuantityCounter: React.FC<QuantityCounterProps> = ({ itemId, quantity }) =
 
             {/* Plus button */}
             <button className="p-2 bg-gray-200 rounded-full hover:bg-gray-300" onClick={handleIncrease} aria-label="Increase quantity">
-                <FiPlus className="text-gray-700" size={18} />
+                <FiPlus className="text-gray-700" size={15} />
             </button>
         </div>
     );

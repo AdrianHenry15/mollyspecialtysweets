@@ -9,7 +9,7 @@ const CartCheckout = () => {
     // Stores
     const { items } = useCartStore();
     return (
-        <CheckoutComponentContainer title="Cart">
+        <CheckoutComponentContainer title="Your Cart">
             {items.map((product, index) => {
                 return <CartItem product={product} key={index} />;
             })}

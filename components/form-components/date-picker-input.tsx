@@ -1,4 +1,5 @@
 import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 import React from "react";
 import { Controller, FieldErrors } from "react-hook-form";
 
@@ -12,6 +13,9 @@ interface IDatePickerInputProps {
 const DatePickerInput = (props: IDatePickerInputProps) => {
     const { control, errors, selectedDate, onChange } = props;
 
+    // Convert selectedDate to string to dayjs object
+    const selectedDateAsDayjs = selectedDate ? dayjs(selectedDate) : null;
+
     return (
         <div className="flex flex-col mb-4">
             <h5 className="flex font-semibold text-xl w-full justify-start mb-2">Choose Order Date</h5>
@@ -23,10 +27,18 @@ const DatePickerInput = (props: IDatePickerInputProps) => {
                     <DatePicker
                         className="w-full"
                         {...field}
-                        value={selectedDate} // Set the date from the Zustand store
+                        value={selectedDateAsDayjs} // Set the date from the Zustand store
                         onChange={(newDate) => {
-                            field.onChange(newDate); // Update react-hook-form state
-                            onChange!(newDate); // Update Zustand store
+                            const newDateString = newDate ? newDate.format("YYYY-MM-DD") : null; // Format as string
+                            field.onChange(newDateString); // Update react-hook-form state
+                            onChange?.(newDateString); // Update Zustand store
+                        }}
+                        slotProps={{
+                            textField: {
+                                className: "w-full",
+                                error: !!errors?.orderDate,
+                                helperText: errors?.orderDate ? "Date is required." : "",
+                            },
                         }}
                     />
                 )}

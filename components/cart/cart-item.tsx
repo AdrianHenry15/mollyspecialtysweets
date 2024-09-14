@@ -24,7 +24,7 @@ const CartItem = (props: ICartItemProps) => {
     const renderBtn = (name: string, onClick: () => void) => {
         return (
             <button
-                className="flex items-center justify-center border border-black rounded-full text-xs mx-4 bg-white px-4 py-1"
+                className="hover:scale-105 hover:bg-red-700 ease-in-out duration-100 transition-transformflex items-center justify-center rounded-full text-xs text-white mx-4 bg-red-500 px-4 py-1"
                 onClick={onClick}
             >
                 {name}
@@ -32,11 +32,11 @@ const CartItem = (props: ICartItemProps) => {
         );
     };
     return (
-        <li className="flex flex-col justify-evenly my-4">
+        <li className="flex flex-col justify-evenly my-6 px-2">
             {/* Product Details */}
             <div className="flex items-start justify-start">
-                <span className="max-w-[100px] min-w-[100px] object-cover">
-                    <Image width={200} height={200} src={product.image} alt={product.name} />
+                <span className="max-w-[100px] min-w-[100px]">
+                    <Image className="object-cover rounded-full" width={200} height={200} src={product.image} alt={product.name} />
                 </span>
                 <div className="flex flex-col items-start justify-start pl-4">
                     <h5 className="text-black">{product.name}</h5>
@@ -45,7 +45,7 @@ const CartItem = (props: ICartItemProps) => {
                 </div>
             </div>
             {/* Cart Item Actions */}
-            <div className="flex items-center">
+            <div className="flex items-center py-6">
                 {/* Quantity Counter */}
                 <QuantityCounter itemId={product.id} quantity={product.quantity} />
                 {renderBtn("Delete", handleDelete)}

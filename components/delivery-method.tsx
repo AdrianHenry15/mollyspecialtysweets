@@ -29,7 +29,7 @@ export const DeliveryMethod = () => {
     const handleOrderMethodChange = (method: "pickup" | "delivery") => {
         setDeliveryMethod(method);
         // Clear the error when the user selects a delivery method
-        if (validationError && validationError.includes("delivery method")) {
+        if (validationError && validationError.includes("deliveryMethod")) {
             setValidationError(null);
         }
     };
@@ -96,13 +96,13 @@ export const DeliveryMethod = () => {
 
             {/* Error Message Container */}
             <div className="absolute top-0 left-0 w-full px-4 mt-4">
-                {validationError && validationError.includes("delivery method") && (
+                {validationError && validationError.includes("deliveryMethod") && (
                     <p className="text-red-500 text-center font-semibold mb-4">{validationError}</p>
                 )}
-                {validationError && validationError.includes("order date") && (
+                {validationError && validationError.includes("orderDate") && (
                     <p className="text-red-500 text-center font-semibold mb-4">{validationError}</p>
                 )}
-                {deliveryMethod === "delivery" && validationError && validationError.includes("delivery address") && (
+                {deliveryMethod === "delivery" && validationError && validationError.includes("deliveryAddress") && (
                     <p className="text-red-500 text-center font-semibold mb-4">{validationError}</p>
                 )}
             </div>
@@ -136,9 +136,9 @@ export const DeliveryMethod = () => {
             </div>
 
             {/* Buttons */}
-            <div className="flex items-center justify-center w-full self-center flex-col lg:flex-row">
+            <div className="flex items-center justify-center w-full self-center flex-col md:flex-row">
                 <button
-                    className="hover:scale-105 ease-in-out duration-300 transition-transform mx-2 bg-red-500 flex items-center justify-center self-center whitespace-nowrap w-[75%] py-1 mt-4 rounded-lg text-white lg:px-10 lg:w-min"
+                    className="hover:scale-105 ease-in-out duration-300 transition-transform mx-2 bg-red-500 flex items-center justify-center self-center whitespace-nowrap w-[75%] py-1 mt-4 rounded-lg text-white md:px-10 md:w-min"
                     onClick={clearDeliveryMethod}
                 >
                     Clear Order Method
@@ -147,7 +147,7 @@ export const DeliveryMethod = () => {
                 {/* Proceed to Checkout Button */}
                 <Link
                     href={"/checkout"}
-                    className="hover:scale-105 ease-in-out duration-300 transition-transform mx-2 bg-blue-500 cursor-pointer flex items-center justify-center self-center whitespace-nowrap w-[75%] py-1 mt-4 rounded-lg text-white lg:px-10 lg:w-min"
+                    className="hover:scale-105 ease-in-out duration-300 transition-transform mx-2 bg-blue-500 cursor-pointer flex items-center justify-center self-center whitespace-nowrap w-[75%] py-1 mt-4 rounded-lg text-white md:px-10 md:w-min"
                     onClick={(e) => {
                         if (!handleCheckout()) {
                             e.preventDefault(); // Prevent navigating to the checkout page if validation fails

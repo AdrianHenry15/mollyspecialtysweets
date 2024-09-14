@@ -8,6 +8,8 @@ import CartItem from "../cart/cart-item";
 import { useCartStore } from "@/stores/cart-store";
 import DeliveryMethodCheckout from "./delivery-method-checkout";
 import CartCheckout from "./cart-checkout";
+import OrderDetails from "../form-components/order-details";
+import OrderDetailsCheckout from "./order-details-checkout";
 
 const CheckoutPage = () => {
     const { items } = useCartStore();
@@ -74,6 +76,9 @@ const CheckoutPage = () => {
                 <CartCheckout />
             </div>
             {/* Order Details */}
+            <div className="p-4 border border-gray-400 m-4 rounded-md">
+                <OrderDetailsCheckout />
+            </div>
         </div>
     );
 

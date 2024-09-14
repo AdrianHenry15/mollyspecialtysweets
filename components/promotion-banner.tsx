@@ -12,18 +12,15 @@ const PromotionBanner = () => {
                     <Link href="/sign-up" className="text-blue-500 mx-1">
                         Sign up
                     </Link>
-                    <span>today to see your </span>
-                    <span className="text-pink-600">Order History</span>
+                    <span>today to get an </span>
+                    <span className="text-pink-600">Estimate</span>
                     <span className="mx-1">and</span>
-                    <span className="text-pink-600">Estimates</span>
+                    <span className="text-pink-600">Order a treat</span>
                 </div>
             ) : (
                 <div>
-                    <span>Click on your profile to checkout your </span>
-                    <span className="text-pink-600">Order History</span>
-                    <span className="mx-1">and</span>
-                    <span className="text-pink-600">Estimates</span>
-                    <span className="ml-1">now!</span>
+                    <span className="text-pink-600">Molly Specialty Sweets</span>
+                    <span> has a new look </span>
                 </div>
             )}
         </div>
