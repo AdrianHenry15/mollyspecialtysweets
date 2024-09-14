@@ -14,13 +14,15 @@ import ConfirmationModal from "@/components/modals/confirmation-modal";
 import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
 import Button from "@/components/buttons/button";
-import ContactDetails from "../../contact-details";
-import OrderDetails from "../../order-details";
+
 import { EstimateType } from "@/lib/types";
 import Image from "next/image";
 import { Amounts, CookieFillings, CookieFlavors, CookieToppings, Sizes } from "@/lib/constants";
-import BakeryInput from "../../inputs/bakery-input";
 import dayjs from "dayjs";
+import BakeryInput from "@/components/form-components/inputs/bakery-input";
+import ContactDetails from "@/components/form-components/contact-details";
+import OrderDetails from "@/components/form-components/order-details";
+import { sendEstimateEmail } from "@/lib/send-estimate-email";
 
 const CookieForm = () => {
     const { user } = useUser();
@@ -124,42 +126,42 @@ const CookieForm = () => {
         extraCakeDetails: getValues("extraCookieDetails"),
     };
 
-    const createCookieEstimate = () => {
-        // Prepare the request body for the Estimate model
-        const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `
-            ${getValues("cookieAmount")} 
-            ${getValues("cookieSize")} 
-            ${getValues("cookieColors")} 
-            ${getValues("cookieFlavor")} 
-            ${getValues("cookieFrosting")} 
-            ${getValues("cookieFrostingFruit")} 
-            ${getValues("cookieFilling")} 
-            ${getValues("cookieFillingFruit")} 
-            ${getValues("cookieTopping")} 
-            ${getValues("cookieToppingFruit")} 
-             Cookie`,
-            extraDetails: `${getValues("extraCookieDetails")}`,
-            userId: user?.id || "",
-            fullName: user?.fullName || "",
-            primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
-            primaryPhoneNumber: user?.primaryPhoneNumber?.phoneNumber || "",
-        };
+    // const createCookieEstimate = () => {
+    //     // Prepare the request body for the Estimate model
+    //     const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
+    //         itemName: `
+    //         ${getValues("cookieAmount")}
+    //         ${getValues("cookieSize")}
+    //         ${getValues("cookieColors")}
+    //         ${getValues("cookieFlavor")}
+    //         ${getValues("cookieFrosting")}
+    //         ${getValues("cookieFrostingFruit")}
+    //         ${getValues("cookieFilling")}
+    //         ${getValues("cookieFillingFruit")}
+    //         ${getValues("cookieTopping")}
+    //         ${getValues("cookieToppingFruit")}
+    //          Cookie`,
+    //         extraDetails: `${getValues("extraCookieDetails")}`,
+    //         userId: user?.id || "",
+    //         fullName: user?.fullName || "",
+    //         primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
+    //         primaryPhoneNumber: user?.primaryPhoneNumber?.phoneNumber || "",
+    //     };
 
-        // POST request to api/estimates
-        axios
-            .post(`/api/users/${user?.id}/estimates`, estimate, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((response) => {
-                console.log("POST request successful", response.data);
-            })
-            .catch((error) => {
-                console.error("Error with POST request", error);
-            });
-    };
+    //     // POST request to api/estimates
+    //     axios
+    //         .post(`/api/users/${user?.id}/estimates`, estimate, {
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //         })
+    //         .then((response) => {
+    //             console.log("POST request successful", response.data);
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error with POST request", error);
+    //         });
+    // };
 
     const onSubmit = (data: any) => {
         setIsConfirmationModalOpen(true);
@@ -167,19 +169,22 @@ const CookieForm = () => {
 
     const confirmEstimate = () => {
         // EMAIL JS
-        emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
-            function (response) {
-                toast.success("Your Cookie estimate has been submitted successfully!");
-                console.log("SUCCESS!", response.status, response.text);
-            },
-            function (error) {
-                toast.error("Your Cookie estimate failed to submit.");
-                console.log("FAILED...", error);
-            },
-        );
+        // emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
+        //     function (response) {
+        //         toast.success("Your Cookie estimate has been submitted successfully!");
+        //         console.log("SUCCESS!", response.status, response.text);
+        //     },
+        //     function (error) {
+        //         toast.error("Your Cookie estimate failed to submit.");
+        //         console.log("FAILED...", error);
+        //     },
+        // );
 
         // POST CONTACT ESTIMATE
-        createCookieEstimate();
+        // createCookieEstimate();
+
+        // Emailjs
+        sendEstimateEmail(templateParams);
 
         // close modal
         setIsConfirmationModalOpen(false);

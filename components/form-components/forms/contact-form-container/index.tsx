@@ -22,6 +22,7 @@ import DatePickerInput from "../../date-picker-input";
 import dayjs from "dayjs";
 import FormItem from "../../form-item";
 import BakeryInput from "../../inputs/bakery-input";
+import { sendEstimateEmail } from "@/lib/send-estimate-email";
 
 const ContactFormContainer = () => {
     // CONSTANTS
@@ -50,7 +51,6 @@ const ContactFormContainer = () => {
         watch,
         formState: { errors },
         trigger,
-        setValue,
     } = useForm({
         defaultValues: {
             firstName: user?.firstName || "",
@@ -192,53 +192,56 @@ const ContactFormContainer = () => {
         }
     };
 
-    const createEstimate = () => {
-        const estimate = {
-            itemName: `${getValues("deliveryMethod")} ${getValues("deliveryAddress")} ${getValues("occasion")}`,
-            extraDetails: `${getValues("extraDetails")}`,
-            email: user?.primaryEmailAddress?.emailAddress || "",
-            orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
-        };
+    // const createEstimate = () => {
+    //     const estimate = {
+    //         itemName: `${getValues("deliveryMethod")} ${getValues("deliveryAddress")} ${getValues("occasion")}`,
+    //         extraDetails: `${getValues("extraDetails")}`,
+    //         email: user?.primaryEmailAddress?.emailAddress || "",
+    //         orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
+    //     };
 
-        axios
-            .post("/api/square/estimates", estimate, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((response) => {
-                if (response.data.success) {
-                    console.log("Estimate successfully created:", response.data.data);
-                } else {
-                    console.error("Error with creating estimate:", response.data.errors);
-                }
-            })
-            .catch((error) => {
-                console.error("Error with POST request", error);
-            });
-    };
+    //     axios
+    //         .post("/api/square/estimates", estimate, {
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //         })
+    //         .then((response) => {
+    //             if (response.data.success) {
+    //                 console.log("Estimate successfully created:", response.data.data);
+    //             } else {
+    //                 console.error("Error with creating estimate:", response.data.errors);
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error with POST request", error);
+    //         });
+    // };
 
     const onSubmit = (data: any) => {
         setIsConfirmationModalOpen(true);
-        // Clear localStorage after submit
-        localStorage.removeItem("formData");
     };
 
     const confirmEstimate = () => {
-        emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
-            function (response) {
-                toast.success("Your estimate has been submitted successfully!");
-                console.log("SUCCESS!", response.status, response.text);
-            },
-            function (error) {
-                toast.error("There was an error submitting your estimate. Please try again.");
-                console.log("FAILED...", error);
-            },
-        );
+        // emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
+        //     function (response) {
+        //         toast.success("Your estimate has been submitted successfully!");
+        //         console.log("SUCCESS!", response.status, response.text);
+        //     },
+        //     function (error) {
+        //         toast.error("There was an error submitting your estimate. Please try again.");
+        //         console.log("FAILED...", error);
+        //     },
+        // );
         // CREATE ESTIMATE
-        createEstimate();
+        // createEstimate();
 
+        // EmailJS
+        sendEstimateEmail(templateParams);
+
+        // Modal
         setIsConfirmationModalOpen(false);
+        // Promise
         setTimeout(() => {
             setEstimateSuccess(true);
             setLoading(false);

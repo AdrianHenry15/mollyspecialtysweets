@@ -30,6 +30,7 @@ import {
 } from "@/lib/constants";
 import BakeryInput from "../../../inputs/bakery-input";
 import dayjs from "dayjs";
+import { sendEstimateEmail } from "@/lib/send-estimate-email";
 
 const CakeForm = () => {
     // STATE
@@ -175,43 +176,43 @@ const CakeForm = () => {
         <OrderDetails key={8} control={control} errors={errors} />,
     ];
 
-    const createCakeEstimate = () => {
-        // Prepare the request body for the Estimate model
-        const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `
-            ${getValues("cakeSize")} 
-            ${getValues("cakeShape")} 
-            ${getValues("cakeTier")} 
-            ${getValues("cakeColors")} 
-            ${getValues("cakeFlavor")} 
-            ${getValues("cakeFrosting")} 
-            ${getValues("cakeFrostingFruit")} 
-            ${getValues("cakeFilling")} 
-            ${getValues("cakeFillingFruit")} 
-            ${getValues("cakeTopping")} 
-            ${getValues("cakeToppingFruit")} 
-            Cake`,
-            extraDetails: `${getValues("extraCakeDetails")}`,
-            userId: user?.id || "",
-            fullName: user?.fullName || "",
-            primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
-            primaryPhoneNumber: user?.primaryPhoneNumber?.phoneNumber || "",
-        };
+    // const createCakeEstimate = () => {
+    //     // Prepare the request body for the Estimate model
+    //     const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
+    //         itemName: `
+    //         ${getValues("cakeSize")}
+    //         ${getValues("cakeShape")}
+    //         ${getValues("cakeTier")}
+    //         ${getValues("cakeColors")}
+    //         ${getValues("cakeFlavor")}
+    //         ${getValues("cakeFrosting")}
+    //         ${getValues("cakeFrostingFruit")}
+    //         ${getValues("cakeFilling")}
+    //         ${getValues("cakeFillingFruit")}
+    //         ${getValues("cakeTopping")}
+    //         ${getValues("cakeToppingFruit")}
+    //         Cake`,
+    //         extraDetails: `${getValues("extraCakeDetails")}`,
+    //         userId: user?.id || "",
+    //         fullName: user?.fullName || "",
+    //         primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
+    //         primaryPhoneNumber: user?.primaryPhoneNumber?.phoneNumber || "",
+    //     };
 
-        // POST request to api/estimates
-        axios
-            .post(`/api/users/${user?.id}/estimates`, estimate, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((response) => {
-                console.log("POST request successful", response.data);
-            })
-            .catch((error) => {
-                console.error("Error with POST request", error);
-            });
-    };
+    //     // POST request to api/estimates
+    //     axios
+    //         .post(`/api/users/${user?.id}/estimates`, estimate, {
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //         })
+    //         .then((response) => {
+    //             console.log("POST request successful", response.data);
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error with POST request", error);
+    //         });
+    // };
 
     const onSubmit = (data: any) => {
         setIsConfirmationModalOpen(true);
@@ -219,18 +220,21 @@ const CakeForm = () => {
 
     const confirmEstimate = () => {
         // EMAIL JS
-        emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
-            function (response) {
-                toast.success("Your cake estimate has been submitted successfully!");
-                console.log("SUCCESS!", response.status, response.text);
-            },
-            function (error) {
-                toast.error("There was an error submitting your cake estimate. Please try again.");
-                console.log("FAILED...", error);
-            },
-        );
+        // emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
+        //     function (response) {
+        //         toast.success("Your cake estimate has been submitted successfully!");
+        //         console.log("SUCCESS!", response.status, response.text);
+        //     },
+        //     function (error) {
+        //         toast.error("There was an error submitting your cake estimate. Please try again.");
+        //         console.log("FAILED...", error);
+        //     },
+        // );
         // POST REQUEST
-        createCakeEstimate();
+        // createCakeEstimate();
+
+        // Emailjs
+        sendEstimateEmail(templateParams);
         // close modal
         setIsConfirmationModalOpen(false);
         setTimeout(() => {

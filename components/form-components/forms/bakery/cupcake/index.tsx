@@ -15,12 +15,13 @@ import ConfirmationModal from "@/components/modals/confirmation-modal";
 import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
 import Button from "@/components/buttons/button";
-import ContactDetails from "../../contact-details";
-import OrderDetails from "../../order-details";
 import { EstimateType } from "@/lib/types";
-import BakeryInput from "@/components/forms/inputs/bakery-input";
 import { Amounts, CupcakeFillings, CupcakeFlavors, CupcakeToppings, Sizes } from "@/lib/constants";
 import dayjs from "dayjs";
+import BakeryInput from "@/components/form-components/inputs/bakery-input";
+import ContactDetails from "@/components/form-components/contact-details";
+import OrderDetails from "@/components/form-components/order-details";
+import { sendEstimateEmail } from "@/lib/send-estimate-email";
 
 const CupcakeForm = () => {
     // STATE
@@ -143,42 +144,42 @@ const CupcakeForm = () => {
         <OrderDetails key={7} errors={errors} control={control} />,
     ];
 
-    const createCupcakeEstimate = () => {
-        // Prepare the request body for the Estimate model
-        const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `
-            ${getValues("cupcakeAmount")} 
-            ${getValues("cupcakeSize")} 
-            ${getValues("cupcakeColors")} 
-            ${getValues("cupcakeFlavor")} 
-            ${getValues("cupcakeFrosting")} 
-            ${getValues("cupcakeFrostingFruit")} 
-            ${getValues("cupcakeFilling")} 
-            ${getValues("cupcakeFillingFruit")} 
-            ${getValues("cupcakeTopping")} 
-            ${getValues("cupcakeToppingFruit")} 
-            Cupcake`,
-            extraDetails: `${getValues("extraCupcakeDetails")}`,
-            userId: user?.id || "",
-            fullName: user?.fullName || "",
-            primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
-            primaryPhoneNumber: user?.primaryPhoneNumber?.phoneNumber || "",
-        };
+    // const createCupcakeEstimate = () => {
+    //     // Prepare the request body for the Estimate model
+    //     const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
+    //         itemName: `
+    //         ${getValues("cupcakeAmount")}
+    //         ${getValues("cupcakeSize")}
+    //         ${getValues("cupcakeColors")}
+    //         ${getValues("cupcakeFlavor")}
+    //         ${getValues("cupcakeFrosting")}
+    //         ${getValues("cupcakeFrostingFruit")}
+    //         ${getValues("cupcakeFilling")}
+    //         ${getValues("cupcakeFillingFruit")}
+    //         ${getValues("cupcakeTopping")}
+    //         ${getValues("cupcakeToppingFruit")}
+    //         Cupcake`,
+    //         extraDetails: `${getValues("extraCupcakeDetails")}`,
+    //         userId: user?.id || "",
+    //         fullName: user?.fullName || "",
+    //         primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
+    //         primaryPhoneNumber: user?.primaryPhoneNumber?.phoneNumber || "",
+    //     };
 
-        // POST request to api/estimates
-        axios
-            .post(`/api/users/${user?.id}/estimates`, estimate, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((response) => {
-                console.log("POST request successful", response.data);
-            })
-            .catch((error) => {
-                console.error("Error with POST request", error);
-            });
-    };
+    //     // POST request to api/estimates
+    //     axios
+    //         .post(`/api/users/${user?.id}/estimates`, estimate, {
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //         })
+    //         .then((response) => {
+    //             console.log("POST request successful", response.data);
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error with POST request", error);
+    //         });
+    // };
 
     const onSubmit = (data: any) => {
         setIsConfirmationModalOpen(true);
@@ -186,18 +187,21 @@ const CupcakeForm = () => {
 
     const confirmEstimate = () => {
         // EMAIL JS
-        emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
-            function (response) {
-                toast.success("Your cupcake estimate has been submitted successfully!");
-                console.log("SUCCESS!", response.status, response.text);
-            },
-            function (error) {
-                toast.error("There was an error submitting your cupcake estimate. Please try again.");
-                console.log("FAILED...", error);
-            },
-        );
+        // emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
+        //     function (response) {
+        //         toast.success("Your cupcake estimate has been submitted successfully!");
+        //         console.log("SUCCESS!", response.status, response.text);
+        //     },
+        //     function (error) {
+        //         toast.error("There was an error submitting your cupcake estimate. Please try again.");
+        //         console.log("FAILED...", error);
+        //     },
+        // );
 
-        createCupcakeEstimate();
+        // createCupcakeEstimate();
+
+        // Emailjs
+        sendEstimateEmail(templateParams);
         // close modal
         setIsConfirmationModalOpen(false);
         setTimeout(() => {
