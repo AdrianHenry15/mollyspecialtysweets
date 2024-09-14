@@ -2,12 +2,11 @@
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import emailjs from "@emailjs/browser";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "@clerk/nextjs";
-import axios from "axios";
 import Image from "next/image";
+import dayjs from "dayjs";
 
 import Logo from "@/public/mollys-logo-black.png";
 
@@ -17,7 +16,6 @@ import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
 import ContactDetails from "../../../contact-details";
 import OrderDetails from "../../../order-details";
-import { EstimateType } from "@/lib/types";
 import {
     CakeFillings,
     CakeFlavors,
@@ -29,8 +27,8 @@ import {
     SheetCakeSizes,
 } from "@/lib/constants";
 import BakeryInput from "../../../inputs/bakery-input";
-import dayjs from "dayjs";
 import { sendEstimateEmail } from "@/lib/send-estimate-email";
+import DatePickerInput from "@/components/form-components/date-picker-input";
 
 const CakeForm = () => {
     // STATE
@@ -41,11 +39,6 @@ const CakeForm = () => {
 
     // CLERK
     const { user } = useUser();
-
-    // EMAIL JS
-    const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID as string;
-    const TEMPLATE_ID = process.env.NEXT_PUBLIC_TEMPLATE_ID as string;
-    const PUBLIC_KEY = process.env.NEXT_PUBLIC_KEY as string;
 
     const {
         handleSubmit,
@@ -64,6 +57,7 @@ const CakeForm = () => {
             lastName: "",
             occasion: "",
             phone: "",
+            // Cake
             cakeTier: "",
             cakeShape: "",
             cakeSize: "",
@@ -89,6 +83,7 @@ const CakeForm = () => {
         lastName: getValues("lastName"),
         occasion: getValues("occasion"),
         phone: getValues("phone"),
+        // Cake
         cakeTier: getValues("cakeTier"),
         cakeShape: getValues("cakeShape"),
         cakeSize: getValues("cakeSize"),
@@ -172,67 +167,17 @@ const CakeForm = () => {
             errors={errors}
             control={control}
         />,
-        <ContactDetails key={7} control={control} errors={errors} />,
-        <OrderDetails key={8} control={control} errors={errors} />,
+        <DatePickerInput key={7} control={control} errors={errors} />,
+        <ContactDetails key={8} control={control} errors={errors} />,
+        <OrderDetails key={9} colorsName="cakeColors" extraDetailsName="extraCakeDetails" control={control} errors={errors} />,
     ];
 
-    // const createCakeEstimate = () => {
-    //     // Prepare the request body for the Estimate model
-    //     const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-    //         itemName: `
-    //         ${getValues("cakeSize")}
-    //         ${getValues("cakeShape")}
-    //         ${getValues("cakeTier")}
-    //         ${getValues("cakeColors")}
-    //         ${getValues("cakeFlavor")}
-    //         ${getValues("cakeFrosting")}
-    //         ${getValues("cakeFrostingFruit")}
-    //         ${getValues("cakeFilling")}
-    //         ${getValues("cakeFillingFruit")}
-    //         ${getValues("cakeTopping")}
-    //         ${getValues("cakeToppingFruit")}
-    //         Cake`,
-    //         extraDetails: `${getValues("extraCakeDetails")}`,
-    //         userId: user?.id || "",
-    //         fullName: user?.fullName || "",
-    //         primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
-    //         primaryPhoneNumber: user?.primaryPhoneNumber?.phoneNumber || "",
-    //     };
-
-    //     // POST request to api/estimates
-    //     axios
-    //         .post(`/api/users/${user?.id}/estimates`, estimate, {
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //         })
-    //         .then((response) => {
-    //             console.log("POST request successful", response.data);
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error with POST request", error);
-    //         });
-    // };
-
+    // Functions
     const onSubmit = (data: any) => {
         setIsConfirmationModalOpen(true);
     };
 
     const confirmEstimate = () => {
-        // EMAIL JS
-        // emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
-        //     function (response) {
-        //         toast.success("Your cake estimate has been submitted successfully!");
-        //         console.log("SUCCESS!", response.status, response.text);
-        //     },
-        //     function (error) {
-        //         toast.error("There was an error submitting your cake estimate. Please try again.");
-        //         console.log("FAILED...", error);
-        //     },
-        // );
-        // POST REQUEST
-        // createCakeEstimate();
-
         // Emailjs
         sendEstimateEmail(templateParams);
         // close modal
@@ -277,10 +222,10 @@ const CakeForm = () => {
                 break;
             case 8: // Order Details (assuming multiple fields)
                 isStepValid =
-                    watch("deliveryAddress") !== "" &&
                     watch("deliveryMethod") !== "" &&
-                    watch("occasion") !== "" &&
-                    watch("orderDate") !== "";
+                    watch("deliveryAddress") !== "" &&
+                    watch("orderDate") !== "" &&
+                    watch("occasion") !== "";
                 break;
             default:
                 isStepValid = false;

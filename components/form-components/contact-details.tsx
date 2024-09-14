@@ -28,7 +28,7 @@ const ContactDetails = (props: IContactDetailsProps) => {
                     textInput
                     control={props.control}
                     title={"Phone Number (required)"}
-                    name={"phoneNumber"}
+                    name={"phone"}
                 />
 
                 {/* EMAIL */}

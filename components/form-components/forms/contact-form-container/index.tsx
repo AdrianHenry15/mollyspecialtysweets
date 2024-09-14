@@ -2,10 +2,8 @@
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import emailjs from "@emailjs/browser";
 import toast from "react-hot-toast";
 import { useUser } from "@clerk/nextjs";
-import axios from "axios";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -15,7 +13,6 @@ import Button from "@/components/buttons/button";
 import ConfirmationModal from "@/components/modals/confirmation-modal";
 import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
-import { EstimateType } from "@/lib/types";
 import DeliveryMethod from "../../delivery-method-form-component";
 import { Categories, Occasions } from "@/lib/constants";
 import DatePickerInput from "../../date-picker-input";
@@ -38,11 +35,6 @@ const ContactFormContainer = () => {
 
     // CLERK
     const { user } = useUser();
-
-    // EMAIL JS
-    const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID as string;
-    const TEMPLATE_ID = process.env.NEXT_PUBLIC_TEMPLATE_ID as string;
-    const PUBLIC_KEY = process.env.NEXT_PUBLIC_KEY as string;
 
     const {
         handleSubmit,
@@ -111,7 +103,7 @@ const ContactFormContainer = () => {
         <DatePickerInput key={7} control={control} errors={errors} />,
         <BakeryInput key={8} label="Occasion" options={Occasions as []} control={control} name={"occasion"} />,
         <BakeryInput key={9} control={control} label={"Colors"} name={"colors"} />,
-        <BakeryInput key={10} control={control} label={"Extra Details"} name={"details"} />,
+        <BakeryInput key={10} control={control} label={"Extra Details"} name={"extraDetails"} />,
     ];
 
     // Navigate between steps with validation
@@ -192,50 +184,11 @@ const ContactFormContainer = () => {
         }
     };
 
-    // const createEstimate = () => {
-    //     const estimate = {
-    //         itemName: `${getValues("deliveryMethod")} ${getValues("deliveryAddress")} ${getValues("occasion")}`,
-    //         extraDetails: `${getValues("extraDetails")}`,
-    //         email: user?.primaryEmailAddress?.emailAddress || "",
-    //         orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
-    //     };
-
-    //     axios
-    //         .post("/api/square/estimates", estimate, {
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //         })
-    //         .then((response) => {
-    //             if (response.data.success) {
-    //                 console.log("Estimate successfully created:", response.data.data);
-    //             } else {
-    //                 console.error("Error with creating estimate:", response.data.errors);
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error with POST request", error);
-    //         });
-    // };
-
     const onSubmit = (data: any) => {
         setIsConfirmationModalOpen(true);
     };
 
     const confirmEstimate = () => {
-        // emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
-        //     function (response) {
-        //         toast.success("Your estimate has been submitted successfully!");
-        //         console.log("SUCCESS!", response.status, response.text);
-        //     },
-        //     function (error) {
-        //         toast.error("There was an error submitting your estimate. Please try again.");
-        //         console.log("FAILED...", error);
-        //     },
-        // );
-        // CREATE ESTIMATE
-        // createEstimate();
-
         // EmailJS
         sendEstimateEmail(templateParams);
 

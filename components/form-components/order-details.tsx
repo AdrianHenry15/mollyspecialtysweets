@@ -9,13 +9,14 @@ import DatePickerInput from "./date-picker-input";
 interface IOrderDetailsProps {
     control: any;
     errors: FieldErrors;
+    colorsName: string;
+    extraDetailsName: string;
 }
 
 const OrderDetails = (props: IOrderDetailsProps) => {
     const { watch } = useForm();
     return (
         <div>
-            {" "}
             <h1 className="font-semibold text-4xl underline text-center my-10">Order Details</h1>
             {/* DELIVERY METHOD */}
             <DeliveryMethodFormComponent errors={props.errors} control={props.control} />
@@ -55,7 +56,7 @@ const OrderDetails = (props: IOrderDetailsProps) => {
                 errors={props.errors}
             />
             {/* DETAILS */}
-            <FormItem textarea control={props.control} title={"Extra Details"} name={"details"} label={"Details"} />
+            <FormItem textarea control={props.control} title={"Extra Details"} name={"extraDetails"} label={"Details"} />
         </div>
     );
 };

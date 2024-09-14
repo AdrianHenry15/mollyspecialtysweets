@@ -2,11 +2,10 @@
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import emailjs from "@emailjs/browser";
-import { useUser } from "@clerk/nextjs";
-import axios from "axios";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
+import dayjs from "dayjs";
 
 import Logo from "@/public/mollys-logo-black.png";
 
@@ -14,29 +13,18 @@ import ConfirmationModal from "@/components/modals/confirmation-modal";
 import SuccessModal from "@/components/modals/success-modal";
 import { Loader } from "@/components/loader";
 import Button from "@/components/buttons/button";
-
-import { EstimateType } from "@/lib/types";
-import Image from "next/image";
 import { Amounts, CookieFillings, CookieFlavors, CookieToppings, Sizes } from "@/lib/constants";
-import dayjs from "dayjs";
 import BakeryInput from "@/components/form-components/inputs/bakery-input";
 import ContactDetails from "@/components/form-components/contact-details";
 import OrderDetails from "@/components/form-components/order-details";
 import { sendEstimateEmail } from "@/lib/send-estimate-email";
 
 const CookieForm = () => {
-    const { user } = useUser();
-
     // STATE
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
-
-    // EMAIL JS
-    const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID as string;
-    const TEMPLATE_ID = process.env.NEXT_PUBLIC_TEMPLATE_ID as string;
-    const PUBLIC_KEY = process.env.NEXT_PUBLIC_KEY as string;
 
     const {
         handleSubmit,
@@ -101,7 +89,7 @@ const CookieForm = () => {
             control={control}
         />,
         <ContactDetails key={6} control={control} errors={errors} />,
-        <OrderDetails key={7} control={control} errors={errors} />,
+        <OrderDetails key={7} colorsName="cookieColors" extraDetailsName="extraCookieDetails" control={control} errors={errors} />,
     ];
 
     //EMAIL JS
@@ -168,21 +156,6 @@ const CookieForm = () => {
     };
 
     const confirmEstimate = () => {
-        // EMAIL JS
-        // emailjs.send(SERVICE_ID as string, TEMPLATE_ID as string, templateParams, PUBLIC_KEY as string).then(
-        //     function (response) {
-        //         toast.success("Your Cookie estimate has been submitted successfully!");
-        //         console.log("SUCCESS!", response.status, response.text);
-        //     },
-        //     function (error) {
-        //         toast.error("Your Cookie estimate failed to submit.");
-        //         console.log("FAILED...", error);
-        //     },
-        // );
-
-        // POST CONTACT ESTIMATE
-        // createCookieEstimate();
-
         // Emailjs
         sendEstimateEmail(templateParams);
 
