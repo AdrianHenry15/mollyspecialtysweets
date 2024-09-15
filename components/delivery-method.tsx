@@ -76,14 +76,14 @@ export const DeliveryMethod = () => {
     };
 
     return (
-        <div className="relative flex flex-col w-full h-[500px] lg:h-[725px] my-10 lg:p-10">
+        <div className="relative flex flex-col w-full h-screen lg:h-[725px] my-10 lg:p-10">
             {/* Show current order method */}
             <p className="text-black font-semibold self-center mb-4">
                 Delivery Method: {deliveryMethod ? deliveryMethod!.charAt(0).toUpperCase() + deliveryMethod!.slice(1) : null}
             </p>
 
             {/* Big Buttons for Order Method */}
-            <div className="flex items-center justify-center w-full h-full">
+            <div className="flex items-center justify-center w-full h-[350px]">
                 <button className={getButtonClass("pickup")} onClick={() => handleOrderMethodChange("pickup")}>
                     <CgHome className="w-[30px] h-[30px] lg:w-[200px] lg:h-[70px]" />
                     <p className="text-black text-sm lg:text-lg">Pickup</p>
@@ -147,7 +147,7 @@ export const DeliveryMethod = () => {
                 {/* Proceed to Checkout Button */}
                 <Link
                     href={"/checkout"}
-                    className="hover:scale-105 ease-in-out duration-300 transition-transform mx-2 bg-blue-500 cursor-pointer flex items-center justify-center self-center whitespace-nowrap w-[75%] py-1 mt-4 rounded-lg text-white md:px-10 md:w-min"
+                    className="hover:scale-105 ease-in-out duration-300 transition-transform mx-2 bg-white shadow-md border border-black text-black cursor-pointer flex items-center justify-center self-center whitespace-nowrap w-[75%] py-1 mt-4 rounded-lg md:px-10 md:w-min"
                     onClick={(e) => {
                         if (!handleCheckout()) {
                             e.preventDefault(); // Prevent navigating to the checkout page if validation fails
