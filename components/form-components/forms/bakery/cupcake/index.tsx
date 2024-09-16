@@ -17,7 +17,7 @@ import { Amounts, CupcakeFillings, CupcakeFlavors, CupcakeToppings, Sizes } from
 import BakeryInput from "@/components/form-components/inputs/bakery-input";
 import ContactDetails from "@/components/form-components/contact-details";
 import OrderDetails from "@/components/form-components/order-details";
-import { sendEstimateEmail } from "@/lib/send-estimate-email";
+import { sendEstimateEmail } from "@/lib/api/send-estimate-email";
 
 const CupcakeForm = () => {
     // STATE

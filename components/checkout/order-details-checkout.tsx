@@ -35,6 +35,7 @@ const OrderDetailsCheckout = () => {
                 onClick={() => setSelectedTipAmount(amount)}
                 className={`${selectedTipAmount === amount ? "bg-pink-300" : "hover:bg-pink-200 hover:scale-105"}  ease-in-out duration-300 transition-all flex items-center justify-center px-10 py-4 border border-black rounded-md`}
             >
+                {amount !== "Other" ? "$" : ""}
                 {amount}
             </button>
         );

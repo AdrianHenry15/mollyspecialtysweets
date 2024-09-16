@@ -13,7 +13,7 @@ export const DeliveryMethod = () => {
         useDeliveryMethodStore();
 
     const getButtonClass = (method: "pickup" | "delivery") =>
-        `${deliveryMethod === method ? "bg-pink-300" : "bg-pink-100"} flex flex-1 items-center justify-center text-lg font-semibold rounded-lg border border-zinc-200 min-h-full mx-4 shadow-lg hover:scale-105 transition-all ease-in-out duration-300 flex flex-col items-center justify-center`;
+        `${deliveryMethod === method ? "bg-pink-300" : "bg-pink-100"} flex flex-1 items-center justify-center text-lg font-semibold rounded-lg border border-zinc-200 min-h-full mx-1 md:mx-4 shadow-lg hover:scale-105 transition-all ease-in-out duration-300 flex flex-col items-center justify-center`;
 
     const {
         control,
@@ -83,7 +83,7 @@ export const DeliveryMethod = () => {
             </p>
 
             {/* Big Buttons for Order Method */}
-            <div className="flex items-center justify-center w-full h-[350px]">
+            <div className="flex items-center justify-center w-full h-[250px] md:h-[350px]">
                 <button className={getButtonClass("pickup")} onClick={() => handleOrderMethodChange("pickup")}>
                     <CgHome className="w-[30px] h-[30px] lg:w-[200px] lg:h-[70px]" />
                     <p className="text-black text-sm lg:text-lg">Pickup</p>

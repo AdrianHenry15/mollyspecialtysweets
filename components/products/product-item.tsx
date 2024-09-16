@@ -18,9 +18,9 @@ const ProductItem = (props: ProductItemProps) => {
     const addItemToCart = useCartStore((state) => state.addItem);
 
     // Handlers
-    const handleAddToCart = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const handleAddToCart = (e: React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
         if (product.name !== "Custom Cake") {
-            e.preventDefault();
             addItemToCart(product);
         }
     };
@@ -38,12 +38,14 @@ const ProductItem = (props: ProductItemProps) => {
                     src={product.image}
                     alt={product.name}
                 />
-                <Link onClick={handleAddToCart} href={product.name === "Custom Cake" ? `/products/${product.id}` : ""}>
-                    <BsPlusSquare
-                        className="hover:scale-110 ease-in-out transition-transform duration-200 absolute flex bottom-2 right-2"
-                        size={25}
-                    />
-                </Link>
+                {product.name !== "Custom Cake" && (
+                    <div
+                        onClick={handleAddToCart}
+                        className="cursor-pointer hover:scale-110 ease-in-out transition-transform duration-200 absolute flex bottom-2 right-2"
+                    >
+                        <BsPlusSquare size={25} />
+                    </div>
+                )}
             </div>
             {/* PRODUCT TAB */}
             <div className="flex flex-col bottom-0 items-start p-1 text-xs w-full rounded-full whitespace-nowrap">
