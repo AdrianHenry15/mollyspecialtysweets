@@ -14,19 +14,19 @@ import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-    const { isSignedIn } = useAuth();
-    useEffect(() => {
-        if (isSignedIn) {
-            axios
-                .post("/api/create-square-customer")
-                .then((response) => {
-                    console.log("Square customer created or fetched:", response.data);
-                })
-                .catch((error) => {
-                    console.error("Error creating Square customer:", error);
-                });
-        }
-    }, [isSignedIn]);
+    // const { isSignedIn } = useAuth();
+    // useEffect(() => {
+    //     if (isSignedIn) {
+    //         axios
+    //             .post("/api/create-square-customer")
+    //             .then((response) => {
+    //                 console.log("Square customer created or fetched:", response.data);
+    //             })
+    //             .catch((error) => {
+    //                 console.error("Error creating Square customer:", error);
+    //             });
+    //     }
+    // }, [isSignedIn]);
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div className="flex flex-col relative w-full">

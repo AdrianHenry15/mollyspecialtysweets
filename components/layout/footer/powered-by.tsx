@@ -3,6 +3,7 @@ import React from "react";
 
 import { SiClerk } from "react-icons/si";
 import { CgSquare } from "react-icons/cg";
+import { SiVercel } from "react-icons/si";
 import { SiNextdotjs } from "react-icons/si";
 import { GrReactjs } from "react-icons/gr";
 import EmailJsIcon from "@/public/emailjs.png";
@@ -18,8 +19,12 @@ const PoweredBy = () => {
                     <SiClerk className="hover:scale-125 transition-all duration-300 ease-in-out" size={25} />
                 </Link>
                 {/* Square */}
-                <Link target="_blank" href="https://square.com">
+                {/* <Link target="_blank" href="https://square.com">
                     <CgSquare className="hover:scale-125 transition-all duration-300 ease-in-out" size={50} />
+                </Link> */}
+                {/* Vercel */}
+                <Link target="_blank" href="https://vercel.com/">
+                    <SiVercel className="hover:scale-125 transition-all duration-300 ease-in-out" size={35} />
                 </Link>
                 {/* Emailjs */}
                 <Link target="_blank" href="https://www.emailjs.com/">
