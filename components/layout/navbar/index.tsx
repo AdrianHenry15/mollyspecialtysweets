@@ -10,21 +10,16 @@ import { NavMenuItems } from "@/lib/constants";
 import { NavMenuType } from "@/lib/types";
 import Button from "@/components/buttons/button";
 import UserIcon from "./user-icon/user-icon";
-import Cart from "@/components/cart";
-import { useState } from "react";
 import { FaPhone } from "react-icons/fa6";
 
 export default function Navbar() {
-    // STATE
-    const [isCartOpen, setIsCartOpen] = useState(false);
-
     // CONSTANTS
     const pathname = usePathname();
 
     return (
         <nav className={`bg-white text-sm font-semibold flex w-full self-center sticky top-0 z-50 shadow-md`}>
             {/* MOBILE CONTAINER */}
-            <div className="absolute self-center right-10 xl:hidden">
+            <div className="absolute self-center right-0 xl:hidden">
                 <MobileHeader />
             </div>
             {/* TITLE & LINKS  */}
@@ -51,7 +46,7 @@ export default function Navbar() {
                     </ul>
                 </div>
                 {/* NAV BUTTONS */}
-                <ul className="hidden items-center lg:flex">
+                <ul className="hidden items-center xl:flex">
                     <Link
                         // onClick={close}
                         className="bg-pink-300/90 flex mr-4 items-center px-10 py-2 rounded-full hover:bg-pink-400 transition-all duration-300 ease-in-out"
@@ -68,9 +63,9 @@ export default function Navbar() {
                     </div>
                 </ul>
             </div>
-            <div className="flex justify-center items-center">
+            {/* <div className="flex justify-center items-center">
                 <Cart />
-            </div>
+            </div> */}
         </nav>
     );
 }

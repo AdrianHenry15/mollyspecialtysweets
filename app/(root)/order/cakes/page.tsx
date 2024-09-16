@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const CakePage = () => {
     return (
         <div className="flex flex-col w-full">
-            <ProductRow collection={"Cakes"} />
+            {/* <ProductRow collection={"Cakes"} /> */}
             <CakeForm />
         </div>
     );

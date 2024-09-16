@@ -11,6 +11,7 @@ import SavedCardItem from "./saved-card-item";
 import NewCardModal from "./new-card-modal";
 import { fetchSavedCards } from "@/lib/api/card-functions";
 import { randomUUID } from "crypto";
+import StripePaymentForm from "./stripe-payment-form";
 
 const { paymentsApi } = new Client({
     accessToken: process.env.SQUARE_ACCESS_TOKEN as string,
@@ -170,7 +171,7 @@ const PaymentFormCheckout = () => {
                 </div>
             ) : ( */}
             {/* // Payment form for a new card */}
-            <PaymentForm
+            {/* <PaymentForm
                 applicationId={APP_ID}
                 locationId={LOCATION_ID}
                 cardTokenizeResponseReceived={(tokenResult) =>
@@ -188,7 +189,8 @@ const PaymentFormCheckout = () => {
                 <ApplePay />
                 <GooglePay />
                 <CreditCard />
-            </PaymentForm>
+            </PaymentForm> */}
+            <StripePaymentForm />
             {/* )} */}
 
             {/* Error Handling */}

@@ -46,15 +46,15 @@ export default function HomePage() {
                 }}
             />
             {/* CAKE ROW */}
-            <ProductRow collection="Cakes" className="bg-emerald-900" />
+            {/* <ProductRow collection="Cakes" className="bg-emerald-900" /> */}
             {/* BANNER */}
             {/* <Banner img={BakingBanner} /> */}
             {/* CUPCAKE ROW */}
-            <ProductRow collection="Cupcakes" className="bg-pink-900" />
+            {/* <ProductRow collection="Cupcakes" className="bg-pink-900" /> */}
             {/* BANNER */}
             {/* <Banner img={CupcakeBanner} /> */}
             {/* COOKIE ROW */}
-            <ProductRow collection="Cookies" className="bg-amber-900" />
+            {/* <ProductRow collection="Cookies" className="bg-amber-900" /> */}
             <ContactFormContainer />
         </div>
     );

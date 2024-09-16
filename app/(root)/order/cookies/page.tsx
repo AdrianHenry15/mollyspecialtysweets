@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const OrderCookies = () => {
     return (
         <div className="flex flex-col justify-between w-full">
-            <ProductRow collection={"Cookies"} />
+            {/* <ProductRow collection={"Cookies"} /> */}
             <CookieForm />
         </div>
     );
