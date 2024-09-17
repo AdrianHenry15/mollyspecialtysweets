@@ -16,7 +16,7 @@ const PoweredBy = () => {
             <div className="flex items-center justify-around w-full">
                 {/* Clerk */}
                 <Link target="_blank" href="https://clerk.com">
-                    <SiClerk className="hover:scale-125 transition-all duration-300 ease-in-out" size={25} />
+                    <SiClerk className="hover:scale-125 transition-all duration-300 ease-in-out" size={35} />
                 </Link>
                 {/* Square */}
                 {/* <Link target="_blank" href="https://square.com">

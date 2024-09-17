@@ -18,14 +18,14 @@ const FruitInput = (props: IFruitInputProps) => {
 
     return (
         <div>
-            {isAddingFruit ? (
-                <>
-                    <BakeryInput control={control} name={name} label={label} hasFruit={true} options={Fruits as []} />
-                    <Button name="No Fruit" onClick={() => setIsAddingFruit(false)} />
-                </>
-            ) : (
-                <Button name="Add Fruit" onClick={() => setIsAddingFruit(true)} />
-            )}
+            {isAddingFruit && <BakeryInput control={control} name={name} label={label} hasFruit={true} options={Fruits as []} />}
+            <div className="flex items-center">
+                {/* <Button
+                    className={`flex mx-2`}
+                    name={`${isAddingFruit ? "Add Fruit" : "No Fruit"}`}
+                    onClick={() => setIsAddingFruit(!isAddingFruit)}
+                /> */}
+            </div>
         </div>
     );
 };

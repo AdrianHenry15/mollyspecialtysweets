@@ -1,9 +1,9 @@
 import React from "react";
 
-import FormItem from "@/components/forms/form-item";
-import { FieldError, FieldErrors } from "react-hook-form";
+import { FieldErrors } from "react-hook-form";
 import FruitInput from "./fruit-input";
 import CustomInput from "../inputs/custom-input";
+import { CakeSizeAndServings } from "@/lib/types";
 
 interface IBakeryInputProps {
     name: string;
@@ -32,7 +32,7 @@ const BakeryInput = (props: IBakeryInputProps) => {
                 control={control}
                 // title={label}
                 name={name}
-                options={options}
+                options={options || []}
                 label={label}
             />
             {hasFruit ? <FruitInput name={fruitValue!} label={fruitLabel!} control={control} /> : null}

@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import dayjs from "dayjs";
 
@@ -28,7 +27,6 @@ import {
 } from "@/lib/constants";
 import BakeryInput from "../../../inputs/bakery-input";
 import { sendEstimateEmail } from "@/lib/api/send-estimate-email";
-import DatePickerInput from "@/components/form-components/date-picker-input";
 
 const CakeForm = () => {
     // STATE
@@ -36,9 +34,6 @@ const CakeForm = () => {
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
-
-    // CLERK
-    const { user } = useUser();
 
     const {
         handleSubmit,
@@ -49,6 +44,7 @@ const CakeForm = () => {
         trigger,
     } = useForm({
         defaultValues: {
+            orderType: "Cake",
             orderDate: "",
             deliveryAddress: "",
             deliveryMethod: "",
@@ -75,6 +71,7 @@ const CakeForm = () => {
 
     //EMAIL JS
     const templateParams = {
+        orderType: "Cake",
         orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
@@ -122,7 +119,11 @@ const CakeForm = () => {
             errorMessage="Cake Needs Size"
             name="cakeSize"
             label="Cake Size*"
-            options={watch("cakeShape") === "rectangle" ? (RoundCakeSizes as []) : (SheetCakeSizes as [])}
+            options={
+                watch("cakeShape") === "rectangle"
+                    ? (SheetCakeSizes.map((size) => size.size) as [])
+                    : (RoundCakeSizes.map((size) => size.size) as [])
+            }
             errors={errors}
             control={control}
         />,
@@ -167,9 +168,16 @@ const CakeForm = () => {
             errors={errors}
             control={control}
         />,
-        <DatePickerInput key={7} control={control} errors={errors} />,
-        <ContactDetails key={8} control={control} errors={errors} />,
-        <OrderDetails key={9} colorsName="cakeColors" extraDetailsName="extraCakeDetails" control={control} errors={errors} />,
+        // <DatePickerInput key={7} control={control} errors={errors} />,
+        <ContactDetails key={7} control={control} errors={errors} />,
+        <OrderDetails
+            deliveryMethod={getValues("deliveryMethod")}
+            key={8}
+            colorsName="cakeColors"
+            extraDetailsName="extraCakeDetails"
+            control={control}
+            errors={errors}
+        />,
     ];
 
     // Functions
@@ -217,14 +225,17 @@ const CakeForm = () => {
             case 6: // Cookie Frosting
                 isStepValid = watch("cakeTopping") !== "";
                 break;
+            // case 7: // Cookie Frosting
+            //     isStepValid = watch("orderDate") !== "";
+            //     break;
             case 7: // Contact Details (assuming multiple fields)
-                isStepValid = watch("firstName") !== "" && watch("lastName") !== "" && watch("email") !== "" && watch("phone") !== "";
+                isStepValid = watch("firstName") !== "" && watch("lastName") !== "" && watch("phone") !== "" && watch("email") !== "";
                 break;
             case 8: // Order Details (assuming multiple fields)
                 isStepValid =
+                    watch("orderDate") !== "" &&
                     watch("deliveryMethod") !== "" &&
                     watch("deliveryAddress") !== "" &&
-                    watch("orderDate") !== "" &&
                     watch("occasion") !== "";
                 break;
             default:
@@ -262,26 +273,20 @@ const CakeForm = () => {
         }
     };
 
-    {
-        isConfirmationModalOpen && (
-            <ConfirmationModal
-                title="Confirm Your Cake Estimate Request"
-                message="Confirm your Cake Estimate Request and someone from our team will be in touch with you about your project"
-                buttonText="Get Your Free Cake Estimate"
-                confirm={confirmEstimate}
-                isOpen={isConfirmationModalOpen}
-                closeModal={() => setIsConfirmationModalOpen(false)}
-            />
-        );
-    }
-    {
-        estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />;
-    }
-    {
-        loading ? <Loader /> : null;
-    }
     return (
         <form onKeyDown={handleKeyPress} onSubmit={handleSubmit(onSubmit)} className="py-24 px-2 md:px-[5%] 2xl:px-[20%]">
+            {isConfirmationModalOpen && (
+                <ConfirmationModal
+                    title="Confirm Your Cake Estimate Request"
+                    message="Confirm your Cake Estimate Request and someone from our team will be in touch with you about your project"
+                    buttonText="Get Your Free Cake Estimate"
+                    confirm={confirmEstimate}
+                    isOpen={isConfirmationModalOpen}
+                    closeModal={() => setIsConfirmationModalOpen(false)}
+                />
+            )}
+            {estimateSuccess && <SuccessModal isOpen={estimateSuccess} closeModal={() => setEstimateSuccess(false)} />}
+            {loading ? <Loader /> : null}
             <div className="border-4 border-black shadow-lg shadow-zinc-400 p-6">
                 <h5 className="flex justify-center items-center font-semibold text-[40px] mb-24">Cake Estimate</h5>
 

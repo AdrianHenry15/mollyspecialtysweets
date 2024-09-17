@@ -35,6 +35,7 @@ const CookieForm = () => {
         trigger,
     } = useForm({
         defaultValues: {
+            orderType: "",
             orderDate: "",
             deliveryAddress: "",
             deliveryMethod: "",
@@ -43,6 +44,7 @@ const CookieForm = () => {
             lastName: "",
             occasion: "",
             phone: "",
+            // Cookie
             cookieAmount: "",
             cookieSize: "",
             cookieFlavor: "",
@@ -89,11 +91,19 @@ const CookieForm = () => {
             control={control}
         />,
         <ContactDetails key={6} control={control} errors={errors} />,
-        <OrderDetails key={7} colorsName="cookieColors" extraDetailsName="extraCookieDetails" control={control} errors={errors} />,
+        <OrderDetails
+            key={7}
+            deliveryMethod={getValues("deliveryMethod")}
+            colorsName="cookieColors"
+            extraDetailsName="extraCookieDetails"
+            control={control}
+            errors={errors}
+        />,
     ];
 
     //EMAIL JS
     const templateParams = {
+        orderType: "Cookie",
         orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
@@ -111,45 +121,8 @@ const CookieForm = () => {
         cookieTopping: getValues("cookieTopping"),
         cookieToppingFruit: getValues("cookieToppingFruit"),
         cookieColors: getValues("cookieColors"),
-        extraCakeDetails: getValues("extraCookieDetails"),
+        extraCookieDetails: getValues("extraCookieDetails"),
     };
-
-    // const createCookieEstimate = () => {
-    //     // Prepare the request body for the Estimate model
-    //     const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-    //         itemName: `
-    //         ${getValues("cookieAmount")}
-    //         ${getValues("cookieSize")}
-    //         ${getValues("cookieColors")}
-    //         ${getValues("cookieFlavor")}
-    //         ${getValues("cookieFrosting")}
-    //         ${getValues("cookieFrostingFruit")}
-    //         ${getValues("cookieFilling")}
-    //         ${getValues("cookieFillingFruit")}
-    //         ${getValues("cookieTopping")}
-    //         ${getValues("cookieToppingFruit")}
-    //          Cookie`,
-    //         extraDetails: `${getValues("extraCookieDetails")}`,
-    //         userId: user?.id || "",
-    //         fullName: user?.fullName || "",
-    //         primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
-    //         primaryPhoneNumber: user?.primaryPhoneNumber?.phoneNumber || "",
-    //     };
-
-    //     // POST request to api/estimates
-    //     axios
-    //         .post(`/api/users/${user?.id}/estimates`, estimate, {
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //         })
-    //         .then((response) => {
-    //             console.log("POST request successful", response.data);
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error with POST request", error);
-    //         });
-    // };
 
     const onSubmit = (data: any) => {
         setIsConfirmationModalOpen(true);

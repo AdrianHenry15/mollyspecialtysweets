@@ -11,10 +11,10 @@ interface IOrderDetailsProps {
     errors: FieldErrors;
     colorsName: string;
     extraDetailsName: string;
+    deliveryMethod: string;
 }
 
 const OrderDetails = (props: IOrderDetailsProps) => {
-    const { watch } = useForm();
     return (
         <div>
             <h1 className="font-semibold text-4xl underline text-center my-10">Order Details</h1>
@@ -22,16 +22,16 @@ const OrderDetails = (props: IOrderDetailsProps) => {
             <DeliveryMethodFormComponent errors={props.errors} control={props.control} />
             {/* DELIVERY ADDRESS */}
             {/* IF THERE IS A DELIVERY METHOD CHOSEN THAN SHOW THIS */}
-            {watch("deliveryMethod") === "delivery" ? (
-                <FormItem
-                    textInput
-                    control={props.control}
-                    title={"Delivery Address*"}
-                    name={"deliveryAddress"}
-                    errorMessage="Please Fill Out Input"
-                    errors={props.errors}
-                />
-            ) : null}
+            {/* {props.deliveryMethod.toLowerCase() === "delivery" ? ( */}
+            <FormItem
+                textInput
+                control={props.control}
+                title={"Delivery Address (If Delivery)"}
+                name={"deliveryAddress"}
+                errorMessage="Please Fill Out Input"
+                errors={props.errors}
+            />
+            {/* ) : null} */}
             {/* DELIVERY DATE */}
             <DatePickerInput errors={props.errors} control={props.control} />
             {/* OCCASION */}
@@ -50,13 +50,13 @@ const OrderDetails = (props: IOrderDetailsProps) => {
                 textInput
                 control={props.control}
                 title={"Choose Colors"}
-                name={"colors"}
+                name={props.colorsName}
                 label="Colors"
                 errorMessage="Please Fill Out Input"
                 errors={props.errors}
             />
             {/* DETAILS */}
-            <FormItem textarea control={props.control} title={"Extra Details"} name={"extraDetails"} label={"Details"} />
+            <FormItem textarea control={props.control} title={"Extra Details"} name={props.extraDetailsName} label={"Details"} />
         </div>
     );
 };
