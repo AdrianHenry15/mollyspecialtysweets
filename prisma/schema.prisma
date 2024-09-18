@@ -8,25 +8,156 @@ generator client {
 }
 
 model Estimate {
-  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
-  itemName            String
-  userId              String   @unique
-  fullName            String
-  primaryEmailAddress String   @unique
-  primaryPhoneNumber  String?  @unique
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  clerkUser   ClerkUser
+  description String
+  amount      Float
+  status      String    @default("pending")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Invoice {
-  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
-  itemName            String
-  price               String
-  verified            Boolean  @default(false)
-  userId              String   @unique
-  fullName            String
-  primaryEmailAddress String   @unique
-  primaryPhoneNumber  String?  @unique
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  itemName  String
+  price     String
+  verified  Boolean   @default(false)
+  clerkUser ClerkUser
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Product {
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  description    String
+  collection     Collections
+  price          BigInt
+  quantity       Int
+  image          String
+  cakeProduct    CakeProduct?
+  cupcakeProduct CupcakeProduct?
+  OrderItem      OrderItem[]
+}
+
+model Cart {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  clerkUser   ClerkUser // Use Clerk user on frontend
+  items       CartItem[] // One-to-many relationship with CartItem
+  totalAmount Float // Calculated total for all items in the cart
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model CartItem {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  cartId      String @db.ObjectId
+  cart        Cart   @relation(fields: [cartId], references: [id]) // Relation to Cart
+  productId   String // ID of the product being added
+  productName String // Name of the product
+  quantity    Int // Quantity of the product
+  price       Float // Price of a single product item
+  totalPrice  Float // Total price = price * quantity
+}
+
+model Order {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  clerkUser   ClerkUser // Use Clerk user on frontend
+  orderItems  OrderItem[] // Relationship to order items
+  totalAmount Float
+  status      OrderStatus // Enum for order status (e.g., Pending, Shipped)
+  payment     Payment? // One-to-one relationship with Payment
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model OrderItem {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  orderId    String  @db.ObjectId
+  order      Order   @relation(fields: [orderId], references: [id])
+  productId  String  @db.ObjectId
+  product    Product @relation(fields: [productId], references: [id])
+  quantity   Int
+  price      Float
+  totalPrice Float // Calculated as price * quantity
+}
+
+model Payment {
+  id         String        @id @default(auto()) @map("_id") @db.ObjectId
+  orderId    String        @unique @db.ObjectId
+  order      Order         @relation(fields: [orderId], references: [id])
+  paymentId  String        @unique // Square's unique identifier for the payment
+  status     PaymentStatus // Enum for payment status (e.g., PENDING, COMPLETED, etc.)
+  amount     Float // Total payment amount
+  currency   String        @default("USD") // Currency for the payment
+  method     String // Example: Card, ApplePay, etc.
+  customerId String // Square Customer ID, if applicable
+  receiptUrl String? // URL to the receipt provided by Square
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model PaymentWebhook {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  eventType  String // Type of event (e.g., PAYMENT_COMPLETED, PAYMENT_FAILED)
+  paymentId  String // Square payment ID associated with the event
+  receivedAt DateTime @default(now())
+}
+
+type BakeryProduct {
+  flavor       String
+  frosting     String
+  filling      String
+  topping      String
+  extraDetails String
+}
+
+type CakeProduct {
+  shape         String
+  size          String
+  tier          String
+  bakeryProduct BakeryProduct
+}
+
+type CupcakeProduct {
+  amount        String
+  size          String
+  bakeryProduct BakeryProduct
+}
+
+type CookieProduct {
+  amount        String
+  size          String
+  bakeryProduct BakeryProduct
+}
+
+// Use Clerk user on frontend
+type ClerkUser {
+  userId              String
+  firstName           String
+  lastName            String
+  emailaddresses      String[]
+  primaryEmailAddress String
+  phoneNumbers        String[]
+  primaryPhoneNumber  String
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum OrderStatus {
+  PENDING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum Collections {
+  CAKES
+  COOKIES
+  CUPCAKES
+  RETAIL
 }

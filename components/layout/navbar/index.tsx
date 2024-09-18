@@ -10,6 +10,7 @@ import { NavMenuItems } from "@/lib/constants";
 import { NavMenuType } from "@/lib/types";
 import Button from "@/components/buttons/button";
 import UserIcon from "./user-icon/user-icon";
+import Cart from "@/components/cart";
 
 export default function Navbar() {
     const pathname = usePathname();
@@ -17,7 +18,7 @@ export default function Navbar() {
     return (
         <nav className={`bg-white text-sm font-semibold flex w-full self-center sticky top-0 z-50 shadow-md`}>
             {/* MOBILE CONTAINER */}
-            <div className="absolute self-center right-0 lg:hidden">
+            <div className="absolute self-center right-10 lg:hidden">
                 <MobileHeader />
             </div>
             {/* TITLE & LINKS  */}
@@ -55,6 +56,9 @@ export default function Navbar() {
                         <UserIcon />
                     </div>
                 </ul>
+            </div>
+            <div className="flex justify-center items-center">
+                <Cart />
             </div>
         </nav>
     );
