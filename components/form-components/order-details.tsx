@@ -9,6 +9,8 @@ import { Occasions } from "@/lib/constants";
 interface IOrderDetailsProps {
     control: any;
     errors: FieldErrors;
+    colorsName: string;
+    detailsName: string;
 }
 
 const OrderDetails = (props: IOrderDetailsProps) => {
@@ -49,13 +51,13 @@ const OrderDetails = (props: IOrderDetailsProps) => {
                 textInput
                 control={props.control}
                 title={"Choose Colors"}
-                name={"colors"}
+                name={props.colorsName}
                 label="Colors"
                 required
                 errors={props.errors}
             />
             {/* DETAILS */}
-            <FormItem textarea control={props.control} title={"Extra Details"} name={"details"} label={"Details"} />
+            <FormItem textarea control={props.control} title={"Extra Details"} name={props.detailsName} label={"Details"} />
         </div>
     );
 };

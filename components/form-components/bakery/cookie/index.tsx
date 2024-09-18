@@ -10,7 +10,6 @@ import CookieFlavor from "./flavor";
 import CookieFrosting from "./frosting";
 import CookieFilling from "./filling";
 import CookieTopping from "./topping";
-import Textarea from "../../inputs/textarea";
 import toast from "react-hot-toast";
 import ConfirmationModal from "@/components/modals/confirmation-modal";
 import SuccessModal from "@/components/modals/success-modal";
@@ -163,7 +162,7 @@ const CookieForm = () => {
             {/* CONTACT DETAILS */}
             <ContactDetails control={control} errors={errors} />
             {/* ORDER DETAILS */}
-            <OrderDetails control={control} errors={errors} />
+            <OrderDetails colorsName="cookieColors" detailsName="extraCookieDetails" control={control} errors={errors} />
 
             <div className={`my-10`}>
                 <Button submit name={`Submit Cookie Estimate`} className="w-full justify-center"></Button>

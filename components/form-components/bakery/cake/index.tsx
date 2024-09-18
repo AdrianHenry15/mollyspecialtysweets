@@ -42,34 +42,54 @@ const CakeForm = () => {
         control,
         watch,
         formState: { errors },
-    } = useForm();
+    } = useForm({
+        defaultValues: {
+            cakeTier: "",
+            cakeShape: "",
+            cakeSize: "",
+            cakeFilling: "",
+            cakeFlavor: "",
+            cakeFrosting: "",
+            cakeTopping: "",
+            cakeColors: "",
+            orderDate: "",
+            deliveryAddress: "",
+            deliveryMethod: "",
+            extraCakeDetails: "",
+            email: user?.primaryEmailAddress?.emailAddress || "",
+            phone: user?.primaryPhoneNumber?.phoneNumber || "",
+            firstName: user?.firstName || "",
+            lastName: user?.lastName || "",
+            occasion: "",
+        },
+    });
 
     //EMAIL JS
     const templateParams = {
+        cakeTier: getValues("cakeTier"),
+        cakeShape: getValues("cakeShape"),
+        cakeSize: getValues("cakeSize"),
         cakeFilling: getValues("cakeFilling"),
         cakeFlavor: getValues("cakeFlavor"),
         cakeFrosting: getValues("cakeFrosting"),
-        cakeShape: getValues("cakeShape"),
-        cakeSize: getValues("cakeSize"),
-        cakeTier: getValues("cakeTier"),
         cakeTopping: getValues("cakeTopping"),
-        colors: getValues("colors"),
-        date: getValues("date"),
+        cakeColors: getValues("cakeColors"),
+        orderDate: getValues("orderDate"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
-        details: getValues("details"),
+        extraCakeDetails: getValues("extraCakeDetails"),
         email: getValues("email"),
+        phone: getValues("phone"),
         firstName: getValues("firstName"),
         lastName: getValues("lastName"),
         occasion: getValues("occasion"),
-        phoneNumber: getValues("phoneNumber"),
     };
 
     const createCakeEstimate = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("cakeSize").toString()} ${getValues("cakeShape")} ${getValues("cakeTier")} ${getValues("colors")} ${getValues("cakeFlavor")} ${getValues("cakeFrosting")} ${getValues("cakeFilling")} ${getValues("cakeTopping")} Cake`,
-            extraDetails: `${getValues("details")}`,
+            itemName: `${getValues("cakeSize").toString()} ${getValues("cakeShape")} ${getValues("cakeTier")} ${getValues("cakeColors")} ${getValues("cakeFlavor")} ${getValues("cakeFrosting")} ${getValues("cakeFilling")} ${getValues("cakeTopping")} Cake`,
+            extraDetails: `${getValues("extraCakeDetails")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
             primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
@@ -166,7 +186,7 @@ const CakeForm = () => {
             <ContactDetails control={control} errors={errors} />
 
             {/* ORDER DETAILS */}
-            <OrderDetails control={control} errors={errors} />
+            <OrderDetails colorsName="cakeColors" detailsName="extraCakeDetails" control={control} errors={errors} />
 
             {/* REVIEW BUTTON */}
             <Button submit name={`Complete Estimate`} className="w-full justify-center my-10" />
