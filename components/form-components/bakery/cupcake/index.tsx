@@ -39,7 +39,26 @@ const CupcakeForm = () => {
         getValues,
         control,
         formState: { errors },
-    } = useForm();
+    } = useForm({
+        defaultValues: {
+            cupcakeSize: "",
+            cupcakeAmount: "",
+            cupcakeFlavor: "",
+            cupcakeFrosting: "",
+            cupcakeFilling: "",
+            cupcakeTopping: "",
+            cupcakeColors: "",
+            orderDate: "",
+            deliveryAddress: "",
+            deliveryMethod: "",
+            extraCupcakeDetails: "",
+            email: user?.primaryEmailAddress?.emailAddress || "",
+            phone: user?.primaryPhoneNumber?.phoneNumber || "",
+            firstName: user?.firstName || "",
+            lastName: user?.lastName || "",
+            occasion: "",
+        },
+    });
 
     //EMAIL JS
     const templateParams = {
@@ -49,23 +68,23 @@ const CupcakeForm = () => {
         cupcakeFrosting: getValues("cupcakeFrosting"),
         cupcakeFilling: getValues("cupcakeFilling"),
         cupcakeTopping: getValues("cupcakeTopping"),
-        colors: getValues("colors"),
-        date: getValues("date"),
+        cupcakeColors: getValues("cupcakeColors"),
+        orderDate: getValues("orderDate"),
         deliveryAddress: getValues("deliveryAddress"),
         deliveryMethod: getValues("deliveryMethod"),
-        details: getValues("details"),
+        extraCakeDetails: getValues("extraCupcakeDetails"),
         email: getValues("email"),
         firstName: getValues("firstName"),
         lastName: getValues("lastName"),
         occasion: getValues("occasion"),
-        phoneNumber: getValues("phoneNumber"),
+        phoneNumber: getValues("phone"),
     };
 
     const createCupcakeEstimate = () => {
         // Prepare the request body for the Estimate model
         const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("cupcakeSize").toString()} ${getValues("cupcakeShape")} ${getValues("cupcakeTier")} ${getValues("colors")} ${getValues("cupcakeFlavor")} ${getValues("cupcakeFrosting")} ${getValues("cupcakeFilling")} ${getValues("cupcakeTopping")} Cupcake`,
-            extraDetails: `${getValues("details")}`,
+            itemName: `${getValues("cupcakeSize").toString()} ${getValues("cupcakeColors")} ${getValues("cupcakeFlavor")} ${getValues("cupcakeFrosting")} ${getValues("cupcakeFilling")} ${getValues("cupcakeTopping")} Cupcake`,
+            extraDetails: `${getValues("extraCupcakeDetails")}`,
             userId: user?.id || "",
             fullName: user?.fullName || "",
             primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
@@ -160,7 +179,7 @@ const CupcakeForm = () => {
             <ContactDetails control={control} errors={errors} />
 
             {/* ORDER DETAILS */}
-            <OrderDetails control={control} errors={errors} />
+            <OrderDetails colorsName="cupcakeColors" detailsName="extraCupcakeDetails" control={control} errors={errors} />
 
             <div className={`my-10`}>
                 <Button submit name={`Submit Cupcake Estimate`} className="w-full justify-center"></Button>
