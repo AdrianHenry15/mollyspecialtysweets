@@ -130,15 +130,16 @@ export default function Cart() {
                                         >
                                             Clear Cart
                                         </button>
-                                        <button
+                                        <Link
+                                            href={"/"}
                                             type="button"
-                                            className="mt-3 sm:mt-0 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none sm:text-sm"
+                                            className="mt-3 sm:mt-0 inline-flex whitespace-nowrap w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none sm:text-sm"
                                             onClick={closeCart}
                                         >
                                             Continue Shopping
-                                        </button>
+                                        </Link>
                                         <Link
-                                            href={getHref()}
+                                            href={"/delivery-method"}
                                             className="mt-3 sm:mt-0 inline-flex w-full justify-center items-center rounded-md border border-gray-300 bg-pink-300 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-500 sm:text-sm"
                                             onClick={closeCart}
                                         >

@@ -33,11 +33,11 @@ const CheckoutPage = () => {
                 <ExtraDetailsCheckout value={extraDetails} onChange={handleExtraDetails} />
             </div>
             {/* Order Details / Payment */}
-            <div className="p-4 border border-gray-400 m-4 rounded-md flex flex-col flex-1">
-                <OrderDetailsCheckout />
-                {/* Get Estimate Instead of Pay Form */}
-                <GetEstimateCheckout extraDetails={extraDetails} />
-            </div>
+            {/* <div className="p-4 border border-gray-400 m-4 rounded-md flex flex-col flex-1"> */}
+            {/* <OrderDetailsCheckout /> */}
+            {/* Get Estimate Instead of Pay Form */}
+            <GetEstimateCheckout extraDetails={extraDetails} />
+            {/* </div> */}
         </div>
     );
 };

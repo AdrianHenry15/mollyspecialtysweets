@@ -28,15 +28,15 @@ import CustomCookieImage from "@/public/cookies-img.jpg";
 import SnickerdoodleCookieImage from "@/public/snickerdoodle-cookies.jpg";
 
 export const dummyCakes: ProductType[] = [
-    {
-        id: "cake-1",
-        name: "Custom Cake",
-        collection: "Cakes" as Collection,
-        price: 20.0,
-        quantity: 1,
-        image: CustomCake, // Ensure this path is correct
-        description: "Bespoke cake with personalized flavor and design options.",
-    },
+    // {
+    //     id: "cake-1",
+    //     name: "Custom Cake",
+    //     collection: "Cakes" as Collection,
+    //     price: 20.0,
+    //     quantity: 1,
+    //     image: CustomCake, // Ensure this path is correct
+    //     description: "Bespoke cake with personalized flavor and design options.",
+    // },
     {
         id: "cake-2",
         name: "Chocolate Cake",
@@ -44,7 +44,7 @@ export const dummyCakes: ProductType[] = [
         price: 15.0,
         quantity: 1,
         image: ChocolateCake, // Ensure this path is correct
-        description: "Delicious chocolate cake with rich cocoa flavor.",
+        description: "Delicious 6 in. chocolate cake with rich cocoa flavor.",
     },
     {
         id: "cake-3",
@@ -103,16 +103,16 @@ export const dummyCakes: ProductType[] = [
 ];
 
 export const dummyCupcakes: ProductType[] = [
-    {
-        id: "cupcake-0",
-        name: "Custom Cupcake",
-        collection: "Cupcakes" as Collection,
-        price: 3.0,
-        quantity: 1,
-        image: CustomCupcakeImage, // Ensure this path is correct
-        description:
-            "Create your own perfect cupcake! Choose from a variety of flavors, frostings, and toppings to design a cupcake that’s uniquely yours.",
-    },
+    // {
+    //     id: "cupcake-0",
+    //     name: "Custom Cupcake",
+    //     collection: "Cupcakes" as Collection,
+    //     price: 3.0,
+    //     quantity: 1,
+    //     image: CustomCupcakeImage, // Ensure this path is correct
+    //     description:
+    //         "Create your own perfect cupcake! Choose from a variety of flavors, frostings, and toppings to design a cupcake that’s uniquely yours.",
+    // },
     {
         id: "cupcake-1",
         name: "Vanilla Cupcake",
@@ -181,16 +181,16 @@ export const dummyCupcakes: ProductType[] = [
 ];
 
 export const dummyCookies: ProductType[] = [
-    {
-        id: "cookie-0",
-        name: "Custom Cookie",
-        collection: "Cookies" as Collection,
-        price: 2.5,
-        quantity: 1,
-        image: CustomCookieImage, // Ensure this path is correct
-        description:
-            "Design your own cookie masterpiece! Choose from a variety of bases, mix-ins, and toppings to create a cookie that’s tailored to your taste. Perfect for any occasion.",
-    },
+    // {
+    //     id: "cookie-0",
+    //     name: "Custom Cookie",
+    //     collection: "Cookies" as Collection,
+    //     price: 2.5,
+    //     quantity: 1,
+    //     image: CustomCookieImage, // Ensure this path is correct
+    //     description:
+    //         "Design your own cookie masterpiece! Choose from a variety of bases, mix-ins, and toppings to create a cookie that’s tailored to your taste. Perfect for any occasion.",
+    // },
     {
         id: "cookie-1",
         name: "Chocolate Chip Cookie",

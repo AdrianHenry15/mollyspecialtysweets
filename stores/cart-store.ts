@@ -129,17 +129,27 @@ export const useCartStore = create<CartState>((set, get) => ({
     },
     updateItemPrices: async () => {
         try {
+            // Load the current cart items from localStorage
+            const storedCartItems = loadCartFromLocalStorage();
+
+            // Fetch the latest pricing from the API
             const response = await axios.get("/api/pricing");
             const latestPrices = response.data;
 
-            const updatedItems = get().items.map((item) => {
+            // Map over the stored cart items and update their prices
+            const updatedItems = storedCartItems.map((item: ProductType) => {
                 const latestPrice = latestPrices.find((price: any) => price.id === item.id)?.price || item.price;
                 return { ...item, price: latestPrice };
             });
 
+            // Update the store with the updated items
             set({ items: updatedItems });
+
+            // Save the updated cart with new prices to localStorage
             saveCartToLocalStorage(updatedItems);
-            get().setSubtotal(); // Recalculate subtotal with updated prices
+
+            // Recalculate the subtotal with the updated prices
+            get().setSubtotal();
         } catch (error) {
             console.error("Failed to update item prices:", error);
         }

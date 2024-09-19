@@ -1,12 +1,14 @@
 "use client";
 
-import useDeliveryMethodStore from "@/stores/delivery-method-store";
 import { useForm } from "react-hook-form";
-import DatePickerInput from "./form-components/date-picker-input"; // Use the updated DatePickerInput component
-import { CgHome } from "react-icons/cg";
-import { FaTruck } from "react-icons/fa6";
 import Link from "next/link";
 import { useState } from "react";
+
+import { TfiTruck } from "react-icons/tfi";
+import { HiHomeModern } from "react-icons/hi2";
+
+import useDeliveryMethodStore from "@/stores/delivery-method-store";
+import DatePickerInput from "./form-components/date-picker-input"; // Use the updated DatePickerInput component
 
 export const DeliveryMethod = () => {
     const { deliveryAddress, deliveryMethod, orderDate, setDeliveryAddress, setDeliveryMethod, setOrderDate, clearDeliveryMethod } =
@@ -50,6 +52,19 @@ export const DeliveryMethod = () => {
         }
     };
 
+    const validateAddress = (address: string | undefined) => {
+        // Check if address is provided
+        if (!address || address.trim() === "") {
+            return "Delivery address cannot be empty.";
+        }
+        // Optional: Add more complex validation rules (e.g., length, format)
+        if (address.length < 10) {
+            return "Delivery address is too short.";
+        }
+        // If no errors, return null (valid)
+        return null;
+    };
+
     const handleCheckout = () => {
         let isValid = true;
 
@@ -67,9 +82,40 @@ export const DeliveryMethod = () => {
             isValid = false;
         }
 
-        if (deliveryMethod === "delivery" && !deliveryAddress) {
-            setValidationError("Please enter a valid delivery address.");
-            isValid = false;
+        if (deliveryMethod === "delivery") {
+            if (!deliveryAddress) {
+                setValidationError("Please enter a valid delivery address.");
+                isValid = false;
+            } else {
+                // Validate address format (must include street, city, state, and ZIP)
+                const addressParts = deliveryAddress.trim().split(",");
+                if (addressParts.length < 3) {
+                    setValidationError("Please provide a full address, including street, city, state, and ZIP code.");
+                    isValid = false;
+                } else {
+                    const city = addressParts[1]?.trim();
+                    const stateAndZip = addressParts[2]?.trim();
+                    const [state, zip] = stateAndZip?.split(" ") || [];
+
+                    if (!city || !state || !zip) {
+                        setValidationError("Please provide a valid city, state, and ZIP code.");
+                        isValid = false;
+                    }
+
+                    // Ensure state is "FL" (Florida)
+                    if (state !== "FL") {
+                        setValidationError("We only deliver within Florida. Please enter a valid Florida address.");
+                        isValid = false;
+                    }
+
+                    // Validate ZIP code (must be 5 digits)
+                    const zipCodeRegex = /^\d{5}$/;
+                    if (!zipCodeRegex.test(zip)) {
+                        setValidationError("Please enter a valid 5-digit ZIP code.");
+                        isValid = false;
+                    }
+                }
+            }
         }
 
         return isValid; // Valid data
@@ -85,26 +131,18 @@ export const DeliveryMethod = () => {
             {/* Big Buttons for Order Method */}
             <div className="flex items-center justify-center w-full h-[250px] md:h-[350px]">
                 <button className={getButtonClass("pickup")} onClick={() => handleOrderMethodChange("pickup")}>
-                    <CgHome className="w-[30px] h-[30px] lg:w-[200px] lg:h-[70px]" />
+                    <HiHomeModern className="w-[70px] h-[70px] lg:w-[200px] lg:h-[70px]" />
                     <p className="text-black text-sm lg:text-lg">Pickup</p>
                 </button>
                 <button className={getButtonClass("delivery")} onClick={() => handleOrderMethodChange("delivery")}>
-                    <FaTruck className="w-[30px] h-[30px] lg:w-[200px] lg:h-[70px]" />
+                    <TfiTruck className="w-[70px] h-[70px] lg:w-[200px] lg:h-[70px]" />
                     <p className="text-black lg:text-lg">Delivery</p>
                 </button>
             </div>
 
             {/* Error Message Container */}
             <div className="absolute top-0 left-0 w-full px-4 mt-4">
-                {validationError && validationError.includes("deliveryMethod") && (
-                    <p className="text-red-500 text-center font-semibold mb-4">{validationError}</p>
-                )}
-                {validationError && validationError.includes("orderDate") && (
-                    <p className="text-red-500 text-center font-semibold mb-4">{validationError}</p>
-                )}
-                {deliveryMethod === "delivery" && validationError && validationError.includes("deliveryAddress") && (
-                    <p className="text-red-500 text-center font-semibold mb-4">{validationError}</p>
-                )}
+                {validationError && <p className="text-red-500 text-center font-semibold mb-4">{validationError}</p>}
             </div>
 
             {/* Set Delivery Date */}

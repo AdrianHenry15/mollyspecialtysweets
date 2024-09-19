@@ -35,7 +35,7 @@ const GetEstimateCheckout = (props: IGetEstimateCheckoutProps) => {
         return item.name;
     });
     const productPrices = items.map((item) => {
-        return item.price;
+        return `$${item.price.toFixed(2)}`;
     });
 
     // EMAIL JS
@@ -58,11 +58,11 @@ const GetEstimateCheckout = (props: IGetEstimateCheckoutProps) => {
         // Product Description
         productNames: productNames.join(", "),
         // Pricing
-        productPrices,
-        subtotal,
-        salesTax,
-        deliveryFee,
-        total,
+        // productPrices,
+        // subtotal: `$${subtotal.toFixed(2)}`,
+        // salesTax: `$${salesTax.toFixed(2)}`,
+        // deliveryFee: `$${deliveryFee.toFixed(2)}`,
+        // total: `$${total.toFixed(2)}`,
     };
 
     // Functions

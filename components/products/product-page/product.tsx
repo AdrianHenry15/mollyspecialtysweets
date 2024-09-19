@@ -54,7 +54,7 @@ const Product = (props: IProductProps) => {
                     alt={product.name}
                     width={100}
                     height={100}
-                    className="flex border-2 border-blue-500 shadow-zinc-700 shadow-lg"
+                    className="flex border-2 border-pink-500 shadow-zinc-700 shadow-lg"
                 />
             </div>
         );
@@ -85,7 +85,7 @@ const Product = (props: IProductProps) => {
                     <h5 className="text-white text-start text-6xl">{product.name}</h5>
                     <h5 className="text-gray-400/50 ml-2 text-start text-lg">{product.description}</h5>
                     {/* PRICE */}
-                    <p className="flex items-center text-start justify-center px-3 py-1 mt-2 bg-blue-400 text-white w-min whitespace-nowrap rounded-full">
+                    <p className="flex items-center text-start justify-center px-3 py-1 mt-2 bg-pink-400 text-white w-min whitespace-nowrap rounded-full">
                         ${product.price.toFixed(2)} USD
                     </p>
                 </div>
