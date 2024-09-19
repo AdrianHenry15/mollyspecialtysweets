@@ -1,13 +1,13 @@
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 
-import { SiClerk } from "react-icons/si";
+import ClerkLogo from "@/public/clerk.png";
 import { CgSquare } from "react-icons/cg";
 import { SiVercel } from "react-icons/si";
 import { SiNextdotjs } from "react-icons/si";
 import { GrReactjs } from "react-icons/gr";
 import EmailJsIcon from "@/public/emailjs.png";
-import Image from "next/image";
 
 const PoweredBy = () => {
     return (
@@ -16,7 +16,7 @@ const PoweredBy = () => {
             <div className="flex items-center justify-around w-full">
                 {/* Clerk */}
                 <Link target="_blank" href="https://clerk.com">
-                    <SiClerk className="hover:scale-125 transition-all duration-300 ease-in-out" size={35} />
+                    <Image src={ClerkLogo} alt="clerk-logo" className="hover:scale-125 transition-all duration-300 ease-in-out w-[35px]" />
                 </Link>
                 {/* Square */}
                 {/* <Link target="_blank" href="https://square.com">

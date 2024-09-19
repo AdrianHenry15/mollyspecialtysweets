@@ -33,9 +33,9 @@ const CakeForm = () => {
     const { user } = useUser();
 
     // EMAIL JS
-    const SERVICE_ID = process.env.NEXT_PUBLIC_SERVICE_ID as string;
-    const TEMPLATE_ID = process.env.NEXT_PUBLIC_TEMPLATE_ID as string;
-    const PUBLIC_KEY = process.env.NEXT_PUBLIC_KEY as string;
+    const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string;
+    const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID as string;
+    const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_KEY as string;
 
     const {
         handleSubmit,
