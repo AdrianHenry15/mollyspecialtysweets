@@ -17,7 +17,7 @@ export default authMiddleware({
             }
         }
     },
-    publicRoutes: ["/", "/order(.*)", "/estimate", "/contact-us", "/my-story", "/create-a-cake", "/api/users(.*)"],
+    publicRoutes: ["/", "/order(.*)", "/estimate", "/contact-us", "/my-story"],
 });
 
 export const config = {
