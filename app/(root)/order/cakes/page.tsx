@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 
-import CakeForm from "@/components/forms/cake";
+import CakeForm from "@/components/form-components/bakery/cake";
 import PageFormContainer from "@/components/page-form-container";
 
 export const metadata: Metadata = {
