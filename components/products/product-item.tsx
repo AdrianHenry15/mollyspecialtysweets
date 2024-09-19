@@ -20,6 +20,7 @@ const ProductItem = (props: ProductItemProps) => {
     // Handlers
     const handleAddToCart = (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
+        e.preventDefault();
         if (product.name !== "Custom Cake") {
             addItemToCart(product);
         }
