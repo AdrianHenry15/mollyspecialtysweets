@@ -92,29 +92,31 @@ export const DeliveryMethod = () => {
                 if (addressParts.length < 3) {
                     setValidationError("Please provide a full address, including street, city, state, and ZIP code.");
                     isValid = false;
-                } else {
-                    const city = addressParts[1]?.trim();
-                    const stateAndZip = addressParts[2]?.trim();
-                    const [state, zip] = stateAndZip?.split(" ") || [];
-
-                    if (!city || !state || !zip) {
-                        setValidationError("Please provide a valid city, state, and ZIP code.");
-                        isValid = false;
-                    }
-
-                    // Ensure state is "FL" (Florida)
-                    if (state !== "FL") {
-                        setValidationError("We only deliver within Florida. Please enter a valid Florida address.");
-                        isValid = false;
-                    }
-
-                    // Validate ZIP code (must be 5 digits)
-                    const zipCodeRegex = /^\d{5}$/;
-                    if (!zipCodeRegex.test(zip)) {
-                        setValidationError("Please enter a valid 5-digit ZIP code.");
-                        isValid = false;
-                    }
                 }
+                isValid = true;
+                // else {
+                //     const city = addressParts[1]?.trim();
+                //     const stateAndZip = addressParts[2]?.trim();
+                //     const [state, zip] = stateAndZip?.split(" ") || [];
+
+                //     if (!city || !state || !zip) {
+                //         setValidationError("Please provide a valid city, state, and ZIP code.");
+                //         isValid = false;
+                //     }
+
+                //     // Ensure state is "FL" (Florida)
+                //     if (state !== "FL") {
+                //         setValidationError("We only deliver within Florida. Please enter a valid Florida address.");
+                //         isValid = false;
+                //     }
+
+                //     // Validate ZIP code (must be 5 digits)
+                //     const zipCodeRegex = /^\d{5}$/;
+                //     if (!zipCodeRegex.test(zip)) {
+                //         setValidationError("Please enter a valid 5-digit ZIP code.");
+                //         isValid = false;
+                //     }
+                // }
             }
         }
 
@@ -124,9 +126,12 @@ export const DeliveryMethod = () => {
     return (
         <div className="relative flex flex-col w-full h-screen lg:h-[725px] my-10 lg:p-10">
             {/* Show current order method */}
-            <p className="text-black font-semibold self-center mb-4">
-                Delivery Method: {deliveryMethod ? deliveryMethod!.charAt(0).toUpperCase() + deliveryMethod!.slice(1) : null}
-            </p>
+            <span className="text-black text-2xl mt-10 flex items-center justify-center font-semibold self-center mb-4">
+                <p className="text-black">Delivery Method:</p>
+                <p className="italic ml-1 text-black">
+                    {deliveryMethod ? deliveryMethod!.charAt(0).toUpperCase() + deliveryMethod!.slice(1) : null}
+                </p>
+            </span>
 
             {/* Big Buttons for Order Method */}
             <div className="flex items-center justify-center w-full h-[250px] md:h-[350px]">
