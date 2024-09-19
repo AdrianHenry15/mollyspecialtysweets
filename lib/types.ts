@@ -1,34 +1,53 @@
+import { StaticImageData } from "next/image";
+import { Collection } from "./constants";
+
 export type NavMenuType = {
     title: string;
     link: string;
+};
+
+export type CakeSizeAndServings = {
+    size: string;
+    serves: string;
+};
+
+export type ProductType = {
+    id: string;
+    name: string;
+    description: string;
+    collection: Collection;
+    price: number;
+    quantity: number;
+    image: string | StaticImageData;
+};
+
+export type BakeryItemType = {
+    flavor: string;
+    frosting: string;
+    frostingFruit?: string;
+    filling: string;
+    fillingFruit?: string;
+    topping: string;
+    toppingFruit?: string;
 };
 
 export type CakeType = {
     shape: string;
     tier: string;
     size: string;
-    flavor: string;
-    frosting: string;
-    filling: string;
-    toppings?: string;
+    bakeryItem: BakeryItemType;
 };
 
 export type CupcakeType = {
     amount: string;
     size: string;
-    flavor: string;
-    frosting: string;
-    filling?: string;
-    toppings?: string;
+    bakeryItem: BakeryItemType;
 };
 
-export type CookieType = {
+export type CookieCupcakeType = {
     amount: string;
     size: string;
-    flavor: string;
-    frosting?: string;
-    filling?: string;
-    toppings?: string;
+    bakeryItem: BakeryItemType;
 };
 
 export type ContactDetailsType = {
