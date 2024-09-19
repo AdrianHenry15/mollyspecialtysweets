@@ -5,18 +5,18 @@ import { NextResponse } from "next/server";
 // Please edit this to allow other routes to be public as needed.
 // See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
 export default authMiddleware({
-    async afterAuth(auth, req, evt) {
-        if (req.nextUrl.pathname.startsWith("/admin")) {
-            if (!(auth.orgRole === "org:admin")) {
-                const redirectUrl = `${req.nextUrl.origin}/`;
-                return NextResponse.redirect(redirectUrl);
-            } else {
-                // console.log("AUTH.ORG.SLUG:", auth.orgRole);
-                const redirect = "/";
-                return NextResponse.redirect(redirect);
-            }
-        }
-    },
+    // async afterAuth(auth, req, evt) {
+    //     if (req.nextUrl.pathname.startsWith("/admin")) {
+    //         if (!(auth.orgRole === "org:admin")) {
+    //             const redirectUrl = `${req.nextUrl.origin}/`;
+    //             return NextResponse.redirect(redirectUrl);
+    //         } else {
+    //             // console.log("AUTH.ORG.SLUG:", auth.orgRole);
+    //             const redirect = "/";
+    //             return NextResponse.redirect(redirect);
+    //         }
+    //     }
+    // },
     publicRoutes: ["/", "/order(.*)", "/estimate", "/contact-us", "/my-story"],
 });
 
