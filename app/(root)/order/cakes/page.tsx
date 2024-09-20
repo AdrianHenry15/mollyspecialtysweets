@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 
 const CakePage = () => {
     return (
-        <div>
+        <div className="flex flex-col w-full">
             {/* CAKE ROW */}
             <ProductRow collection="Cakes" className="bg-emerald-900" />
-            <PageFormContainer>
+            <PageFormContainer className="self-center md:w-[600px] lg:w-[650px] xl:w-[700px]">
                 <CakeForm />
             </PageFormContainer>
         </div>

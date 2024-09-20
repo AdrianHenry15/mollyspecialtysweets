@@ -3,6 +3,7 @@ import React from "react";
 
 import CookieForm from "@/components/form-components/bakery/cookie";
 import PageFormContainer from "@/components/page-form-container";
+import ProductRow from "@/components/products/product-row";
 
 export const metadata: Metadata = {
     title: "Order Cookies",
@@ -11,9 +12,13 @@ export const metadata: Metadata = {
 
 const OrderCookies = () => {
     return (
-        <PageFormContainer>
-            <CookieForm />
-        </PageFormContainer>
+        <div className="flex flex-col w-full">
+            {/* COOKIE ROW */}
+            <ProductRow collection="Cookies" className="bg-amber-900" />
+            <PageFormContainer className="self-center md:w-[600px] lg:w-[650px] xl:w-[700px]">
+                <CookieForm />
+            </PageFormContainer>
+        </div>
     );
 };
 
