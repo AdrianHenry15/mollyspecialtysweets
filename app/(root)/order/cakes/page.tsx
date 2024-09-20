@@ -3,6 +3,7 @@ import { Metadata } from "next";
 
 import CakeForm from "@/components/form-components/bakery/cake";
 import PageFormContainer from "@/components/page-form-container";
+import ProductRow from "@/components/products/product-row";
 
 export const metadata: Metadata = {
     title: "Create A Cake",
@@ -12,6 +13,8 @@ export const metadata: Metadata = {
 const CakePage = () => {
     return (
         <div>
+            {/* CAKE ROW */}
+            <ProductRow collection="Cakes" className="bg-emerald-900" />
             <PageFormContainer>
                 <CakeForm />
             </PageFormContainer>

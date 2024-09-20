@@ -1,11 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useUser } from "@clerk/nextjs";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import emailjs from "@emailjs/browser";
+import toast from "react-hot-toast";
+import axios from "axios";
+import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
 
 import Logo from "@/public/mollys-logo-black.png";
 
@@ -17,21 +21,19 @@ import DeliveryMethod from "../delivery-method";
 import { Categories, Occasions } from "@/lib/constants";
 import FormItem from "../form-item";
 import DatePickerInput from "../date-picker-input";
-import toast from "react-hot-toast";
-import axios from "axios";
 import { EstimateType } from "@/lib/types";
-import dayjs from "dayjs";
 
 const ContactFormContainer = () => {
     // SWITCH BETWEEN CONTACT AND ESTIMATE FORM | BOTH FORMS DO THE SAME THING FOR NOW
     const pathname = usePathname();
+    const router = useRouter();
+    // Clerk
+    const { user, isSignedIn } = useUser();
 
     const [inputClicked, setInputClicked] = useState(false);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [estimateSuccess, setEstimateSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
-
-    const { user } = useUser();
 
     // EMAIL JS
     const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string;
@@ -41,6 +43,7 @@ const ContactFormContainer = () => {
     const {
         handleSubmit,
         getValues,
+        setValue,
         control,
         watch,
         formState: { errors },
@@ -60,6 +63,9 @@ const ContactFormContainer = () => {
         },
     });
 
+    // Watch for all form values
+    const formValues = watch();
+
     //EMAIL JS
     const templateParams = {
         firstName: getValues("firstName"),
@@ -74,6 +80,30 @@ const ContactFormContainer = () => {
         extraDetails: getValues("extraDetails"),
         orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
     };
+
+    useEffect(() => {
+        const storedFormData = localStorage.getItem("formData");
+
+        // If there is stored form data, restore it
+        if (storedFormData) {
+            const parsedData = JSON.parse(storedFormData);
+            Object.keys(parsedData).forEach((key) => {
+                setValue(key as keyof typeof formValues, parsedData[key]);
+            });
+        }
+
+        // Redirect after sign-in
+        const params = new URLSearchParams(window.location.search);
+        const redirectTo = params.get("redirectTo");
+        if (redirectTo) {
+            window.history.replaceState({}, document.title, redirectTo);
+        }
+    }, [setValue]);
+
+    useEffect(() => {
+        // Store form values in localStorage whenever they change
+        localStorage.setItem("formData", JSON.stringify(formValues));
+    }, [formValues]);
 
     const createEstimate = () => {
         // Prepare the request body for the Estimate model
@@ -102,10 +132,27 @@ const ContactFormContainer = () => {
     };
 
     const onSubmit = (data?: any) => {
-        // open confirmation modal
+        // if (isSignedIn) {
+        console.log("User is authenticated, submitting data:", data);
+        // Store form values in localStorage before submitting
+        localStorage.setItem("formData", JSON.stringify(getValues()));
+
+        // Trigger modal or other actions
         setIsConfirmationModalOpen(true);
         setInputClicked(true);
-        console.log(data);
+
+        // Optionally remove form data from localStorage after successful submission
+        localStorage.removeItem("formData");
+        // }
+        // else {
+        //     console.log("User not authenticated, redirecting to sign-in");
+
+        //     // Save form values before redirecting to sign-in
+        //     localStorage.setItem("formData", JSON.stringify(getValues()));
+
+        //     // Redirect to sign-in page and store the current page as redirectTo
+        //     redirect("/sign-in?redirectTo=" + encodeURIComponent(window.location.pathname));
+        // }
     };
 
     const confirmEstimate = () => {
