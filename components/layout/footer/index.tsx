@@ -31,7 +31,7 @@ const Footer = () => {
                 <div className="flex flex-col items-center">
                     <p className="text-xs text-white">Created by</p>
                     {/* THIRD GEN LOGO */}
-                    <Link className="flex items-center" href={"thirdgenerationstudios.com"}>
+                    <Link className="flex items-center" target="_blank" href={"https://www.thirdgenerationstudios.com/"}>
                         <MdCopyright size={12} className="mb-2 mr-1 text-zinc-700" />
                         <p className="text-zinc-500">Third Generation Studios</p>
                     </Link>
