@@ -43,7 +43,7 @@ const DatePickerInput = (props: IDatePickerInputProps) => {
                     />
                 )}
             />
-            {errors?.orderDate?.type === "required" && <p className="text-sm text-red-600 ml-4">Date is required.</p>}
+            {/* {errors?.orderDate?.type === "required" && <p className="text-sm text-red-600 ml-4">Date is required.</p>} */}
         </div>
     );
 };
