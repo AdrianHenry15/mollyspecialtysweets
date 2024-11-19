@@ -11,11 +11,15 @@ const nextConfig = {
     typescript: {
         ignoreBuildErrors: true,
     },
-    swcMinify: true,
     images: {
         remotePatterns: [
             {
                 hostname: 'img.clerk.com',
+
+            },
+            {
+                protocol: "https",
+                hostname: "cdn.sanity.io",
             },
         ],
     }

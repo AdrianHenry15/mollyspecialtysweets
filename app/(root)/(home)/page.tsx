@@ -6,7 +6,6 @@ import Cookie from "@/public/cookie-icon.png";
 import Cake from "@/public/cake-icon.png";
 import Cupcake from "@/public/cupcake-icon.png";
 import Splash from "@/components/splash";
-import ProductRow from "@/components/products/product-row";
 
 export default function HomePage() {
     return (
@@ -44,16 +43,6 @@ export default function HomePage() {
                     description: "Expertly crafted artisinal cookies for a joyous indulgence",
                 }}
             />
-            {/* CAKE ROW */}
-            <ProductRow collection="Cakes" className="bg-emerald-900" />
-            {/* BANNER */}
-            {/* <Banner img={BakingBanner} /> */}
-            {/* CUPCAKE ROW */}
-            <ProductRow collection="Cupcakes" className="bg-pink-900" />
-            {/* BANNER */}
-            {/* <Banner img={CupcakeBanner} /> */}
-            {/* COOKIE ROW */}
-            <ProductRow collection="Cookies" className="bg-amber-900" />
             <ContactFormContainer />
         </div>
     );

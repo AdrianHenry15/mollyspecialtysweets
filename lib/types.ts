@@ -1,11 +1,6 @@
 import { StaticImageData } from "next/image";
 import { Collection } from "./constants";
 
-export type NavMenuType = {
-    title: string;
-    link: string;
-};
-
 export type CakeSizeAndServings = {
     size: string;
     serves: string;

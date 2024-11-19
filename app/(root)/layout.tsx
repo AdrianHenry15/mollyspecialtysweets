@@ -6,15 +6,13 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import "@/styles/globals.css";
 
 import Footer from "@/components/layout/footer";
-import Navbar from "@/components/layout/navbar";
-import PromotionBanner from "@/components/promotion-banner";
-import DeliveryMethodBanner from "@/components/delivery-method-banner";
+import Header from "@/components/header";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div className="flex flex-col relative">
-                <Navbar />
+                <Header />
                 {/* <PromotionBanner /> */}
                 {/* <DeliveryMethodBanner /> */}
                 {children}

@@ -14,20 +14,14 @@ const FooterMenu = () => {
             <ul className="text-xs">
                 {NavMenuItems.map((item) => {
                     return (
-                        <li
-                            key={item.title}
-                            className={`${pathname === item.link ? "underline" : ""} my-4`}
-                        >
+                        <li key={item.title} className={`${pathname === item.link ? "underline" : ""} my-4`}>
                             <Link href={item.link}>{item.title}</Link>
                         </li>
                     );
                 })}
                 {NavMenuAltItems.map((item) => {
                     return (
-                        <li
-                            className={`${pathname === item.link ? "underline" : ""} my-4`}
-                            key={item.title}
-                        >
+                        <li className={`${pathname === item.link ? "underline" : ""} my-4`} key={item.title}>
                             <Link href={item.link}>{item.title}</Link>
                         </li>
                     );

@@ -1,15 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useUser } from "@clerk/nextjs";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import emailjs from "@emailjs/browser";
 import toast from "react-hot-toast";
-import axios from "axios";
+import Form from "next/form";
 import dayjs from "dayjs";
-import { useRouter } from "next/navigation";
 
 import Logo from "@/public/mollys-logo-black.png";
 
@@ -18,17 +17,14 @@ import ConfirmationModal from "../../modals/confirmation-modal";
 import SuccessModal from "../../modals/success-modal";
 import { Loader } from "../../loader";
 import DeliveryMethod from "../delivery-method";
-import { Categories, Occasions } from "@/lib/constants";
 import FormItem from "../form-item";
 import DatePickerInput from "../date-picker-input";
-import { EstimateType } from "@/lib/types";
 
 const ContactFormContainer = () => {
     // SWITCH BETWEEN CONTACT AND ESTIMATE FORM | BOTH FORMS DO THE SAME THING FOR NOW
     const pathname = usePathname();
-    const router = useRouter();
     // Clerk
-    const { user, isSignedIn } = useUser();
+    const { user } = useUser();
 
     const [inputClicked, setInputClicked] = useState(false);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
@@ -56,9 +52,6 @@ const ContactFormContainer = () => {
             orderDate: "",
             deliveryMethod: "",
             deliveryAddress: "",
-            occasion: "",
-            colors: "",
-            orderType: "",
             extraDetails: "",
         },
     });
@@ -74,85 +67,14 @@ const ContactFormContainer = () => {
         email: getValues("email"),
         deliveryMethod: getValues("deliveryMethod"),
         deliveryAddress: getValues("deliveryAddress"),
-        occasion: getValues("occasion"),
-        colors: getValues("colors"),
-        orderType: getValues("orderType"),
         extraDetails: getValues("extraDetails"),
         orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
     };
 
-    useEffect(() => {
-        const storedFormData = localStorage.getItem("formData");
-
-        // If there is stored form data, restore it
-        if (storedFormData) {
-            const parsedData = JSON.parse(storedFormData);
-            Object.keys(parsedData).forEach((key) => {
-                setValue(key as keyof typeof formValues, parsedData[key]);
-            });
-        }
-
-        // Redirect after sign-in
-        const params = new URLSearchParams(window.location.search);
-        const redirectTo = params.get("redirectTo");
-        if (redirectTo) {
-            window.history.replaceState({}, document.title, redirectTo);
-        }
-    }, [setValue]);
-
-    useEffect(() => {
-        // Store form values in localStorage whenever they change
-        localStorage.setItem("formData", JSON.stringify(formValues));
-    }, [formValues]);
-
-    const createEstimate = () => {
-        // Prepare the request body for the Estimate model
-        const estimate: Omit<EstimateType, "id" | "createdAt" | "updatedAt"> = {
-            itemName: `${getValues("orderType") === "Cakes" ? "Cake" : getValues("orderType")}`,
-            extraDetails: `${getValues("colors")}`,
-            userId: user?.id || "",
-            fullName: user?.fullName || "",
-            primaryEmailAddress: user?.primaryEmailAddress?.emailAddress || "",
-            primaryPhoneNumber: user?.primaryPhoneNumber?.phoneNumber || "",
-        };
-
-        // POST request to api/estimates
-        axios
-            .post(`/api/users/${user?.id}/estimates`, estimate, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((response) => {
-                console.log("POST request successful", response.data);
-            })
-            .catch((error) => {
-                console.error("Error with POST request", error);
-            });
-    };
-
     const onSubmit = (data?: any) => {
-        // if (isSignedIn) {
-        console.log("User is authenticated, submitting data:", data);
-        // Store form values in localStorage before submitting
-        localStorage.setItem("formData", JSON.stringify(getValues()));
-
         // Trigger modal or other actions
         setIsConfirmationModalOpen(true);
         setInputClicked(true);
-
-        // Optionally remove form data from localStorage after successful submission
-        localStorage.removeItem("formData");
-        // }
-        // else {
-        //     console.log("User not authenticated, redirecting to sign-in");
-
-        //     // Save form values before redirecting to sign-in
-        //     localStorage.setItem("formData", JSON.stringify(getValues()));
-
-        //     // Redirect to sign-in page and store the current page as redirectTo
-        //     redirect("/sign-in?redirectTo=" + encodeURIComponent(window.location.pathname));
-        // }
     };
 
     const confirmEstimate = () => {
@@ -166,9 +88,6 @@ const ContactFormContainer = () => {
                 console.log("FAILED...", error);
             },
         );
-
-        // POST CONTACT ESTIMATE
-        createEstimate();
 
         // close modal
         setIsConfirmationModalOpen(false);
@@ -210,7 +129,7 @@ const ContactFormContainer = () => {
                 </div>
 
                 {/* FORM */}
-                <form className="self-center w-full md:w-2/3" onSubmit={handleSubmit(onSubmit)}>
+                <Form action={""} className="self-center w-full md:w-2/3" onSubmit={handleSubmit(onSubmit)}>
                     <h1 className="font-semibold text-4xl underline text-center my-10">Contact Details</h1>
                     {/* FIRST NAME */}
                     <FormItem defaultValue={user?.firstName || ""} textInput control={control} title={"First Name"} name={"firstName"} />
@@ -257,28 +176,12 @@ const ContactFormContainer = () => {
                             errors={errors}
                         />
                     ) : null}
-                    {/* ORDER */}
-                    <FormItem
-                        multipleSelect
-                        control={control}
-                        title={"Choose Order Type"}
-                        name={"orderType"}
-                        label={"Order Type"}
-                        options={Categories as []}
-                        required
-                        errors={errors}
-                    />
 
                     {/* DELIVERY DATE */}
                     <DatePickerInput control={control} errors={errors} />
 
-                    {/* OCCASION */}
-                    <FormItem autocomplete options={Occasions as []} control={control} title={"Occasion"} name={"occasion"} />
-
-                    {/* COLORS */}
-                    <FormItem textInput control={control} title={"Colors"} name={"colors"} />
                     {/* DETAILS */}
-                    <FormItem textarea control={control} title={"Extra Details"} name={"extraDetails"} label={"Details"} />
+                    <FormItem textarea control={control} title={"Additional Order Details"} name={"extraDetails"} label={"Details"} />
 
                     {/* BUTTON */}
                     <div className={`${inputClicked ? "" : "animate-pulse"} my-10`}>
@@ -288,7 +191,7 @@ const ContactFormContainer = () => {
                             className="w-full justify-center"
                         />
                     </div>
-                </form>
+                </Form>
             </div>
         </section>
     );

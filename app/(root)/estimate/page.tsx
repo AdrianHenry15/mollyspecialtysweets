@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     description: "Get An Estimate For Your Bakery Needs",
 };
 
-const Estimate = () => {
+const EstimatePage = () => {
     return (
         <div>
             <ContactFormContainer />
@@ -15,4 +15,4 @@ const Estimate = () => {
     );
 };
 
-export default Estimate;
+export default EstimatePage;

@@ -1,5 +1,5 @@
 import { DatePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import React from "react";
 import { Controller, FieldErrors } from "react-hook-form";
 
@@ -10,10 +10,8 @@ interface IDatePickerInputProps {
     onChange?: (date: string | null) => void;
 }
 
-const DatePickerInput = (props: IDatePickerInputProps) => {
-    const { control, errors, selectedDate, onChange } = props;
-
-    // Convert selectedDate to string to dayjs object
+const DatePickerInput: React.FC<IDatePickerInputProps> = ({ control, errors, selectedDate, onChange }) => {
+    // Convert selectedDate to a dayjs object
     const selectedDateAsDayjs = selectedDate ? dayjs(selectedDate) : null;
 
     return (
@@ -27,11 +25,16 @@ const DatePickerInput = (props: IDatePickerInputProps) => {
                     <DatePicker
                         className="w-full"
                         {...field}
-                        value={selectedDateAsDayjs} // Set the date from the Zustand store
-                        onChange={(newDate) => {
-                            const newDateString = newDate ? newDate.format("YYYY-MM-DD") : null; // Format as string
-                            field.onChange(newDateString); // Update react-hook-form state
-                            onChange?.(newDateString); // Update Zustand store
+                        value={selectedDateAsDayjs}
+                        onChange={(newDate: Dayjs | null) => {
+                            if (newDate) {
+                                const newDateString = newDate.format("YYYY-MM-DD");
+                                field.onChange(newDateString); // Update react-hook-form
+                                onChange?.(newDateString); // Trigger Zustand update
+                            } else {
+                                field.onChange(null);
+                                onChange?.(null);
+                            }
                         }}
                         slotProps={{
                             textField: {
@@ -43,7 +46,6 @@ const DatePickerInput = (props: IDatePickerInputProps) => {
                     />
                 )}
             />
-            {/* {errors?.orderDate?.type === "required" && <p className="text-sm text-red-600 ml-4">Date is required.</p>} */}
         </div>
     );
 };

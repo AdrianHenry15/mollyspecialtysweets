@@ -3,8 +3,6 @@ import { Inter } from "next/font/google";
 import { Suspense } from "react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "react-hot-toast";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "@/styles/globals.css";
 import { Loader } from "@/components/loader";
@@ -24,7 +22,7 @@ export const metadata: Metadata = {
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
     return (
-        <ClerkProvider>
+        <ClerkProvider dynamic>
             <html lang="en" className="!scroll-smooth">
                 <link rel="icon" href="/favicons/cake-icon-96.png" sizes="96x96" />
                 <link rel="icon" href="/favicons/cake-icon-32.png" sizes="32x32" />
