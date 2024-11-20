@@ -1,24 +1,31 @@
-import React from 'react';
-import Image from 'next/image';
+"use client"
 
-import Logo from '@/public/mollys-logo-pink.png';
+import React from "react"
+import Image from "next/image"
+import { motion } from "framer-motion"
 
-import Link from 'next/link';
-import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import Logo from "@/public/mollys-logo-pink.png"
+
+import Link from "next/link"
+import { StaticImport } from "next/dist/shared/lib/get-img-props"
 
 interface ISplashProps {
-  img: string | StaticImport;
-  title: string;
-  link1: string;
-  link2: string;
-  link_title_1: string;
-  link_title_2: string;
+  img: string | StaticImport
+  title: string
+  link1: string
+  link2: string
+  link_title_1: string
+  link_title_2: string
 }
 
 const Splash = (props: ISplashProps) => {
   return (
     <div className="fade-in w-full relative text-white bg-black md:h-[750px]">
-      <div className="w-full h-full">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="w-full h-full">
         <div className="absolute w-full h-full bg-gradient-to-r from-black hidden md:flex"></div>
         <span>
           <Image
@@ -36,21 +43,19 @@ const Splash = (props: ISplashProps) => {
           <div className="my-4">
             <Link
               href={props.link1}
-              className="border bg-gray-300 text-black border-gray-300 py-2 px-5"
-            >
+              className="border bg-gray-300 text-black border-gray-300 py-2 px-5">
               {props.link_title_1}
             </Link>
             <Link
               href={props.link2}
-              className="border  text-white border-gray-300 py-2 px-5 ml-4"
-            >
+              className="border  text-white border-gray-300 py-2 px-5 ml-4">
               {props.link_title_2}
             </Link>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
-  );
-};
+  )
+}
 
-export default Splash;
+export default Splash

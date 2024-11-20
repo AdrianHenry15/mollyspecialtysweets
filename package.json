@@ -21,6 +21,7 @@
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.64.2",
     "dayjs": "^1.11.13",
+    "framer-motion": "^11.11.17",
     "next": "15.0.3",
     "next-sanity": "^9.8.16",
     "react": "19.0.0-rc-66855b96-20241106",
