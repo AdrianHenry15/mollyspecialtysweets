@@ -1,7 +1,7 @@
 import { Category, Product } from "@/sanity.types"
 import React from "react"
 import ProductGrid from "./product-grid"
-import CategorySelectorComponent from "./ui/category-selector"
+import CategorySelectorComponent from "@/components/ui/category-selector"
 
 interface ProductsViewProps {
   products: Product[]
