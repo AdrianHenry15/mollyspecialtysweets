@@ -49,12 +49,12 @@ export const productType = defineType({
       type: "array",
       of: [{ type: "reference", to: { type: "category" } }],
     }),
-    defineField({
-      name: "stock",
-      title: "Stock",
-      type: "number",
-      validation: (Rule) => Rule.min(0),
-    }),
+    // defineField({
+    //   name: "stock",
+    //   title: "Stock",
+    //   type: "number",
+    //   validation: (Rule) => Rule.min(0),
+    // }),
   ],
   preview: {
     select: {

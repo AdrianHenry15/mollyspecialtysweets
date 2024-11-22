@@ -3,7 +3,7 @@ import "../globals.css"
 
 export const metadata: Metadata = {
   title: "MSS Studio",
-  description: "Create Products",
+  description: "Create Your Layout",
 }
 
 export default function RootLayout({
