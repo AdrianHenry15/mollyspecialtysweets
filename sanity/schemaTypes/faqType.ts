@@ -1,4 +1,4 @@
-import { TrolleyIcon } from "@sanity/icons"
+import { DocumentIcon } from "@sanity/icons"
 import { defineField, defineType } from "sanity"
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -6,33 +6,23 @@ export const faqType = defineType({
   name: "faq",
   title: "Faqs",
   type: "document",
-  icon: TrolleyIcon,
+  icon: DocumentIcon,
   fields: [
     defineField({
       name: "question",
       title: "Question",
-      type: "blockContent",
+      type: "string",
     }),
     defineField({
       name: "answer",
       title: "Answer",
-      type: "blockContent",
+      type: "string",
     }),
     defineField({
       name: "categories",
       title: "Categories",
       type: "array",
       of: [{ type: "reference", to: { type: "category" } }],
-    }),
-    defineField({
-      name: "slug",
-      title: "slug",
-      type: "slug",
-      options: {
-        source: "categories",
-        maxLength: 96,
-      },
-      validation: (Rule) => Rule.required(),
     }),
   ],
   //   preview: {

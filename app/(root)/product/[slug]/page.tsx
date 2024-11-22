@@ -22,13 +22,13 @@ async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
     return notFound()
   }
 
-  const isOutofStock = product.stock != null && product.stock <= 0
+  // const isOutofStock = product.stock != null && product.stock <= 0
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div
-          className={`relative aspect-square overflow-hidden rounded-lg shadow-lg ${isOutofStock ? "opacity-50" : ""}`}>
+          className={`relative aspect-square overflow-hidden rounded-lg shadow-lg`}>
           {product.image && (
             <Image
               src={imageUrl(product.image).url()}
@@ -37,11 +37,11 @@ async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
               className="object-contain transition-transform duation-300 hover:scale-105"
             />
           )}
-          {isOutofStock && (
+          {/* {isOutofStock && (
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
               <span className="text-white font-bold text-lg">Out of Stock</span>
             </div>
-          )}
+          )} */}
         </div>
         <div className="flex flex-col justify-between">
           <div>
@@ -57,7 +57,7 @@ async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
           </div>
 
           <div className="mt-6">
-            <AddToBasketButton product={product} disabled={isOutofStock} />
+            <AddToBasketButton product={product} disabled={false} />
           </div>
         </div>
       </div>
