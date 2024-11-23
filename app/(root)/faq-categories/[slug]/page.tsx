@@ -1,11 +1,15 @@
-import ProductsView from "@/components/products/products-view"
+import FaqsView from "@/components/layout/faqs/faqs-view"
+import { getFaqsByCategory } from "@/sanity/lib/faqs/getFaqsByCategory"
 import { getAllCategories } from "@/sanity/lib/products/getAllCategories"
-import { getProductsByCategory } from "@/sanity/lib/products/getProductsByCategory"
 
-async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+async function FaqsCategoryPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
   const { slug } = await params
 
-  const products = await getProductsByCategory(slug)
+  const faqs = await getFaqsByCategory(slug)
   const categories = await getAllCategories()
   return (
     <div className="flex flex-col items-center justify-top min-h-screen bg-gray-100 p-4">
@@ -14,12 +18,12 @@ async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
           {`${slug
             .split("-")
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ")} Collection`}
+            .join(" ")} FAQ Collection`}
         </h1>
-        <ProductsView products={products} categories={categories} />
+        <FaqsView faqs={faqs} categories={categories} />
       </div>
     </div>
   )
 }
 
-export default CategoryPage
+export default FaqsCategoryPage

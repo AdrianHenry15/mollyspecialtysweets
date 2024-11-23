@@ -4,8 +4,9 @@ import { Check, ChevronsUpDown } from "lucide-react"
 import { Category } from "@/sanity.types"
 import { useRouter } from "next/navigation"
 import React, { useState } from "react"
-import { Popover, PopoverContent, PopoverTrigger } from "./popover"
-import { Button } from "./button"
+import { cn } from "@/lib/utils"
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover"
+import { Button } from "../../ui/button"
 import {
   Command,
   CommandEmpty,
@@ -13,14 +14,15 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "./command"
-import { cn } from "@/lib/utils"
+} from "../../ui/command"
 
 interface CategorySelectorProps {
   categories: Category[]
 }
 
-const CategorySelectorComponent = ({ categories }: CategorySelectorProps) => {
+const FaqsCategorySelectorComponent = ({
+  categories,
+}: CategorySelectorProps) => {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<string>("")
   const router = useRouter()
@@ -33,7 +35,7 @@ const CategorySelectorComponent = ({ categories }: CategorySelectorProps) => {
 
       if (selectedCategory?.slug?.current) {
         setValue(selectedCategory._id)
-        router.push(`/categories/${selectedCategory.slug.current}`)
+        router.push(`/faq-categories/${selectedCategory.slug.current}`)
         setOpen(false)
       }
     }
@@ -41,7 +43,7 @@ const CategorySelectorComponent = ({ categories }: CategorySelectorProps) => {
 
   const onCommandItemSelect = (category: Category) => {
     setValue(value === category._id ? "" : category._id)
-    router.push(`/categories/${category.slug?.current}`)
+    router.push(`/faq-categories/${category.slug?.current}`)
     setOpen(false)
   }
 
@@ -96,4 +98,4 @@ const CategorySelectorComponent = ({ categories }: CategorySelectorProps) => {
   )
 }
 
-export default CategorySelectorComponent
+export default FaqsCategorySelectorComponent
