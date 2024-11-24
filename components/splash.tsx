@@ -26,31 +26,39 @@ const Splash = (props: ISplashProps) => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
         className="w-full h-full">
-        <div className="absolute w-full h-full bg-gradient-to-r from-black hidden md:flex"></div>
-        <span>
-          <Image
-            className="w-full h-full object-cover object-top"
-            src={props.img}
-            alt={props.title}
-          />
-        </span>
+        {/* Background Gradient */}
+        <div className="absolute w-full h-full bg-gradient-to-r from-black flex"></div>
+        {/* Background Image */}
+        <Image
+          className="w-full h-full object-cover object-center"
+          src={props.img}
+          alt={props.title}
+        />
+
         {/* TEXT CONTAINER */}
-        <div className="flex flex-col w-full top-[30%] p-4 md:absolute md:p-8">
-          <span>
+        <div className="absolute inset-0 flex items-center justify-start p-4 md:p-8">
+          <div className="max-w-md">
+            {/* Logo */}
             <Image src={Logo} alt="logo" className="w-24 py-2" />
-          </span>
-          <h1 className="text-white text-3x1 md:text-5xl">{props.title}</h1>
-          <div className="my-4">
-            <Link
-              href={props.link1}
-              className="border bg-gray-300 text-black border-gray-300 py-2 px-5">
-              {props.link_title_1}
-            </Link>
-            <Link
-              href={props.link2}
-              className="border  text-white border-gray-300 py-2 px-5 ml-4">
-              {props.link_title_2}
-            </Link>
+
+            {/* Title */}
+            <h1 className="text-white whitespace-nowrap text-xl sm:text-5xl font-semibold">
+              {props.title}
+            </h1>
+
+            {/* Links */}
+            <div className="my-4">
+              <Link
+                href={props.link1}
+                className="border bg-gray-300 text-sm rounded-sm text-black border-gray-300 py-2 px-5 sm:text-md">
+                {props.link_title_1}
+              </Link>
+              <Link
+                href={props.link2}
+                className="border text-white text-sm rounded-sm border-gray-300 py-2 px-5 ml-4 sm:text-md">
+                {props.link_title_2}
+              </Link>
+            </div>
           </div>
         </div>
       </motion.div>

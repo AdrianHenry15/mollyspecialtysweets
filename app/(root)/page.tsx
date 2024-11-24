@@ -14,8 +14,8 @@ export default function HomePage() {
       <Splash
         link1="/contact-us"
         link_title_1="Contact Us"
-        link2="/estimate"
-        link_title_2="Estimate"
+        link2="/online-consultation"
+        link_title_2="Online Consulation"
         img={CakeSplash}
         title="Molly's Specialty Sweets"
       />

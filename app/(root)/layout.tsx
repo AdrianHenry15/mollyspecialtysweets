@@ -15,8 +15,6 @@ export default function RootLayout({
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="flex flex-col relative">
         <Header />
-        {/* <PromotionBanner /> */}
-        {/* <DeliveryMethodBanner /> */}
         {children}
         <Footer />
       </div>
