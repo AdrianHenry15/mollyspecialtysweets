@@ -6,8 +6,12 @@ export const structure: StructureResolver = (S) =>
     .title("Molly's Specialty Sweets Studio")
     .items([
       S.documentTypeListItem("category").title("Categories"),
+      S.documentTypeListItem("faqCategory").title("Faq Categories"),
       S.divider(),
       ...S.documentTypeListItems().filter(
-        (item) => item.getId() && item.getId() !== "category" // Only exclude "category"
+        (item) =>
+          item.getId() &&
+          item.getId() !== "category" &&
+          item.getId() !== "faqCategory" // Exclude both "category" and "faqCategory"
       ),
     ])

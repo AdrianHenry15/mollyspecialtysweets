@@ -83,6 +83,17 @@ export type Sale = {
   isActive?: boolean;
 };
 
+export type FaqCategory = {
+  _id: string;
+  _type: "faqCategory";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  description?: string;
+};
+
 export type Faq = {
   _id: string;
   _type: "faq";
@@ -96,7 +107,7 @@ export type Faq = {
     _type: "reference";
     _weak?: boolean;
     _key: string;
-    [internalGroqTypeReferenceTo]?: "category";
+    [internalGroqTypeReferenceTo]?: "faqCategory";
   }>;
 };
 
@@ -294,8 +305,22 @@ export type SanityImageMetadata = {
   isOpaque?: boolean;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Sale | Faq | Order | Product | Category | Slug | BlockContent | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Sale | FaqCategory | Faq | Order | Product | Category | Slug | BlockContent | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata;
 export declare const internalGroqTypeReferenceTo: unique symbol;
+// Source: ./sanity/lib/faqs/getAllFaqCategories.ts
+// Variable: ALL_FAQ_CATEGORIES_QUERY
+// Query: *[_type == "faqCategory"] | order(name asc)
+export type ALL_FAQ_CATEGORIES_QUERYResult = Array<{
+  _id: string;
+  _type: "faqCategory";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  description?: string;
+}>;
+
 // Source: ./sanity/lib/faqs/getAllFaqs.ts
 // Variable: ALL_FAQS_QUERY
 // Query: *[_type == "faq"] | order(name asc)
@@ -312,7 +337,27 @@ export type ALL_FAQS_QUERYResult = Array<{
     _type: "reference";
     _weak?: boolean;
     _key: string;
-    [internalGroqTypeReferenceTo]?: "category";
+    [internalGroqTypeReferenceTo]?: "faqCategory";
+  }>;
+}>;
+
+// Source: ./sanity/lib/faqs/getFaqsByCategory.ts
+// Variable: FAQS_BY_CATEGORY_QUERY
+// Query: *[_type == "faq" && references(*[_type == "faqCategory" && slug.current == $faqCategorySlug]._id)] | order(name asc)
+export type FAQS_BY_CATEGORY_QUERYResult = Array<{
+  _id: string;
+  _type: "faq";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  question?: string;
+  answer?: string;
+  categories?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "faqCategory";
   }>;
 }>;
 
@@ -685,7 +730,9 @@ export type ACTIVE_SALE_BY_COUPON_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
+    "*[_type == \"faqCategory\"] | order(name asc)\n": ALL_FAQ_CATEGORIES_QUERYResult;
     "*[_type == \"faq\"] | order(name asc)\n": ALL_FAQS_QUERYResult;
+    "*[_type == \"faq\" && references(*[_type == \"faqCategory\" && slug.current == $faqCategorySlug]._id)] | order(name asc)\n": FAQS_BY_CATEGORY_QUERYResult;
     "\n        *[_type == \"order\" && clerkUserId == $userId] | order(orderDate desc) {\n            ...,\n            products[]{\n                ...,\n                product->\n            }\n        }\n        ": MY_ORDERS_QUERYResult;
     "*[_type == \"category\"] | order(name asc)\n": ALL_CATEGORIES_QUERYResult;
     "*[_type == \"product\"] | order(name asc)\n": ALL_PRODUCTS_QUERYResult;

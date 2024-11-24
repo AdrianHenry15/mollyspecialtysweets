@@ -1,7 +1,7 @@
 "use client"
 
 import { Check, ChevronsUpDown } from "lucide-react"
-import { Category } from "@/sanity.types"
+import { FaqCategory } from "@/sanity.types"
 import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 import { cn } from "@/lib/utils"
@@ -16,34 +16,34 @@ import {
   CommandList,
 } from "../../ui/command"
 
-interface CategorySelectorProps {
-  categories: Category[]
+interface FaqCategorySelectorProps {
+  faqCategories: FaqCategory[]
 }
 
 const FaqsCategorySelectorComponent = ({
-  categories,
-}: CategorySelectorProps) => {
+  faqCategories,
+}: FaqCategorySelectorProps) => {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<string>("")
   const router = useRouter()
 
   const commandInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      const selectedCategory = categories.find((c) =>
+      const selectedCategory = faqCategories.find((c) =>
         c.title?.toLowerCase().includes(e.currentTarget.value.toLowerCase())
       )
 
       if (selectedCategory?.slug?.current) {
         setValue(selectedCategory._id)
-        router.push(`/faq-categories/${selectedCategory.slug.current}`)
+        router.push(`/faq-faqCategory/${selectedCategory.slug.current}`)
         setOpen(false)
       }
     }
   }
 
-  const onCommandItemSelect = (category: Category) => {
+  const onCommandItemSelect = (category: FaqCategory) => {
     setValue(value === category._id ? "" : category._id)
-    router.push(`/faq-categories/${category.slug?.current}`)
+    router.push(`/faq-faqCategory/${category.slug?.current}`)
     setOpen(false)
   }
 
@@ -59,8 +59,8 @@ const FaqsCategorySelectorComponent = ({
                     space-x-2 bg-black hover:bg-zinc-800 hover:text-white
                     text-white font-bold py-2 px-4 rounded">
           {value
-            ? categories.find((category) => category._id === value)?.title
-            : "Filter by Category"}
+            ? faqCategories.find((category) => category._id === value)?.title
+            : "Filter Faq by Category"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0" />
         </Button>
       </PopoverTrigger>
@@ -75,7 +75,7 @@ const FaqsCategorySelectorComponent = ({
           <CommandList>
             <CommandEmpty>No category found.</CommandEmpty>
             <CommandGroup>
-              {categories.map((category) => (
+              {faqCategories.map((category) => (
                 <CommandItem
                   className="cursor-pointer"
                   key={category._id}

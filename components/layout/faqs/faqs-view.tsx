@@ -1,19 +1,19 @@
-import { Category, Product } from "@/sanity.types"
+import { Faq, FaqCategory } from "@/sanity.types"
 import React from "react"
 import FaqsGrid from "./faqs-grid"
 import FaqCategorySelectorComponent from "./faq-category-selector"
 
-interface ProductsViewProps {
-  faqs: Product[]
-  categories: Category[]
+interface FaqsViewProps {
+  faqs: Faq[]
+  faqCategories: FaqCategory[]
 }
 
-const FaqsView = ({ faqs, categories }: ProductsViewProps) => {
+const FaqsView = ({ faqs, faqCategories }: FaqsViewProps) => {
   return (
     <div>
       {/* Categories */}
       <div className="w-full sm:w-[200px]">
-        <FaqCategorySelectorComponent categories={categories} />
+        <FaqCategorySelectorComponent faqCategories={faqCategories} />
       </div>
       {/* Products */}
       <div className="flex-1">

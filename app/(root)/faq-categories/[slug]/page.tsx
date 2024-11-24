@@ -1,6 +1,6 @@
 import FaqsView from "@/components/layout/faqs/faqs-view"
+import { getAllFaqCategories } from "@/sanity/lib/faqs/getAllFaqCategories"
 import { getFaqsByCategory } from "@/sanity/lib/faqs/getFaqsByCategory"
-import { getAllCategories } from "@/sanity/lib/products/getAllCategories"
 
 async function FaqsCategoryPage({
   params,
@@ -10,7 +10,7 @@ async function FaqsCategoryPage({
   const { slug } = await params
 
   const faqs = await getFaqsByCategory(slug)
-  const categories = await getAllCategories()
+  const faqCategories = await getAllFaqCategories()
   return (
     <div className="flex flex-col items-center justify-top min-h-screen bg-gray-100 p-4">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-4xl">
@@ -20,7 +20,7 @@ async function FaqsCategoryPage({
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
             .join(" ")} FAQ Collection`}
         </h1>
-        <FaqsView faqs={faqs} categories={categories} />
+        <FaqsView faqs={faqs} faqCategories={faqCategories} />
       </div>
     </div>
   )
