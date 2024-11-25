@@ -6,10 +6,10 @@ export default function AboutPage() {
   return (
     <div className="flex flex-col justify-between w-full">
       <Splash
-        link1="/contact-us"
-        link_title_1="Contact Us"
-        link2="/estimate"
-        link_title_2="Estimate"
+        link1="/contact"
+        btn1="Contact Us"
+        link2="/online-consultation"
+        btn2="Online Consultation"
         img={CakeSplash}
         title="About Molly"
       />

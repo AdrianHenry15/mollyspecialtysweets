@@ -14,8 +14,10 @@ interface ISplashProps {
   title: string
   link1: string
   link2: string
-  link_title_1: string
-  link_title_2: string
+  btn1: string
+  btn2: string
+  btnClass1?: string
+  btnClass2?: string
 }
 
 const Splash = (props: ISplashProps) => {
@@ -50,13 +52,13 @@ const Splash = (props: ISplashProps) => {
             <div className="my-4">
               <Link
                 href={props.link1}
-                className="border bg-gray-300 text-sm rounded-sm text-black border-gray-300 py-2 px-5 sm:text-md">
-                {props.link_title_1}
+                className={`${props.btnClass1 ? props.btnClass1 : ""} border bg-gray-300 text-sm rounded-sm text-black border-gray-300 py-2 px-5 sm:text-md`}>
+                {props.btn1}
               </Link>
               <Link
                 href={props.link2}
-                className="border text-white text-sm rounded-sm border-gray-300 py-2 px-5 ml-4 sm:text-md">
-                {props.link_title_2}
+                className={`${props.btnClass2 ? props.btnClass2 : ""} border text-white text-sm rounded-sm border-gray-300 py-2 px-5 ml-4 sm:text-md`}>
+                {props.btn2}
               </Link>
             </div>
           </div>

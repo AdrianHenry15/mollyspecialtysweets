@@ -35,7 +35,7 @@ const FaqsCategorySelectorComponent = ({
 
       if (selectedCategory?.slug?.current) {
         setValue(selectedCategory._id)
-        router.push(`/faq-faqCategory/${selectedCategory.slug.current}`)
+        router.push(`/faqs/${selectedCategory.slug.current}`)
         setOpen(false)
       }
     }
@@ -43,7 +43,7 @@ const FaqsCategorySelectorComponent = ({
 
   const onCommandItemSelect = (category: FaqCategory) => {
     setValue(value === category._id ? "" : category._id)
-    router.push(`/faq-faqCategory/${category.slug?.current}`)
+    router.push(`/faqs/${category.slug?.current}`)
     setOpen(false)
   }
 

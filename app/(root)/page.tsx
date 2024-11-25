@@ -12,10 +12,10 @@ export default function HomePage() {
     <div className="flex flex-col justify-between w-full">
       {/* JUMBOTRON */}
       <Splash
-        link1="/contact-us"
-        link_title_1="Contact Us"
+        link1="/contact"
+        btn1="Contact Us"
         link2="/online-consultation"
-        link_title_2="Online Consulation"
+        btn2="Online Consulation"
         img={CakeSplash}
         title="Molly's Specialty Sweets"
       />
