@@ -27,7 +27,7 @@ import DeliveryMethod from "../delivery-method"
 import DatePickerInput from "../date-picker-input"
 import { ChevronLeft } from "lucide-react"
 
-const ContactFormContainer = () => {
+const ConsultationForm = () => {
   // SWITCH BETWEEN CONTACT AND ESTIMATE FORM | BOTH FORMS DO THE SAME THING FOR NOW
   const pathname = usePathname()
   // Clerk
@@ -86,7 +86,9 @@ const ContactFormContainer = () => {
       )
       .then(
         function (response) {
-          toast.success("You have successfully created an estimate!")
+          toast.success(
+            "You have successfully created submitted for an online consultation!"
+          )
           console.log("SUCCESS!", response.status, response.text)
         },
         function (error) {
@@ -323,4 +325,4 @@ const ContactFormContainer = () => {
   )
 }
 
-export default ContactFormContainer
+export default ConsultationForm

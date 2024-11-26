@@ -1,11 +1,11 @@
 import CakeSplash from "@/public/cake-splash.jpg"
-import ContactFormContainer from "@/components/form-components/contact-form-container"
 import IconsRow from "@/components/layout/icons-row"
 
-import Cookie from "@/public/cookie-icon.png"
-import Cake from "@/public/cake-icon.png"
-import Cupcake from "@/public/cupcake-icon.png"
+import WeddingIcon from "@/public/icons/arch.png"
+import BakeryIcon from "@/public/icons/bakery.png"
+import FAQIcon from "@/public/icons/faq.png"
 import Splash from "@/components/splash"
+import ConsultationForm from "@/components/form-components/forms/consultation-form"
 
 export default function HomePage() {
   return (
@@ -24,29 +24,29 @@ export default function HomePage() {
         iconItem1={{
           linkText: "Store",
           href: "/store",
-          src: Cake,
-          name: "Cakes",
+          src: BakeryIcon,
+          name: "Store",
           description:
-            "Save the perfection of Molly's cakes—a delightful blend of quality and flavor in every bite",
+            "Handcrafted treats, custom cakes, and fresh bakes delivered to your door. 🍪🎂 Sweetness made simple!",
         }}
         iconItem2={{
-          linkText: "Order Cupcakes Now",
-          href: "/order/cupcakes",
-          src: Cupcake,
-          name: "Cupcakes",
+          linkText: "Weddings",
+          href: "/weddings",
+          src: WeddingIcon,
+          name: "Weddings",
           description:
-            "Sweeten up your day with Molly's Cupcakery—where tiny treats bring big joy",
+            "Elegant wedding cakes and treats, handcrafted to make your day unforgettable. 💍🎂",
         }}
         iconItem3={{
-          linkText: "Order Cookies Now",
-          href: "/order/cookies",
-          src: Cookie,
-          name: "Cookies",
+          linkText: "FAQs",
+          href: "/faqs",
+          src: FAQIcon,
+          name: "FAQs",
           description:
-            "Expertly crafted artisinal cookies for a joyous indulgence",
+            "Have questions? Our FAQ section has all the answers you need about orders, delivery, and customization!",
         }}
       />
-      <ContactFormContainer />
+      <ConsultationForm />
     </div>
   )
 }
