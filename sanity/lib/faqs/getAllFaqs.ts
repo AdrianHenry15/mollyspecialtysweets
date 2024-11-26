@@ -2,8 +2,16 @@ import { defineQuery } from "next-sanity"
 import { sanityFetch } from "../live"
 
 export const getAllFaqs = async () => {
-  const ALL_FAQS_QUERY = defineQuery(`*[_type == "faq"] | order(name asc)
-`)
+  const ALL_FAQS_QUERY = defineQuery(`
+    *[_type == "faq"] | order(question asc) {
+      _id,
+      question,
+      answer,
+      categories[]->{
+        title
+      }
+    }
+  `)
 
   try {
     // Use sanityFetch to send the query

@@ -25,18 +25,4 @@ export const faqType = defineType({
       of: [{ type: "reference", to: { type: "faqCategory" } }],
     }),
   ],
-  //   preview: {
-  //     select: {
-  //       title: "name",
-  //       media: "image",
-  //       price: "price",
-  //     },
-  //     prepare(select) {
-  //       return {
-  //         title: select.title,
-  //         subtitle: `$${select.price}`,
-  //         media: select.media,
-  //       }
-  //     },
-  //   },
 })
