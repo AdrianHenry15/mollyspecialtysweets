@@ -5,8 +5,8 @@ import { Metadata } from "next"
 import Image from "next/image"
 import React from "react"
 import Logo from "@/public/mollys-logo-black.png"
-import FaqsCategorySelectorComponent from "@/components/layout/faqs/faq-category-selector"
 import { getAllFaqCategories } from "@/sanity/lib/faqs/getAllFaqCategories"
+import FaqsCategorySelectorComponent from "@/components/layout/faqs/faq-category-selector"
 
 export const metadata: Metadata = {
   title: "Molly Specialty Sweets FAQs",
@@ -35,20 +35,27 @@ export default async function FAQsPage() {
 
   return (
     <section className="flex flex-col w-full bg-gray-200 relative">
-      <h5 className="flex w-full items-center justify-start py-32 px-6 text-white bg-pink-300 text-4xl">
-        FAQs
-      </h5>
-      <Image src={Logo} alt="logo" className="flex self-center w-48 my-10" />
+      <div className="flex relative w-full justify-center items-center py-32 px-6 text-white bg-pink-300">
+        <Image
+          src={Logo}
+          alt="logo"
+          className="flex self-center justify-center text-center items-center w-48 my-10"
+        />
+      </div>
+      <h5 className="mx-10 pt-8 text-6xl text-center md:text-start">FAQs</h5>
 
       {/* Categories Selector */}
-      <div className="w-full sm:w-[200px] my-4">
+      {/* <div className="w-full sm:w-[200px] my-4">
         <FaqsCategorySelectorComponent faqCategories={categories} />
-      </div>
+      </div> */}
 
       {/* Render FAQs by Category */}
       <div className="w-full">
         {Object.keys(groupedFaqs).map((category) => (
-          <div key={category} className="flex flex-col w-full bg-white my-10">
+          <div
+            id={category}
+            key={category}
+            className="flex flex-col w-full bg-white my-10">
             <h3 className="text-pink-500 font-bold text-2xl my-6 px-6">
               {category}
             </h3>

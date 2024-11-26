@@ -323,22 +323,14 @@ export type ALL_FAQ_CATEGORIES_QUERYResult = Array<{
 
 // Source: ./sanity/lib/faqs/getAllFaqs.ts
 // Variable: ALL_FAQS_QUERY
-// Query: *[_type == "faq"] | order(name asc)
+// Query: *[_type == "faq"] | order(question asc) {      _id,      question,      answer,      categories[]->{        title      }    }
 export type ALL_FAQS_QUERYResult = Array<{
   _id: string;
-  _type: "faq";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  question?: string;
-  answer?: string;
-  categories?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "faqCategory";
-  }>;
+  question: string | null;
+  answer: string | null;
+  categories: Array<{
+    title: string | null;
+  }> | null;
 }>;
 
 // Source: ./sanity/lib/faqs/getFaqsByCategory.ts
@@ -731,7 +723,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"faqCategory\"] | order(name asc)\n": ALL_FAQ_CATEGORIES_QUERYResult;
-    "*[_type == \"faq\"] | order(name asc)\n": ALL_FAQS_QUERYResult;
+    "\n    *[_type == \"faq\"] | order(question asc) {\n      _id,\n      question,\n      answer,\n      categories[]->{\n        title\n      }\n    }\n  ": ALL_FAQS_QUERYResult;
     "*[_type == \"faq\" && references(*[_type == \"faqCategory\" && slug.current == $faqCategorySlug]._id)] | order(name asc)\n": FAQS_BY_CATEGORY_QUERYResult;
     "\n        *[_type == \"order\" && clerkUserId == $userId] | order(orderDate desc) {\n            ...,\n            products[]{\n                ...,\n                product->\n            }\n        }\n        ": MY_ORDERS_QUERYResult;
     "*[_type == \"category\"] | order(name asc)\n": ALL_CATEGORIES_QUERYResult;
