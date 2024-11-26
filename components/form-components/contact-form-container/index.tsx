@@ -4,7 +4,12 @@
 
 import Image from "next/image"
 import React, { useState } from "react"
-import { Controller, useForm } from "react-hook-form"
+import {
+  Controller,
+  useForm,
+  UseFormTrigger,
+  FieldValues,
+} from "react-hook-form"
 import { useUser } from "@clerk/nextjs"
 import { usePathname } from "next/navigation"
 import emailjs from "@emailjs/browser"
@@ -19,7 +24,6 @@ import ConfirmationModal from "../../modals/confirmation-modal"
 import SuccessModal from "../../modals/success-modal"
 import { Loader } from "../../loader"
 import DeliveryMethod from "../delivery-method"
-import FormItem from "../form-item"
 import DatePickerInput from "../date-picker-input"
 import { ChevronLeft } from "lucide-react"
 
@@ -31,7 +35,7 @@ const ContactFormContainer = () => {
 
   const [step, setStep] = useState(1)
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false)
-  const [estimateSuccess, setEstimateSuccess] = useState(false)
+  const [consultationSuccess, setConsultationSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
 
   // EMAIL JS
@@ -62,13 +66,7 @@ const ContactFormContainer = () => {
 
   //EMAIL JS
   const templateParams = {
-    firstName: getValues("firstName"),
-    lastName: getValues("lastName"),
-    phone: getValues("phone"),
-    email: getValues("email"),
-    deliveryMethod: getValues("deliveryMethod"),
-    deliveryAddress: getValues("deliveryAddress"),
-    extraDetails: getValues("extraDetails"),
+    ...getValues(),
     orderDate: dayjs(getValues("orderDate")).format("MM/DD/YYYY"),
   }
 
@@ -77,7 +75,7 @@ const ContactFormContainer = () => {
     setIsConfirmationModalOpen(true)
   }
 
-  const confirmEstimate = () => {
+  const confirmConsultation = () => {
     // EMAIL JS
     emailjs
       .send(
@@ -100,7 +98,7 @@ const ContactFormContainer = () => {
     setIsConfirmationModalOpen(false)
     setTimeout(() => {
       // open success modal
-      setEstimateSuccess(true)
+      setConsultationSuccess(true)
       setLoading(false)
     }, 1000)
 
@@ -119,23 +117,75 @@ const ContactFormContainer = () => {
     }
   }
 
+  // Updated handleStep2Submit function
+  const handleStep2Submit = async () => {
+    // Trigger validation for the specific fields required in this step
+    const isValid = await trigger(["deliveryMethod", "orderDate"])
+
+    // Proceed to next step only if validation is successful
+    if (isValid) {
+      onSubmit()
+    } else {
+      toast.error("Please complete all required fields in Order Details.")
+    }
+  }
+
+  const renderInputField = (
+    name:
+      | "firstName"
+      | "lastName"
+      | "email"
+      | "phone"
+      | "orderDate"
+      | "deliveryMethod"
+      | "deliveryAddress"
+      | "extraDetails",
+    label: string,
+    placeholder: string,
+    type = "text",
+    validation?: any
+  ) => (
+    <Controller
+      control={control}
+      name={name}
+      rules={validation}
+      render={({ field }) => (
+        <div className="mb-4">
+          <label className="font-semibold text-xl">{label}:</label>
+          <input
+            {...field}
+            placeholder={placeholder}
+            type={type}
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+              errors[name] ? "border-red-500" : "border-gray-300"
+            }`}
+          />
+          {errors[name] && (
+            <span className="text-red-500 text-sm">
+              {errors[name]?.message || `${label} is required`}
+            </span>
+          )}
+        </div>
+      )}
+    />
+  )
   return (
     <section className="flex flex-col cursor items-center px-4 py-20 shadow-inner relative w-full">
       {isConfirmationModalOpen && (
         <ConfirmationModal
-          title="Confirm Your Estimate Request"
-          message="Confirm your Estimate Request and someone from our team will
+          title="Confirm Your Online Consultation"
+          message="Confirm your Online Consultation and someone from our team will
                                     be in touch with you about your project"
-          buttonText="Get Your Free Estimate"
-          confirm={confirmEstimate}
+          buttonText="Get Your Online Consultation"
+          confirm={confirmConsultation}
           isOpen={isConfirmationModalOpen}
           closeModal={() => setIsConfirmationModalOpen(false)}
         />
       )}
-      {estimateSuccess && (
+      {consultationSuccess && (
         <SuccessModal
-          isOpen={estimateSuccess}
-          closeModal={() => setEstimateSuccess(false)}
+          isOpen={consultationSuccess}
+          closeModal={() => setConsultationSuccess(false)}
         />
       )}
       {loading ? <Loader /> : null}
@@ -162,103 +212,31 @@ const ContactFormContainer = () => {
               <h1 className="font-semibold text-4xl underline text-center my-10">
                 Contact Details
               </h1>
-              <Controller
-                control={control}
-                name="firstName"
-                rules={{ required: "First name is required" }}
-                render={({ field }) => (
-                  <div className="mb-4">
-                    <label className="font-semibold text-xl">First Name:</label>
-                    <input
-                      {...field}
-                      placeholder="First Name"
-                      className={`w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                        errors.firstName ? "border-red-500" : "border-gray-300"
-                      }`}
-                    />
-                    {errors.firstName && (
-                      <span className="text-red-500 text-sm">
-                        {errors.firstName.message || "First name is required"}
-                      </span>
-                    )}
-                  </div>
-                )}
-              />
-              <Controller
-                control={control}
-                name="lastName"
-                rules={{ required: "Last name is required" }}
-                render={({ field }) => (
-                  <div className="mb-4">
-                    <label className="font-semibold text-xl">Last Name:</label>
-                    <input
-                      {...field}
-                      placeholder="Last Name"
-                      className={`w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                        errors.lastName ? "border-red-500" : "border-gray-300"
-                      }`}
-                    />
-                    {errors.lastName && (
-                      <span className="text-red-500 text-sm">
-                        {errors.lastName.message || "Last name is required"}
-                      </span>
-                    )}
-                  </div>
-                )}
-              />
-              <Controller
-                control={control}
-                name="phone"
-                rules={{ required: "Phone is required" }}
-                render={({ field }) => (
-                  <div className="mb-4">
-                    <label className="font-semibold text-xl">Phone:</label>
-                    <input
-                      {...field}
-                      placeholder="Phone"
-                      className={`w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                        errors.phone ? "border-red-500" : "border-gray-300"
-                      }`}
-                    />
-                    {errors.phone && (
-                      <span className="text-red-500 text-sm">
-                        {errors.phone.message || "Phone is required"}
-                      </span>
-                    )}
-                  </div>
-                )}
-              />
-              <Controller
-                control={control}
-                name="email"
-                rules={{
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    message: "Please enter a valid email",
-                  },
-                }}
-                render={({ field }) => (
-                  <div className="mb-4">
-                    <label className="font-semibold text-xl">Email:</label>
-                    <input
-                      {...field}
-                      placeholder="Email"
-                      className={`w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                        errors.email ? "border-red-500" : "border-gray-300"
-                      }`}
-                    />
-                    {errors.email && (
-                      <span className="text-red-500 text-sm">
-                        {errors.email.message || "Email is required"}
-                      </span>
-                    )}
-                  </div>
-                )}
-              />
+              {renderInputField(
+                "firstName",
+                "First Name",
+                "First Name",
+                "text",
+                {
+                  required: "First name is required",
+                }
+              )}
+              {renderInputField("lastName", "Last Name", "Last Name", "text", {
+                required: "Last name is required",
+              })}
+              {renderInputField("phone", "Phone", "Phone", "tel", {
+                required: "Phone is required",
+              })}
+              {renderInputField("email", "Email", "Email", "email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message: "Please enter a valid email",
+                },
+              })}
               <Button
                 name="Next"
-                onClick={handleNext} // Using handleNext for validation before proceeding
+                onClick={handleNext}
                 className="w-full justify-center my-6"
               />
             </>
@@ -310,35 +288,29 @@ const ContactFormContainer = () => {
                 render={({ field }) => (
                   <div className="mb-4">
                     <label className="font-semibold text-xl">
-                      Addition Details
+                      Additional Details
                     </label>
                     <textarea
                       {...field}
                       placeholder="Additional Details"
                       className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                     />
-                    {errors.extraDetails && (
-                      <span className="text-red-500 text-sm">
-                        {errors.extraDetails.message ||
-                          "Extra details are required"}
-                      </span>
-                    )}
                   </div>
                 )}
               />
 
               {/* BUTTON */}
-              <div className={`my-10`}>
+              <div className={`my-10 w-full flex flex-col items-center`}>
                 {/* Back Btn */}
                 <button
                   onClick={() => setStep(1)}
-                  className="flex items-center justify-center w-full mb-4">
-                  <ChevronLeft />
+                  className="flex px-10 py-1 items-center justify-center w-min whitespace-nowrap mb-4 hover:bg-zinc-300/50 rounded-lg ease-in-out transition-colors duration-500">
+                  <ChevronLeft size={20} className="mr-4" />
                   <h5>Back to Contact Details</h5>
                 </button>
                 {/* Submit Btn */}
                 <Button
-                  onClick={() => onSubmit()}
+                  onClick={handleStep2Submit}
                   name={`${pathname === "/contact" ? "Contact Us" : "Submit For Consultation"}`}
                   className={`w-full justify-center`}
                 />
