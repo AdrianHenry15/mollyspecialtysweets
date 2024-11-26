@@ -14,7 +14,7 @@ export default function WeddingsPage() {
         btn2="Online Consulation"
         img={WeddingsSplash}
         title="Weddings"
-        btnClass1="bg-green-600 hover:bg-green-500 ease-in-out duration-300 transition-all border-none"
+        btnClass1="bg-emerald-500 hover:bg-emerald-600 ease-in-out duration-300 transition-all border-none"
         btnClass2="bg-white/50 hover:bg-white/60 ease-in-out duration-300 transition-all border-none"
         containerHeight="md:h-[500px]"
       />

@@ -35,7 +35,7 @@ export default async function FAQsPage() {
 
   return (
     <section className="flex flex-col w-full bg-gray-200 relative">
-      <div className="flex relative w-full justify-center items-center py-32 px-6 text-white bg-pink-300">
+      <div className="flex relative w-full justify-center items-center py-12 px-6 text-white bg-pink-300">
         <Image
           src={Logo}
           alt="logo"
