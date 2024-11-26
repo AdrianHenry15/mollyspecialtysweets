@@ -22,8 +22,8 @@ const AboutSection = () => {
         {/* Text Section */}
         <div className="flex flex-col space-y-6">
           <p className="text-gray-700 text-lg leading-relaxed">
-            {`Nestled in the heart of [Your Location], Molly's Specialty Sweets is a private bakery 
-            dedicated to crafting the finest custom cakes, cookies, and pastries for your 
+            {`Nestled in the heart of Winter Park, Florida, Molly's Specialty Sweets is a private bakery 
+            dedicated to crafting the finest custom cakes, cookies, brownies and pastries for your 
             special moments. From weddings to birthdays, every creation is made with love, care, 
             and the finest ingredients.`}
           </p>
@@ -32,8 +32,9 @@ const AboutSection = () => {
             dessert at a time. Today, we bring your visions to life, creating treats as 
             beautiful as they are delicious.`}
           </p>
-          <p className="text-pink-600 font-semibold italic">
-            {`"Every dessert has a story, and we’re honored to be part of yours."`}
+          <p className="text-pink-600 font-semibold italic flex flex-col">
+            <span>{`"Every dessert has a story, and we’re honored to be part of yours."`}</span>
+            <span className="ml-4">{`- Molly`}</span>
           </p>
         </div>
       </div>

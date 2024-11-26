@@ -53,13 +53,22 @@ const WeddingConsultationForm = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
+      // Contact Details
       firstName: user?.firstName || "",
       lastName: user?.lastName || "",
       phone: user?.primaryPhoneNumber?.phoneNumber || "",
       email: user?.primaryEmailAddress?.emailAddress || "",
+      preferredContact: "",
+      // Order Details
+      orderType: "Wedding Consultation",
       orderDate: "",
       deliveryMethod: "",
       deliveryAddress: "",
+      // Event Details
+      coupleName: `${user?.firstName || ""} ${user?.lastName || ""} &`,
+      weddingVenue: "",
+      numberOfGuests: "",
+      weddingTheme: "",
       extraDetails: "",
     },
   })
@@ -87,7 +96,7 @@ const WeddingConsultationForm = () => {
       .then(
         function (response) {
           toast.success(
-            "You have successfully created submitted for an online consultation!"
+            "You have successfully submitted for an online wedding consultation!"
           )
           console.log("SUCCESS!", response.status, response.text)
         },
@@ -122,6 +131,18 @@ const WeddingConsultationForm = () => {
   // Updated handleStep2Submit function
   const handleStep2Submit = async () => {
     // Trigger validation for the specific fields required in this step
+    const isValid = await trigger(["coupleName", "weddingTheme"])
+
+    // Proceed to next step only if validation is successful
+    if (isValid) {
+      setStep((prev) => prev + 1)
+    } else {
+      toast.error("Please complete all required fields in Order Details.")
+    }
+  }
+  // Updated handleStep2Submit function
+  const handleStep3Submit = async () => {
+    // Trigger validation for the specific fields required in this step
     const isValid = await trigger(["deliveryMethod", "orderDate"])
 
     // Proceed to next step only if validation is successful
@@ -133,14 +154,20 @@ const WeddingConsultationForm = () => {
   }
 
   const renderInputField = (
-    name:
-      | "firstName"
+    name: // Contact
+    | "firstName"
       | "lastName"
       | "email"
       | "phone"
+      // Order Details
       | "orderDate"
       | "deliveryMethod"
       | "deliveryAddress"
+      // Event Details
+      | "coupleName"
+      | "weddingVenue"
+      | "numberOfGuests"
+      | "weddingTheme"
       | "extraDetails",
     label: string,
     placeholder: string,
@@ -214,20 +241,20 @@ const WeddingConsultationForm = () => {
               </h1>
               {renderInputField(
                 "firstName",
-                "First Name",
+                "First Name*",
                 "First Name",
                 "text",
                 {
                   required: "First name is required",
                 }
               )}
-              {renderInputField("lastName", "Last Name", "Last Name", "text", {
+              {renderInputField("lastName", "Last Name*", "Last Name", "text", {
                 required: "Last name is required",
               })}
-              {renderInputField("phone", "Phone", "Phone", "tel", {
+              {renderInputField("phone", "Phone*", "Phone", "tel", {
                 required: "Phone is required",
               })}
-              {renderInputField("email", "Email", "Email", "email", {
+              {renderInputField("email", "Email*", "Email", "email", {
                 required: "Email is required",
                 pattern: {
                   value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -241,8 +268,57 @@ const WeddingConsultationForm = () => {
               />
             </>
           )}
-
           {step === 2 && (
+            <>
+              <h1 className="font-semibold text-4xl underline text-center my-10">
+                Event Details
+              </h1>
+              {renderInputField(
+                "coupleName",
+                "Couple Name*",
+                "Couple Name",
+                "text",
+                {
+                  required: "Couple name is required",
+                }
+              )}
+              {renderInputField(
+                "weddingVenue",
+                "Wedding Venue",
+                "The Ritz Carlton",
+                "text"
+              )}
+              {renderInputField(
+                "numberOfGuests",
+                "Number of Guests",
+                "69 Guests",
+                "text"
+              )}
+              {renderInputField(
+                "weddingTheme",
+                "Wedding Theme",
+                "Star Wars Themed Wedding",
+                "text"
+              )}
+              {/* BUTTON */}
+              <div className={`my-10 w-full flex flex-col items-center`}>
+                {/* Back Btn */}
+                <button
+                  onClick={() => setStep(1)}
+                  className="flex px-10 py-1 items-center justify-center w-min whitespace-nowrap mb-4 hover:bg-zinc-300/50 rounded-lg ease-in-out transition-colors duration-500">
+                  <ChevronLeft size={20} className="mr-4" />
+                  <h5>Back to Contact Details</h5>
+                </button>
+                {/* Submit Btn */}
+                <Button
+                  onClick={handleStep2Submit}
+                  name="Next"
+                  className={`w-full justify-center`}
+                />
+              </div>
+            </>
+          )}
+          {step === 3 && (
             <>
               <h1 className="font-semibold text-4xl underline text-center my-10">
                 Order Details
@@ -303,15 +379,15 @@ const WeddingConsultationForm = () => {
               <div className={`my-10 w-full flex flex-col items-center`}>
                 {/* Back Btn */}
                 <button
-                  onClick={() => setStep(1)}
+                  onClick={() => setStep(2)}
                   className="flex px-10 py-1 items-center justify-center w-min whitespace-nowrap mb-4 hover:bg-zinc-300/50 rounded-lg ease-in-out transition-colors duration-500">
                   <ChevronLeft size={20} className="mr-4" />
-                  <h5>Back to Contact Details</h5>
+                  <h5>Back to Event Details</h5>
                 </button>
                 {/* Submit Btn */}
                 <Button
-                  onClick={handleStep2Submit}
-                  name={`${pathname === "/contact" ? "Contact Us" : "Submit For Consultation"}`}
+                  onClick={handleStep3Submit}
+                  name="Submit For Consultation"
                   className={`w-full justify-center`}
                 />
               </div>

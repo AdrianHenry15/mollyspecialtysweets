@@ -53,10 +53,13 @@ const ConsultationForm = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
+      // Contact
       firstName: user?.firstName || "",
       lastName: user?.lastName || "",
       phone: user?.primaryPhoneNumber?.phoneNumber || "",
       email: user?.primaryEmailAddress?.emailAddress || "",
+      // Order Details
+      orderType: "Regular Consultation",
       orderDate: "",
       deliveryMethod: "",
       deliveryAddress: "",
@@ -87,7 +90,7 @@ const ConsultationForm = () => {
       .then(
         function (response) {
           toast.success(
-            "You have successfully created submitted for an online consultation!"
+            "You have successfully submitted for an online consultation!"
           )
           console.log("SUCCESS!", response.status, response.text)
         },

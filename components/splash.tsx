@@ -18,11 +18,13 @@ interface ISplashProps {
   btn2: string
   btnClass1?: string
   btnClass2?: string
+  containerHeight?: string
 }
 
 const Splash = (props: ISplashProps) => {
   return (
-    <div className="fade-in w-full relative text-white bg-black md:h-[750px]">
+    <div
+      className={`${props.containerHeight} fade-in w-full relative shadow-lg text-white bg-black md:h-[750px]`}>
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}

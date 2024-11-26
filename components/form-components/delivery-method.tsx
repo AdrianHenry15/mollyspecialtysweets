@@ -12,7 +12,7 @@ const DeliveryMethod = (props: IDeliveryMethodProps) => {
   return (
     <div>
       <label className="font-semibold text-lg mb-2 underline">
-        Choose Delivery Method:
+        Choose Delivery Method*:
       </label>
       <div className="py-4 flex justify-evenly">
         <Controller

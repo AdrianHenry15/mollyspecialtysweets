@@ -23,7 +23,7 @@ const DatePickerInput: React.FC<IDatePickerInputProps> = ({
   return (
     <div className="flex flex-col mb-4">
       <h5 className="flex font-semibold text-xl w-full justify-start mb-2">
-        Choose Order Date
+        Choose Order Date*
       </h5>
       <Controller
         name="orderDate"
