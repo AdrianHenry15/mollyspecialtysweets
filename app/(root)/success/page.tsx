@@ -10,14 +10,14 @@ import { useEffect } from "react"
 function SuccessPage() {
   const searchParams = useSearchParams()
   const orderNumber = searchParams.get("orderNumber")
-  const clearBasket = useCartStore((state) => state.clearCart)
+  const clearCart = useCartStore((state) => state.clearCart)
   //   const sessionId = searchParams.get('session_id');
 
   useEffect(() => {
     if (orderNumber) {
-      clearBasket()
+      clearCart()
     }
-  }, [orderNumber, clearBasket])
+  }, [orderNumber, clearCart])
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">

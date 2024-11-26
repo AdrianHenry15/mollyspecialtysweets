@@ -1,4 +1,4 @@
-import AddToBasketButton from "@/components/add-to-basket-button"
+import AddToCartButton from "@/components/add-to-cart-button"
 import { imageUrl } from "@/sanity/lib/imageUrl"
 import { getProductBySlug } from "@/sanity/lib/products/getProductBySlug"
 import { PortableText } from "next-sanity"
@@ -57,7 +57,7 @@ async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
           </div>
 
           <div className="mt-6">
-            <AddToBasketButton product={product} disabled={false} />
+            <AddToCartButton product={product} disabled={false} />
           </div>
         </div>
       </div>
