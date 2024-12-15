@@ -11,6 +11,10 @@ export const NavMenuItems = [
     link: "/store",
   },
   {
+    title: "Merch",
+    link: "https://mollyspecialtysweets.printful.me/",
+  },
+  {
     title: "Weddings",
     link: "/weddings",
   },

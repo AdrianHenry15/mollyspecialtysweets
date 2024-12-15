@@ -3,7 +3,7 @@
 import { ClerkLoaded, SignInButton, UserButton, useUser } from "@clerk/nextjs"
 import Link from "next/link"
 import React from "react"
-import Form from "next/form"
+// import Form from "next/form"
 import { PackageIcon, TrolleyIcon } from "@sanity/icons"
 import useCartStore from "@/stores/cart-store"
 import Image from "next/image"
@@ -46,6 +46,7 @@ const Header = () => {
               <Link
                 className={`${pathname === item.link ? "underline" : ""} px-2 text-sm hover:text-pink-400 ease-in-out duration-200 transition-colors lg:text-md`}
                 key={index}
+                target={item.title.toLowerCase() === "merch" ? "_blank" : ""}
                 href={item.link}>
                 {item.title}
               </Link>
@@ -54,7 +55,7 @@ const Header = () => {
         </div>
 
         {/* Next 15 gives you auto query = http://localhost:3000/search?query=page as part of the Form component */}
-        <Form
+        {/* <Form
           className="w-full sm-w-auto lg:flex-1 lg:mx-4 mt-2 lg:mt-0"
           // need this to hit page route
           action={"/search"}>
@@ -65,7 +66,7 @@ const Header = () => {
             name="query"
             placeholder="Search for products"
           />
-        </Form>
+        </Form> */}
         <div className="flex items-center space-x-4 mt-4 lg:mt-0 flex-1 lg:flex-none">
           <Link
             className="flex flex-1 relative justify-center lg:justify-start lg:flex-none items-center space-x-2 bg-black hover:bg-zinc-800 text-white font-bold py-2 px-4 rounded"

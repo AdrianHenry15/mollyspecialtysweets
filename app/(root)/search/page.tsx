@@ -1,17 +1,17 @@
-import { searchProductsByName } from '@/sanity/lib/products/search-products-by-name';
-import React from 'react';
+import { searchProductsByName } from "@/sanity/lib/products/search-products-by-name"
+import React from "react"
 
 // Next 15 gives you auto query = http://localhost:3000/search?query=page as part of the Form component
 
-async function SearchPage({
+export default async function SearchPage({
   searchParams,
 }: {
   searchParams: Promise<{
-    query: string;
-  }>;
+    query: string
+  }>
 }) {
-  const { query } = await searchParams;
-  const products = await searchProductsByName(query);
+  const { query } = await searchParams
+  const products = await searchProductsByName(query)
 
   if (!products?.length) {
     return (
@@ -25,10 +25,8 @@ async function SearchPage({
           </p>
         </div>
       </div>
-    );
+    )
   }
 
-  return <div>Search for {query}</div>;
+  return <div>Search for {query}</div>
 }
-
-export default SearchPage;
