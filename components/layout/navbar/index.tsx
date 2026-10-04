@@ -1,65 +1,128 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
+import { useState } from "react";
 
-import MobileHeader from "@/components/layout/navbar/mobile-menu";
-import logo from "@/public/mollys-logo-black.png";
-import { NavMenuItems } from "@/lib/constants";
-import { NavMenuType } from "@/lib/types";
-import Button from "@/components/buttons/button";
-import UserIcon from "./user-icon/user-icon";
-import Cart from "@/components/cart";
+const navigationItems = [
+    { name: "Home", href: "/" },
+    { name: "Menu", href: "/menu" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
+];
 
-export default function Navbar() {
+export function Navbar() {
     const pathname = usePathname();
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    const closeMobileMenu = () => {
+        setMobileMenuOpen(false);
+    };
 
     return (
-        <nav className={`bg-white text-sm font-semibold flex w-full self-center sticky top-0 z-50 shadow-md`}>
-            {/* MOBILE CONTAINER */}
-            <div className="absolute self-center right-10 lg:hidden">
-                <MobileHeader />
-            </div>
-            {/* TITLE & LINKS  */}
-            <div className="flex w-full my-2 justify-evenly">
-                <div className="flex items-center">
-                    <Link href="/" className="lg:mr-10">
-                        {/* TODO: LOGO */}
-                        <Image className="" src={logo} alt="logo" width={100} />
-                    </Link>
-                    {/* LINKS  */}
-                    <ul className="hidden text-gray-600 items-center lg:flex">
-                        {NavMenuItems.map((item: NavMenuType) => (
-                            <li
-                                className={`mx-2 transition-all duration-300 ease-in-out hover:text-blue-700 hover:underline ${
-                                    pathname === item.link ? "underline" : ""
+        <header className="sticky top-0 z-50 border-b border-pink-100 bg-white/95 backdrop-blur">
+            <nav className="mx-auto flex min-h-20 max-w-7xl items-center justify-between px-5 sm:px-8" aria-label="Main navigation">
+                <Link
+                    href="/"
+                    onClick={closeMobileMenu}
+                    className="group flex shrink-0 items-center"
+                    aria-label="Molly's Specialty Sweets home"
+                >
+                    <Image
+                        src="/mollys-logo-black.png"
+                        alt=""
+                        width={72}
+                        height={72}
+                        sizes="72px"
+                        priority
+                        className="size-[72px] object-contain transition-transform duration-200 group-hover:scale-105"
+                    />
+                </Link>
+
+                <div className="hidden items-center gap-8 md:flex">
+                    {navigationItems.map((item) => {
+                        const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+
+                        return (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                className={`text-sm font-medium transition-colors ${
+                                    isActive ? "text-pink-600" : "text-neutral-700 hover:text-pink-600"
                                 }`}
-                                key={item.title}
                             >
-                                <Link href={item.link} className="">
-                                    {item.title}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
+                                {item.name}
+                            </Link>
+                        );
+                    })}
+
+                    <Link
+                        href="/menu"
+                        className="rounded-full bg-pink-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-pink-600"
+                    >
+                        Browse the Menu
+                    </Link>
                 </div>
-                {/* NAV BUTTONS */}
-                <ul className="hidden items-center lg:flex">
-                    <Link className="mr-4" href={"/contact-us"}>
-                        <Button roundedFull name="Contact Us" altColor />
-                    </Link>
-                    <Link href={"/estimate"}>
-                        <Button className="animate-pulse" roundedFull name="Get Your Free Estimate" />
-                    </Link>
-                    <div className="mx-4">
-                        <UserIcon />
+
+                <button
+                    type="button"
+                    onClick={() => setMobileMenuOpen((current) => !current)}
+                    className="inline-flex size-11 items-center justify-center rounded-full text-neutral-900 transition-colors hover:bg-pink-50 md:hidden"
+                    aria-expanded={mobileMenuOpen}
+                    aria-controls="mobile-navigation"
+                    aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+                >
+                    {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+                </button>
+            </nav>
+
+            {mobileMenuOpen && (
+                <div id="mobile-navigation" className="border-t border-pink-100 bg-white px-5 py-5 md:hidden">
+                    <div className="mx-auto flex max-w-7xl flex-col gap-2">
+                        {navigationItems.map((item) => {
+                            const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+
+                            return (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    onClick={closeMobileMenu}
+                                    className={`rounded-xl px-4 py-3 text-base font-medium transition-colors ${
+                                        isActive ? "bg-pink-50 text-pink-700" : "text-neutral-800 hover:bg-pink-50"
+                                    }`}
+                                >
+                                    {item.name}
+                                </Link>
+                            );
+                        })}
+
+                        <Link
+                            href="/menu"
+                            onClick={closeMobileMenu}
+                            className="mt-3 rounded-full bg-pink-500 px-5 py-3 text-center font-semibold text-white transition-colors hover:bg-pink-600"
+                        >
+                            Browse the Menu
+                        </Link>
                     </div>
-                </ul>
-            </div>
-            <div className="flex justify-center items-center">
-                <Cart />
-            </div>
-        </nav>
+                </div>
+            )}
+        </header>
+    );
+}
+
+function MenuIcon() {
+    return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="size-6" aria-hidden="true">
+            <path strokeLinecap="round" d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+    );
+}
+
+function CloseIcon() {
+    return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="size-6" aria-hidden="true">
+            <path strokeLinecap="round" d="m6 6 12 12M18 6 6 18" />
+        </svg>
     );
 }

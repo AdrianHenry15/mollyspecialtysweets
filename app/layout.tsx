@@ -1,41 +1,71 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Suspense } from "react";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "react-hot-toast";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "@/styles/globals.css";
-import { Loader } from "@/components/loader";
+import { Navbar } from "@/components/layout/navbar";
+import { BakeryStatusBanner } from "@/components/layout/bakery-status-banner";
+import { Footer } from "@/components/layout/footer";
 
 const inter = Inter({
-    variable: "--font-inter",
     subsets: ["latin"],
+    variable: "--font-inter",
+    display: "swap",
 });
 
-const title = "Molly's Specialty Sweets";
-const description = "Bakery specializing in custom cakes, cupcakes, cookies, and more!";
-
 export const metadata: Metadata = {
-    title,
-    description,
+    title: {
+        default: "Molly's Specialty Sweets",
+        template: "%s | Molly's Specialty Sweets",
+    },
+    description:
+        "Browse custom cakes, cupcakes, cookies, and other handcrafted desserts from Molly's Specialty Sweets.",
+    icons: {
+        icon: [
+            {
+                url: "/favicons/cake-icon-96.png",
+                sizes: "96x96",
+                type: "image/png",
+            },
+            {
+                url: "/favicons/cake-icon-32.png",
+                sizes: "32x32",
+                type: "image/png",
+            },
+            {
+                url: "/favicons/cake-icon-16.png",
+                sizes: "16x16",
+                type: "image/png",
+            },
+        ],
+    },
 };
 
-export default async function MainLayout({ children }: { children: React.ReactNode }) {
+type MainLayoutProps = Readonly<{
+    children: React.ReactNode;
+}>;
+
+export default function MainLayout({ children }: MainLayoutProps) {
     return (
-        <ClerkProvider>
-            <html lang="en" className="!scroll-smooth">
-                <link rel="icon" href="/favicons/cake-icon-96.png" sizes="96x96" />
-                <link rel="icon" href="/favicons/cake-icon-32.png" sizes="32x32" />
-                <link rel="icon" href="/favicons/cake-icon-16.png" sizes="16x16" />
-                <body className={inter.variable}>
-                    <Toaster containerClassName="z-[900000]" />
-                    <div className="flex flex-col">
-                        <Suspense fallback={<Loader />}>{children}</Suspense>
-                    </div>
-                </body>
-            </html>
-        </ClerkProvider>
+         <html lang="en" className="scroll-smooth">
+            <body
+                className={`${inter.variable} min-h-screen bg-white font-sans text-neutral-950 antialiased`}
+            >
+                <Toaster
+                    position="top-center"
+                    containerClassName="z-[900000]"
+                />
+
+                <div className="flex min-h-screen flex-col">
+                    <BakeryStatusBanner />
+                    <Navbar />
+
+                    <main className="flex-1">{children}</main>
+
+                    {/* Footer comes next */}
+                    <Footer />
+                </div>
+            </body>
+        </html>
     );
 }

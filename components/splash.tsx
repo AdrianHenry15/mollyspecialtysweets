@@ -1,72 +1,61 @@
-"use client";
-
-import React, { useEffect, useRef } from "react";
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
+import Link from "next/link";
+import { Playfair_Display } from "next/font/google";
 
 import Logo from "@/public/mollys-logo-pink.png";
 
-import Link from "next/link";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
+const playfair = Playfair_Display({ subsets: ["latin"], weight: ["600", "700"], display: "swap" });
 
-interface ISplashProps {
-    img: string | StaticImport;
+interface SplashProps {
+    img: string | StaticImageData;
     title: string;
+    description?: string;
     link1: string;
     link2: string;
     link_title_1: string;
     link_title_2: string;
 }
 
-const Splash = (props: ISplashProps) => {
-    const containerRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const options = {
-            threshold: 0.1, // Adjust the threshold as needed (percentage of element visibility)
-        };
-
-        const callback: IntersectionObserverCallback = (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    containerRef.current?.classList.add("show");
-                }
-            });
-        };
-
-        const observer = new IntersectionObserver(callback, options);
-
-        if (containerRef.current) {
-            observer.observe(containerRef.current);
-        }
-
-        return () => observer.disconnect(); // Cleanup observer on component unmount
-    }, []);
-
+export default function Splash({ img, title, description, link1, link2, link_title_1, link_title_2 }: SplashProps) {
     return (
-        <div ref={containerRef} className="fade-in w-full text-white bg-black md:h-[750px]">
-            <div className="w-full h-full">
-                <div className="absolute w-full h-full bg-gradient-to-r from-black hidden md:flex"></div>
-                <span>
-                    <Image className="w-full h-full object-cover object-top" src={props.img} alt={props.title} />
-                </span>
-                {/* TEXT CONTAINER */}
-                <div className="flex flex-col w-full top-[30%] p-4 md:absolute md:p-8">
-                    <span>
-                        <Image src={Logo} alt="logo" className="w-24 py-2" />
-                    </span>
-                    <h1 className="text-white text-3x1 md:text-5xl">{props.title}</h1>
-                    <div className="my-4">
-                        <Link href={props.link1} className="border bg-gray-300 text-black border-gray-300 py-2 px-5">
-                            {props.link_title_1}
+        <section className="relative isolate min-h-[650px] overflow-hidden bg-neutral-950 text-white sm:min-h-[720px]">
+            <Image src={img} alt="" fill priority sizes="100vw" className="object-cover object-center" />
+
+            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/20" aria-hidden="true" />
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" aria-hidden="true" />
+
+            <div className="relative z-10 mx-auto flex min-h-[650px] max-w-7xl items-center px-5 py-20 sm:min-h-[720px] sm:px-8">
+                <div className="max-w-3xl">
+                    <Image src={Logo} alt="" sizes="112px" className="h-auto w-24 sm:w-28" />
+
+                    <p className="mt-6 text-sm font-semibold uppercase tracking-[0.3em] text-pink-300">Handcrafted for every celebration</p>
+
+                    <h1
+                        className={`${playfair.className} mt-4 text-5xl font-semibold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl`}
+                    >
+                        {title}
+                    </h1>
+
+                    {description && <p className="mt-6 max-w-2xl text-base leading-8 text-neutral-200 sm:text-lg">{description}</p>}
+
+                    <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                        <Link
+                            href={link1}
+                            className="inline-flex min-h-12 items-center justify-center rounded-full bg-pink-500 px-7 font-semibold text-white transition-colors hover:bg-pink-600"
+                        >
+                            {link_title_1}
                         </Link>
-                        <Link href={props.link2} className="border  text-white border-gray-300 py-2 px-5 ml-4">
-                            {props.link_title_2}
+
+                        <Link
+                            href={link2}
+                            className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/60 bg-white/5 px-7 font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white hover:text-neutral-950"
+                        >
+                            {link_title_2}
                         </Link>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
-};
-
-export default Splash;
+}

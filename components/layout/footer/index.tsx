@@ -1,44 +1,89 @@
-import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 
-import { MdCopyright } from "react-icons/md";
+const footerNavigation = [
+    { name: "Home", href: "/" },
+    { name: "Menu", href: "/menu" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
+];
 
-import ContactCard from "./contact-card";
-import SocialsCard from "./socials-card";
-import FooterMenu from "./footer-menu";
-import LogoCard from "./logo-card";
-import PoweredBy from "./powered-by";
+export function Footer() {
+    const currentYear = new Date().getFullYear();
 
-const Footer = () => {
     return (
-        // FULL CONTAINER
-        <footer className="w-full bg-black text-white flex flex-col justify-center p-4 pb-10">
-            {/* FOOTER MENU */}
-            <div className="flex flex-col self-center w-full md:flex-row md:py-2">
-                <LogoCard />
-                <div className="flex flex-col md:flex-row md:w-1/2 md:self-center">
-                    <FooterMenu />
-                    <ContactCard />
+        <footer className="border-t border-pink-100 bg-pink-50">
+            <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-8 md:grid-cols-3">
+                <div>
+                    <Link href="/" className="inline-flex items-center" aria-label="Molly's Specialty Sweets home">
+                        <Image src="/mollys-logo-black.png" alt="" width={80} height={80} sizes="80px" className="size-20 object-contain" />
+                    </Link>
+
+                    <p className="mt-4 max-w-sm text-sm leading-6 text-neutral-600">
+                        Handcrafted cakes, cupcakes, cookies, and specialty desserts made for life&apos;s sweetest moments.
+                    </p>
+
+                    <p className="mt-3 text-sm font-medium text-pink-700">Currently taking a maternity break.</p>
+                </div>
+
+                <div>
+                    <h2 className="font-serif text-lg font-semibold text-neutral-950">Explore</h2>
+
+                    <ul className="mt-4 space-y-3">
+                        {footerNavigation.map((item) => (
+                            <li key={item.href}>
+                                <Link href={item.href} className="text-sm text-neutral-600 transition-colors hover:text-pink-600">
+                                    {item.name}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                <div>
+                    <h2 className="font-serif text-lg font-semibold text-neutral-950">Get in touch</h2>
+
+                    <p className="mt-4 text-sm leading-6 text-neutral-600">
+                        Have a general question? Send us a message and we&apos;ll respond as soon as possible.
+                    </p>
+
+                    <div className="mt-5 flex flex-col items-start gap-3">
+                        <a
+                            href="mailto:mograv123@gmail.com"
+                            className="text-sm font-medium text-pink-700 transition-colors hover:text-pink-800"
+                        >
+                            mograv123@gmail.com
+                        </a>
+
+                        <a
+                            href="https://www.instagram.com/mollyspecialtysweets/"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-sm font-medium text-pink-700 transition-colors hover:text-pink-800"
+                        >
+                            Follow us on Instagram
+                        </a>
+                    </div>
                 </div>
             </div>
-            {/* SOCIALS  */}
-            <SocialsCard />
-            {/* Powered By */}
-            <PoweredBy />
-            {/* CREATED BY */}
-            <div className="flex flex-col items-center justify-center text-center self-center w-full border-t-[1px] py-14 text-xs border-zinc-900">
-                {/* THIRDGEN LOGO */}
-                <div className="flex flex-col items-center">
-                    <p className="text-xs text-white">Created by</p>
-                    {/* THIRD GEN LOGO */}
-                    <Link className="flex items-center" target="_blank" href={"https://www.thirdgenerationstudios.com/"}>
-                        <MdCopyright size={12} className="mb-2 mr-1 text-zinc-700" />
-                        <p className="text-zinc-500">Third Generation Studios</p>
-                    </Link>
+
+            <div className="border-t border-pink-100">
+                <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-5 text-center text-xs text-neutral-500 sm:px-8 md:flex-row md:items-center md:justify-between md:text-left">
+                    <p>© {currentYear} Molly&apos;s Specialty Sweets. All rights reserved.</p>
+
+                    <p>
+                        Website by{" "}
+                        <a
+                            href="https://thirdgenerationstudios.com"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="font-medium text-neutral-700 hover:text-pink-600"
+                        >
+                            Third Generation Studios
+                        </a>
+                    </p>
                 </div>
             </div>
         </footer>
     );
-};
-
-export default Footer;
+}

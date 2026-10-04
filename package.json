@@ -11,17 +11,12 @@
         "format": "prettier --write ."
     },
     "dependencies": {
-        "@clerk/backend": "^1.4.1",
-        "@clerk/clerk-js": "^4.68.5",
-        "@clerk/nextjs": "^4.29.3",
-        "@emailjs/browser": "^3.12.1",
         "@emotion/react": "^11.11.3",
         "@emotion/styled": "^11.11.0",
         "@headlessui/react": "^1.7.18",
         "@heroicons/react": "^2.1.1",
         "@mui/material": "^5.15.4",
         "@mui/x-date-pickers": "^6.19.0",
-        "@prisma/client": "^5.17.0",
         "@tailwindcss/forms": "^0.5.7",
         "@types/node": "^20.11.0",
         "@types/react": "^18.2.47",
@@ -30,7 +25,6 @@
         "axios": "^1.7.2",
         "dayjs": "^1.11.13",
         "framer-motion": "^11.5.5",
-        "mongodb": "^6.8.0",
         "next": "^14.0.4",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
@@ -39,9 +33,12 @@
         "react-icons": "^5.0.1",
         "react-intersection-observer": "^9.5.3",
         "react-spinners": "^0.13.8",
+        "resend": "^6.32.0",
+        "sharp": "^0.35.5",
         "svix": "^1.25.0",
         "ts-node": "^10.9.2",
         "uuid": "^10.0.0",
+        "zod": "^4.6.5",
         "zustand": "^4.5.4"
     },
     "devDependencies": {
@@ -59,8 +56,6 @@
         "jest-environment-jsdom": "^29.7.0",
         "postcss": "^8.4.33",
         "prettier": "^3.3.2",
-        "prettier-plugin-prisma": "^5.0.0",
-        "prisma": "^5.17.0",
         "tailwindcss": "^3.4.1",
         "ts-jest": "^29.2.4",
         "typescript": "^5.5.4"

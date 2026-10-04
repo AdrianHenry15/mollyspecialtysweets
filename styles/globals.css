@@ -18,12 +18,16 @@ p {
 .fade-in-from-top {
     opacity: 0;
     transform: translateY(-20px);
-    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+    transition:
+        opacity 0.8s ease-in-out,
+        transform 0.8s ease-in-out;
 }
 .fade-in {
     opacity: 0;
     /* transform: translateY(-20px); */
-    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+    transition:
+        opacity 0.8s ease-in-out,
+        transform 0.8s ease-in-out;
 }
 /* Add the following to create a stagger effect based on index */
 .fade-in:nth-child(1) {
@@ -41,4 +45,26 @@ p {
 .fade-in.show {
     opacity: 1;
     transform: translateY(0);
+}
+
+.contact-input {
+    width: 100%;
+    border: 1px solid #d4d4d4;
+    border-radius: 0.875rem;
+    background: #ffffff;
+    padding: 0.875rem 1rem;
+    color: #171717;
+    outline: none;
+    transition:
+        border-color 150ms ease,
+        box-shadow 150ms ease;
+}
+
+.contact-input::placeholder {
+    color: #a3a3a3;
+}
+
+.contact-input:focus {
+    border-color: #f472b6;
+    box-shadow: 0 0 0 4px #fce7f3;
 }
