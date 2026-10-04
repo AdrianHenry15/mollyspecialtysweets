@@ -1,10 +1,10 @@
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 
-import CakeSplash from "@/public/cake-splash.jpg";
-import Cookie from "@/public/cookie-icon.png";
-import Cake from "@/public/cake-icon.png";
-import Cupcake from "@/public/cupcake-icon.png";
+import CakeSplash from "../../../public/cake-splash.jpg";
+import Cookie from "../../../public/cookie-icon.png";
+import Cake from "../../../public/cake-icon.png";
+import Cupcake from "../../../public/cupcake-icon.png";
 
 import Splash from "@/components/splash";
 

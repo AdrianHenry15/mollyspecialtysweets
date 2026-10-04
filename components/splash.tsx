@@ -2,7 +2,7 @@ import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { Playfair_Display } from "next/font/google";
 
-import Logo from "@/public/mollys-logo-pink.png";
+import Logo from "../public/mollys-logo-pink.png";
 
 const playfair = Playfair_Display({ subsets: ["latin"], weight: ["600", "700"], display: "swap" });
 
