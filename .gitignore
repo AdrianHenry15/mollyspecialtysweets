@@ -134,3 +134,11 @@ DevGlobalStateStore.ts
 debugGlobalStateStore
 next-env.d.ts
 awsConfig.ts
+
+.vercel/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.preview.local
